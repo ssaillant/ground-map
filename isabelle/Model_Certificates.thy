@@ -4,7 +4,7 @@ begin
 
 text \<open>
   Model certificates built in Isabelle, for the registry entries that the search left
-  unknown when tested alone (registry 0.2.1-draft): C1, C2, C3d, BETA.ID, BETA.GROUND,
+  unknown when tested alone (first issued for registry 0.2.1-draft): C1, C2, C3d, BETA.ID, BETA.GROUND,
   EX.PRED, EX.LEV, TS.TYPED, TR.TYPED, FIN.B3, IMM.FRITZ7, and IRR.W (never queried alone).
   Nitpick cannot certify these: all but FIN.B3 and IMM.FRITZ7 quantify over the infinite
   datatype fm, so its models are only "potentially spurious", and IMM.FRITZ7 has no
@@ -95,13 +95,15 @@ definition IRR_W :: bool where
 definition IRR_F :: bool where
   "IRR_F \<longleftrightarrow> (\<forall>\<Gamma> c. G \<Gamma> c \<longrightarrow> c \<notin> \<Gamma>)"
 definition TS_TYPED :: bool where
-  "TS_TYPED \<longleftrightarrow> (\<forall>a v. tfree a \<longrightarrow> (T (tr (den v a)) \<longleftrightarrow> T (den v a)))"
+  "TS_TYPED \<longleftrightarrow> (\<forall>a v. tfree a \<and> fv a = {} \<longrightarrow> (T (tr (den v a)) \<longleftrightarrow> T (den v a)))"
 definition TR_TYPED :: bool where
-  "TR_TYPED \<longleftrightarrow> (\<forall>a v. tfree a \<and> T (den v a) \<longrightarrow> G {den v a} (tr (den v a)))"
+  "TR_TYPED \<longleftrightarrow> (\<forall>a v. tfree a \<and> fv a = {} \<and> T (den v a) \<longrightarrow> G {den v a} (tr (den v a)))"
 definition EX_PRED :: bool where
-  "EX_PRED \<longleftrightarrow> (\<forall>f a w. adm f \<and> lvl a = 0 \<and> T (app f (den w a)) \<longrightarrow> G {app f (den w a)} (exq f))"
+  "EX_PRED \<longleftrightarrow> (\<forall>f a w. adm f \<and> lvl a = 0 \<and> fv a = {} \<and> T (app f (den w a))
+     \<longrightarrow> G {app f (den w a)} (exq f))"
 definition EX_LEV :: bool where
-  "EX_LEV \<longleftrightarrow> (\<forall>x b v a w. adm (lam x b v) \<and> lvl a < lvl (Ex x b) \<and> T (app (lam x b v) (den w a))
+  "EX_LEV \<longleftrightarrow> (\<forall>x b v a w. adm (lam x b v) \<and> lvl a < lvl (Ex x b) \<and> fv a = {}
+     \<and> T (app (lam x b v) (den w a))
      \<longrightarrow> G {app (lam x b v) (den w a)} (exq (lam x b v)))"
 definition EX_FULL :: bool where
   "EX_FULL \<longleftrightarrow> (\<forall>f a. adm f \<and> T (app f a) \<longrightarrow> G {app f a} (exq f))"
@@ -245,11 +247,13 @@ lemma MB_FIN_B3: "MB.FIN_B3" by (auto simp: MB.FIN_B3_def GB_def)
 lemma MB_IRR_F: "MB.IRR_F" using nx_neq by (auto simp: MB.IRR_F_def GB_def)
 lemma MB_IRR_W: "MB.IRR_W" using nx_neq by (auto simp: MB.IRR_W_def GB_def)
 
-text \<open>N3 instance for TR.TYPED (the only introduction entry among these): the formula
-  Var 0 is truth-free, its value P0 is true, the relata P0 and tr P0 = P1 are distinct,
-  and the grounded proposition is not among its grounds.\<close>
+text \<open>N3 instance for TR.TYPED (the only introduction entry among these): the closed
+  formula Cst 0 is truth-free, its value P0 is true, the relata P0 and tr P0 = P1 are
+  distinct, and the grounded proposition is not among its grounds. (Registry 0.3.0-draft:
+  the presenting formula must be closed; the instance used Var 0 before.) TR.FULL also
+  holds in this model, so it does not separate the two entries; Restricted_Models.thy does.\<close>
 lemma MB_N3_TR_TYPED:
-  "tfree (Var 0) \<and> MB.den (\<lambda>_. P0) (Var 0) = P0 \<and> P0 \<noteq> nx P0
+  "tfree (Cst 0) \<and> fv (Cst 0) = {} \<and> MB.den v (Cst 0) = P0 \<and> P0 \<noteq> nx P0
    \<and> GB {P0} (nx P0) \<and> nx P0 \<notin> {P0}"
   by (simp add: GB_def)
 
@@ -285,12 +289,14 @@ lemma MA_EX_FULL: "MA.EX_FULL" by (simp add: MA.EX_FULL_def GA_def)
 lemma MA_EX_PRED: "MA.EX_PRED" by (simp add: MA.EX_PRED_def GA_def)
 lemma MA_EX_LEV: "MA.EX_LEV" by (simp add: MA.EX_LEV_def GA_def)
 
-text \<open>N3 instances: the level-0 formula Var 0 under w with w 0 = P1; the relata P1
-  and exq () = P0 are distinct and P0 is not among the grounds {P1}. For EX.LEV the
-  quantified formula is Ex 0 (Var 0), of level 1.\<close>
+text \<open>N3 instances: the closed level-0 formula Neg (Cst 0), whose value is P1; the
+  relata P1 and exq () = P0 are distinct and P0 is not among the grounds {P1}. For EX.LEV
+  the quantified formula is Ex 0 (Var 0), of level 1. (Registry 0.3.0-draft: the instance
+  must be presented by a closed formula; it used Var 0 before.) EX.FULL also holds in
+  this model, so it does not separate the entries; Restricted_Models.thy does.\<close>
 lemma MA_N3_EX:
-  "lvl (Var 0) = 0 \<and> lvl (Var 0) < lvl (Ex 0 (Var 0)) \<and> MA.den (\<lambda>_. P1) (Var 0) = P1
-   \<and> P1 \<noteq> P0 \<and> GA {P1} P0 \<and> P0 \<notin> {P1}"
+  "lvl (Neg (Cst 0)) = 0 \<and> fv (Neg (Cst 0)) = {} \<and> lvl (Neg (Cst 0)) < lvl (Ex 0 (Var 0))
+   \<and> MA.den w (Neg (Cst 0)) = P1 \<and> P1 \<noteq> P0 \<and> GA {P1} P0 \<and> P0 \<notin> {P1}"
   by (simp add: GA_def)
 
 section \<open>Models C and D: BETA.ID and BETA.GROUND\<close>

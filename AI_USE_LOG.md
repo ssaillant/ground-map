@@ -198,6 +198,59 @@ AI-use disclosure. One entry per working session.
   there).
 - Human review: pending.
 
+## 2026-11-27 — Independent faithfulness audit; second opinion on the certificate rules
+
+- Tool: Claude Code (cloud session), project thread "Review formalizations against the
+  sources"; Isabelle2026 pinned, hash checked. Source retrieval for works not in the
+  project files (Krämer 2013, Woods 2018, Korbmacher 2018a/b, Correia 2014) used
+  web-fetch subagents in the same session, which return verbatim fragments of at most
+  125 characters.
+- Model: a different model from the entries above, at the reviewer's request. Its
+  identifier is recorded in the project thread and is to be entered here by the reviewer.
+- Prompt: "let's open up a thread to read the sources again but with [the model named by
+  the reviewer] and do/review 1 and 2" (reviewer), where 1 is the faithfulness of the
+  formalizations and 2 the four certificate rules; with the coordinator's note asking for
+  a per-entry verdict table that separates textual evidence, verification and inference,
+  and for clear citation errors only to be fixed.
+- What the model did: re-read every cited passage it could reach (page images for Fine
+  2012b, Fritz 2022 and Lovett's rule display); compared each registry statement with
+  Principles.thy and each puzzle proof with the published derivation; wrote
+  docs/audit-2026-11-27.md and isabelle/Audit_Checks.thy; corrected five citation errors
+  in the registry (listed in the report, section 7). No statement and no status label was
+  changed.
+- Main results, all for review: four restricted entries are provably equivalent to their
+  unrestricted counterparts in the current encoding; the registry's chain convention is
+  not what Principles.thy implements; "trivial-only" is assigned without a model; Fine's
+  partial Universal Grounding has no entry; Fine's Cut was misquoted from an OCR layer.
+- Human review: pending.
+
+## 2026-11-27 — Repairs after the audit (registry 0.3.0-draft)
+
+- Tool: Claude Code (cloud session), the same project thread as the audit; Isabelle2026
+  pinned. Sources were read from the project files (page images where the text layer is
+  unreliable); nothing was re-fetched for the repair.
+- Model: the same model as the audit entry above; identifier to be entered by the
+  reviewer.
+- Prompt: "Please repair all" (reviewer), in reply to the audit report. Read as: carry
+  out the repairs proposed under findings A1 to A4 and the report's list "Proposed and
+  not done".
+- What the model did: changed the four restricted entries to closed formulas in
+  Principles.thy and in the certificate locale; built the model MG
+  (isabelle/Restricted_Models.thy); added four partial-ground entries and proved the
+  Krämer and Fine targets from the registry constants (isabelle/Puzzle_Packages.thy);
+  renamed the search class trivial-only to refuted-at-N1 and recomputed 22 search rows;
+  rewrote the registry's convention on chains, added its `implications` section,
+  decision D5, findings F5 and F6, source additions and flagged readings; regenerated
+  docs/results.md; added section 10 to the audit report.
+- Decisions the model took itself, listed in the registry under D5
+  (`choices_made_in_applying_it`) and in the report, section 10: C2 left unchanged;
+  EX.LEV closes the instance only; three partial entries beyond the one the audit named;
+  CL.PROP added to one puzzle target.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/replay.py (20 of 20
+  refutations replayed); scripts/verify_models.py (113 of 113 models, two at level N0).
+- Human review: pending.
+
+
 
 ## 2026-11-27 — Follow-ups on the model-certificate review questions
 
@@ -209,4 +262,15 @@ AI-use disclosure. One entry per working session.
   Principles.thy and the locale (the registry's four shapes), proved for every model;
   built model MF (IMM.FRITZ7 with CL.PROP, CL.QUANT, TS.FULL); updated F2 with the
   literature check and MF. Session builds, no sorry/oops/axioms.
+- Human review: pending.
+
+## 2026-11-27 — Decisions D7 and D8 applied
+
+- Tool and model as above.
+- Prompt: reviewer, "Let's go with option A" (re-checking) and "then we should fix that" (N4 in
+  all-true models); housekeeping and encoding gap noted (the latter is repaired in PR #4).
+- What the model did: merged the audit branch (registry 0.3.0-draft) into this branch;
+  registry 0.5.0-draft with decisions D7 (certificate kinds nitpick+python / isabelle-kernel)
+  and D8 (N4 only where CL.PROP holds); model records relabelled (MA-ME at N3, MF and MG at
+  N5); lemma MG_N4s; results page column "Certificate". Build passes, no sorry/oops/axioms.
 - Human review: pending.
