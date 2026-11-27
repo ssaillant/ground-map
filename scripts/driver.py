@@ -46,12 +46,16 @@ ENTRIES = {
     "C1": "C1", "C2": "(C2 1)", "C3d": "C3d", "C3s": "C3s",
     "BETA.ID": "BETA_ID", "BETA.GROUND": "BETA_GROUND",
     "IMM.CONJ": "IMM_CONJ", "IMM.FRITZ7": "IMM_FRITZ7",
+    # D5 (2026-11-27): strong Kleene entries, defined in isabelle/NonClassical.thy
+    "SK.PROP": "SK_PROP", "SK.QUANT": "SK_QUANT", "TS.KF": "TS_KF",
 }
-# unconditional implications proved in Order.thy (stronger, weaker)
+# unconditional implications proved in Order.thy and NonClassical.thy (stronger, weaker)
 PROVED = [("IRR.F", "IRR.W"), ("IRR.F", "IRR.MEM"), ("ASYM.P", "ASYM.ANTI"),
           ("TRANS.CUT", "TRANS.P"), ("AMALG.INF", "AMALG.FIN"),
           ("TS.ID", "TS.FULL"), ("TS.FULL", "TS.TYPED"), ("TR.FULL", "TR.TYPED"),
-          ("EX.FULL", "EX.LEV"), ("EX.FULL", "EX.PRED"), ("FIN.B3", "FIN.FIN")]
+          ("EX.FULL", "EX.LEV"), ("EX.FULL", "EX.PRED"), ("FIN.B3", "FIN.FIN"),
+          # proved in NonClassical.thy: cl_sk, ts_kf_full, ts_id_kf
+          ("CL.PROP", "SK.PROP"), ("TS.KF", "TS.FULL"), ("TS.ID", "TS.KF")]
 # at most one entry from each group (exact characterisations of adm, or contradictory)
 EXCL = [{"C1", "C2", "C3d", "C3s"}, {"EMPTY.NONE", "EMPTY.SOME"}, {"BETA.ID", "BETA.GROUND"}]
 # entries that mention lam/den: the core clause LAM_CORE is added when one is present
@@ -132,7 +136,7 @@ class Store:
 def run_batch(pkgs, t_sh=20, t_np=20):
     os.makedirs(WORK, exist_ok=True)
     name = "Q_" + hashlib.sha1("|".join(key(p) for p in pkgs).encode()).hexdigest()[:10]
-    lines = [f"theory {name} imports Ground_Map_Checks.Order begin"]
+    lines = [f"theory {name} imports Ground_Map_Checks.Order Ground_Map_Checks.NonClassical begin"]
     where = {}
     for i, p in enumerate(pkgs):
         tm = term(p)

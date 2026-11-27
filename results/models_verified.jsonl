@@ -109,3 +109,4 @@
 {"key": "ASYM.ANTI,CL.QUANT,DISJ.WEAK,IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 2}}
 {"key": "ASYM.ANTI,CONJ.GRAIN,DISJ.WEAK,IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 2}}
 {"key": "ASYM.ANTI,DISJ.WEAK,EX.WEAK,IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"pfun": 2, "prp": 2}}
+{"key": "SK.QUANT", "verified": true, "failed": [], "card": {"prp": 1, "pfun": 1}}

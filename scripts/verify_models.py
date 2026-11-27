@@ -156,6 +156,19 @@ def ev(M, e):
         return all((M.T(M.f("exq", f)) == any(M.T(M.app(f, a)) for a in D))
                    and (M.T(M.f("allq", f)) == all(M.T(M.app(f, a)) for a in D))
                    and (M.T(M.f("bigconj", f)) == all(M.T(q) for q in M.sat(f))) for f in F)
+    if e == "SK.PROP":   # isabelle/NonClassical.thy, SK_PROP (D5)
+        T, n = M.T, neg
+        return all(not (T(p) and T(n(p))) and T(n(n(p))) == T(p)
+                   and T(conj(p, q)) == (T(p) and T(q)) and T(n(conj(p, q))) == (T(n(p)) or T(n(q)))
+                   and T(disj(p, q)) == (T(p) or T(q)) and T(n(disj(p, q))) == (T(n(p)) and T(n(q)))
+                   for p, q in A())
+    if e == "SK.QUANT":  # SK_QUANT (D5)
+        T, n = M.T, neg
+        return all(T(M.f("exq", f)) == any(T(M.app(f, a)) for a in D)
+                   and T(n(M.f("exq", f))) == all(T(n(M.app(f, a))) for a in D)
+                   and T(M.f("allq", f)) == all(T(M.app(f, a)) for a in D)
+                   and T(n(M.f("allq", f))) == any(T(n(M.app(f, a))) for a in D) for f in F)
+    if e == "TS.KF": return all(M.T(tr(p)) == M.T(p) and M.T(neg(tr(p))) == M.T(neg(p)) for p in D)
     if e == "TS.FULL": return all(M.T(tr(p)) == M.T(p) for p in D)
     if e == "TS.ID": return all(tr(p) == p for p in D)
     if e == "ID.AC":

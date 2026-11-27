@@ -69,6 +69,9 @@ lemma cl_ts_kf: "CL_PROP \<Longrightarrow> TS_FULL \<Longrightarrow> TS_KF"
 lemma ts_kf_full: "TS_KF \<Longrightarrow> TS_FULL"
   unfolding TS_KF_def TS_FULL_def by simp
 
+lemma ts_id_kf: "TS_ID \<Longrightarrow> TS_KF"
+  unfolding TS_ID_def TS_KF_def by simp
+
 lemma sk_quant_cl: "SK_QUANT \<Longrightarrow> (\<forall>f. (T (exq f) \<longleftrightarrow> (\<exists>a. T (app f a))) \<and> (T (allq f) \<longleftrightarrow> (\<forall>a. T (app f a))))"
   unfolding SK_QUANT_def by simp
 

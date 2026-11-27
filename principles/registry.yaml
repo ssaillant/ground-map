@@ -6,8 +6,8 @@
 # package in the map has been checked yet. Reviewer decisions D1–D3 are
 # recorded in the section `decisions` and implemented in 0.2.0-draft.
 
-registry_version: 0.2.1-draft
-date: 2026-11-26
+registry_version: 0.3.0-draft
+date: 2026-11-27
 status: draft-for-review
 decisions:
   # Reviewer decisions, recorded with the version that implements them.
@@ -38,10 +38,18 @@ decisions:
     implemented_in: 0.2.1-draft (recorded; applies from step 4)
     question: how step 4 classifies packages that have only infinite models (finding F1)
     decision: add a classification "infinite-model", certified by an infinite model constructed in Isabelle (for example a term model) and checked like any other result. Classes are now refuted, finite-model, infinite-model, unknown.
+  - id: D5
+    date: 2026-11-27
+    decided_by: Said Saillant (reviewer), decision card ("Strong Kleene only")
+    implemented_in: 0.3.0-draft
+    question: which proposed non-classical entries enter the search
+    decision: SK.PROP, SK.QUANT (new family SK) and TS.KF (TS chain, rank 3, below TS.ID) enter the enumeration; SR.LIAR, SR.FINE15, DIAG.K, DISJ.GRD, FOUND.ATOM and the WP conditions stay in section `proposed` until their flagged readings are reviewed.
+    checks: cl_sk, ts_kf_full, ts_id_kf in isabelle/NonClassical.thy (used by driver.py for propagation); K1_package (finding F6)
 changelog:
-  - version: 0.3.0-draft (proposed, pending review; registry_version stays 0.2.1-draft until adopted)
+  - version: 0.3.0-draft
     date: 2026-11-27
     changes:
+      - Decision D5 - SK.PROP, SK.QUANT (family SK) and TS.KF (TS rank 3; TS.ID now rank 4) moved from `proposed` into `families` and into driver.py. Results computed under 0.2.1-draft remain valid - no existing entry changed.
       - New section `proposed` - non-classical families SK (SK.PROP, SK.QUANT), TS.KF, SR (SR.LIAR, SR.FINE15, DIAG.K), DISJ.GRD, FOUND.ATOM, and Wilhelm/Poggiolesi conditions WP; not enumerated by driver.py. Isabelle - isabelle/NonClassical.thy, isabelle/Kripke_Model.thy, isabelle/Poggiolesi_Checks.thy.
       - New candidates P.WILHELM.2021, P.POGGIOLESI.2022 (checked); P.KORBMACHER.2015 gains korbmacher_found.
       - New findings F5 (Poggiolesi's interpretation fails her condition (1); her theorem holds), F6 (strong Kleene model K1 of Fine's compromise package with BETA.ID), F7 (DISJ.ONE refuted under SK twice), F8 (Korbmacher's untyped repair plus foundation refuted). No existing entry changed.
@@ -476,6 +484,67 @@ families:
             why: >-
               Krämer's "hierarchy of sentential quantifiers" is modelled by restricting the grounding principle (EX.LEV), not the truth clause. Flagged: a ramified reading would also restrict this clause.
 
+  - id: SK
+    added: 0.3.0-draft (decision D5)
+    name: Strong Kleene truth (gaps, no gluts)
+    order: chain
+    lattice_note: >-
+      INFERENCE, checked - CL.PROP implies SK.PROP (cl_sk) and CL.PROP + CL.QUANT
+      implies SK.QUANT (cl_sk_quant); SK.PROP plus bivalence is CL.PROP (sk_bivalent_cl).
+      So SK sits below CL. Proposed as its own chain so that a package can take SK
+      without CL; a package with CL already has SK.
+    entries:
+      - id: SK.PROP
+        rank: 1
+        name: Strong Kleene clauses for the connectives
+        statement: |
+          ¬ (T p ∧ T (neg p))                                (* no gluts *)
+          T (neg (neg p)) ⟷ T p
+          T (conj p q) ⟷ T p ∧ T q        T (neg (conj p q)) ⟷ T (neg p) ∨ T (neg q)
+          T (disj p q) ⟷ T p ∨ T q        T (neg (disj p q)) ⟷ T (neg p) ∧ T (neg q)
+        sources:
+          - work: fine2010
+            locator: p. 110 (Kripke's three schemes); p. 112 (fixed points closed "two-way"); p. 113 (compromise)
+            check: published-page
+            quote: "in the case of disjunctions under the strong truth-tables, A ∨ B will be in the set just in case either A or B is in the set."
+          - work: fine2010
+            locator: p. 113
+            check: published-page
+            quote: "the strong Kleene approach will correspond to the compromise approach to classical logic."
+        readings:
+          - point: falsity
+            chosen: p is false iff T (neg p); a gap if neither T p nor T (neg p). T stays a metalevel predicate (bivalent in HOL), so the logic of T is classical and only the object propositions have gaps.
+            alternatives: ['a three-valued metalanguage', 'a separate falsity predicate F']
+            why: keeps the signature unchanged (T, neg); Fine's fixed points are sets of sentences, positive and negative information being membership of A and of ¬A (p. 112).
+          - point: conditional and biconditional
+            chosen: omitted (the signature has none)
+            alternatives: []
+            why: no SK clause needed.
+      - id: SK.QUANT
+        rank: 2
+        name: Strong Kleene clauses for the propositional quantifiers
+        statement: |
+          T (exq f) ⟷ (∃a. T (app f a))      T (neg (exq f)) ⟷ (∀a. T (neg (app f a)))
+          T (allq f) ⟷ (∀a. T (app f a))     T (neg (allq f)) ⟷ (∃a. T (neg (app f a)))
+        sources:
+          - work: fine2010
+            locator: p. 113, quantifier rules for the construction over facts
+            check: published-page
+            quote: "What we therefore require for the truth of ∃x A(x) is the truth of both A(c) and E(c)"
+        readings:
+          - point: Fine's existence predicate E and the "putative domain" of facts (pp. 112-113)
+            chosen: omitted - quantifiers range over all propositions, every proposition is in the domain from the start
+            alternatives: ["Fine's two-sided domain: ∃ over objects shown to exist, ∀ over objects not shown not to exist"]
+            why: >-
+              the registry has no existence predicate for propositions. FLAGGED - this is Kripke's
+              original setting (domain given in advance, p. 112, "an ideology of truth"), not Fine's
+              "ontology of facts" modification. Fine's failure of Universal Existence (p. 114) is
+              therefore not represented.
+          - point: infinitary conjunction
+            chosen: no SK clause for bigconj (K1 makes every bigconj a gap)
+            alternatives: ['T (bigconj f) ⟷ (∀q∈sat f. T q)']
+            why: the satisfier reading of bigconj (CL.QUANT) is defined by truth and is not monotone in the Kripke construction; INFERENCE, not checked.
+
   # 6 ------------------------------------------------------------------------
   - id: TS
     name: Truth schema and transparency for tr
@@ -516,8 +585,24 @@ families:
             chosen: biconditional
             alternatives: ['TS.UP - T p ⟶ T (tr p) only']
             why: the puzzles use only the upward direction; the biconditional is the classical default. Mutation test in step 5 will use TS.UP.
-      - id: TS.ID
+      - id: TS.KF
         rank: 3
+        added: 0.3.0-draft (decision D5)
+        name: Two-sided truth schema (Kripke-Feferman)
+        statement: |
+          (T (tr p) ⟷ T p) ∧ (T (neg (tr p)) ⟷ T (neg p))
+        sources:
+          - work: fine2010
+            locator: p. 112
+            check: published-page
+            quote: "in the case of truth-predications, T (pAq) will be in the set just in case A is in the set"
+        readings:
+          - point: the falsity half
+            chosen: included (the negation of tr p is true iff the negation of p is)
+            alternatives: ['TS.FULL only']
+            why: Kripke's fixed points are closed under both rules. Checked - TS.KF implies TS.FULL (ts_kf_full), TS.ID implies TS.KF (ts_id_kf), and CL.PROP + TS.FULL implies TS.KF (cl_ts_kf), so the half adds something only under SK.
+      - id: TS.ID
+        rank: 4
         name: Transparency (tr p = p)
         statement: |
           tr p = p
@@ -1425,85 +1510,8 @@ puzzles:
 # sit in the lattice, and whether the readings flagged below stand.
 proposed:
   version: 0.3.0-draft
-  status: pending review (Said); requested 2026-11-27 ("yes" to the coordinator's proposal to start the non-classical families)
+  status: SK and TS.KF adopted (D5); the rest pending review (Said); requested 2026-11-27 ("yes" to the coordinator's proposal to start the non-classical families)
   families:
-    - id: SK
-      name: Strong Kleene truth (gaps, no gluts)
-      order: chain
-      lattice_note: >-
-        INFERENCE, checked - CL.PROP implies SK.PROP (cl_sk) and CL.PROP + CL.QUANT
-        implies SK.QUANT (cl_sk_quant); SK.PROP plus bivalence is CL.PROP (sk_bivalent_cl).
-        So SK sits below CL. Proposed as its own chain so that a package can take SK
-        without CL; a package with CL already has SK.
-      entries:
-        - id: SK.PROP
-          rank: 1
-          name: Strong Kleene clauses for the connectives
-          statement: |
-            ¬ (T p ∧ T (neg p))                                (* no gluts *)
-            T (neg (neg p)) ⟷ T p
-            T (conj p q) ⟷ T p ∧ T q        T (neg (conj p q)) ⟷ T (neg p) ∨ T (neg q)
-            T (disj p q) ⟷ T p ∨ T q        T (neg (disj p q)) ⟷ T (neg p) ∧ T (neg q)
-          sources:
-            - work: fine2010
-              locator: p. 110 (Kripke's three schemes); p. 112 (fixed points closed "two-way"); p. 113 (compromise)
-              check: published-page
-              quote: "in the case of disjunctions under the strong truth-tables, A ∨ B will be in the set just in case either A or B is in the set."
-            - work: fine2010
-              locator: p. 113
-              check: published-page
-              quote: "the strong Kleene approach will correspond to the compromise approach to classical logic."
-          readings:
-            - point: falsity
-              chosen: p is false iff T (neg p); a gap if neither T p nor T (neg p). T stays a metalevel predicate (bivalent in HOL), so the logic of T is classical and only the object propositions have gaps.
-              alternatives: ['a three-valued metalanguage', 'a separate falsity predicate F']
-              why: keeps the signature unchanged (T, neg); Fine's fixed points are sets of sentences, positive and negative information being membership of A and of ¬A (p. 112).
-            - point: conditional and biconditional
-              chosen: omitted (the signature has none)
-              alternatives: []
-              why: no SK clause needed.
-        - id: SK.QUANT
-          rank: 2
-          name: Strong Kleene clauses for the propositional quantifiers
-          statement: |
-            T (exq f) ⟷ (∃a. T (app f a))      T (neg (exq f)) ⟷ (∀a. T (neg (app f a)))
-            T (allq f) ⟷ (∀a. T (app f a))     T (neg (allq f)) ⟷ (∃a. T (neg (app f a)))
-          sources:
-            - work: fine2010
-              locator: p. 113, quantifier rules for the construction over facts
-              check: published-page
-              quote: "What we therefore require for the truth of ∃x A(x) is the truth of both A(c) and E(c)"
-          readings:
-            - point: Fine's existence predicate E and the "putative domain" of facts (pp. 112-113)
-              chosen: omitted - quantifiers range over all propositions, every proposition is in the domain from the start
-              alternatives: ["Fine's two-sided domain: ∃ over objects shown to exist, ∀ over objects not shown not to exist"]
-              why: >-
-                the registry has no existence predicate for propositions. FLAGGED - this is Kripke's
-                original setting (domain given in advance, p. 112, "an ideology of truth"), not Fine's
-                "ontology of facts" modification. Fine's failure of Universal Existence (p. 114) is
-                therefore not represented.
-            - point: infinitary conjunction
-              chosen: no SK clause for bigconj (K1 makes every bigconj a gap)
-              alternatives: ['T (bigconj f) ⟷ (∀q∈sat f. T q)']
-              why: the satisfier reading of bigconj (CL.QUANT) is defined by truth and is not monotone in the Kripke construction; INFERENCE, not checked.
-    - id: TS
-      note: proposed addition to the existing family TS
-      entries:
-        - id: TS.KF
-          rank: standalone
-          name: Two-sided truth schema (Kripke-Feferman)
-          statement: |
-            (T (tr p) ⟷ T p) ∧ (T (neg (tr p)) ⟷ T (neg p))
-          sources:
-            - work: fine2010
-              locator: p. 112
-              check: published-page
-              quote: "in the case of truth-predications, T (pAq) will be in the set just in case A is in the set"
-          readings:
-            - point: the falsity half
-              chosen: included (the negation of tr p is true iff the negation of p is)
-              alternatives: ['TS.FULL only']
-              why: Kripke's fixed points are closed under both rules; checked that CL.PROP + TS.FULL implies TS.KF (cl_ts_kf), so the half adds something only under SK.
     - id: SR
       name: Self-reference witnesses (comprehension for propositions)
       order: alternatives
