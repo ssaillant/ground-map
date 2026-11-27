@@ -8,6 +8,10 @@ isabelle/Principles.thy. A model counts as verified only if every conjunct
 evaluates to True. Entries of the formula layer (lam/den) are not implemented;
 packages containing them are reported as "not checkable".
 
+Records of class refuted-at-N1 may carry a Nitpick model of the package WITHOUT any
+grounding fact (field n0_model). Those are verified the same way with "not N1" in
+place of N1, and reported with level "N0".
+
 Usage: verify_models.py [results/queries.jsonl]  -> writes results/models_verified.jsonl
 """
 import itertools, json, os, re, sys
@@ -175,6 +179,11 @@ def ev(M, e):
     if e == "DISJ.ONE": return all((not M.T(p) or M.G({p}, disj(p, q))) and (not M.T(q) or M.G({q}, disj(p, q))) for p, q in A())
     if e == "DISJ.BOTH": return all(not (M.T(p) and M.T(q)) or M.G({p, q}, disj(p, q)) for p, q in A())
     if e == "DISJ.WEAK": return all(not M.T(disj(p, q)) or M.PG(p, disj(p, q)) or M.PG(q, disj(p, q)) for p, q in A())
+    if e == "DISJ.PART": return all((not M.T(p) or M.PG(p, disj(p, q))) and (not M.T(q) or M.PG(q, disj(p, q))) for p, q in A())
+    if e == "EX.PART": return all(not (M.adm(f) and M.T(M.app(f, a))) or M.PG(M.app(f, a), M.f("exq", f)) for f in F for a in D)
+    if e == "ALL.PART":
+        return all(not (M.adm(f) and all(M.T(M.app(f, b)) for b in D)) or M.PG(M.app(f, a), M.f("allq", f)) for f in F for a in D)
+    if e == "TR.PART": return all(not M.T(p) or M.PG(p, tr(p)) for p in D)
     if e == "NEG.DN": return all(not M.T(p) or M.G({p}, neg(neg(p))) for p in D)
     if e == "NEG.DM":
         return all((not M.T(neg(p)) or M.G({neg(p)}, neg(conj(p, q)))) and (not M.T(neg(q)) or M.G({neg(q)}, neg(conj(p, q))))
@@ -201,9 +210,11 @@ def ev(M, e):
     raise KeyError(e)
 
 
-def verify(rec):
+def verify(rec, n0=False):
+    """n0=False: the model must satisfy the package, FACT and N1.
+    n0=True: the model (field n0_model) must satisfy the package and FACT and falsify N1."""
     pkg = rec["key"].split(",") if rec["key"] else []
-    card, consts = parse_model(rec["model"])
+    card, consts = parse_model(rec["n0_model"] if n0 else rec["model"])
     M = Model(card, consts)
     out = {}
     for e in ["FACT", "N1"] + pkg:
@@ -211,18 +222,25 @@ def verify(rec):
             out[e] = ev(M, e)
         except KeyError as ex:
             return {"key": rec["key"], "verified": None, "reason": f"not checkable: {ex} not implemented or constant not printed"}
+    if n0:
+        out["not N1"] = not out.pop("N1")
     ok = all(out.values())
-    return {"key": rec["key"], "verified": ok, "failed": [e for e, v in out.items() if not v], "card": card}
+    res = {"key": rec["key"], "verified": ok, "failed": [e for e, v in out.items() if not v], "card": card}
+    if n0:
+        res["level"] = "N0"
+    return res
 
 
 if __name__ == "__main__":
     src = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, "results", "queries.jsonl")
-    recs = {}
+    recs, recs0 = {}, {}
     for line in open(src):
         r = json.loads(line)
         if r["class"] == "finite-model" and r.get("model") and "Constants:" in r["model"]:
             recs[r["key"]] = r
-    res = [verify(r) for r in recs.values()]
+        if r["class"] == "refuted-at-N1" and r.get("n0_model") and "Constants:" in r["n0_model"]:
+            recs0[r["key"]] = r
+    res = [verify(r) for r in recs.values()] + [verify(r, n0=True) for r in recs0.values()]
     with open(os.path.join(ROOT, "results", "models_verified.jsonl"), "w") as f:
         for v in res:
             f.write(json.dumps(v, ensure_ascii=False) + "\n")

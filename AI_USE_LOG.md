@@ -223,3 +223,30 @@ AI-use disclosure. One entry per working session.
   not what Principles.thy implements; "trivial-only" is assigned without a model; Fine's
   partial Universal Grounding has no entry; Fine's Cut was misquoted from an OCR layer.
 - Human review: pending.
+
+## 2026-11-27 — Repairs after the audit (registry 0.3.0-draft)
+
+- Tool: Claude Code (cloud session), the same project thread as the audit; Isabelle2026
+  pinned. Sources were read from the project files (page images where the text layer is
+  unreliable); nothing was re-fetched for the repair.
+- Model: the same model as the audit entry above; identifier to be entered by the
+  reviewer.
+- Prompt: "Please repair all" (reviewer), in reply to the audit report. Read as: carry
+  out the repairs proposed under findings A1 to A4 and the report's list "Proposed and
+  not done".
+- What the model did: changed the four restricted entries to closed formulas in
+  Principles.thy and in the certificate locale; built the model MG
+  (isabelle/Restricted_Models.thy); added four partial-ground entries and proved the
+  Krämer and Fine targets from the registry constants (isabelle/Puzzle_Packages.thy);
+  renamed the search class trivial-only to refuted-at-N1 and recomputed 22 search rows;
+  rewrote the registry's convention on chains, added its `implications` section,
+  decision D5, findings F5 and F6, source additions and flagged readings; regenerated
+  docs/results.md; added section 10 to the audit report.
+- Decisions the model took itself, listed in the registry under D5
+  (`choices_made_in_applying_it`) and in the report, section 10: C2 left unchanged;
+  EX.LEV closes the instance only; three partial entries beyond the one the audit named;
+  CL.PROP added to one puzzle target.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/replay.py (20 of 20
+  refutations replayed); scripts/verify_models.py (113 of 113 models, two at level N0).
+- Human review: pending.
+

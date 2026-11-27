@@ -53,10 +53,11 @@ lemma EX_LEV_PRED:
   shows "EX_PRED"
   unfolding EX_PRED_def
 proof (intro allI impI, elim conjE)
-  fix f a w assume ad: "adm f" and l0: "lvl a = 0" and t: "T (app f (den w a))"
+  fix f a w assume ad: "adm f" and l0: "lvl a = 0" and cl: "fv a = {}"
+    and t: "T (app f (den w a))"
   obtain x b v where f: "f = lam x b v" using lamb ad by blast
   have "lvl a < lvl (Ex x b)" using l0 by simp
-  thus "G {app f (den w a)} (exq f)" using assms(1) ad t f unfolding EX_LEV_def by blast
+  thus "G {app f (den w a)} (exq f)" using assms(1) ad t f cl unfolding EX_LEV_def by blast
 qed
 
 lemma C1_lamb: assumes "C1" shows "\<forall>f. adm f \<longrightarrow> (\<exists>x b v. f = lam x b v)"
@@ -94,6 +95,85 @@ proof (intro allI impI, elim conjE)
   then obtain a where t: "T (app f a)" using cl unfolding CL_QUANT_def by blast
   then have "G {app f a} (exq f)" using e ad unfolding EX_FULL_def by blast
   then show "\<exists>a. PG (app f a) (exq f)" unfolding PG_def by blast
+qed
+
+text \<open>Partial-ground entries (Fine 2010, pp. 100-101): each is implied by the full-ground
+  entry of its family, and the two universal entries share the partial one.\<close>
+lemma DISJ_ONE_PART: "DISJ_ONE \<Longrightarrow> DISJ_PART"
+  unfolding DISJ_ONE_def DISJ_PART_def PG_def by blast
+lemma EX_FULL_PART: "EX_FULL \<Longrightarrow> EX_PART"
+  unfolding EX_FULL_def EX_PART_def PG_def by blast
+lemma TR_FULL_PART: "TR_FULL \<Longrightarrow> TR_PART"
+  unfolding TR_FULL_def TR_PART_def PG_def by blast
+lemma ALL_INST_PART: "ALL_INST \<Longrightarrow> ALL_PART"
+  unfolding ALL_INST_def ALL_PART_def PG_def inst_def by blast
+lemma ALL_TOT_PART: "ALL_TOT \<Longrightarrow> ALL_PART"
+  unfolding ALL_TOT_def ALL_PART_def PG_def inst_def
+proof (intro allI impI)
+  fix f a
+  assume H: "\<forall>f. adm f \<and> (\<forall>a. T (app f a)) \<longrightarrow> T (tot f) \<and> G (insert (tot f) (range (app f))) (allq f)"
+     and A: "adm f \<and> (\<forall>b. T (app f b))"
+  have g: "G (insert (tot f) (range (app f))) (allq f)" using H A by blast
+  have m: "app f a \<in> insert (tot f) (range (app f))" by simp
+  show "\<exists>\<Gamma>. app f a \<in> \<Gamma> \<and> G \<Gamma> (allq f)" using conjI[OF m g] by (rule exI)
+qed
+
+text \<open>Conditional: the partial entries give Fine's weak ones under classical truth.\<close>
+lemma DISJ_PART_WEAK: assumes cl: "CL_PROP" and d: "DISJ_PART" shows "DISJ_WEAK"
+  unfolding DISJ_WEAK_def
+proof (intro allI impI)
+  fix p q assume "T (disj p q)"
+  then have "T p \<or> T q" using cl unfolding CL_PROP_def by blast
+  then show "PG p (disj p q) \<or> PG q (disj p q)" using d unfolding DISJ_PART_def by blast
+qed
+lemma EX_PART_WEAK: assumes cl: "CL_QUANT" and e: "EX_PART" shows "EX_WEAK"
+  unfolding EX_WEAK_def
+proof (intro allI impI, elim conjE)
+  fix f assume ad: "adm f" and "T (exq f)"
+  then obtain a where t: "T (app f a)" using cl unfolding CL_QUANT_def by blast
+  then have "PG (app f a) (exq f)" using e ad unfolding EX_PART_def by blast
+  then show "\<exists>a. PG (app f a) (exq f)" by blast
+qed
+
+text \<open>Given LAM.ENV, the denotation of a formula depends only on the values of its
+  free variables, so a closed formula denotes the same proposition under every
+  environment. This is why the restricted entries are read on closed formulas
+  (registry decision D5): a closed formula of level 0, or without Tr, is a sentence
+  with that property, and what it denotes is fixed.\<close>
+lemma den_fv:
+  assumes core: "LAM_CORE" and ag: "\<forall>y\<in>fv a. v y = w y"
+  shows "den v a = den w a"
+proof -
+  have le: "lam x b v = lam x b w" if "\<forall>y\<in>fv b - {x}. v y = w y" for x b
+    using that core unfolding LAM_CORE_def by blast
+  show ?thesis using ag
+  proof (induction a)
+    case (Ex x a)
+    then have "lam x a v = lam x a w" by (intro le) simp
+    then show ?case by simp
+  next
+    case (All x a)
+    then have "lam x a v = lam x a w" by (intro le) simp
+    then show ?case by simp
+  next
+    case (BigC x a)
+    then have "lam x a v = lam x a w" by (intro le) simp
+    then show ?case by simp
+  qed auto
+qed
+
+corollary den_closed: "LAM_CORE \<Longrightarrow> fv a = {} \<Longrightarrow> den v a = den w a"
+  by (rule den_fv) auto
+
+text \<open>CL.QUANT alone yields a truth: its third clause makes the conjunction of an
+  empty satisfier set true (audit finding A3, registry finding F6).\<close>
+lemma CL_QUANT_truth: assumes "CL_QUANT" shows "\<exists>p. T p"
+proof (rule ccontr)
+  assume n: "\<not> (\<exists>p. T p)"
+  have "T (bigconj f) \<longleftrightarrow> (\<forall>q\<in>sat f. T q)" for f using assms unfolding CL_QUANT_def by blast
+  moreover have "sat f = {}" for f unfolding sat_def using n by blast
+  ultimately have "T (bigconj f)" for f by simp
+  thus False using n by blast
 qed
 
 lemma EMPTY_excl: "EMPTY_NONE \<longleftrightarrow> \<not> EMPTY_SOME" unfolding EMPTY_NONE_def EMPTY_SOME_def by blast

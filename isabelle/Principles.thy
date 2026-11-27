@@ -3,12 +3,22 @@ theory Principles
 begin
 
 text \<open>
-  Step 4: every registry entry (v0.2.1-draft) as a closed boolean constant, so that a
+  Step 4: every registry entry (v0.3.0-draft) as a closed boolean constant, so that a
   package is a conjunction of constants and the driver can ask for refutations and
   models. Statements follow principles/registry.yaml verbatim where possible. By D3,
   principles about quantifiers range over admissible functions (adm f); CL.QUANT is
   exempt. FACT and LAM_CORE are the core clauses, assumed in every package.
   Nothing here is an axiom.
+
+  Every entry is standalone: no definition includes another entry of its family. The
+  only order between entries is the set of implications proved in Order.thy.
+
+  Restricted entries (D5, registry 0.3.0-draft). TS.TYPED, TR.TYPED, EX.PRED and EX.LEV
+  restrict a principle to propositions presented by a CLOSED formula (fv a = {}) with
+  the stated property. In 0.2.1-draft the formula could have free variables, and each
+  restricted entry was then equivalent to its unrestricted counterpart, because Var 0
+  denotes every proposition under some environment (Audit_Checks.thy keeps that proof
+  for the old definitions).
 \<close>
 
 consts tot :: "pfun \<Rightarrow> prp"
@@ -53,7 +63,7 @@ definition CL_QUANT :: bool where
                      \<and> (T (bigconj f) \<longleftrightarrow> (\<forall>q\<in>sat f. T q)))"
 
 definition TS_TYPED :: bool where
-  "TS_TYPED \<longleftrightarrow> (\<forall>a v. tfree a \<longrightarrow> (T (tr (den v a)) \<longleftrightarrow> T (den v a)))"
+  "TS_TYPED \<longleftrightarrow> (\<forall>a v. tfree a \<and> fv a = {} \<longrightarrow> (T (tr (den v a)) \<longleftrightarrow> T (den v a)))"
 definition TS_FULL :: bool where
   "TS_FULL \<longleftrightarrow> (\<forall>p. T (tr p) \<longleftrightarrow> T p)"
 definition TS_ID :: bool where
@@ -81,6 +91,8 @@ definition DISJ_ONE :: bool where
   "DISJ_ONE \<longleftrightarrow> (\<forall>p q. (T p \<longrightarrow> G {p} (disj p q)) \<and> (T q \<longrightarrow> G {q} (disj p q)))"
 definition DISJ_BOTH :: bool where
   "DISJ_BOTH \<longleftrightarrow> (\<forall>p q. T p \<and> T q \<longrightarrow> G {p, q} (disj p q))"
+definition DISJ_PART :: bool where
+  "DISJ_PART \<longleftrightarrow> (\<forall>p q. (T p \<longrightarrow> PG p (disj p q)) \<and> (T q \<longrightarrow> PG q (disj p q)))"
 definition DISJ_WEAK :: bool where
   "DISJ_WEAK \<longleftrightarrow> (\<forall>p q. T (disj p q) \<longrightarrow> PG p (disj p q) \<or> PG q (disj p q))"
 
@@ -92,22 +104,30 @@ definition NEG_DM :: bool where
      \<and> (T (neg p) \<and> T (neg q) \<longrightarrow> G {neg p, neg q} (neg (disj p q))))"
 
 definition EX_PRED :: bool where
-  "EX_PRED \<longleftrightarrow> (\<forall>f a w. adm f \<and> lvl a = 0 \<and> T (app f (den w a)) \<longrightarrow> G {app f (den w a)} (exq f))"
+  "EX_PRED \<longleftrightarrow> (\<forall>f a w. adm f \<and> lvl a = 0 \<and> fv a = {} \<and> T (app f (den w a))
+     \<longrightarrow> G {app f (den w a)} (exq f))"
 definition EX_LEV :: bool where
-  "EX_LEV \<longleftrightarrow> (\<forall>x b v a w. adm (lam x b v) \<and> lvl a < lvl (Ex x b) \<and> T (app (lam x b v) (den w a))
+  "EX_LEV \<longleftrightarrow> (\<forall>x b v a w. adm (lam x b v) \<and> lvl a < lvl (Ex x b) \<and> fv a = {}
+     \<and> T (app (lam x b v) (den w a))
      \<longrightarrow> G {app (lam x b v) (den w a)} (exq (lam x b v)))"
 definition EX_FULL :: bool where
   "EX_FULL \<longleftrightarrow> (\<forall>f a. adm f \<and> T (app f a) \<longrightarrow> G {app f a} (exq f))"
+definition EX_PART :: bool where
+  "EX_PART \<longleftrightarrow> (\<forall>f a. adm f \<and> T (app f a) \<longrightarrow> PG (app f a) (exq f))"
 definition EX_WEAK :: bool where
   "EX_WEAK \<longleftrightarrow> (\<forall>f. adm f \<and> T (exq f) \<longrightarrow> (\<exists>a. PG (app f a) (exq f)))"
 
+definition ALL_PART :: bool where
+  "ALL_PART \<longleftrightarrow> (\<forall>f a. adm f \<and> (\<forall>b. T (app f b)) \<longrightarrow> PG (app f a) (allq f))"
 definition ALL_INST :: bool where
   "ALL_INST \<longleftrightarrow> (\<forall>f. adm f \<and> (\<forall>a. T (app f a)) \<longrightarrow> G (inst f) (allq f))"
 definition ALL_TOT :: bool where
   "ALL_TOT \<longleftrightarrow> (\<forall>f. adm f \<and> (\<forall>a. T (app f a)) \<longrightarrow> T (tot f) \<and> G (insert (tot f) (inst f)) (allq f))"
 
 definition TR_TYPED :: bool where
-  "TR_TYPED \<longleftrightarrow> (\<forall>a v. tfree a \<and> T (den v a) \<longrightarrow> G {den v a} (tr (den v a)))"
+  "TR_TYPED \<longleftrightarrow> (\<forall>a v. tfree a \<and> fv a = {} \<and> T (den v a) \<longrightarrow> G {den v a} (tr (den v a)))"
+definition TR_PART :: bool where
+  "TR_PART \<longleftrightarrow> (\<forall>p. T p \<longrightarrow> PG p (tr p))"
 definition TR_FULL :: bool where
   "TR_FULL \<longleftrightarrow> (\<forall>p. T p \<longrightarrow> G {p} (tr p))"
 definition TR_NEG :: bool where
