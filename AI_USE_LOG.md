@@ -198,3 +198,28 @@ AI-use disclosure. One entry per working session.
   there).
 - Human review: pending.
 
+## 2026-11-27 — Independent faithfulness audit; second opinion on the certificate rules
+
+- Tool: Claude Code (cloud session), project thread "Review formalizations against the
+  sources"; Isabelle2026 pinned, hash checked. Source retrieval for works not in the
+  project files (Krämer 2013, Woods 2018, Korbmacher 2018a/b, Correia 2014) used
+  web-fetch subagents in the same session, which return verbatim fragments of at most
+  125 characters.
+- Model: a different model from the entries above, at the reviewer's request. Its
+  identifier is recorded in the project thread and is to be entered here by the reviewer.
+- Prompt: "let's open up a thread to read the sources again but with [the model named by
+  the reviewer] and do/review 1 and 2" (reviewer), where 1 is the faithfulness of the
+  formalizations and 2 the four certificate rules; with the coordinator's note asking for
+  a per-entry verdict table that separates textual evidence, verification and inference,
+  and for clear citation errors only to be fixed.
+- What the model did: re-read every cited passage it could reach (page images for Fine
+  2012b, Fritz 2022 and Lovett's rule display); compared each registry statement with
+  Principles.thy and each puzzle proof with the published derivation; wrote
+  docs/audit-2026-11-27.md and isabelle/Audit_Checks.thy; corrected five citation errors
+  in the registry (listed in the report, section 7). No statement and no status label was
+  changed.
+- Main results, all for review: four restricted entries are provably equivalent to their
+  unrestricted counterparts in the current encoding; the registry's chain convention is
+  not what Principles.thy implements; "trivial-only" is assigned without a model; Fine's
+  partial Universal Grounding has no entry; Fine's Cut was misquoted from an OCR layer.
+- Human review: pending.

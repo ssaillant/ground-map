@@ -364,10 +364,10 @@ families:
           G Γ q ∧ Δ ⊆ Γ ∧ (∀p∈Δ. G (H p) p) ⟶ G ((Γ - Δ) ∪ (⋃p∈Δ. H p)) q
         sources:
           - work: fine2012b
-            locator: p. 5, rule Cut(</<)
+            locator: p. 5, rule Cut(≤/≤)
             check: published-page
-            quote: "Cut(</<): Δ1 ≤ A1 Δ2 ≤ A2 ... A1, A2, ... < C / Δ1,Δ2,... < C"
-            note: Premises above the slash, conclusion below (rule bar lost in extraction). Each A_i is weakly grounded; with Identity (A ≤ A) for members left in place and Subsumption (strict implies weak), this yields the strict-only partial replacement stated here.
+            quote: "Cut(≤/≤): Δ1 ≤ A1 Δ2 ≤ A2 ... A1, A2, ... ≤ C / Δ1, Δ2, ... ≤ C"
+            note: Premises above the slash, conclusion below. CORRECTED 2026-11-27 (audit) against the page image - every sequent in the rule is weak full ground; the earlier quote had "<" in the label, the major premise and the conclusion, an artefact of the PDF's OCR text layer. The strict-only statement above is therefore not an instance of Fine's rule. INFERENCE (audit) - it is derivable in PLG - Subsumption(</≤), Identity(≤) and Cut(≤/≤) give the new set as a weak full ground of C; each of its members is a strict partial ground of C by Subsumption(</≺) and Transitivity(≺/≼); Reverse Subsumption(≤/≺) then gives the strict full sequent. Fine derives Amalgamation(<) the same way (p. 7).
           - work: correia2014
             locator: Prop. 1.2(4), ms p. 4–5
             check: manuscript
@@ -381,7 +381,7 @@ families:
           - point: Fine's Cut mixes strict and weak ground
             chosen: strict-only form
             alternatives: ['none available in v1, weak ground out of scope']
-            why: design decision. Checked against fine2012b p. 5 - the strict-only form is the special case of Cut(</<) in which every weak premise is either strict or an Identity; it is weaker than Fine's rule, which also admits weak grounds that are neither.
+            why: design decision. CORRECTED 2026-11-27 (audit) - Fine's rule is Cut(≤/≤), wholly weak (fine2012b p. 5, page image); the strict-only form is a derived rule of PLG (see the source note), not a special case of the primitive rule.
           - point: infinitely many replaced members
             chosen: allowed (Δ any set)
             alternatives: ['finite Δ only']
@@ -435,7 +435,7 @@ families:
           - point: arity
             chosen: arbitrary nonempty families
             alternatives: ['binary only']
-            why: Fine's rule (as usually reported) is stated for arbitrarily many grounds; unverified.
+            why: verified 2026-11-27 (audit) against the page image of fine2012b p. 7 - Amalgamation(<) is displayed for arbitrarily many grounds.
 
   # 5 ------------------------------------------------------------------------
   - id: CL
@@ -600,8 +600,8 @@ families:
           - work: fritz2022
             locator: p. 306, sect. 2.3
             check: published-page
-            quote: "(⋀≺) ∀pp∀p(p ≺ ⋀ pp ↔ p ε pp)"
-            note: Fritz's ≺ is immediate partial ground and pp ranges over pluralities of truths; the conjuncts are the members of pp. Fritz calls this principle more controversial than his seven main principles (p. 308).
+            quote: "(⋀≺) ∀̅pp∀p(p ≺ ⋀ pp ↔ p ε pp)"
+            note: CORRECTED 2026-11-27 (audit) - the first quantifier carries an overbar, Fritz's restriction of the plural quantifier to truths (p. 306); the bar was lost in extraction. Fritz's ≺ is immediate partial ground and pp ranges over pluralities of truths; the conjuncts are the members of pp. Fritz calls this principle more controversial than his seven main principles (p. 308).
         readings:
           - point: immediate versus mediate
             chosen: mediate (the primitive)
@@ -626,8 +626,8 @@ families:
           - work: fritz2022
             locator: p. 306, (S⋀)
             check: published-page
-            quote: "(S⋀) ∀pp∀qq(⋀ pp = ⋀ qq → pp ≡ qq)"
-            note: Derived by Fritz from (⋀≺); with (T⋀) it is inconsistent by a plural Cantor/Russell–Myhill argument (p. 307).
+            quote: "(S⋀) ∀̅pp∀̅qq(⋀ pp = ⋀ qq → pp ≡ qq)"
+            note: CORRECTED 2026-11-27 (audit) - both quantifiers carry the overbar (restriction to truths); Fritz's label for truth-functionality is (⋀T), not (T⋀). Derived by Fritz from (⋀≺); with (⋀T) it is inconsistent by a plural Cantor/Russell–Myhill argument (p. 307).
         readings:
           - point: how to express "only its conjuncts" without immediate ground
             chosen: state the individuation consequence (distinct conjunct sets give distinct conjunctions) directly
@@ -987,7 +987,7 @@ families:
           - point: which truths are zero-grounded
             chosen: existence only
             alternatives: ['named zero-grounded truths (e.g. the empty conjunction, which the signature cannot express since inst f is never empty)']
-            why: no source text read. INFERENCE - by FACT, G {} p already entails T p.
+            why: Fine names the empty conjunction as his example (fine2012a pp. 47-48, read). INFERENCE - by FACT, G {} p already entails T p.
 
   # 15 -----------------------------------------------------------------------
   - id: FIN
@@ -1109,10 +1109,10 @@ families:
           app (lam x a v) p = den (v(x:=p)) a
         sources:
           - work: goodman2023
-            locator: discussion of Krämer's puzzle (pages not visible)
-            check: unverified
+            locator: sect. 1, PDF p. 4 (online-first version; the PDF carries no journal page numbers)
+            check: published-page
             quote: "Fritz argues that there could be a principled basis for rejecting both β-conversion and (9)"
-            note: quoted from the published PDF's text as fetched; Fritz's own paper (Goodman's reference [17]) not read.
+            note: CORRECTED 2026-11-27 (audit) - locator and check updated from the PDF supplied by the reviewer. Fritz's own statement of β-conversion is (βC) in fritz2020 sect. 4 (final draft p. 4), read.
         readings:
           - point: role
             chosen: the identity the v0.1.x named witnesses built in
@@ -1125,10 +1125,10 @@ families:
                                 ∧ G {den (v(x:=p)) a} (app (lam x a v) p)
         sources:
           - work: goodman2023
-            locator: principle (9) (pages not visible)
-            check: unverified
-            quote: null
-            note: Goodman's (9), as reported in the decision note; to be checked against the JPL pages.
+            locator: sect. 1, PDF p. 4 (online-first version; no journal page numbers) - principle (9) and the β-grounding schema stated after (10)
+            check: published-page
+            quote: "∀p(p → p ≺ (λp.p)p)"
+            note: CORRECTED 2026-11-27 (audit) - Goodman's (9), quoted here, is only the instance for (λp.p). The general schema this entry encodes is what Goodman calls "the principle of β-grounding" on the same page, attributing it to Fine 2012a (his [15]); Fritz states it as (βG) in fritz2020 sect. 4 (final draft p. 4), and Fine's rule is λI in fine2012a p. 68 (CUP). Neither is yet listed as a source of this entry.
         readings:
           - point: distinctness
             chosen: stated, so that BETA.GROUND excludes BETA.ID
@@ -1149,7 +1149,8 @@ families:
           - work: fritz2022
             locator: p. 306, (⋀≺)
             check: published-page
-            quote: "(⋀≺) ∀pp∀p(p ≺ ⋀ pp ↔ p ε pp)"
+            quote: "(⋀≺) ∀̅pp∀p(p ≺ ⋀ pp ↔ p ε pp)"
+            note: CORRECTED 2026-11-27 (audit) - overbar on the first quantifier restored (restriction to truths, p. 306).
           - work: fritz2022
             locator: p. 322
             check: published-page
@@ -1271,7 +1272,7 @@ puzzles:
     package: [C3s, CL.PROP, CL.QUANT, IMM.CONJ]
     control_package: [C3s, CL.PROP, CL.QUANT, CONJ.GRAIN]
     expected: refuted, without irreflexivity
-    caveat: reproduces the arbitrary-conjunction variant (S⋀)+(T⋀) of §2.3, with grain derived from IMM.CONJ (D1). Fritz's main result (§2.4, seven principles of immediate ground, (∧1)–(∀2) and (nt), pp. 304–305) needs further IMM entries.
+    caveat: reproduces the arbitrary-conjunction variant (S⋀)+(⋀T) of §2.3, with grain derived from IMM.CONJ (D1). Fritz's main result (§2.4, seven principles of immediate ground, (∧1)–(∀2) and (nt), pp. 304–305) needs further IMM entries.
   - id: P.FRITZ.MAIN
     source: fritz2022 §2.4, pp. 308–310
     package: [C3s, CL.PROP, CL.QUANT, IMM.FRITZ7]

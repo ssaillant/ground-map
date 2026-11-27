@@ -13,3 +13,4 @@ session Ground_Map_Checks = HOL +
     Results_Refutations
     Model_Certificates
     Models
+    Audit_Checks
