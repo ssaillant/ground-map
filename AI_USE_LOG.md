@@ -134,3 +134,14 @@ AI-use disclosure. One entry per working session.
   (second, Python implementation of the semantics that re-checks each Nitpick
   model; tested to reject corrupted models). CI fixed to use the https mirror.
 - Human review: pending.
+
+## 2026-11-27 — Fritz 2020 checked; five new sources
+
+- Tool and model as above.
+- Prompt: reviewer upload of Goodman 2023, Genco–Poggiolesi–Rossi 2021, Krämer & Roski
+  2015, Poggiolesi 2022, Fritz "On higher-order logical grounds".
+- What the model did: read Fritz in full; wrote isabelle/Fritz2020_Checks.thy (the
+  beta-grounding cases: against asymmetry, and with transitivity against
+  irreflexivity); registry target P.FRITZ2020.BETAG and bibliography entries.
+  Builds, no sorry/oops/axioms. The other four papers were only identified.
+- Human review: pending.

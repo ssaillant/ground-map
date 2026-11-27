@@ -1385,6 +1385,14 @@ puzzles:
       registry_mapping: 'INFERENCE: with propositions as a base type there is no diagonal lemma, so the diagonal sentence becomes a witness hypothesis DIAG.K: some d with T d iff not PG d (disj d d). This is a comprehension principle for propositions whose truth condition mentions ground; no existing COMP entry (C1-C3s) supplies it, since C3s gives propositional functions, not propositions with arbitrary truth conditions. The refutation itself is short; the philosophical weight sits on DIAG.K.'
       checked: 'isabelle/Korbmacher_Checks.thy: korbmacher_disj, korbmacher_dn; korbmacher_untyped_ungrounded (slide 12: with disjunction grounding restricted to grounded disjuncts, d is ungrounded)'
       status: checked
+    - id: P.FRITZ2020.BETAG
+      source: 'fritz2020 sect. 4 (final draft pp. 4-5)'
+      claim_in_source: 'with the non-schematic existential principle (EQ), T(ET) grounds ET; beta-grounding adds that ET grounds T(ET), so the two ground each other, against asymmetry, and with transitivity against irreflexivity. Beta-conversion instead gives T(ET) = ET, against irreflexivity.'
+      package: [C1, BETA.GROUND, CL.QUANT, EX.FULL, ASYM.P]   # second version: TRANS.P + IRR.F in place of ASYM.P
+      registry_mapping: '(EQ) = EX.FULL over pfun; truth property = f_id; betaC = BETA.ID, betaG = BETA.GROUND (D3). "Some truth" assumed directly, as Fritz does. The betaC case is kramer_v2.'
+      checked: 'isabelle/Fritz2020_Checks.thy: fritz2020_betaG_asym, fritz2020_betaG_trans_irr'
+      status: checked
+      open: 'Fritz''s positive claim, that (EQ) without beta-conversion or beta-grounding is not inconsistent "without more substantial additional assumptions", is a consistency target for step 4 ([C3s, CL.QUANT, EX.FULL, IRR.F] plus N1); his (T1)/(T2) and recovery principles (FR) have no registry entries yet.'
     - id: P.ELGIN.IDENTITY
       source: elgin2026 (a = b partially grounds itself)
       status: not read in this thread
@@ -1497,7 +1505,24 @@ bibliography:
     read: author's file, full text (princeton.edu/~bkment/articles/rmp.pdf)
   goodman2023:
     cite: "Goodman, J. Grounding Generalizations. Journal of Philosophical Logic. doi:10.1007/s10992-022-09689-x"
-    read: published version, first ~40%
+    read: 'published version; first ~40% mined earlier; full PDF supplied by reviewer 2026-11-27, rest not mined'
+    relevance: 'two diagnoses of the puzzle of grounding generalizations, each developed into a consistent higher-order theory: defended consistent packages and a likely source of infinite-model certificates (D4). Its reference [17] is fritz2020.'
+  fritz2020:
+    cite: "Fritz, P. On higher-order logical grounds. Analysis 80(4): 656-666. doi:10.1093/analys/anz085"
+    read: 'final draft supplied 2026-11-27, read in full; locators are draft pages; journal pages from Goodman 2023 ref. [17], not verified'
+    note: 'this is the Fritz paper Goodman cites as [17], missing since 2026-11-26'
+  genco2021:
+    cite: "Genco, F. A., Poggiolesi, F. and Rossi, L. (2021). Grounding, quantifiers, and paradoxes. Journal of Philosophical Logic 50: 1417-1448. doi:10.1007/s10992-021-09604-w"
+    read: 'supplied 2026-11-27; abstract only; not mined'
+    relevance: 'new grounding principles for quantified formulae meant to escape the quantifier paradoxes; candidate family entries'
+  kramer_roski2015:
+    cite: "Krämer, S. and Roski, S. (2015). A note on the logic of worldly ground. Thought 4(1): 59-68."
+    read: 'accepted manuscript (eprints.gla.ac.uk/140560) supplied 2026-11-27; not mined'
+    relevance: 'derives implausible grounding claims in Correia 2010''s worldly logic; bears on correia2026'
+  poggiolesi2022:
+    cite: "Poggiolesi, F. (2022). Grounding and propositional identity: a solution to Wilhelm's inconsistencies. Logic and Logical Philosophy. doi:10.12775/LLP.2022.012"
+    read: 'supplied 2026-11-27; abstract only; not mined'
+    relevance: 'Wilhelm 2021 (Analysis 81(1)): immediate partial grounding plus identity conditions for propositions are inconsistent; Poggiolesi claims consistency is restored with finer-grained negation. Candidate puzzle target and consistency claim'
   fritz2023:
     cite: "Fritz, P. (2023). Operands and Instances. Review of Symbolic Logic 16(1): 188ff. doi:10.1017/S175502032100040X"
     read: published, pp. 188–201 verbatim
