@@ -72,9 +72,9 @@ Caveat from the registry: Russell_Checks and Fine_Checks use the pre-D3 encoding
 
 ## 4. Models built in Isabelle
 
-Principles that the search left unknown on their own, because they quantify over the formula layer (where Nitpick reports only potentially spurious models) or have no finite model. Each model is an interpretation of the signature with every constant as a parameter (locale `gsig`); `K_faithful` proves that the locale's definitions are the registry's. Each package includes FACT, and LAM_CORE when it mentions the formula layer.
+Principles that the search left unknown on their own, because they quantify over the formula layer (where Nitpick reports only potentially spurious models) or have no finite model. Each model is an interpretation of the signature with every constant as a parameter (locale `gsig`); `K_faithful` proves that the locale's definitions are the registry's. The infinite term model M1 (`isabelle/Models.thy`) uses the same method with a record of operations in place of the locale; its lemma `fidelity` plays the role of `K_faithful`. Each package includes FACT, and LAM_CORE when it mentions the formula layer.
 
-| Principle | Class | Non-triviality | Carriers | Isabelle |
+| Principle or package | Class | Non-triviality | Carriers | Isabelle |
 |---|---|---|---|---|
 | `BETA.GROUND` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: pr5 => pr5 (3125 functions) | `MD`: MD_core, MD_BETA_GROUND |
 | `BETA.ID` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: pr5 => pr5 (3125 functions) | `MC`: MC_core, MC_BETA_ID |
@@ -88,6 +88,7 @@ Principles that the search left unknown on their own, because they quantify over
 | `IRR.W` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_IRR_W (IRR.F also holds: MB_IRR_F) |
 | `TR.TYPED` | finite-model | N5 (N3: instance MB_N3_TR_TYPED) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_TR_TYPED, MB_N3_TR_TYPED |
 | `TS.TYPED` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_TS_TYPED |
+| `ALL.INST`, `AMALG.INF`, `ASYM.P`, `C3d`, `CL.PROP`, `CL.QUANT`, `CONJ.BIN`, `CONJ.GRAIN`, `DISJ.BOTH`, `DISJ.ONE`, `EMPTY.NONE`, `EX.FULL`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.FULL`, `TR.NEG`, `TRANS.CUT`, `TRANS.P`, `TS.FULL` (package) | infinite-model | N5 (N1, N2, N5_chain proved) (N3: not tested) | prp: closed terms (infinite datatype ptm); pfun: lambda terms over ptm; application is a term of its own | `M1`: M1_package (with fidelity, M1_not_BETA_ID, M1_app_ungrounded) |
 
 ## 5. Unknown
 
@@ -97,8 +98,12 @@ Principles that the search left unknown on their own, because they quantify over
 
 - **F1** (checked): No package containing CL.PROP, TRANS.P and IRR.F together with any of CONJ.BIN, DISJ.ONE or TR.FULL (+ TS.FULL) has a finite model. Proof: isabelle/No_Finite_Models.
 - **F2** (checked): IMM.FRITZ7 (with FACT) has no finite model, though it has an infinite one; so no package containing it has a finite model. Proof: isabelle/Model_Certificates.
+- **F3** (checked): The package FACT, LAM_CORE, C3d, CL.PROP, CL.QUANT, TS.FULL, IRR.F, ASYM.P, TRANS.P, TRANS.CUT, AMALG.INF, EMPTY.NONE, CONJ.BIN, CONJ.GRAIN, DISJ.ONE, DISJ.BOTH, NEG.DN, NEG.DM, EX.FULL, ALL.INST, TR.FULL, TR.NEG is consistent at non-triviality N1, N2 and N5 (a four-step chain of partial ground). It has no finite model (F1), and it has an infinite one. Proof: isabelle/Models.
+- **F4** (checked): CL.PROP, CL.QUANT, EX.FULL, NEG.DN and ASYM.P are jointly inconsistent once some admissible propositional function f applies as negation (app f p = neg p for all p). Neither FACT nor N1 is needed. Proof: isabelle/Models.
 
 ## 7. Candidate novel results
 
 None yet. A candidate needs (a) a checked refutation from a weaker set of principles than any published puzzle uses, or (b) a verified model of a non-trivial package that no source defends, or (c) a non-classical package that escapes a published puzzle. Each will be listed here with its evidence, what would falsify it, and the literature check, kept separate from interpretation. By finding F1 most packages of interest have no finite model, so (b) and (c) wait on infinite-model certificates.
+
+- Checked and not a candidate: model `M1` (isabelle/Models.thy). Not new as a consistency result: Goodman 2023 sec. 2 and appendices A-B; see registry finding F3. Falsifiers: BETA.ID or BETA.GROUND (Fritz2020_Checks); an admissible function applying as negation (F4).
 
