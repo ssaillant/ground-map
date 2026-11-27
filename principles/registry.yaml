@@ -47,6 +47,7 @@ changelog:
       - Fine 2012a citations moved to CUP pages from the published volume supplied 2026-11-27.
       - New finding for step 4 (findings.F1) - most packages have no finite model (isabelle/No_Finite_Models.thy).
       - New finding F2 (findings.F2) - IMM.FRITZ7 has no finite model (isabelle/Model_Certificates.thy). No entry changed.
+      - New findings F3 (first infinite-model certificate, term model M1, isabelle/Models.thy) and F4 (Goodman's negation variant of Krämer's puzzle, checked). No entry changed.
   - version: 0.2.0-draft
     date: 2026-11-26
     changes:
@@ -1414,6 +1415,18 @@ findings:
     proof: isabelle/Model_Certificates.thy (imm_fritz7_no_finite_model, imm_fritz7_prp_infinite; infinite model ME). Only (∧1), (∧2) and (nt) are used. By (∧1) and (∧2) the immediate partial grounds of conj p q are exactly p and q whenever both are true, so the one- and two-element sets of truths inject into the truths; (nt) excludes a single truth.
     consequence: Nitpick cannot find a model of any package containing IMM.FRITZ7. Such packages need infinite-model certificates. The model ME is not classical (negations and disjunctions are false), so it says nothing about IMM.FRITZ7 with CL.PROP, which is untested. INFERENCE - the counting step is the same cardinality pressure as Fritz's Cantorian arguments, restricted to binary conjunction; not checked whether fritz2022 states this finite case.
     status: checked
+  - id: F3
+    date: 2026-11-27
+    claim: "The package FACT, LAM_CORE, C3d, CL.PROP, CL.QUANT, TS.FULL, IRR.F, ASYM.P, TRANS.P, TRANS.CUT, AMALG.INF, EMPTY.NONE, CONJ.BIN, CONJ.GRAIN, DISJ.ONE, DISJ.BOTH, NEG.DN, NEG.DM, EX.FULL, ALL.INST, TR.FULL, TR.NEG is consistent at non-triviality N1, N2 and N5 (a four-step chain of partial ground). It has no finite model (F1), and it has an infinite one."
+    proof: "isabelle/Models.thy (M1_package; fidelity lemmas link the restated principles to Principles.thy). M1 is a term model. Propositions are closed terms; application of a propositional function is a constructor of its own (PApp), true iff the body is true under the assignment, and it depends on nothing. Ground is the least relation closed under the package's introduction principles, cut and amalgamation (defined as the intersection of all closed relations), and every ground is shown to be a non-empty set of truths on which the grounded truth depends (gr_sound); dependence strictly raises a rank, which gives IRR.F and ASYM.P. M1 refutes BETA.ID (M1_not_BETA_ID) and BETA.GROUND (M1_app_ungrounded: no instance has a ground)."
+    consequence: "Weaker packages (by the implications in Order.thy, e.g. IRR.W, IRR.MEM, ASYM.ANTI, AMALG.FIN, TS.TYPED, TR.TYPED, EX.LEV, EX.PRED) are consistent too. Falsifiers - adding BETA.ID or BETA.GROUND refutes the package (Kramer 2013; Fritz 2020, checked in Fritz2020_Checks.thy); so does any admissible function that applies as negation does (F4). LITERATURE - not new as a consistency result: Goodman 2023 sec. 2 (PDF pp. 5-10) develops Fritz 2020's suggestion (application of lambda-defined properties obliterates structure) into a consistent classical theory with transitive ground, true generalizations grounded in their true instances, and models in appendices A-B. What M1 adds - a machine-checked certificate for this registry's package, including the truth predicate (TR.FULL, TR.NEG, TS.FULL) and structure-contributing negation (NEG.DN, NEG.DM). INFERENCE, to check against Goodman's appendix A - in his section 2 theory negation yields mere truth conditions (PDF p. 7), so NEG.DN fails there and M1 is not a sub-case of it. M1 does not model Fritz's T1/T2 (truth ascriptions grounding structured truths) or his recoverability principle FR."
+    status: checked
+  - id: F4
+    date: 2026-11-27
+    claim: "CL.PROP, CL.QUANT, EX.FULL, NEG.DN and ASYM.P are jointly inconsistent once some admissible propositional function f applies as negation (app f p = neg p for all p). Neither FACT nor N1 is needed."
+    proof: "isabelle/Models.thy (neg_as_function_refutes). Let E = exq f; E is true; its instance at neg E is neg (neg E), which grounds E by EX.FULL and is grounded in E by NEG.DN."
+    consequence: "This is Goodman's negation variant of Kramer's puzzle (Goodman 2023, PDF p. 7), mechanized here; it is his objection to Fritz's form of the escape. It states the hidden premise of F3 - M1 escapes only because the signature has no propositional-function constant for negation (every application is a PApp term). A registry entry asserting such a function would make the F3 package refutable."
+    status: checked
 
 # ---------------------------------------------------------------------------
 # Bibliography and access status
@@ -1512,7 +1525,7 @@ bibliography:
     read: author's file, full text (princeton.edu/~bkment/articles/rmp.pdf)
   goodman2023:
     cite: "Goodman, J. Grounding Generalizations. Journal of Philosophical Logic. doi:10.1007/s10992-022-09689-x"
-    read: 'published version; first ~40% mined earlier; full PDF supplied by reviewer 2026-11-27, rest not mined'
+    read: 'published version; first ~40% mined earlier; full PDF supplied by reviewer 2026-11-27; sections 1-2 read again 2026-11-27 for F3/F4 (PDF pp. 4-10); appendices not read'
     relevance: 'two diagnoses of the puzzle of grounding generalizations, each developed into a consistent higher-order theory: defended consistent packages and a likely source of infinite-model certificates (D4). Its reference [17] is fritz2020.'
   fritz2020:
     cite: "Fritz, P. On higher-order logical grounds. Analysis 80(4): 656-666. doi:10.1093/analys/anz085"

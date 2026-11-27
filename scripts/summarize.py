@@ -105,13 +105,16 @@ def main():
     L.append("Principles that the search left unknown on their own, because they quantify over the formula "
              "layer (where Nitpick reports only potentially spurious models) or have no finite model. Each "
              "model is an interpretation of the signature with every constant as a parameter (locale `gsig`); "
-             "`K_faithful` proves that the locale's definitions are the registry's. Each package includes "
+             "`K_faithful` proves that the locale's definitions are the registry's. The infinite term model M1 "
+             "(`isabelle/Models.thy`) uses the same method with a record of operations in place of the locale; "
+             "its lemma `fidelity` plays the role of `K_faithful`. Each package includes "
              "FACT, and LAM_CORE when it mentions the formula layer.\n")
     if certs:
-        L.append("| Principle | Class | Non-triviality | Carriers | Isabelle |\n|---|---|---|---|---|")
-        for k in sorted(certs):
+        L.append("| Principle or package | Class | Non-triviality | Carriers | Isabelle |\n|---|---|---|---|---|")
+        for k in sorted(certs, key=lambda k: ("," in k, k)):
             c = certs[k]
-            L.append(f"| `{k}` | {c['class']} | {c['nontriviality']} (N3: {c['n3']}) | {c['carriers']} | "
+            name = fmt(pk(k)) + " (package)" if "," in k else f"`{k}`"
+            L.append(f"| {name} | {c['class']} | {c['nontriviality']} (N3: {c['n3']}) | {c['carriers']} | "
                      f"`{c['model']}`: {c['theorems']} |")
     L.append("")
 
@@ -136,6 +139,12 @@ def main():
              "evidence, what would falsify it, and the literature check, kept separate from interpretation. "
              "By finding F1 most packages of interest have no finite model, so (b) and (c) wait on "
              "infinite-model certificates.\n")
+    for k in sorted(certs):
+        c = certs[k]
+        if c.get("class") == "infinite-model" and c.get("novelty"):
+            L.append(f"- Checked and not a candidate: model `{c['model']}` ({c['theory']}). {c['novelty']}. "
+                     f"Falsifiers: {c.get('falsifiers', 'none recorded')}.")
+    L.append("")
     os.makedirs(os.path.join(ROOT, "docs"), exist_ok=True)
     open(os.path.join(ROOT, "docs", "results.md"), "w").write("\n".join(L) + "\n")
     print("wrote docs/results.md:", len(mins), "minimal refuted,", len(maxs), "maximal models")
