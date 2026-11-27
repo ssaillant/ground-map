@@ -81,6 +81,7 @@ changelog:
       - New theory isabelle/Separation_Models.thy (models MH and MS; ME_separates_IMM; sp_package_no_finite_model). New script scripts/separations.py and results/separations.jsonl (seven separating models found by Nitpick, re-verified by the independent evaluator each time docs/results.md is generated).
       - Section `implications` - every pair under rank_order_without_implication is now separated by a model; the three COMP pairs moved to `not_comparable`; the BETA selection rule cites a theorem (BETA_excl).
       - Puzzle targets - each argument is proved from the admissibility of the one C1 witness it uses (theorems named *_witness in isabelle/Puzzle_Packages.thy). P.FINE.UNIVERSAL with typed truth entries is refuted (fine_universal_typed_refuted). P.FINE.UNIVERSAL.SP needs excluded middle (fine_universal_sp_em) and is consistent without it (MS).
+      - Model MT (isabelle/Separation_Models.thy) - with f_id, f_tr and f_tem admissible and f_em not, Fine's universal package with TR.TYPED in place of TR.PART is consistent, TS.FULL included. Its comprehension clause is not a registry entry (finding F8).
       - Two inferences are now theorems - BETA.ID and BETA.GROUND exclude each other given a truth (BETA_excl); the binary clause of CONJ.GRAIN follows from IMM.FRITZ7 with CL.PROP (grain_bin_from_FRITZ7).
       - New findings F7 (the sentence-position package without CL.PROP is consistent, with infinite models only) and F8 (each puzzle uses one C1 witness; because C1 admits the four together, the particular puzzles contain Krämer's and Fine's universal puzzle contains its sentence-position variant).
       - Decision D5 - the reviewer's response to the choices made in applying it is recorded under `reviewed`.
@@ -715,7 +716,7 @@ families:
           - point: whether typed truth blocks Fine's universal argument (0.3.1)
             chosen: no claim is attached to this entry
             alternatives: ['the 0.2.x remark that typed truth blocks Fine-style circles (withdrawn in 0.3.0)']
-            why: Under C1 it does not. Fine's universal package with TS.TYPED and TR.TYPED in place of TS.FULL and TR.PART is refuted (fine_universal_typed_refuted), because C1 also admits f_em and the sentence-position argument uses no truth entry. Whether typed truth blocks the argument where only f_tem is admissible cannot be stated with the present COMP entries (finding F8).
+            why: Under C1 it does not. Fine's universal package with TS.TYPED and TR.TYPED in place of TS.FULL and TR.PART is refuted (fine_universal_typed_refuted), because C1 also admits f_em and the sentence-position argument uses no truth entry. Where f_em is not admissible it does - the model MT satisfies Fine's universal package with TR.TYPED in place of TR.PART, and with TS.FULL kept, so it is the typing of TR and not of this entry that does the work (finding F8). That is a model, not a registry package - no COMP entry leaves out f_em.
           - point: hierarchy depth
             chosen: two levels only (truth-free sentences and one truth predicate)
             alternatives: ['levels up to α < ε0 as in Korbmacher']
@@ -1745,9 +1746,10 @@ puzzles:
       That settles the question the repair report left open, and by an argument
       that is not Fine's - it runs through f_em, which C1 admits, and no truth
       predicate. The checked proof of Fine's own route assumes only that f_tem
-      is admissible (fine_universal_witness). Whether typed truth blocks that
-      route when f_em is not admissible is open and cannot be stated with the
-      present COMP entries (finding F8).
+      is admissible (fine_universal_witness). Typing the grounding of truth
+      (TR.TYPED for TR.PART) blocks that route when f_em is not admissible -
+      model MT, finding F8. That is not a registry package, since no COMP entry
+      leaves out f_em.
     witness: f_tem
   - id: P.FINE.PARTICULAR.PROPS
     source: fine2010 p. 103, Particular Argument for Propositions
@@ -1970,8 +1972,8 @@ findings:
     date: 2026-11-27
     claim: "Each published puzzle among the targets uses exactly one of the four C1 witnesses - Krämer's f_id, 'something is true' f_tr, Fine's universal and particular arguments for propositions f_tem, the sentence-position universal argument f_em. C1 admits the four together. So, as packages, both particular puzzles contain Krämer's package, and Fine's universal package contains the sentence-position package and is refuted whatever truth entries it lists, TS.TYPED and TR.TYPED included."
     proof: "isabelle/Puzzle_Packages.thy - kramer_witness, something_true_trans_witness, something_true_asym_witness, fine_universal_witness, fine_particular_props_witness, fine_universal_sp_witness (each assumes adm of one witness, not C1); fine_universal_typed_refuted. The containments are read off the package lists."
-    consequence: "Under the present COMP entries the map classifies the puzzle packages correctly and cannot say what one puzzle needs beyond another: which principles Fine's particular arguments need that Krämer's does not, or whether typing truth blocks Fine's universal argument once f_em is not admissible. Both questions need comprehension entries weaker than C1, for example one per witness. OPEN - Fine's universal package with only f_tem admissible and TS.TYPED, TR.TYPED. INFERENCE, not checked - it is consistent: the universal closure of f_tem is not truth-free, so TS.TYPED and TR.TYPED say nothing about it, and the step that grounds the truth ascription in it (step 7, TR.PART in the full package) is unavailable; a model must be infinite (F1) and needs ranks beyond the finite ones, since truth ascriptions to truth-free sentences of every finite rank must lie above them and below the universal closure."
-    status: checked (the claim); the consequence's last sentence is an inference
+    consequence: "Under the present COMP entries the map classifies the puzzle packages correctly and cannot say what one puzzle needs beyond another: which principles Fine's particular arguments need that Krämer's does not, or whether typing truth blocks Fine's universal argument once f_em is not admissible. Both questions need comprehension entries weaker than C1, for example one per witness. SETTLED by a model, not yet as a registry package - model MT (isabelle/Separation_Models.thy; MT_package, MT_N3, MT_N4, MT_not_TR_PART). In MT the admissible functions are f_id, f_tr and f_tem, and f_em is not admissible. BETA.ID, CL.PROP, CL.QUANT, TS.FULL, TS.TYPED, TR.TYPED, ALL.INST, ALL.PART, DISJ.ONE, DISJ.PART, TRANS.P, IRR.F and ASYM.P hold together, with N1, N2, N3 instances for the DISJ, ALL and TR entries, an N4 pair and a four-step chain. TR.PART fails at the universal closure of f_tem, which is true and does not ground its own truth ascription. So typing the grounding of truth ascriptions blocks Fine's own route once f_em is not admissible, and the truth schema can stay unrestricted. MT's comprehension clause (C1 without f_em) is not a registry entry, so the result is not a classified package. LIMITS - one model; its propositional functions are closures (a variable, a formula and an environment), not functions on propositions; the rank of a quantified proposition is fixed by whether its body is truth-free, which is a stipulation of the model; ranks have two tiers (ω + n); no EX, CONJ or NEG entry was checked."
+    status: checked
 
 # ---------------------------------------------------------------------------
 # Bibliography and access status

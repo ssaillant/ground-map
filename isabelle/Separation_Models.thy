@@ -3,7 +3,7 @@ theory Separation_Models
 begin
 
 text \<open>
-  Registry 0.3.1-draft. Two questions that the repair of 0.3.0-draft left open are
+  Registry 0.3.1-draft. Questions that the repair of 0.3.0-draft left open are
   settled here by models, built as interpretations of the locale gsig (method of
   Model_Certificates.thy).
 
@@ -11,6 +11,9 @@ text \<open>
         existential principle implies neither restricted one. With MG, which satisfies
         EX.PRED and EX.LEV and fails EX.PART, the three are pairwise independent
         except for the proved implications from EX.FULL.
+
+    MT  Fine's universal package with TR.TYPED in place of TR.PART, with f_id, f_tr and
+        f_tem admissible and f_em not, has a model (finding F8).
 
     MS  The sentence-position universal package as registry 0.2.x listed it,
         C1, BETA.ID, CL.QUANT, ALL.INST, DISJ.ONE, TRANS.P, IRR.F, without CL.PROP,
@@ -29,14 +32,25 @@ definition ALL_INST :: bool where
   "ALL_INST \<longleftrightarrow> (\<forall>f. adm f \<and> (\<forall>a. T (app f a)) \<longrightarrow> G (inst f) (allq f))"
 definition EX_PART :: bool where
   "EX_PART \<longleftrightarrow> (\<forall>f a. adm f \<and> T (app f a) \<longrightarrow> PG (app f a) (exq f))"
+definition ALL_PART :: bool where
+  "ALL_PART \<longleftrightarrow> (\<forall>f a. adm f \<and> (\<forall>b. T (app f b)) \<longrightarrow> PG (app f a) (allq f))"
+definition DISJ_PART :: bool where
+  "DISJ_PART \<longleftrightarrow> (\<forall>p q. (T p \<longrightarrow> PG p (disj p q)) \<and> (T q \<longrightarrow> PG q (disj p q)))"
+definition TR_PART :: bool where
+  "TR_PART \<longleftrightarrow> (\<forall>p. T p \<longrightarrow> PG p (tr p))"
+text \<open>Not a registry entry: C1 with the witness f_em left out.\<close>
+definition C1_NO_EM :: bool where
+  "C1_NO_EM \<longleftrightarrow> (\<forall>f. adm f \<longleftrightarrow> f \<in> {f_id, f_tr, f_tem})"
 definition IMM_CONJ :: bool where
   "IMM_CONJ \<longleftrightarrow> (\<forall>f. adm f \<and> (\<forall>r\<in>sat f. T r) \<longrightarrow> (\<forall>p. IPG p (bigconj f) \<longleftrightarrow> p \<in> sat f))"
 end
 
 lemma K_faithful_sep:
   "K.DISJ_ONE = DISJ_ONE" "K.ALL_INST = ALL_INST" "K.EX_PART = EX_PART" "K.IMM_CONJ = IMM_CONJ"
+  "K.ALL_PART = ALL_PART" "K.DISJ_PART = DISJ_PART" "K.TR_PART = TR_PART"
   by (simp_all add: K_aux K.DISJ_ONE_def DISJ_ONE_def K.ALL_INST_def ALL_INST_def
-        K.EX_PART_def EX_PART_def K.IMM_CONJ_def IMM_CONJ_def)
+        K.EX_PART_def EX_PART_def K.IMM_CONJ_def IMM_CONJ_def K.ALL_PART_def ALL_PART_def
+        K.DISJ_PART_def DISJ_PART_def K.TR_PART_def TR_PART_def)
 
 section \<open>Model E satisfies IMM.FRITZ7 and fails IMM.CONJ\<close>
 
@@ -399,5 +413,324 @@ proof -
     fix p assume "T p" thus "T (disj p p) \<and> PG p (disj p p)" by (rule step)
   qed
 qed
+
+section \<open>Model T: Fine's universal argument without f_em, with typed grounding of truth\<close>
+
+text \<open>
+  Fine's universal package is refuted under C1 whatever truth entries it lists, because
+  C1 admits f_em (Puzzle_Packages.thy, fine_universal_typed_refuted). This model answers
+  the question that remains when f_em is not admissible. The admissible functions are
+  f_id, f_tr and f_tem. The model satisfies BETA.ID, CL.PROP, CL.QUANT, the full truth
+  schema TS.FULL, ALL.INST, DISJ.ONE, TRANS.P, IRR.F and ASYM.P, and TR.TYPED in place
+  of TR.PART. So Fine's own route (fine_universal_witness) is blocked by typing the
+  grounding of truth ascriptions alone; the truth schema need not be typed.
+
+  A proposition is a truth value with a rank, and a rank is a pair of numbers ordered
+  lexicographically: the ranks (0, n) lie below the ranks (1, n). Connectives are
+  classical and raise the rank within its tier. A truth ascription has rank (1, 0), above
+  every rank of the lower tier. Propositional functions are closures: a variable, a
+  formula and an environment cut down to the formula's parameters. A quantified
+  proposition has rank (0, 0) when its body is truth-free and rank (1, 3) otherwise.
+  So every closed truth-free formula denotes a proposition of the lower tier, and its
+  truth ascription lies above it. The universal closure s of f_tem has rank (1, 3); its
+  one instance has rank (1, 2) and the truth ascription to s has rank (1, 0), below s.
+  A truth is, on its own, a full ground of every truth of higher rank.
+\<close>
+
+type_synonym rk = "nat \<times> nat"
+type_synonym pt = "bool \<times> rk"
+type_synonym ft = "nat \<times> fm \<times> (nat \<Rightarrow> pt)"
+
+definition lt :: "rk \<Rightarrow> rk \<Rightarrow> bool" where
+  "lt r s \<longleftrightarrow> fst r < fst s \<or> (fst r = fst s \<and> snd r < snd s)"
+definition up :: "rk \<Rightarrow> rk \<Rightarrow> rk" where
+  "up r s = (max (fst r) (fst s), Suc (max (snd r) (snd s)))"
+
+lemma lt_trans: "lt r s \<Longrightarrow> lt s t \<Longrightarrow> lt r t" by (auto simp: lt_def)
+lemma lt_up: "lt r (up r s)" "lt s (up r s)" by (auto simp: lt_def up_def max_def)
+
+definition ngT :: "pt \<Rightarrow> pt" where "ngT p = (\<not> fst p, (fst (snd p), Suc (snd (snd p))))"
+definition cjT :: "pt \<Rightarrow> pt \<Rightarrow> pt" where "cjT p q = (fst p \<and> fst q, up (snd p) (snd q))"
+definition djT :: "pt \<Rightarrow> pt \<Rightarrow> pt" where "djT p q = (fst p \<or> fst q, up (snd p) (snd q))"
+definition trT :: "pt \<Rightarrow> pt" where "trT p = (fst p, (1, 0))"
+definition qrk :: "fm \<Rightarrow> rk" where "qrk a = (if tfree a then (0, 0) else (1, 3))"
+
+primrec dT :: "(nat \<Rightarrow> pt) \<Rightarrow> fm \<Rightarrow> pt" where
+  "dT v (Var n) = v n"
+| "dT v (Cst n) = (True, (0, 0))"
+| "dT v (Neg a) = ngT (dT v a)"
+| "dT v (Conj a b) = cjT (dT v a) (dT v b)"
+| "dT v (Disj a b) = djT (dT v a) (dT v b)"
+| "dT v (Tr a) = trT (dT v a)"
+| "dT v (Ex x a) = ((\<exists>p. fst (dT (v(x:=p)) a)), (0, 0))"
+| "dT v (All x a) = ((\<forall>p. fst (dT (v(x:=p)) a)), qrk a)"
+| "dT v (BigC x a) = ((\<forall>p. fst (dT (v(x:=p)) a) \<longrightarrow> fst p), (0, 0))"
+
+lemma dT_fv: "(\<forall>y\<in>fv a. v y = w y) \<Longrightarrow> dT v a = dT w a"
+proof (induct a arbitrary: v w)
+  case (Ex x a)
+  have "\<And>p. dT (v(x:=p)) a = dT (w(x:=p)) a"
+    by (rule Ex.hyps) (use Ex.prems in auto)
+  then show ?case by simp
+next
+  case (All x a)
+  have "\<And>p. dT (v(x:=p)) a = dT (w(x:=p)) a"
+    by (rule All.hyps) (use All.prems in auto)
+  then show ?case by simp
+next
+  case (BigC x a)
+  have "\<And>p. dT (v(x:=p)) a = dT (w(x:=p)) a"
+    by (rule BigC.hyps) (use BigC.prems in auto)
+  then show ?case by simp
+next
+  case (Neg a)
+  have "dT v a = dT w a" by (rule Neg.hyps) (use Neg.prems in auto)
+  then show ?case by simp
+next
+  case (Tr a)
+  have "dT v a = dT w a" by (rule Tr.hyps) (use Tr.prems in auto)
+  then show ?case by simp
+next
+  case (Conj a b)
+  have "dT v a = dT w a" by (rule Conj.hyps(1)) (use Conj.prems in auto)
+  moreover have "dT v b = dT w b" by (rule Conj.hyps(2)) (use Conj.prems in auto)
+  ultimately show ?case by simp
+next
+  case (Disj a b)
+  have "dT v a = dT w a" by (rule Disj.hyps(1)) (use Disj.prems in auto)
+  moreover have "dT v b = dT w b" by (rule Disj.hyps(2)) (use Disj.prems in auto)
+  ultimately show ?case by simp
+qed simp_all
+
+text \<open>A truth-free formula whose parameters have lower-tier values has a lower-tier
+  value. Quantified subformulas need no induction hypothesis: their rank is fixed by
+  the syntax of the body.\<close>
+lemma tfree_low: "tfree a \<Longrightarrow> (\<forall>y\<in>fv a. fst (snd (v y)) = 0) \<Longrightarrow> fst (snd (dT v a)) = 0"
+proof (induct a arbitrary: v)
+  case (Neg a)
+  have "fst (snd (dT v a)) = 0" by (rule Neg.hyps) (use Neg.prems in auto)
+  then show ?case by (simp add: ngT_def)
+next
+  case (Conj a b)
+  have "fst (snd (dT v a)) = 0" by (rule Conj.hyps(1)) (use Conj.prems in auto)
+  moreover have "fst (snd (dT v b)) = 0" by (rule Conj.hyps(2)) (use Conj.prems in auto)
+  ultimately show ?case by (simp add: cjT_def up_def)
+next
+  case (Disj a b)
+  have "fst (snd (dT v a)) = 0" by (rule Disj.hyps(1)) (use Disj.prems in auto)
+  moreover have "fst (snd (dT v b)) = 0" by (rule Disj.hyps(2)) (use Disj.prems in auto)
+  ultimately show ?case by (simp add: djT_def up_def)
+next
+  case (All x a)
+  then show ?case by (simp add: qrk_def)
+qed simp_all
+
+definition cut :: "fm \<Rightarrow> nat \<Rightarrow> (nat \<Rightarrow> pt) \<Rightarrow> (nat \<Rightarrow> pt)" where
+  "cut a x v = (\<lambda>y. if y \<in> fv a - {x} then v y else (True, (0, 0)))"
+definition lamT :: "nat \<Rightarrow> fm \<Rightarrow> (nat \<Rightarrow> pt) \<Rightarrow> ft" where "lamT x a v = (x, a, cut a x v)"
+definition appT :: "ft \<Rightarrow> pt \<Rightarrow> pt" where
+  "appT f p = dT ((snd (snd f))(fst f := p)) (fst (snd f))"
+definition exqT :: "ft \<Rightarrow> pt" where "exqT f = ((\<exists>p. fst (appT f p)), (0, 0))"
+definition allqT :: "ft \<Rightarrow> pt" where "allqT f = ((\<forall>p. fst (appT f p)), qrk (fst (snd f)))"
+definition bigT :: "ft \<Rightarrow> pt" where "bigT f = ((\<forall>p. fst (appT f p) \<longrightarrow> fst p), (0, 0))"
+
+definition temB :: fm where "temB = Disj (Tr (Var 0)) (Neg (Tr (Var 0)))"
+definition e0T :: "nat \<Rightarrow> pt" where "e0T = (\<lambda>_. (True, (0, 0)))"
+definition admT :: "ft \<Rightarrow> bool" where
+  "admT f \<longleftrightarrow> f \<in> {lamT 0 (Var 0) e0T, lamT 0 (Tr (Var 0)) e0T, lamT 0 temB e0T}"
+definition GT :: "pt set \<Rightarrow> pt \<Rightarrow> bool" where
+  "GT \<Gamma> q \<longleftrightarrow> (\<exists>p. \<Gamma> = {p} \<and> fst p \<and> fst q \<and> lt (snd p) (snd q))"
+
+interpretation MT: gsig "fst :: pt \<Rightarrow> bool" "\<lambda>_. (True, (0, 0))" ngT cjT djT trT
+  appT exqT allqT bigT lamT admT GT e0T "(True, (0, 0))" .
+
+lemma app_lam: "appT (lamT x a v) p = dT (v(x:=p)) a"
+proof -
+  have "dT ((cut a x v)(x:=p)) a = dT (v(x:=p)) a" by (rule dT_fv) (auto simp: cut_def)
+  thus ?thesis by (simp add: appT_def lamT_def)
+qed
+
+lemma lam_body: "fst (snd (lamT x a v)) = a" by (simp add: lamT_def)
+
+lemma lamT_fv: "\<forall>y\<in>fv a - {x}. v y = w y \<Longrightarrow> lamT x a v = lamT x a w"
+  by (auto simp: lamT_def cut_def fun_eq_iff)
+
+lemma quantT:
+  "exqT (lamT x a v) = ((\<exists>p. fst (dT (v(x:=p)) a)), (0, 0))"
+  "allqT (lamT x a v) = ((\<forall>p. fst (dT (v(x:=p)) a)), qrk a)"
+  "bigT (lamT x a v) = ((\<forall>p. fst (dT (v(x:=p)) a) \<longrightarrow> fst p), (0, 0))"
+  by (simp_all add: exqT_def allqT_def bigT_def app_lam lam_body)
+
+lemma MT_den: "MT.den = dT"
+proof (intro ext)
+  fix v a show "MT.den v a = dT v a"
+    by (induction a arbitrary: v) (simp_all add: quantT)
+qed
+
+lemma MT_PG: "MT.PG p q \<longleftrightarrow> fst p \<and> fst q \<and> lt (snd p) (snd q)"
+proof
+  assume "MT.PG p q"
+  thus "fst p \<and> fst q \<and> lt (snd p) (snd q)" unfolding MT.PG_def GT_def by auto
+next
+  assume A: "fst p \<and> fst q \<and> lt (snd p) (snd q)"
+  have "p \<in> {p} \<and> GT {p} q" using A unfolding GT_def by blast
+  thus "MT.PG p q" unfolding MT.PG_def by (rule exI)
+qed
+
+text \<open>The witnesses. f_tem is constant with value (True, (1, 2)); its universal closure
+  is (True, (1, 3)).\<close>
+lemma MT_wit:
+  "MT.f_id = lamT 0 (Var 0) e0T" "MT.f_tr = lamT 0 (Tr (Var 0)) e0T"
+  "MT.f_tem = lamT 0 temB e0T" "MT.f_em = lamT 0 (Disj (Var 0) (Neg (Var 0))) e0T"
+  by (simp_all add: MT.f_id_def MT.f_tr_def MT.f_tem_def MT.f_em_def temB_def)
+
+lemma wit_app:
+  "appT (lamT 0 (Var 0) e0T) p = p" "appT (lamT 0 (Tr (Var 0)) e0T) p = trT p"
+  "appT (lamT 0 temB e0T) p = (True, (1, 2))"
+  by (auto simp: app_lam temB_def djT_def trT_def ngT_def up_def)
+
+lemma tem_all: "allqT (lamT 0 temB e0T) = (True, (1, 3))"
+proof -
+  have "qrk temB = (1, 3)" by (simp add: qrk_def temB_def)
+  thus ?thesis by (simp add: allqT_def wit_app lam_body)
+qed
+
+lemma MT_adm: "MT.C1_NO_EM" "\<not> admT MT.f_em"
+proof -
+  show "MT.C1_NO_EM" by (simp add: MT.C1_NO_EM_def admT_def MT_wit)
+  show "\<not> admT MT.f_em" by (simp add: admT_def MT_wit lamT_def temB_def)
+qed
+
+lemma MT_core: "MT.FACT" "MT.LAM_CORE" "MT.N1" "MT.N2" "MT.N5_chain"
+  and MT_N4: "MT.N4_pair (True, (0, 0)) (ngT (ngT (True, (0, 0))))"
+proof -
+  show "MT.FACT" by (auto simp: MT.FACT_def GT_def)
+  show "MT.LAM_CORE" unfolding MT.LAM_CORE_def MT_den using lamT_fv by (simp add: app_lam)
+  have g: "GT {(True, (0, 0))} (True, (0, 1))" by (simp add: GT_def lt_def)
+  show "MT.N1" unfolding MT.N1_def using g by blast
+  thus "MT.N2" unfolding MT.N2_def
+    by (intro conjI exI[of _ "(True, (0, 0)) :: pt"] exI[of _ "(True, (0, 1)) :: pt"]
+          exI[of _ "(True, (0, 2)) :: pt"]) simp_all
+  show "MT.N5_chain" unfolding MT.N5_chain_def
+    by (intro exI[of _ "(True, (0, 0)) :: pt"] exI[of _ "(True, (0, 1)) :: pt"]
+          exI[of _ "(True, (0, 2)) :: pt"] exI[of _ "(True, (0, 3)) :: pt"])
+       (simp add: MT_PG lt_def)
+  have n: "ngT (ngT (True, (0, 0))) = (True, (0, 2))" by (simp add: ngT_def)
+  have m1: "GT {(True, (0, 0))} (True, (0, 2))" by (simp add: GT_def lt_def)
+  have m2: "\<not> GT {(True, (0, 0))} (True, (0, 0))" by (simp add: GT_def lt_def)
+  have "{\<Gamma>. GT \<Gamma> (True, (0, 0))} \<noteq> {\<Gamma>. GT \<Gamma> (True, (0, 2))}" using m1 m2 by blast
+  thus "MT.N4_pair (True, (0, 0)) (ngT (ngT (True, (0, 0))))"
+    unfolding MT.N4_pair_def n by simp
+qed
+
+lemma MT_BETA_ID: "MT.BETA_ID" by (simp add: MT.BETA_ID_def MT_den app_lam)
+
+lemma MT_classical: "MT.CL_PROP'" "MT.CL_QUANT'" "MT.TS_FULL'" "MT.TS_TYPED"
+proof -
+  show "MT.CL_PROP'" by (simp add: MT.CL_PROP'_def ngT_def cjT_def djT_def)
+  show "MT.CL_QUANT'" by (simp add: MT.CL_QUANT'_def exqT_def allqT_def bigT_def MT.sat_def)
+  show "MT.TS_FULL'" by (simp add: MT.TS_FULL'_def trT_def)
+  show "MT.TS_TYPED" by (simp add: MT.TS_TYPED_def trT_def)
+qed
+
+lemma MT_TR_TYPED: "MT.TR_TYPED"
+  unfolding MT.TR_TYPED_def MT_den
+proof (intro allI impI)
+  fix a :: fm and v :: "nat \<Rightarrow> pt"
+  assume A: "tfree a \<and> fv a = {} \<and> fst (dT v a)"
+  have low: "fst (snd (dT v a)) = 0" by (rule tfree_low) (use A in auto)
+  show "GT {dT v a} (trT (dT v a))" using A low by (simp add: GT_def trT_def lt_def)
+qed
+
+lemma MT_order: "MT.IRR_F" "MT.ASYM_P" "MT.TRANS_P"
+proof -
+  show "MT.IRR_F" by (auto simp: MT.IRR_F_def GT_def lt_def)
+  show "MT.ASYM_P" by (auto simp: MT.ASYM_P_def MT_PG lt_def)
+  show "MT.TRANS_P" unfolding MT.TRANS_P_def MT_PG using lt_trans by blast
+qed
+
+lemma MT_DISJ: "MT.DISJ_ONE" "MT.DISJ_PART"
+proof -
+  show "MT.DISJ_ONE" by (auto simp: MT.DISJ_ONE_def GT_def djT_def lt_up)
+  show "MT.DISJ_PART" by (auto simp: MT.DISJ_PART_def MT_PG djT_def lt_up)
+qed
+
+text \<open>Of the admissible functions only f_tem is true of everything, so the universal
+  entries concern it alone.\<close>
+lemma adm_total_tem:
+  assumes "admT f" "\<forall>a. fst (appT f a)" shows "f = lamT 0 temB e0T"
+proof -
+  have f0: "fst (appT f (False, (0, 0)))" using assms(2) by blast
+  have d: "f = lamT 0 (Var 0) e0T \<or> f = lamT 0 (Tr (Var 0)) e0T \<or> f = lamT 0 temB e0T"
+    using assms(1) unfolding admT_def by blast
+  show ?thesis using d
+  proof (elim disjE)
+    assume "f = lamT 0 (Var 0) e0T" with f0 show ?thesis by (simp add: wit_app)
+  next
+    assume "f = lamT 0 (Tr (Var 0)) e0T" with f0 show ?thesis by (simp add: wit_app trT_def)
+  next
+    assume "f = lamT 0 temB e0T" thus ?thesis .
+  qed
+qed
+
+lemma MT_ALL: "MT.ALL_INST" "MT.ALL_PART"
+proof -
+  show "MT.ALL_INST" unfolding MT.ALL_INST_def
+  proof (intro allI impI)
+    fix f :: ft assume A: "admT f \<and> (\<forall>a. fst (appT f a))"
+    have e: "f = lamT 0 temB e0T" using adm_total_tem A by blast
+    have i: "MT.inst f = {(True, (1, 2))}" unfolding MT.inst_def e by (auto simp: wit_app)
+    show "GT (MT.inst f) (allqT f)" unfolding i unfolding e tem_all by (simp add: GT_def lt_def)
+  qed
+  show "MT.ALL_PART" unfolding MT.ALL_PART_def
+  proof (intro allI impI)
+    fix f :: ft and a :: pt assume A: "admT f \<and> (\<forall>b. fst (appT f b))"
+    have e: "f = lamT 0 temB e0T" using adm_total_tem A by blast
+    show "MT.PG (appT f a) (allqT f)" unfolding e tem_all wit_app MT_PG by (simp add: lt_def)
+  qed
+qed
+
+text \<open>The step of Fine's argument that fails: the universal closure s of f_tem is true
+  and does not ground its own truth ascription. So TR.PART and TR.FULL fail.\<close>
+lemma MT_not_TR_PART:
+  "fst (allqT MT.f_tem)" "\<not> MT.PG (allqT MT.f_tem) (trT (allqT MT.f_tem))" "\<not> MT.TR_PART"
+proof -
+  have s: "allqT MT.f_tem = (True, (1, 3))" by (simp add: MT_wit tem_all)
+  show t: "fst (allqT MT.f_tem)" by (simp add: s)
+  show n: "\<not> MT.PG (allqT MT.f_tem) (trT (allqT MT.f_tem))"
+    by (simp add: s MT_PG trT_def lt_def)
+  show "\<not> MT.TR_PART"
+  proof
+    assume A: "MT.TR_PART"
+    have "MT.PG (allqT MT.f_tem) (trT (allqT MT.f_tem))"
+      using A[unfolded MT.TR_PART_def, rule_format, of "allqT MT.f_tem"] t by blast
+    thus False using n by blast
+  qed
+qed
+
+text \<open>N3 instances. DISJ.ONE: (True, (0, 0)) grounds its self-disjunction (True, (0, 1)).
+  ALL.INST: the one instance of f_tem grounds its universal closure. TR.TYPED: the
+  truth denoted by the closed truth-free formula Cst 0 grounds its truth ascription.\<close>
+lemma MT_N3:
+  "GT {(True, (0, 0))} (djT (True, (0, 0)) (True, (0, 0)))
+   \<and> admT MT.f_tem \<and> MT.inst MT.f_tem = {(True, (1, 2))} \<and> allqT MT.f_tem = (True, (1, 3))
+   \<and> GT (MT.inst MT.f_tem) (allqT MT.f_tem)
+   \<and> GT {dT e0T (Cst 0)} (trT (dT e0T (Cst 0))) \<and> dT e0T (Cst 0) \<noteq> trT (dT e0T (Cst 0))"
+proof -
+  have ad: "admT MT.f_tem" by (simp add: admT_def MT_wit)
+  have i: "MT.inst MT.f_tem = {(True, (1, 2))}"
+    unfolding MT.inst_def by (auto simp: MT_wit wit_app)
+  have a: "allqT MT.f_tem = (True, (1, 3))" by (simp add: MT_wit tem_all)
+  show ?thesis using ad i a by (simp add: djT_def up_def GT_def trT_def lt_def)
+qed
+
+theorem MT_package:
+  "MT.FACT \<and> MT.LAM_CORE \<and> MT.C1_NO_EM \<and> MT.BETA_ID \<and> MT.CL_PROP' \<and> MT.CL_QUANT'
+   \<and> MT.TS_FULL' \<and> MT.TS_TYPED \<and> MT.TR_TYPED \<and> MT.ALL_INST \<and> MT.ALL_PART
+   \<and> MT.DISJ_ONE \<and> MT.DISJ_PART \<and> MT.TRANS_P \<and> MT.IRR_F \<and> MT.ASYM_P
+   \<and> MT.N1 \<and> MT.N2 \<and> MT.N5_chain \<and> \<not> MT.TR_PART \<and> \<not> admT MT.f_em"
+  using MT_core MT_adm MT_BETA_ID MT_classical MT_TR_TYPED MT_ALL MT_DISJ MT_order
+    MT_not_TR_PART(3)
+  by blast
 
 end

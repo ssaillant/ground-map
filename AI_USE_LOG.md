@@ -262,7 +262,8 @@ AI-use disclosure. One entry per working session.
   the information, I don't think I have it." (reviewer). Read as: the choices made in
   applying D5 are accepted; settle the items the report lists as not established, page
   numbers excepted; say what is missing.
-- What the model did: built the models MH and MS and proved that the sentence-position
+- What the model did: built the models MH, MS and MT (the last after reporting, to turn an
+  inference in finding F8 into a checked model) and proved that the sentence-position
   package without CL.PROP has no finite model (isabelle/Separation_Models.thy); proved
   each puzzle from the admissibility of the one witness it uses, and Fine's universal
   package refuted with typed truth entries (isabelle/Puzzle_Packages.thy); proved two
