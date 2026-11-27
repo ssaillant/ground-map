@@ -7,7 +7,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     env:
-      ISABELLE_URL: https://isabelle.in.tum.de/dist/Isabelle2026_linux.tar.gz
+      # isabelle.in.tum.de redirects to plain http on port 80, which runners cannot reach
+      ISABELLE_URL: https://dists.isabelle.cit.tum.de/dist/Isabelle2026_linux.tar.gz?token=Isabelle
       ISABELLE_SHA256: 858c995b32216b3876bf395c3be843147d1f1eee404bc6c958d7534ee335e48d
     steps:
       - uses: actions/checkout@v4
@@ -22,7 +23,7 @@ jobs:
           key: isabelle-${{ env.ISABELLE_SHA256 }}
       - name: Download and verify pinned Isabelle
         run: |
-          [ -f Isabelle2026_linux.tar.gz ] || curl -fsSL -o Isabelle2026_linux.tar.gz "$ISABELLE_URL"
+          [ -f Isabelle2026_linux.tar.gz ] || curl -fsSL --retry 3 --proto '=https' --proto-redir '=https' -o Isabelle2026_linux.tar.gz "$ISABELLE_URL"
           echo "$ISABELLE_SHA256  Isabelle2026_linux.tar.gz" | sha256sum -c -
           tar xzf Isabelle2026_linux.tar.gz -C "$RUNNER_TEMP"
       - name: Build session Ground_Map_Checks

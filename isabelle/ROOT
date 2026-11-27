@@ -7,3 +7,5 @@ session Ground_Map_Checks = HOL +
     Fritz_Main
     No_Finite_Models
     Korbmacher_Checks
+    Principles
+    Order
