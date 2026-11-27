@@ -1393,6 +1393,18 @@ findings:
 # Bibliography and access status
 # ---------------------------------------------------------------------------
 bibliography:
+  wilhelm2026:
+    cite: "Wilhelm, I. Pure type systems and generalized grounding. Philosophical Studies (2026, in the collection 'Higher-order metaphysics of ground'); penultimate draft read"
+    read: 'penultimate draft supplied 2026-11-27; fn. 25 (ms p. 23) read; rest not mined'
+    relevance: 'fn. 25 derives a version of Krämer''s puzzle from his existential principle (Exi) plus beta-equivalence and irreflexivity; he drops irreflexivity and suggests rejecting beta-equivalence instead. So "Generalized Grounding" is a defended package without IRR (cf. family BETA: BETA.ID versus neither). Journal pages not verified.'
+  teitel_essence:
+    cite: "Teitel, T. Contingent existence and the reduction of modality to essence. Mind"
+    read: 'supplied 2026-11-27; abstract only'
+    relevance: 'essence and modality (Fine''s reduction, contingentism, S5); no ground principles found; outside v1 scope'
+  ditter_essence:
+    cite: "Ditter, A. The reduction of necessity to essence. Mind (penultimate draft, June 2019)"
+    read: 'supplied 2026-11-27; abstract only'
+    relevance: 'inconsistency in Fine''s logic of essence E5 plus a principle about the nature of all objects; essence, not ground; outside v1 scope'
   litland2023:
     cite: "Litland, J. E. (2023). Ground first: against the proof-theoretic definition of ground. Synthese 201: 28. doi:10.1007/s11229-022-04028-8"
     read: published version supplied by reviewer 2026-11-27; sect. 4.4 read
