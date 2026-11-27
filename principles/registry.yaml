@@ -1379,9 +1379,12 @@ puzzles:
       claim_in_source: 'not read; record only (reviewer''s PhilPapers export): an inconsistency about the grounds of grounding facts'
       status: not received
     - id: P.KORBMACHER.2015
-      source: 'Korbmacher, J. (2015). Yet another puzzle of ground. Kriterion 29(2): 1-10.'
-      claim_in_source: 'not read; record only'
-      status: not received
+      source: 'korbmacher2015 slides 8-9 (SOPhiA 2015 slides; the Kriterion 29(2) paper itself not received)'
+      claim_in_source: 'over PA with a ground predicate, factivity (left) plus disjunction grounding is inconsistent, via a diagonal sentence d with d iff not (d partially grounds d or d); likewise with double-negation grounding (slide 9).'
+      package: [FACT.L, DISJ.ONE (left half), DIAG.K]   # or NEG.DN instead of DISJ.ONE
+      registry_mapping: 'INFERENCE: with propositions as a base type there is no diagonal lemma, so the diagonal sentence becomes a witness hypothesis DIAG.K: some d with T d iff not PG d (disj d d). This is a comprehension principle for propositions whose truth condition mentions ground; no existing COMP entry (C1-C3s) supplies it, since C3s gives propositional functions, not propositions with arbitrary truth conditions. The refutation itself is short; the philosophical weight sits on DIAG.K.'
+      checked: 'isabelle/Korbmacher_Checks.thy: korbmacher_disj, korbmacher_dn; korbmacher_untyped_ungrounded (slide 12: with disjunction grounding restricted to grounded disjuncts, d is ungrounded)'
+      status: checked
     - id: P.ELGIN.IDENTITY
       source: elgin2026 (a = b partially grounds itself)
       status: not read in this thread
@@ -1401,6 +1404,9 @@ findings:
 # Bibliography and access status
 # ---------------------------------------------------------------------------
 bibliography:
+  korbmacher2015:
+    cite: "Korbmacher, J. (2015). Yet another puzzle of ground. Kriterion 29(2): 1-10. Read as: talk slides, SOPhiA, Salzburg, 4 Sept 2015 (13 slides)"
+    read: 'slides supplied 2026-11-27, read in full; journal text not received, so locators are slide numbers'
   wilhelm2026:
     cite: "Wilhelm, I. Pure type systems and generalized grounding. Philosophical Studies 183 (2026): 2603-2631. doi:10.1007/s11098-024-02262-z. Correction: doi:10.1007/s11098-025-02415-8"
     caveat: 'per the reviewer, the published correction changes the formulas of two grounding principles; not received. The fn. 25 reading below is from the uncorrected manuscript and must be checked against the correction before use.'

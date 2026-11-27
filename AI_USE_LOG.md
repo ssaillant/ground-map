@@ -110,3 +110,15 @@ AI-use disclosure. One entry per working session.
   session, and empty results/ and docs/. The session could not create the GitHub
   repository itself (API refused), so the reviewer creates it and the model pushes.
 - Human review: pending.
+
+## 2026-11-27 — Push to GitHub; Korbmacher's puzzle
+
+- Tool and model as above.
+- Prompts: "Approve", "Let's go" (reviewer; read as go-ahead for step 4), plus
+  Korbmacher's 2015 slides.
+- What the model did: pushed the history to ssaillant/ground-map (repo created by
+  the reviewer); wrote isabelle/Korbmacher_Checks.thy (diagonal witness as an
+  explicit hypothesis; disjunction and double-negation versions; untyped
+  response); registry entries for the new sources and candidate puzzles. Builds in
+  Isabelle2026, no sorry/oops/axioms.
+- Human review: pending.
