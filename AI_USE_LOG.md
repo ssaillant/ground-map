@@ -157,3 +157,20 @@ AI-use disclosure. One entry per working session.
   models verified; corruption test fails as it should); scripts/summarize.py
   generating docs/results.md, checked in CI; README rewritten for philosophers.
 - Human review: pending.
+
+## 2026-11-27 — Isabelle model certificates for the 12 principles unknown on their own
+
+- Tool and model as above (Claude Code, cloud session; Isabelle2026 pinned, hash checked).
+- Prompt: "Maybe the one I can do now?" then "Proceed" and "Approve" (reviewer), relayed by
+  the coordinator as: classify the registry principles that were unknown when tested alone.
+- What the model did: found 12 (the 11 listed on the results page plus IRR.W, never
+  queried alone); wrote isabelle/Model_Certificates.thy (locale gsig with the signature's
+  constants as parameters, faithfulness lemmas K_* against Signature/Principles, five
+  models MA-ME with N1-N5 evidence, theorem imm_fritz7_no_finite_model); records in
+  results/isabelle_models.jsonl; summarize.py section 4; registry finding F2; README.
+  Session builds, no sorry/oops/axioms.
+- Reading choices made by the model and flagged for review: N3 counted as vacuous when a
+  package selects no introduction entry; N4 stated with an explicit witness pair; Isabelle-
+  built models with finite carriers classed as finite-model although scripts/verify_models.py
+  cannot re-check them (it does not implement the formula layer).
+- Human review: pending.

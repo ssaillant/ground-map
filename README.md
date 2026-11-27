@@ -12,8 +12,8 @@ This project treats the debate as a map. Every principle in the literature is st
 
 - **refuted**: Isabelle has checked a proof that the package is inconsistent. Each search refutation is replayed in `isabelle/Results_Refutations.thy`, and the published puzzles are proved in their own theories (see below).
 - **trivial-only**: the package is consistent only if nothing grounds anything.
-- **finite-model**: a finite model was found by Nitpick and re-checked by a second, independent implementation of the semantics (`scripts/verify_models.py`).
-- **infinite-model**: an infinite model built in Isabelle. Many packages of interest have no finite model (finding F1), so this class matters. None exist yet.
+- **finite-model**: a finite model was found by Nitpick and re-checked by a second, independent implementation of the semantics (`scripts/verify_models.py`), or, for principles about the formula layer, built and checked in Isabelle (`isabelle/Model_Certificates.thy`).
+- **infinite-model**: an infinite model built in Isabelle. Many packages of interest have no finite model (findings F1, F2), so this class matters. The first one, for IMM.FRITZ7, is in `isabelle/Model_Certificates.thy`.
 - **unknown**: no proof and no model within the time limits. Unknown never means consistent.
 
 Consistency is always tested together with a non-triviality floor (at least one grounding fact). Stronger floors N2–N5 are defined in the registry.
@@ -29,6 +29,7 @@ Consistency is always tested together with a non-triviality floor (at least one 
 | `isabelle/Russell_Checks.thy`, `Fine_Checks.thy`, `Fritz_Main.thy`, `Fritz2020_Checks.thy`, `Korbmacher_Checks.thy` | The published puzzles, machine-checked. |
 | `isabelle/No_Finite_Models.thy` | Finding F1. |
 | `isabelle/Results_Refutations.thy` | Refutations found by the search, replayed and checked (generated). |
+| `isabelle/Model_Certificates.thy` | Models built in Isabelle: the signature as a locale with every constant a parameter, a proof that its definitions are the registry's, models for the principles the search could not settle, and finding F2. Records in `results/isabelle_models.jsonl`. |
 | `scripts/driver.py` | The search: asks Sledgehammer for refutations and Nitpick for models, then propagates results along proved implications. |
 | `results/` | Raw search output (`queries.jsonl`), replay and model-verification records. |
 | `docs/results.md` | The generated summary. Do not edit by hand. |

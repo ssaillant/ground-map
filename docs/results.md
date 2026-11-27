@@ -8,8 +8,8 @@ A *package* is a set of registry principles, always together with factivity (FAC
 
 - **refuted**: Isabelle has checked a proof that the package is inconsistent;
 - **trivial-only**: inconsistent once at least one grounding fact is required (N1); consistent only in models where nothing grounds anything;
-- **finite-model**: a finite model with at least one grounding fact (N1) was found by Nitpick and re-checked by an independent implementation of the semantics;
-- **infinite-model**: an infinite model built in Isabelle (decision D4); none yet;
+- **finite-model**: a finite model with at least one grounding fact (N1), either found by Nitpick and re-checked by an independent implementation of the semantics, or built and checked in Isabelle (`isabelle/Model_Certificates.thy`, section 4);
+- **infinite-model**: an infinite model built and checked in Isabelle (decision D4);
 - **unknown**: no proof and no model within the time limits. Unknown never means consistent.
 
 A refutation of a package refutes every stronger package; a model of a package is a model of every weaker one. "Stronger" uses only the implications proved in `isabelle/Order.thy`.
@@ -70,15 +70,35 @@ Caveat from the registry: Russell_Checks and Fine_Checks use the pre-D3 encoding
 - `ID.AC`
 - `IMM.CONJ`
 
-## 4. Unknown
+## 4. Models built in Isabelle
 
-134 queried packages are unknown. Principles that are unknown even on their own (with FACT and N1): `BETA.GROUND`, `BETA.ID`, `C1`, `C2`, `C3d`, `EX.LEV`, `EX.PRED`, `FIN.B3`, `IMM.FRITZ7`, `TR.TYPED`, `TS.TYPED`. Most mention the formula layer (lambda terms and denotation), for which Nitpick can only report potentially spurious models; they need hand-built models.
+Principles that the search left unknown on their own, because they quantify over the formula layer (where Nitpick reports only potentially spurious models) or have no finite model. Each model is an interpretation of the signature with every constant as a parameter (locale `gsig`); `K_faithful` proves that the locale's definitions are the registry's. Each package includes FACT, and LAM_CORE when it mentions the formula layer.
 
-## 5. Findings
+| Principle | Class | Non-triviality | Carriers | Isabelle |
+|---|---|---|---|---|
+| `BETA.GROUND` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: pr5 => pr5 (3125 functions) | `MD`: MD_core, MD_BETA_GROUND |
+| `BETA.ID` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: pr5 => pr5 (3125 functions) | `MC`: MC_core, MC_BETA_ID |
+| `C1` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_C1 |
+| `C2` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_C2 (k = 1) |
+| `C3d` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_C3d |
+| `EX.LEV` | finite-model | N5 (N3: instance MA_N3_EX) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MA`: MA_core, MA_EX_LEV, MA_N3_EX (EX.FULL also holds: MA_EX_FULL) |
+| `EX.PRED` | finite-model | N5 (N3: instance MA_N3_EX) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MA`: MA_core, MA_EX_PRED, MA_N3_EX (EX.FULL also holds: MA_EX_FULL) |
+| `FIN.B3` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_FIN_B3 |
+| `IMM.FRITZ7` | infinite-model | N5 (N3: vacuous on the registry's list (IMM is not listed); instance ME_N3_conj if (∧1) counts as CONJ) | prp: term algebra tm (infinite); atoms and conjunctions of truths true, all else false; pfun: unit | `ME`: ME_core, ME_IMM_FRITZ7, ME_infinite; no finite model: imm_fritz7_no_finite_model, imm_fritz7_prp_infinite |
+| `IRR.W` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_IRR_W (IRR.F also holds: MB_IRR_F) |
+| `TR.TYPED` | finite-model | N5 (N3: instance MB_N3_TR_TYPED) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_TR_TYPED, MB_N3_TR_TYPED |
+| `TS.TYPED` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_TS_TYPED |
+
+## 5. Unknown
+
+123 queried packages are unknown. Principles that are unknown even on their own (with FACT and N1): none. Section 4 resolves the principles that were unknown on their own; unknown packages that combine several principles remain.
+
+## 6. Findings
 
 - **F1** (checked): No package containing CL.PROP, TRANS.P and IRR.F together with any of CONJ.BIN, DISJ.ONE or TR.FULL (+ TS.FULL) has a finite model. Proof: isabelle/No_Finite_Models.
+- **F2** (checked): IMM.FRITZ7 (with FACT) has no finite model, though it has an infinite one; so no package containing it has a finite model. Proof: isabelle/Model_Certificates.
 
-## 6. Candidate novel results
+## 7. Candidate novel results
 
 None yet. A candidate needs (a) a checked refutation from a weaker set of principles than any published puzzle uses, or (b) a verified model of a non-trivial package that no source defends, or (c) a non-classical package that escapes a published puzzle. Each will be listed here with its evidence, what would falsify it, and the literature check, kept separate from interpretation. By finding F1 most packages of interest have no finite model, so (b) and (c) wait on infinite-model certificates.
 

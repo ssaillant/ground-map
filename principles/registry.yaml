@@ -46,6 +46,7 @@ changelog:
       - Step 3 validation complete - every target reproduced (puzzles.validation).
       - Fine 2012a citations moved to CUP pages from the published volume supplied 2026-11-27.
       - New finding for step 4 (findings.F1) - most packages have no finite model (isabelle/No_Finite_Models.thy).
+      - New finding F2 (findings.F2) - IMM.FRITZ7 has no finite model (isabelle/Model_Certificates.thy). No entry changed.
   - version: 0.2.0-draft
     date: 2026-11-26
     changes:
@@ -1406,6 +1407,12 @@ findings:
     claim: No package containing CL.PROP, TRANS.P and IRR.F together with any of CONJ.BIN, DISJ.ONE or TR.FULL (+ TS.FULL) has a finite model.
     proof: isabelle/No_Finite_Models.thy (chain_no_finite; no_finite_model_conj, _disj, _tr). The chain p, s p, s (s p), ... of truths, with s = λp. conj p p, disj p p or tr p, must repeat in a finite domain, and transitivity then gives PG x x.
     consequence: Nitpick can certify models only for packages that drop transitivity, irreflexivity or every such "successor" rule. Most packages of interest need infinite-model certificates (for example term models built in Isabelle), which the brief's classification "finite-model" does not cover. DECIDED (D4, 2026-11-27) - add the class "infinite-model", certified by a model constructed in Isabelle.
+    status: checked
+  - id: F2
+    date: 2026-11-27
+    claim: IMM.FRITZ7 (with FACT) has no finite model, though it has an infinite one; so no package containing it has a finite model.
+    proof: isabelle/Model_Certificates.thy (imm_fritz7_no_finite_model, imm_fritz7_prp_infinite; infinite model ME). Only (∧1), (∧2) and (nt) are used. By (∧1) and (∧2) the immediate partial grounds of conj p q are exactly p and q whenever both are true, so the one- and two-element sets of truths inject into the truths; (nt) excludes a single truth.
+    consequence: Nitpick cannot find a model of any package containing IMM.FRITZ7. Such packages need infinite-model certificates. The model ME is not classical (negations and disjunctions are false), so it says nothing about IMM.FRITZ7 with CL.PROP, which is untested. INFERENCE - the counting step is the same cardinality pressure as Fritz's Cantorian arguments, restricted to binary conjunction; not checked whether fritz2022 states this finite case.
     status: checked
 
 # ---------------------------------------------------------------------------
