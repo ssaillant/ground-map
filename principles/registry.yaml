@@ -39,6 +39,12 @@ decisions:
     question: how step 4 classifies packages that have only infinite models (finding F1)
     decision: add a classification "infinite-model", certified by an infinite model constructed in Isabelle (for example a term model) and checked like any other result. Classes are now refuted, finite-model, infinite-model, unknown.
 changelog:
+  - version: 0.3.0-draft (proposed, pending review; registry_version stays 0.2.1-draft until adopted)
+    date: 2026-11-27
+    changes:
+      - New section `proposed` - non-classical families SK (SK.PROP, SK.QUANT), TS.KF, SR (SR.LIAR, SR.FINE15, DIAG.K), DISJ.GRD, FOUND.ATOM, and Wilhelm/Poggiolesi conditions WP; not enumerated by driver.py. Isabelle - isabelle/NonClassical.thy, isabelle/Kripke_Model.thy, isabelle/Poggiolesi_Checks.thy.
+      - New candidates P.WILHELM.2021, P.POGGIOLESI.2022 (checked); P.KORBMACHER.2015 gains korbmacher_found.
+      - New findings F5 (Poggiolesi's interpretation fails her condition (1); her theorem holds), F6 (strong Kleene model K1 of Fine's compromise package with BETA.ID), F7 (DISJ.ONE refuted under SK twice), F8 (Korbmacher's untyped repair plus foundation refuted). No existing entry changed.
   - version: 0.2.1-draft
     date: 2026-11-27
     changes:
@@ -1385,7 +1391,7 @@ puzzles:
       claim_in_source: 'over PA with a ground predicate, factivity (left) plus disjunction grounding is inconsistent, via a diagonal sentence d with d iff not (d partially grounds d or d); likewise with double-negation grounding (slide 9).'
       package: [FACT.L, DISJ.ONE (left half), DIAG.K]   # or NEG.DN instead of DISJ.ONE
       registry_mapping: 'INFERENCE: with propositions as a base type there is no diagonal lemma, so the diagonal sentence becomes a witness hypothesis DIAG.K: some d with T d iff not PG d (disj d d). This is a comprehension principle for propositions whose truth condition mentions ground; no existing COMP entry (C1-C3s) supplies it, since C3s gives propositional functions, not propositions with arbitrary truth conditions. The refutation itself is short; the philosophical weight sits on DIAG.K.'
-      checked: 'isabelle/Korbmacher_Checks.thy: korbmacher_disj, korbmacher_dn; korbmacher_untyped_ungrounded (slide 12: with disjunction grounding restricted to grounded disjuncts, d is ungrounded)'
+      checked: 'isabelle/Korbmacher_Checks.thy - korbmacher_disj, korbmacher_dn, korbmacher_untyped_ungrounded (slide 12, d is ungrounded); isabelle/NonClassical.thy - korbmacher_found (with slide 3''s foundation formula the untyped repair is refuted again, finding F8)'
       status: checked
     - id: P.FRITZ2020.BETAG
       source: 'fritz2020 sect. 4 (final draft pp. 4-5)'
@@ -1398,6 +1404,245 @@ puzzles:
     - id: P.ELGIN.IDENTITY
       source: elgin2026 (a = b partially grounds itself)
       status: not read in this thread
+    - id: P.WILHELM.2021
+      source: 'wilhelm2021 (Analysis 81(1): 80-81), as reconstructed in poggiolesi2022 p. 2 (Wilhelm''s paper not read)'
+      claim_in_source: 'conditions (1)-(8) on immediate partial ground and ground-theoretic identity are inconsistent; one derivation uses (1), (4), (5), (6), (7)'
+      checked: 'isabelle/Poggiolesi_Checks.thy: wilhelm_inconsistency (formula level), wilhelm_prp (IPG with identity of propositions)'
+      status: checked; pending review (proposed 0.3.0-draft)
+    - id: P.POGGIOLESI.2022
+      source: poggiolesi2022 pp. 3-5 (theorem p. 4, interpretation p. 5)
+      claim_in_source: '(1), (2′), (3), (4′), (5), (6), (7′), (8′) are jointly consistent'
+      checked: 'isabelle/Poggiolesi_Checks.thy: poggiolesi_conditions_consistent (true, via a normal-form model); poggiolesi_interpretation_violates_1 (her own interpretation fails (1)); see finding F5'
+      status: checked; pending review (proposed 0.3.0-draft)
+
+# ---------------------------------------------------------------------------
+# Proposed for 0.3.0-draft: non-classical families (PENDING REVIEW)
+# ---------------------------------------------------------------------------
+# Not part of registry_version 0.2.1-draft and not enumerated by
+# scripts/driver.py. Each entry is already defined in isabelle/NonClassical.thy
+# (restated over gstr in isabelle/Kripke_Model.thy, with fidelity lemma
+# fidelity_nc). The reviewer decides whether they become families, where they
+# sit in the lattice, and whether the readings flagged below stand.
+proposed:
+  version: 0.3.0-draft
+  status: pending review (Said); requested 2026-11-27 ("yes" to the coordinator's proposal to start the non-classical families)
+  families:
+    - id: SK
+      name: Strong Kleene truth (gaps, no gluts)
+      order: chain
+      lattice_note: >-
+        INFERENCE, checked - CL.PROP implies SK.PROP (cl_sk) and CL.PROP + CL.QUANT
+        implies SK.QUANT (cl_sk_quant); SK.PROP plus bivalence is CL.PROP (sk_bivalent_cl).
+        So SK sits below CL. Proposed as its own chain so that a package can take SK
+        without CL; a package with CL already has SK.
+      entries:
+        - id: SK.PROP
+          rank: 1
+          name: Strong Kleene clauses for the connectives
+          statement: |
+            ¬ (T p ∧ T (neg p))                                (* no gluts *)
+            T (neg (neg p)) ⟷ T p
+            T (conj p q) ⟷ T p ∧ T q        T (neg (conj p q)) ⟷ T (neg p) ∨ T (neg q)
+            T (disj p q) ⟷ T p ∨ T q        T (neg (disj p q)) ⟷ T (neg p) ∧ T (neg q)
+          sources:
+            - work: fine2010
+              locator: p. 110 (Kripke's three schemes); p. 112 (fixed points closed "two-way"); p. 113 (compromise)
+              check: published-page
+              quote: "in the case of disjunctions under the strong truth-tables, A ∨ B will be in the set just in case either A or B is in the set."
+            - work: fine2010
+              locator: p. 113
+              check: published-page
+              quote: "the strong Kleene approach will correspond to the compromise approach to classical logic."
+          readings:
+            - point: falsity
+              chosen: p is false iff T (neg p); a gap if neither T p nor T (neg p). T stays a metalevel predicate (bivalent in HOL), so the logic of T is classical and only the object propositions have gaps.
+              alternatives: ['a three-valued metalanguage', 'a separate falsity predicate F']
+              why: keeps the signature unchanged (T, neg); Fine's fixed points are sets of sentences, positive and negative information being membership of A and of ¬A (p. 112).
+            - point: conditional and biconditional
+              chosen: omitted (the signature has none)
+              alternatives: []
+              why: no SK clause needed.
+        - id: SK.QUANT
+          rank: 2
+          name: Strong Kleene clauses for the propositional quantifiers
+          statement: |
+            T (exq f) ⟷ (∃a. T (app f a))      T (neg (exq f)) ⟷ (∀a. T (neg (app f a)))
+            T (allq f) ⟷ (∀a. T (app f a))     T (neg (allq f)) ⟷ (∃a. T (neg (app f a)))
+          sources:
+            - work: fine2010
+              locator: p. 113, quantifier rules for the construction over facts
+              check: published-page
+              quote: "What we therefore require for the truth of ∃x A(x) is the truth of both A(c) and E(c)"
+          readings:
+            - point: Fine's existence predicate E and the "putative domain" of facts (pp. 112-113)
+              chosen: omitted - quantifiers range over all propositions, every proposition is in the domain from the start
+              alternatives: ["Fine's two-sided domain: ∃ over objects shown to exist, ∀ over objects not shown not to exist"]
+              why: >-
+                the registry has no existence predicate for propositions. FLAGGED - this is Kripke's
+                original setting (domain given in advance, p. 112, "an ideology of truth"), not Fine's
+                "ontology of facts" modification. Fine's failure of Universal Existence (p. 114) is
+                therefore not represented.
+            - point: infinitary conjunction
+              chosen: no SK clause for bigconj (K1 makes every bigconj a gap)
+              alternatives: ['T (bigconj f) ⟷ (∀q∈sat f. T q)']
+              why: the satisfier reading of bigconj (CL.QUANT) is defined by truth and is not monotone in the Kripke construction; INFERENCE, not checked.
+    - id: TS
+      note: proposed addition to the existing family TS
+      entries:
+        - id: TS.KF
+          rank: standalone
+          name: Two-sided truth schema (Kripke-Feferman)
+          statement: |
+            (T (tr p) ⟷ T p) ∧ (T (neg (tr p)) ⟷ T (neg p))
+          sources:
+            - work: fine2010
+              locator: p. 112
+              check: published-page
+              quote: "in the case of truth-predications, T (pAq) will be in the set just in case A is in the set"
+          readings:
+            - point: the falsity half
+              chosen: included (the negation of tr p is true iff the negation of p is)
+              alternatives: ['TS.FULL only']
+              why: Kripke's fixed points are closed under both rules; checked that CL.PROP + TS.FULL implies TS.KF (cl_ts_kf), so the half adds something only under SK.
+    - id: SR
+      name: Self-reference witnesses (comprehension for propositions)
+      order: alternatives
+      entries:
+        - id: SR.LIAR
+          name: A liar proposition (identity version)
+          statement: |
+            ∃l. l = neg (tr l)
+          sources:
+            - work: fine2010
+              locator: p. 114
+              check: published-page
+              quote: "Universal Middle will fail for familiar reasons (when instanced with the Liar, for example)."
+            - work: korbmacher2015
+              locator: slide 7
+              check: published-page
+              quote: "we get a liar sentence λ such that: ⊢PA λ ↔ ¬Tr(pλq)"
+              note: slides, not the Kriterion paper; "published-page" here means the slide number.
+          readings:
+            - point: identity versus material liar
+              chosen: identity (l = neg (tr l))
+              alternatives: ['material: T l ⟷ T (neg (tr l))']
+              why: >-
+                propositions are a base type; a diagonal lemma gives only a material biconditional
+                in arithmetic, but with structured propositions the natural witness is an identity.
+                FLAGGED. Checked - with CL.PROP + TS.FULL refuted (liar_classical); with SK.PROP +
+                TS.KF it forces a gap (liar_gap). K1 has no liar (K1_no_liar), so SR.LIAR is not
+                modelled.
+        - id: SR.FINE15
+          name: Fine's self-including disjunction
+          statement: |
+            ∃c t. T t ∧ c = disj t (tr c)
+          sources:
+            - work: fine2010
+              locator: fn. 15, p. 117
+              check: published-page
+              quote: "An especially clear case in which the stronger form of Disjunctive Grounding fails is with the sentence (∀x(x = x) ∨ T (c)), where c denotes the very sentence"
+          readings:
+            - point: ∀x(x = x)
+              chosen: any truth t
+              alternatives: ['a logical truth']
+              why: the argument uses only that t is true. Checked - SR.FINE15 + SK.PROP + TS.FULL + DISJ.ONE + TR.FULL + TRANS.P + IRR.F is refuted (fine_fn15), without bivalence.
+        - id: DIAG.K
+          name: Korbmacher's diagonal proposition
+          statement: |
+            ∃d. d ∉ range atom ∧ (T d ⟷ ¬ PG d (disj d d))
+          sources:
+            - work: korbmacher2015
+              locator: slide 8
+              check: published-page
+              quote: "Let ϕ(x) be the formula ¬(x C x∨. x). By the diagonal lemma, there is a sentence δ"
+          readings:
+            - point: material and non-atomic
+              chosen: material biconditional, d not an atom
+              alternatives: ['without the non-atomic clause (used only with FOUND)']
+              why: >-
+                the slide's diagonal sentence is material over PA. Non-atomicity is my addition, needed
+                only for korbmacher_found: Korbmacher's δ is a complex arithmetic sentence, not a
+                fundamental one. FLAGGED.
+    - id: DISJ
+      note: proposed additions to the existing family DISJ
+      entries:
+        - id: DISJ.GRD
+          rank: standalone
+          name: Disjunction grounding restricted to grounded disjuncts
+          statement: |
+            (∃x. PG x p) ⟶ G {p} (disj p q)
+            (∃x. PG x q) ⟶ G {q} (disj p q)
+          sources:
+            - work: korbmacher2015
+              locator: slide 12
+              check: published-page
+              quote: "Intuitively, the principles of partial ground should only apply if the truths involved are themselves grounded."
+          readings:
+            - point: partial versus full
+              chosen: full ground {p}, as DISJ.ONE
+              alternatives: ['PG p (disj p q)']
+              why: matches DISJ.ONE; Korbmacher's predicate is partial ground, and full {p} implies it. FLAGGED - grounded atoms are excluded, so atomic truths do not ground disjunctions under this entry.
+    - id: FOUND
+      name: Foundation (every truth is fundamental or partially grounded)
+      order: chain
+      entries:
+        - id: FOUND.ATOM
+          rank: 1
+          statement: |
+            T p ⟶ p ∈ range atom ∨ (∃x. PG x p)
+          sources:
+            - work: korbmacher2015
+              locator: slide 3
+              check: published-page
+              quote: "∀x(Tr (x) ↔ Fund(x) ∨ ∃y (y C x))"
+          readings:
+            - point: status in the source
+              chosen: taken as a principle (left-to-right half)
+              alternatives: ['an example of expressive power only']
+              why: >-
+                FLAGGED - on slide 3 the formula illustrates what the predicate approach can
+                express ("Partial Ground and Quantifiers"); Korbmacher does not assert it.
+            - point: Fund
+              chosen: atomic propositions
+              alternatives: ['a primitive predicate of fundamentality']
+              why: the signature has atoms but no Fund; INFERENCE. Checked - FACT + DISJ.GRD + FOUND.ATOM + DIAG.K is refuted (korbmacher_found).
+    - id: WP
+      name: Wilhelm's identity conditions and Poggiolesi's repair (formula level)
+      note: >-
+        Not stated over prp. These are conditions on formulas with immediate partial ground and
+        ground-theoretic identity as relations (isabelle/Poggiolesi_Checks.thy, deep embedding);
+        a prp version of Wilhelm's derivation is wilhelm_prp. Proposed as a puzzle target and a
+        checked consistency claim (puzzles.candidates P.WILHELM.2021, P.POGGIOLESI.2022), not as
+        lattice families, because the identity relation would need an encoding decision (D5).
+      entries:
+        - id: W.1-8
+          statement: "conditions (1)-(8) of poggiolesi2022 p. 2 (W1-W8)"
+          sources:
+            - work: poggiolesi2022
+              locator: p. 2
+              check: published-page
+              quote: "(1) A ⊲ (B ∧ C) if, and only if, (B ∧ C) and A ≈ B or A ≈ C,"
+              note: pages are the article's own (1-6, online version); LLP 32(1) 2023 pp. 33-38 per the journal page, not checked against the issue PDF.
+        - id: P.2'4'7'8'
+          statement: "(2'), (4'), (7'), (8') with the star operation, poggiolesi2022 p. 3 (P2, P4, P7, P8)"
+          sources:
+            - work: poggiolesi2022
+              locator: p. 3
+              check: published-page
+              quote: "(7′ ) A ∧ B ≈ (A∗ ∨ B ∗ )∗ ,"
+          readings:
+            - point: Leibniz's law (p. 4)
+              chosen: identity is an equivalence and a congruence for ∧, ∨, double negation and star (not single negation); ground and truth respect it (LEIBNIZ)
+              alternatives: ['full congruence including single negation', "substitution only into the (¬)²ⁿ/star reformulation, as a syntactic operation"]
+              why: FLAGGED - her p. 4 says only that Leibniz's law applies "to the reformulation of formulas in terms of pairs of negations (¬)2n and ∗"; my congruence reading is one way to make that precise.
+            - point: her ≐ (p. 4)
+              chosen: left as a parameter E, assumed only to contain ≅
+              alternatives: ['a specific closure construction']
+              why: '"the closure of ≅ under conditions (7′) and (8′)" is not defined further; the counterexample needs only E ⊇ ≅.'
+            - point: her ≅ (p. 4)
+              chosen: literal - "B is the formula A itself or it is A*"
+              alternatives: ['≅ meant to apply only inside the star reformulation, never relating A to a formula of opposite truth value']
+              why: FLAGGED - the counterexample in finding F5 depends on this literal reading (A* has the opposite truth value of A).
 
 # ---------------------------------------------------------------------------
 # Findings that bear on the search (step 4)
@@ -1427,6 +1672,110 @@ findings:
     proof: "isabelle/Models.thy (neg_as_function_refutes). Let E = exq f; E is true; its instance at neg E is neg (neg E), which grounds E by EX.FULL and is grounded in E by NEG.DN."
     consequence: "This is Goodman's negation variant of Kramer's puzzle (Goodman 2023, PDF p. 7), mechanized here; it is his objection to Fritz's form of the escape. It states the hidden premise of F3 - M1 escapes only because the signature has no propositional-function constant for negation (every application is a PApp term). A registry entry asserting such a function would make the F3 package refutable."
     status: checked
+  - id: F5
+    date: 2026-11-27
+    status: checked; pending review (proposed 0.3.0-draft)
+    claim: >-
+      The interpretation Poggiolesi gives to prove her consistency theorem (poggiolesi2022 p. 5)
+      violates her condition (1) and makes a falsehood a ground. Her theorem itself is true.
+    proof: >-
+      isabelle/Poggiolesi_Checks.thy. poggiolesi_interpretation_violates_1 and
+      poggiolesi_interpretation_not_factive - let B = p ∨ ¬p, C = q, A = B* = ¬(p ∨ ¬p). A ≅ B,
+      so A is an immediate g-subformula of B ∧ C; B ∧ C is true (clause (ii)); A classically
+      implies B ∧ C because A is unsatisfiable (clause (iii)). So the interpretation makes A ⊲ (B ∧ C)
+      true, but A is equivalent to neither conjunct, so I(A ≈ B) and I(A ≈ C) are false (clause
+      (iv)) and (1) fails; A is false. This holds for every relation ≐ containing ≅.
+      poggiolesi_conditions_consistent - a normal-form interpretation (push star through,
+      ground = immediate subformula of normal forms between truths, identity = same normal form)
+      satisfies (1), (2'), (3), (4'), (5), (6), (7'), (8') and the Leibniz reading LEIBNIZ, and is
+      factive and irreflexive (NR_factive_irreflexive). wilhelm_inconsistency checks Wilhelm's
+      original conditions (1), (4), (5), (6), (7) refuted for any reflexive, symmetric Q that R
+      respects; wilhelm_prp is the prp version for IPG with identity.
+    consequence: >-
+      Poggiolesi's consistency claim survives with a different witness; the published proof
+      does not establish it as written. The source of the failure is that ≅ relates A to A*,
+      which has the opposite truth value, and clause (iii) is passed by any contradiction.
+      LITERATURE - not found as known (checked 2026-11-27, limited search). Litland 2022
+      (Analysis 81(4) 639-647) predates it and does not discuss it; the PhilArchive citation
+      list for Wilhelm 2021 shows no reply to Poggiolesi; Litland 2023 cites it only in its
+      bibliography. INFERENCE - the counterexample depends on the literal reading of ≅
+      (proposed.WP readings); under a reading where ≅ never pairs formulas of opposite truth
+      value it may not arise. Not to be called new before the reviewer has checked the reading.
+  - id: F6
+    date: 2026-11-27
+    status: checked; pending review (proposed 0.3.0-draft)
+    claim: >-
+      Fine's strong Kleene "compromise" package with beta identity is consistent at N1, N2 and
+      N5 - FACT, LAM_CORE, C3d, BETA.ID, SK.PROP, SK.QUANT, TS.KF, TS.FULL, SK.GAP, IRR.F, ASYM.P,
+      TRANS.P, TRANS.CUT, AMALG.INF, EMPTY.NONE, CONJ.BIN, DISJ.WEAK, NEG.DN, EX.WEAK, ALL.INST,
+      TR.FULL, TR.NEG. The same package with CL.PROP + CL.QUANT in place of SK is refuted.
+    proof: >-
+      isabelle/Kripke_Model.thy, theorem K1_package (restated principles over gstr; fidelity_nc
+      and the D4 fidelity lemmas link them to Principles.thy and NonClassical.thy). K1 is a term
+      model - propositions are closed terms, quantifiers are closures of a formula under an
+      environment, application is substitution (so BETA.ID and C3d hold). Each term gets a pair
+      of Kripke stages (true-stage, false-stage) in enat, computed by recursion; monotonicity
+      (sf_mono) makes a quantifier's stage computable from its instances at a true, a false and
+      a gap atom. Ground is the least relation closed under the package's introduction rules
+      with "efficient" premises (premise stage below conclusion stage, Fine p. 112 and fn. 13),
+      cut and amalgamation; kgr_sound shows every ground's premises are true strictly earlier.
+      The classical refutation is fine_universal_weak in NonClassical.thy, which reproduces Fine
+      p. 109 ("we cannot save ourselves from the Universal Argument ... only one of the disjuncts
+      is the case"). K1 refutes DISJ.ONE at Fine's fn. 13 example (K1_not_DISJ_ONE) and EX.FULL
+      (K1_not_EX_FULL), as Fine says (p. 114).
+    consequence: >-
+      Makes Fine 2010 sect. 8 precise for propositions with propositional quantifiers and beta
+      identity. Contrast with F3 (M1) - M1 keeps classical truth, EX.FULL and DISJ.ONE but must
+      refute BETA.ID; K1 keeps BETA.ID but gives up bivalence, EX.FULL and DISJ.ONE. Krämer's
+      puzzle is escaped by EX.WEAK - in K1, ∃p p is an instance of itself and is not its own
+      ground. LITERATURE - the position is Fine's (2010 sect. 8); Goodman 2023 sect. 4 (PDF pp.
+      15-16) discusses "Kripke-inspired approaches" (Fine; Litland) and writes "I do not claim to
+      have shown that there is no well-motivated consistent theory of the granularity of
+      propositions ... within which a broadly Kripkean response to Krämer's puzzle is both
+      formulable and attractive. But I am not aware of any such theory." INFERENCE, for review -
+      K1 is a consistent granularity (propositions as syntactic terms, beta identity) in which
+      the Kripkean response is formulable; it does not meet Goodman's setting, which is classical
+      higher-order logic with Fritz's conjunct and instance principles for arbitrary properties
+      (K1 is strong Kleene and has only definable comprehension, so Fritz's Cantorian argument,
+      which needs C3s, does not apply). Whether it is attractive is philosophical. Not checked -
+      Litland 2015 (Phil. Rev.) and Korbmacher 2018a; Korbmacher 2018b builds its model from the
+      ramified positive truth theory, first-order only (web copy, partly read).
+    limits: >-
+      No self-reference (K1_no_liar: the gap is an atom, not a liar); quantifiers over a fixed
+      domain without Fine's existence predicate (proposed.SK readings); bigconj is a gap; strict
+      efficiency, not fn. 13's broadened notion. No finite model is claimed (F1 applies).
+  - id: F7
+    date: 2026-11-27
+    status: checked; pending review (proposed 0.3.0-draft)
+    claim: >-
+      Under strong Kleene truth, DISJ.ONE is refuted twice without bivalence - (a) with C3d,
+      BETA.ID, SK.PROP, SK.QUANT, ALL.INST, TRANS.P, IRR.F and N1 (positive_universal), and (b) with
+      Fine's fn. 15 sentence, TS.FULL, TR.FULL, TRANS.P, IRR.F (fine_fn15).
+    proof: >-
+      isabelle/NonClassical.thy. (a) For a truth t, f = λp. p ∨ t is definable; ∀p (p ∨ t) is
+      true by the positive clauses alone and is a true disjunct of its own instance
+      (∀p (p ∨ t)) ∨ t, which grounds it by ALL.INST. (b) Fine fn. 15, p. 117.
+    consequence: >-
+      Gaps do not save DISJ.ONE - the K1 package needs DISJ.WEAK, as Fine says (p. 114). (a) is
+      INFERENCE as to novelty - a variant of Fine's universal arguments (pp. 102-107) and of the
+      structure of fn. 15, not checked against the literature in this form.
+  - id: F8
+    date: 2026-11-27
+    status: checked; pending review (proposed 0.3.0-draft)
+    claim: >-
+      Korbmacher's untyped repair (DISJ.GRD, slide 12) is refuted again by the left-to-right half
+      of his slide-3 formula read as foundation (FOUND.ATOM), given a non-atomic diagonal
+      proposition (DIAG.K) and FACT.
+    proof: >-
+      isabelle/NonClassical.thy, korbmacher_found. If d had a partial ground, DISJ.GRD would make
+      d ground d ∨ d, so d is true, contradicting its diagonal condition; so d is ungrounded, hence
+      (FOUND, d non-atomic) untrue, hence by the diagonal condition d grounds d ∨ d, hence true by
+      FACT.
+    consequence: >-
+      Slide 12's observation that d is ungrounded is not stable - with foundation,
+      ungroundedness makes d untrue, and the diagonal condition then makes d ground d ∨ d.
+      No truth clauses are used, so any package with DISJ.GRD and DIAG.K must let FOUND fail at d. FLAGGED - Korbmacher does not assert FOUND.ATOM on the slides; the 2015 paper and
+      2018a were not read for whether he discusses this.
 
 # ---------------------------------------------------------------------------
 # Bibliography and access status
@@ -1474,7 +1823,7 @@ bibliography:
     read: supplied 2026-11-27; not mined; bears on empty-grounds entry
   fine2010:
     cite: "Fine, K. (2010). Some Puzzles of Ground. Notre Dame Journal of Formal Logic 51(1): 97–118. doi:10.1215/00294527-2010-007"
-    read: published version supplied by reviewer 2026-11-26 (journal pages 97–118); sects. 1–7 checked, sect. 8 (fixed points) not yet mined
+    read: published version supplied by reviewer 2026-11-26 (journal pages 97–118); sects. 1–7 checked; sect. 8 (pp. 110-115) and notes 12-15 read 2026-11-27 for F6
     needed_from_reviewer: false
   lovett2020:
     cite: "Lovett, A. (2020). The Puzzles of Ground. Philosophical Studies 177: 2541–2564 (online 20 July 2019). doi:10.1007/s11098-019-01325-w"
@@ -1525,7 +1874,7 @@ bibliography:
     read: author's file, full text (princeton.edu/~bkment/articles/rmp.pdf)
   goodman2023:
     cite: "Goodman, J. Grounding Generalizations. Journal of Philosophical Logic. doi:10.1007/s10992-022-09689-x"
-    read: 'published version; first ~40% mined earlier; full PDF supplied by reviewer 2026-11-27; sections 1-2 read again 2026-11-27 for F3/F4 (PDF pp. 4-10); appendices not read'
+    read: 'published version; first ~40% mined earlier; full PDF supplied by reviewer 2026-11-27; sections 1-2 read again 2026-11-27 for F3/F4 (PDF pp. 4-10); sect. 4 (PDF pp. 14-16, Kripke-inspired approaches) read for F6; appendices not read'
     relevance: 'two diagnoses of the puzzle of grounding generalizations, each developed into a consistent higher-order theory: defended consistent packages and a likely source of infinite-model certificates (D4). Its reference [17] is fritz2020.'
   fritz2020:
     cite: "Fritz, P. On higher-order logical grounds. Analysis 80(4): 656-666. doi:10.1093/analys/anz085"
@@ -1541,7 +1890,7 @@ bibliography:
     relevance: 'derives implausible grounding claims in Correia 2010''s worldly logic; bears on correia2026'
   poggiolesi2022:
     cite: "Poggiolesi, F. (2022). Grounding and propositional identity: a solution to Wilhelm's inconsistencies. Logic and Logical Philosophy. doi:10.12775/LLP.2022.012"
-    read: 'supplied 2026-11-27; abstract only; not mined'
+    read: 'supplied 2026-11-27; read in full 2026-11-27 (article pages 1-6, online version). Journal page (apcz.umk.pl) gives LLP 32(1), 2023, pp. 33-38, online 9 March 2022; issue pagination not checked'
     relevance: 'Wilhelm 2021 (Analysis 81(1)): immediate partial grounding plus identity conditions for propositions are inconsistent; Poggiolesi claims consistency is restored with finer-grained negation. Candidate puzzle target and consistency claim'
   fritz2023:
     cite: "Fritz, P. (2023). Operands and Instances. Review of Symbolic Logic 16(1): 188ff. doi:10.1017/S175502032100040X"
@@ -1555,3 +1904,14 @@ bibliography:
   derosset2015:
     cite: "deRosset, L. Better Semantics for the Pure Logic of Ground. Analytic Philosophy (forthcoming as of 2015 draft)."
     read: supplied by reviewer; not yet mined
+  litland2022:
+    cite: "Litland, J. E. A note on the Wilhelmine inconsistency. Analysis 81(4): 639-647 (2021/2022). doi:10.1093/analys/anab048"
+    read: 'PhilArchive copy (LITANO) read via web fetch 2026-11-27 for F5 only; summary-level'
+    relevance: 'two accounts of propositional identity escaping Wilhelm; predates and does not discuss poggiolesi2022'
+  wilhelm2021:
+    cite: "Wilhelm, I. Grounding and propositional identity. Analysis 81(1): 80-81 (2021). doi:10.1093/analys/anaa024"
+    read: 'not received; known through poggiolesi2022 p. 2 and litland2022'
+  schindler2014:
+    cite: "Schindler, T. Axioms for grounded truth. Review of Symbolic Logic 7(1): 73-83 (2014). doi:10.1017/S1755020313000282"
+    read: 'open copy (epub.ub.uni-muenchen.de/59141) read via web fetch 2026-11-27'
+    relevance: 'monadic groundedness predicate over Kripke and Leitgeb fixed points; no binary ground relation, no propositional quantifiers; not prior art for F6'

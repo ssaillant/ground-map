@@ -1,5 +1,6 @@
 session Ground_Map_Checks = HOL +
   options [timeout = 600]
+  sessions "HOL-Library"
   theories
     Russell_Checks
     Fine_Checks
@@ -13,3 +14,6 @@ session Ground_Map_Checks = HOL +
     Results_Refutations
     Model_Certificates
     Models
+    Poggiolesi_Checks
+    NonClassical
+    Kripke_Model
