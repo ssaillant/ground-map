@@ -1577,6 +1577,11 @@ proposed:
               locator: slide 12
               check: published-page
               quote: "Intuitively, the principles of partial ground should only apply if the truths involved are themselves grounded."
+            - work: korbmacher2015
+              locator: Kriterion paper p. 6
+              check: published-page
+              quote: "(∨∗1 ): Θ ⊢ ∃x(x ⊲ ⌜ϕ⌝) ↔ ⌜ϕ⌝ ⊲ ⌜ϕ ∨ ψ⌝"
+              note: the paper states a biconditional; DISJ.GRD is its left-to-right half, the only half his Observation (pp. 6-7) uses ("We only need the left-to-right direction").
           readings:
             - point: partial versus full
               chosen: full ground {p}, as DISJ.ONE
@@ -1595,17 +1600,31 @@ proposed:
               locator: slide 3
               check: published-page
               quote: "∀x(Tr (x) ↔ Fund(x) ∨ ∃y (y C x))"
+            - work: korbmacher2015
+              locator: Kriterion paper p. 1
+              check: published-page
+              quote: "Take, for example, the intuitively plausible claim that every truth is either fundamental or grounded in some other truths."
+            - work: korbmacher2018a
+              locator: p. 164
+              check: published-page
+              quote: "we could plausibly define this predicate F und by postulating that: ∀x(F und(x) ↔def T r(x) ∧ ¬∃y(y ≺ x))."
           readings:
             - point: status in the source
               chosen: taken as a principle (left-to-right half)
               alternatives: ['an example of expressive power only']
               why: >-
-                FLAGGED - on slide 3 the formula illustrates what the predicate approach can
-                express ("Partial Ground and Quantifiers"); Korbmacher does not assert it.
+                Korbmacher calls the claim "intuitively plausible" (2015 p. 1; 2018a p. 164) as an
+                illustration of what a ground predicate can express; he does not adopt it as an axiom.
             - point: Fund
-              chosen: atomic propositions
-              alternatives: ['a primitive predicate of fundamentality']
-              why: the signature has atoms but no Fund; INFERENCE. Checked - FACT + DISJ.GRD + FOUND.ATOM + DIAG.K is refuted (korbmacher_found).
+              chosen: atomic propositions (an independently given class)
+              alternatives: ["Korbmacher 2018a's definition, Fund(x) iff Tr(x) and x has no partial ground"]
+              why: >-
+                FLAGGED, decisive for F8 - under Korbmacher's own definition (2018a p. 164) the principle
+                is trivially true and korbmacher_found does not apply; F8 needs Fund to be fixed
+                independently of ground (here, atomicity). Checked - FACT + DISJ.GRD + FOUND.ATOM +
+                DIAG.K is refuted (korbmacher_found). Kriterion fn. 5 (p. 7) states the unexceptioned
+                version himself - with FACT, "Θ ⊢ ϕ → ∃x(x ⊲ ⌜ϕ⌝)" for every sentence is inconsistent,
+                "details ... to the interested reader".
     - id: WP
       name: Wilhelm's identity conditions and Poggiolesi's repair (formula level)
       note: >-
@@ -1737,9 +1756,11 @@ findings:
       the Kripkean response is formulable; it does not meet Goodman's setting, which is classical
       higher-order logic with Fritz's conjunct and instance principles for arbitrary properties
       (K1 is strong Kleene and has only definable comprehension, so Fritz's Cantorian argument,
-      which needs C3s, does not apply). Whether it is attractive is philosophical. Not checked -
-      Litland 2015 (Phil. Rev.) and Korbmacher 2018a; Korbmacher 2018b builds its model from the
-      ramified positive truth theory, first-order only (web copy, partly read).
+      which needs C3s, does not apply). Whether it is attractive is philosophical. Korbmacher 2018a
+      (read 2026-11-27) models partial ground by grounding trees over the standard model of
+      positive truth for truth-free arithmetic sentences - classical, typed, first-order - so it
+      is not a Kripke fixed point; Korbmacher 2018b builds on the ramified positive truth theory
+      (web copy, partly read). Not checked - Litland 2015 (Phil. Rev.).
     limits: >-
       No self-reference (K1_no_liar: the gap is an atom, not a liar); quantifiers over a fixed
       domain without Fine's existence predicate (proposed.SK readings); bigconj is a gap; strict
@@ -1772,18 +1793,24 @@ findings:
       (FOUND, d non-atomic) untrue, hence by the diagonal condition d grounds d ∨ d, hence true by
       FACT.
     consequence: >-
-      Slide 12's observation that d is ungrounded is not stable - with foundation,
-      ungroundedness makes d untrue, and the diagonal condition then makes d ground d ∨ d.
-      No truth clauses are used, so any package with DISJ.GRD and DIAG.K must let FOUND fail at d. FLAGGED - Korbmacher does not assert FOUND.ATOM on the slides; the 2015 paper and
-      2018a were not read for whether he discusses this.
+      Slide 12's observation (Kriterion p. 6-7 "Observation") that d is ungrounded is not stable -
+      with foundation, ungroundedness makes d untrue, and the diagonal condition then makes d
+      ground d ∨ d. No truth clauses are used, so any package with DISJ.GRD and DIAG.K must let
+      FOUND fail at d. LITERATURE (Kriterion paper read 2026-11-27) - Korbmacher's fn. 5 (p. 7)
+      already states that FACT plus "every truth has a partial ground" is inconsistent; F8 is the
+      variant that exempts the fundamental (atomic) truths and uses his own restricted
+      disjunction rule (∨*1) of p. 6, left-to-right half. It bears on his conjecture (p. 7) that "an
+      interesting, consistent, untyped predicational theory of ground can be developed in this
+      way". FLAGGED - F8 needs Fund fixed independently of ground (proposed.FOUND readings); under
+      his 2018a definition of Fund it does not arise.
 
 # ---------------------------------------------------------------------------
 # Bibliography and access status
 # ---------------------------------------------------------------------------
 bibliography:
   korbmacher2015:
-    cite: "Korbmacher, J. (2015). Yet another puzzle of ground. Kriterion 29(2): 1-10. Read as: talk slides, SOPhiA, Salzburg, 4 Sept 2015 (13 slides)"
-    read: 'slides supplied 2026-11-27, read in full; journal text not received, so locators are slide numbers'
+    cite: "Korbmacher, J. (2015). Yet another puzzle of ground. Kriterion 29(2): 1-10."
+    read: 'talk slides (SOPhiA, 4 Sept 2015) read 2026-11-27; the paper itself supplied by the reviewer 2026-11-27 and read in full (sources/Korbmacher-2015-Yet-another-puzzle-of-ground-Kriterion-PAPER.pdf; journal pages). Locators "slide n" refer to the slides, "p. n" to the paper'
   wilhelm2026:
     cite: "Wilhelm, I. Pure type systems and generalized grounding. Philosophical Studies 183 (2026): 2603-2631. doi:10.1007/s11098-024-02262-z. Correction: doi:10.1007/s11098-025-02415-8"
     caveat: 'per the reviewer, the published correction changes the formulas of two grounding principles; not received. The fn. 25 reading below is from the uncorrected manuscript and must be checked against the correction before use.'
@@ -1854,8 +1881,9 @@ bibliography:
     needed_from_reviewer: false
   korbmacher2018a:
     cite: "Korbmacher, J. (2018). Axiomatic Theories of Partial Ground I: The Base Theory. Journal of Philosophical Logic 47: 161–191. doi:10.1007/s10992-016-9423-9"
-    read: open-access copy (core.ac.uk), first ~47% verbatim; no page numbers visible
-    needed_from_reviewer: page numbers; disjunction and quantifier axioms
+    read: 'publisher version (Utrecht repository) supplied by the reviewer 2026-11-27 (sources/Korbmacher-2018a-Axiomatic-theories-partial-ground-I-JPL.pdf; journal pages); sects. 2 and 4 read for F6/F8'
+    relevance: 'PG (G1-G3 irreflexive, transitive, factive; upward U and downward D axioms) is conservative over positive truth PT (Theorem 1) and has a model of grounding trees over the standard model of PT (Theorem 2). Truth applies to arithmetic sentences only (T3), so the model is classical and typed - not a Kripke fixed point and without propositional quantifiers; not prior art for K1 (F6)'
+    needed_from_reviewer: false
   korbmacher2018b:
     cite: "Korbmacher, J. (2018). Axiomatic Theories of Partial Ground II: Partial Ground and Hierarchies of Typed Truth. Journal of Philosophical Logic 47: 193–226. doi:10.1007/s10992-017-9444-z"
     read: Springer HTML, ~77% verbatim; no page numbers visible

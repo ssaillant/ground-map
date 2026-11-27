@@ -201,8 +201,10 @@ text \<open>korbmacher2015 slide 12: with disjunction grounding restricted to gr
   (FOUND, with the fundamental truths read as the atomic ones) and d non-atomic, the
   untyped package is inconsistent again: d cannot be true (it would be fundamental or
   grounded) and cannot be untrue (it would then partially ground d \<or> d, hence be true by
-  factivity). Korbmacher does not assert FOUND on the slides; the 2018 papers were not
-  available to check whether he discusses this.\<close>
+  factivity). Korbmacher calls the claim "intuitively plausible" (Kriterion paper p. 1)
+  but does not adopt it, and in Korbmacher 2018a (p. 164) he defines Fund from ground, which
+  makes it trivial; FOUND here needs Fund fixed independently (atoms). His fn. 5 (p. 7)
+  states the version without the fundamental exception.\<close>
 
 theorem korbmacher_found:
   assumes FACT DISJ_GRD FOUND DIAG_K
