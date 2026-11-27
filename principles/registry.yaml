@@ -1374,6 +1374,14 @@ puzzles:
     - id: P.CORREIA.2026
       source: correia2026 sects. 8-9 (truth-teller/liar puzzles; Cantorian puzzle for immediate ground)
       status: not read in this thread
+    - id: P.LITLAND.GROUNDING.GROUND
+      source: 'Litland, J. E. (2018). Could the grounds''s grounding the grounded ground the grounded? Analysis 78(1): 56-65. doi:10.1093/analys/anx116'
+      claim_in_source: 'not read; record only (reviewer''s PhilPapers export): an inconsistency about the grounds of grounding facts'
+      status: not received
+    - id: P.KORBMACHER.2015
+      source: 'Korbmacher, J. (2015). Yet another puzzle of ground. Kriterion 29(2): 1-10.'
+      claim_in_source: 'not read; record only'
+      status: not received
     - id: P.ELGIN.IDENTITY
       source: elgin2026 (a = b partially grounds itself)
       status: not read in this thread
@@ -1394,13 +1402,17 @@ findings:
 # ---------------------------------------------------------------------------
 bibliography:
   wilhelm2026:
-    cite: "Wilhelm, I. Pure type systems and generalized grounding. Philosophical Studies (2026, in the collection 'Higher-order metaphysics of ground'); penultimate draft read"
+    cite: "Wilhelm, I. Pure type systems and generalized grounding. Philosophical Studies 183 (2026): 2603-2631. doi:10.1007/s11098-024-02262-z. Correction: doi:10.1007/s11098-025-02415-8"
+    caveat: 'per the reviewer, the published correction changes the formulas of two grounding principles; not received. The fn. 25 reading below is from the uncorrected manuscript and must be checked against the correction before use.'
     read: 'penultimate draft supplied 2026-11-27; fn. 25 (ms p. 23) read; rest not mined'
     relevance: 'fn. 25 derives a version of Krämer''s puzzle from his existential principle (Exi) plus beta-equivalence and irreflexivity; he drops irreflexivity and suggests rejecting beta-equivalence instead. So "Generalized Grounding" is a defended package without IRR (cf. family BETA: BETA.ID versus neither). Journal pages not verified.'
   teitel_essence:
     cite: "Teitel, T. Contingent existence and the reduction of modality to essence. Mind"
     read: 'supplied 2026-11-27; abstract only'
     relevance: 'essence and modality (Fine''s reduction, contingentism, S5); no ground principles found; outside v1 scope'
+  yan2026:
+    cite: "Yan, Q. Grounding, contingentism, and the reduction of metaphysical necessity to essence. Philosophical Studies 183 (2026): 2749-2772. doi:10.1007/s11098-025-02309-9"
+    read: 'not received; no open copy known. Teitel and Ditter are its background (essence-based reduction of necessity).'
   ditter_essence:
     cite: "Ditter, A. The reduction of necessity to essence. Mind (penultimate draft, June 2019)"
     read: 'supplied 2026-11-27; abstract only'
