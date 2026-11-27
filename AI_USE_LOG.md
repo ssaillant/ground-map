@@ -122,3 +122,15 @@ AI-use disclosure. One entry per working session.
   response); registry entries for the new sources and candidate puzzles. Builds in
   Isabelle2026, no sorry/oops/axioms.
 - Human review: pending.
+
+## 2026-11-27 — Step 4 groundwork: encoding, order, driver, model verifier
+
+- Tool and model as above.
+- Prompt: "Let's go" (reviewer).
+- What the model did: isabelle/Principles.thy (all registry entries as constants),
+  isabelle/Order.thy (proved implications used for propagation), scripts/driver.py
+  (Sledgehammer/Nitpick batches via process_theories; classes refuted, finite-model,
+  trivial-only, unknown; cache results/queries.jsonl), scripts/verify_models.py
+  (second, Python implementation of the semantics that re-checks each Nitpick
+  model; tested to reject corrupted models). CI fixed to use the https mirror.
+- Human review: pending.

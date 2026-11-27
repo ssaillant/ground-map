@@ -1,0 +1,29 @@
+{"key": "ASYM.ANTI", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "ASYM.P", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "TRANS.P", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "AMALG.FIN", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "AMALG.INF", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "CL.QUANT", "verified": true, "failed": [], "card": {"prp": 1, "pfun": 1}}
+{"key": "TS.FULL", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "TS.ID", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "ID.AC", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "ID.DN", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "CONJ.INF", "verified": true, "failed": [], "card": {"pfun": 1, "prp": 1}}
+{"key": "CONJ.GRAIN", "verified": true, "failed": [], "card": {"prp": 1, "pfun": 1}}
+{"key": "DISJ.ONE", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "DISJ.BOTH", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "DISJ.WEAK", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "NEG.DN", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "NEG.DM", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "EX.FULL", "verified": true, "failed": [], "card": {"pfun": 1, "prp": 1}}
+{"key": "EX.WEAK", "verified": true, "failed": [], "card": {"prp": 1, "pfun": 1}}
+{"key": "ALL.INST", "verified": true, "failed": [], "card": {"pfun": 1, "prp": 1}}
+{"key": "ALL.TOT", "verified": true, "failed": [], "card": {"pfun": 1, "prp": 1}}
+{"key": "TR.FULL", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "TR.NEG", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "EMPTY.NONE", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "EMPTY.SOME", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "FIN.FIN", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "C3s", "verified": true, "failed": [], "card": {"pfun": 1, "prp": 1}}
+{"key": "IMM.CONJ", "verified": true, "failed": [], "card": {"pfun": 1, "prp": 1}}
