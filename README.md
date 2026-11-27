@@ -12,8 +12,8 @@ This project treats the debate as a map. Every principle in the literature is st
 
 - **refuted**: Isabelle has checked a proof that the package is inconsistent. Each search refutation is replayed in `isabelle/Results_Refutations.thy`, and the published puzzles are proved in their own theories (see below).
 - **trivial-only**: the package is consistent only if nothing grounds anything.
-- **finite-model**: a finite model was found by Nitpick and re-checked by a second, independent implementation of the semantics (`scripts/verify_models.py`).
-- **infinite-model**: an infinite model built in Isabelle. Many packages of interest have no finite model (finding F1), so this class matters. None exist yet.
+- **finite-model**: a finite model was found by Nitpick and re-checked by a second, independent implementation of the semantics (`scripts/verify_models.py`), or, for principles about the formula layer, built and checked in Isabelle (`isabelle/Model_Certificates.thy`).
+- **infinite-model**: an infinite model built in Isabelle. Many packages of interest have no finite model (findings F1, F2), so this class matters. The first ones are in `isabelle/Model_Certificates.thy` (IMM.FRITZ7) and `isabelle/Models.thy` (term model M1, finding F3).
 - **unknown**: no proof and no model within the time limits. Unknown never means consistent.
 
 Consistency is always tested together with a non-triviality floor (at least one grounding fact). Stronger floors N2–N5 are defined in the registry.
@@ -28,7 +28,9 @@ Consistency is always tested together with a non-triviality floor (at least one 
 | `isabelle/Order.thy` | Proved implications between principles, the only ones the search uses. |
 | `isabelle/Russell_Checks.thy`, `Fine_Checks.thy`, `Fritz_Main.thy`, `Fritz2020_Checks.thy`, `Korbmacher_Checks.thy` | The published puzzles, machine-checked. |
 | `isabelle/No_Finite_Models.thy` | Finding F1. |
+| `isabelle/Models.thy` | Term model M1 with hyperintensional application: a classical package of 20 registry entries (plus FACT and LAM_CORE) with transitive, irreflexive ground and impredicative comprehension (finding F3), and Goodman's negation variant of Krämer's puzzle (finding F4). |
 | `isabelle/Results_Refutations.thy` | Refutations found by the search, replayed and checked (generated). |
+| `isabelle/Model_Certificates.thy` | Models built in Isabelle: the signature as a locale with every constant a parameter, a proof that its definitions are the registry's, models for the principles the search could not settle, and finding F2. Records in `results/isabelle_models.jsonl`. |
 | `scripts/driver.py` | The search: asks Sledgehammer for refutations and Nitpick for models, then propagates results along proved implications. |
 | `results/` | Raw search output (`queries.jsonl`), replay and model-verification records. |
 | `docs/results.md` | The generated summary. Do not edit by hand. |
@@ -50,7 +52,7 @@ Nothing reported as done contains `sorry`, `oops` or extra axioms. CI enforces t
 
 ## Status (2026-11-27)
 
-Registry v0.2.1-draft. Every published puzzle is reproduced except Woods's check, which stays open as a target. Search runs are just starting. No candidate novel result yet; see section 6 of the results page for what would count as one.
+Registry v0.2.1-draft. Every published puzzle is reproduced except Woods's check, which stays open as a target. Search runs are just starting. The first infinite-model certificate (term model M1, finding F3) checks, but it is not a candidate novel result: Goodman 2023 already gives a consistent theory of this kind. No candidate novel result yet; see section 7 of the results page for what would count as one.
 
 ## Build locally
 

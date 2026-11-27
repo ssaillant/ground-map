@@ -157,3 +157,44 @@ AI-use disclosure. One entry per working session.
   models verified; corruption test fails as it should); scripts/summarize.py
   generating docs/results.md, checked in CI; README rewritten for philosophers.
 - Human review: pending.
+
+## 2026-11-27 — Isabelle model certificates for the 12 principles unknown on their own
+
+- Tool and model as above (Claude Code, cloud session; Isabelle2026 pinned, hash checked).
+- Prompt: "Maybe the one I can do now?" then "Proceed" and "Approve" (reviewer), relayed by
+  the coordinator as: classify the registry principles that were unknown when tested alone.
+- What the model did: found 12 (the 11 listed on the results page plus IRR.W, never
+  queried alone); wrote isabelle/Model_Certificates.thy (locale gsig with the signature's
+  constants as parameters, faithfulness lemmas K_* against Signature/Principles, five
+  models MA-ME with N1-N5 evidence, theorem imm_fritz7_no_finite_model); records in
+  results/isabelle_models.jsonl; summarize.py section 4; registry finding F2; README.
+  Session builds, no sorry/oops/axioms.
+- Reading choices made by the model and flagged for review: N3 counted as vacuous when a
+  package selects no introduction entry; N4 stated with an explicit witness pair; Isabelle-
+  built models with finite carriers classed as finite-model although scripts/verify_models.py
+  cannot re-check them (it does not implement the formula layer).
+- Human review: pending.
+
+## 2026-11-27 — Infinite-model certificate M1 (decision D4)
+
+- Tool and model as above (Claude Code, cloud session; Isabelle2026 pinned, hash checked).
+- Prompt: "Looking good, now infinite models" (reviewer).
+- What the model did: wrote isabelle/Models.thy. The principles are restated over a record
+  of operations (gstr) and lemma `fidelity` proves that at the actual constants each
+  restatement is the definition in Principles.thy. Term model M1: propositions are closed
+  terms, application is a constructor of its own, ground is the least relation closed
+  under the package's introduction principles, cut and amalgamation. Theorem M1_package
+  certifies a 20-entry classical package with N1, N2, N5 (finding F3); M1 refutes BETA.ID
+  and BETA.GROUND. Lemma neg_as_function_refutes mechanizes Goodman 2023's negation variant
+  of Krämer's puzzle (finding F4). Record in results/isabelle_models.jsonl; summarize.py
+  lists Isabelle-built packages and checked non-candidates. Literature check against
+  Fritz 2020 (read in full earlier) and Goodman 2023 sections 1-2 (PDF pp. 4-10): the
+  consistency result is not new (Goodman 2023 sec. 2, appendices A-B).
+- Reading choices made by the model and flagged for review: dependence uses Fine-style
+  polarity clauses (negated conjunctions depend on negated conjuncts); the metatheoretic
+  step from the restated principles to the uninterpreted constants is stated in text,
+  not checked; whether M1 is a sub-case of Goodman's appendix A models is an inference
+  not yet checked (his section 2 negation yields mere truth conditions, so NEG.DN fails
+  there).
+- Human review: pending.
+

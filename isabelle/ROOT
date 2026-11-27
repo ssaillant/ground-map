@@ -11,3 +11,5 @@ session Ground_Map_Checks = HOL +
     Order
     Fritz2020_Checks
     Results_Refutations
+    Model_Certificates
+    Models
