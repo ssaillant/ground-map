@@ -145,3 +145,15 @@ AI-use disclosure. One entry per working session.
   irreflexivity); registry target P.FRITZ2020.BETAG and bibliography entries.
   Builds, no sorry/oops/axioms. The other four papers were only identified.
 - Human review: pending.
+
+## 2026-11-27 — Propagation fix; refutation replay; results page; README for philosophers
+
+- Tool and model as above.
+- Prompt: reviewer's questions about legibility and novelty (relayed by the coordinator).
+- What the model did: found and fixed unsound propagation into formula-layer
+  entries (records migrated conservatively: refutation keys widened, models kept);
+  stopped the third cloud growth run; scripts/replay.py (20/20 refutations replay,
+  isabelle/Results_Refutations.thy, built in CI); verifier parsing fixes (111/111
+  models verified; corruption test fails as it should); scripts/summarize.py
+  generating docs/results.md, checked in CI; README rewritten for philosophers.
+- Human review: pending.

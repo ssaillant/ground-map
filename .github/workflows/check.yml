@@ -29,3 +29,8 @@ jobs:
       - name: Build session Ground_Map_Checks
         run: |
           "$RUNNER_TEMP/Isabelle2026/bin/isabelle" build -v -o threads=4 -D isabelle
+      - name: Re-verify models and check docs/ is generated from results/
+        run: |
+          python3 scripts/verify_models.py
+          python3 scripts/summarize.py
+          git diff --exit-code docs/results.md results/models_verified.jsonl

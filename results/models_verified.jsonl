@@ -27,3 +27,85 @@
 {"key": "FIN.FIN", "verified": true, "failed": [], "card": {"prp": 1}}
 {"key": "C3s", "verified": true, "failed": [], "card": {"pfun": 1, "prp": 1}}
 {"key": "IMM.CONJ", "verified": true, "failed": [], "card": {"pfun": 1, "prp": 1}}
+{"key": "IRR.MEM,TR.NEG", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "IRR.MEM,TRANS.P", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "IRR.MEM,TS.FULL", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "CL.PROP,IRR.MEM,TR.NEG", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,IRR.MEM,TRANS.P", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,IRR.MEM,TS.FULL", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,IRR.MEM,TR.NEG,TRANS.P", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,IRR.MEM,TR.NEG,TS.FULL", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,IRR.MEM,NEG.DM,TR.NEG", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,ID.DN,IRR.MEM,TR.NEG", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,IRR.MEM,TR.NEG,TRANS.P,TS.FULL", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,IRR.MEM,NEG.DM,TR.NEG,TRANS.P", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,ID.DN,IRR.MEM,TR.NEG,TRANS.P", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,IRR.MEM,NEG.DM,TR.NEG,TRANS.P,TS.FULL", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,ID.DN,IRR.MEM,TR.NEG,TRANS.P,TS.FULL", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,DISJ.BOTH,IRR.MEM,TR.NEG,TRANS.P,TS.FULL", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "ALL.TOT,CL.PROP,IRR.MEM,TR.NEG,TRANS.P,TS.FULL", "verified": true, "failed": [], "card": {"pfun": 2, "prp": 2}}
+{"key": "CL.PROP,NEG.DN", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,EMPTY.NONE", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "ASYM.P,CL.PROP", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,TR.FULL", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,EMPTY.NONE,NEG.DN", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,NEG.DN,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,ID.DN,NEG.DN", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "ASYM.P,CL.PROP,NEG.DN", "verified": true, "failed": [], "card": {"prp": 6}}
+{"key": "CL.PROP,NEG.DN,TR.FULL", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,EX.FULL,NEG.DN", "verified": true, "failed": [], "card": {"pfun": 2, "prp": 2}}
+{"key": "CL.PROP,EMPTY.NONE,NEG.DN,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,EMPTY.NONE,ID.DN,NEG.DN", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "ASYM.P,CL.PROP,EMPTY.NONE,NEG.DN", "verified": true, "failed": [], "card": {"prp": 6}}
+{"key": "CL.PROP,EMPTY.NONE,NEG.DN,TR.FULL", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,EMPTY.NONE,EX.FULL,NEG.DN", "verified": true, "failed": [], "card": {"pfun": 2, "prp": 2}}
+{"key": "CL.PROP,DISJ.WEAK,EMPTY.NONE,NEG.DN", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,EMPTY.NONE,ID.DN,NEG.DN,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,EMPTY.NONE,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,EMPTY.NONE,EX.FULL,NEG.DN,TRANS.CUT", "verified": true, "failed": [], "card": {"pfun": 2, "prp": 2}}
+{"key": "CL.PROP,DISJ.WEAK,EMPTY.NONE,NEG.DN,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,DISJ.BOTH,EMPTY.NONE,NEG.DN,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,EMPTY.NONE,ID.DN,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,EMPTY.NONE,EX.FULL,ID.DN,NEG.DN,TRANS.CUT", "verified": true, "failed": [], "card": {"pfun": 2, "prp": 2}}
+{"key": "CL.PROP,DISJ.WEAK,EMPTY.NONE,ID.DN,NEG.DN,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,DISJ.BOTH,EMPTY.NONE,ID.DN,NEG.DN,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,CONJ.GRAIN,EMPTY.NONE,ID.DN,NEG.DN,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 1}}
+{"key": "ASYM.P,CL.PROP,ID.DN,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,EMPTY.NONE,EX.FULL,ID.DN,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"pfun": 2, "prp": 2}}
+{"key": "CL.PROP,DISJ.WEAK,EMPTY.NONE,ID.DN,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,DISJ.BOTH,EMPTY.NONE,ID.DN,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.PROP,CONJ.GRAIN,EMPTY.NONE,ID.DN,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 1}}
+{"key": "CL.PROP,DISJ.WEAK,EMPTY.NONE,EX.FULL,ID.DN,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"pfun": 2, "prp": 2}}
+{"key": "CL.PROP,DISJ.BOTH,EMPTY.NONE,EX.FULL,ID.DN,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"pfun": 2, "prp": 2}}
+{"key": "CL.PROP,CONJ.GRAIN,EMPTY.NONE,EX.FULL,ID.DN,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 1}}
+{"key": "CL.PROP,DISJ.BOTH,DISJ.WEAK,EMPTY.NONE,EX.FULL,ID.DN,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"pfun": 2, "prp": 2}}
+{"key": "CL.PROP,CONJ.GRAIN,DISJ.WEAK,EMPTY.NONE,EX.FULL,ID.DN,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 1}}
+{"key": "AMALG.FIN,CL.PROP,DISJ.WEAK,EMPTY.NONE,EX.FULL,ID.DN,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"pfun": 2, "prp": 2}}
+{"key": "CL.PROP,CONJ.GRAIN,DISJ.BOTH,DISJ.WEAK,EMPTY.NONE,EX.FULL,ID.DN,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 1}}
+{"key": "AMALG.FIN,CL.PROP,DISJ.BOTH,DISJ.WEAK,EMPTY.NONE,EX.FULL,ID.DN,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"pfun": 2, "prp": 2}}
+{"key": "AMALG.FIN,CL.PROP,CONJ.GRAIN,DISJ.BOTH,DISJ.WEAK,EMPTY.NONE,EX.FULL,ID.DN,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 1}}
+{"key": "TR.NEG,TS.ID", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "IRR.F,TS.ID", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "ASYM.ANTI,TS.ID", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "TRANS.P,TS.ID", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "IRR.F,TR.NEG,TS.ID", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "ASYM.ANTI,TR.NEG,TS.ID", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "TR.NEG,TRANS.P,TS.ID", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "DISJ.WEAK,TR.NEG,TS.ID", "verified": true, "failed": [], "card": {"prp": 1}}
+{"key": "IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "ASYM.ANTI,IRR.F,TR.NEG,TS.ID", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "IRR.F,TR.NEG,TRANS.P,TS.ID", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "DISJ.WEAK,IRR.F,TR.NEG,TS.ID", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.QUANT,IRR.F,TR.NEG,TS.ID", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 1}}
+{"key": "ASYM.ANTI,IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "DISJ.WEAK,IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "CL.QUANT,IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 1}}
+{"key": "ASYM.ANTI,DISJ.WEAK,IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"prp": 2}}
+{"key": "ASYM.ANTI,CL.QUANT,IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 1}}
+{"key": "ASYM.ANTI,CONJ.GRAIN,IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 2}}
+{"key": "ASYM.ANTI,CL.QUANT,DISJ.WEAK,IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 2}}
+{"key": "ASYM.ANTI,CONJ.GRAIN,DISJ.WEAK,IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 2}}
+{"key": "ASYM.ANTI,DISJ.WEAK,EX.WEAK,IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"pfun": 2, "prp": 2}}

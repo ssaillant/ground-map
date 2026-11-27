@@ -44,6 +44,8 @@ class P:
                     if self.peek(","): self.eat(","); continue
                     self.eat(")"); break
             return ("fun", tuple(sorted(d.items(), key=repr)))
+        if self.peek("λx. _"):  # function left unspecified by Nitpick: no values known
+            self.eat("λx. _"); return ("fun", ())
         if self.peek("{"):
             self.eat("{"); xs = []
             if not self.peek("}"):
@@ -77,8 +79,9 @@ def parse_model(text):
     if len(sec) == 2:
         # one "name = term" per logical line; continuation lines are indented deeper
         body = sec[1]
-        for m in re.finditer(r"^\s{4}(\S+) = (.*?)(?=^\s{4}\S+ = |\Z)", body, re.S | re.M):
-            consts[m.group(1).split(".")[-1]] = as_fun(P(m.group(2)).term())
+        for m in re.finditer(r"^\s{4}(\S+) =\s(.*?)(?=^\s{4}\S+ =\s|\Z)", body, re.S | re.M):
+            txt = re.sub(r"\s+", " ", m.group(2)).replace("( ", "(").replace(" )", ")")
+            consts[m.group(1).split(".")[-1]] = as_fun(P(txt).term())
     return card, consts
 
 

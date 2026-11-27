@@ -48,15 +48,20 @@ ENTRIES = {
     "IMM.CONJ": "IMM_CONJ", "IMM.FRITZ7": "IMM_FRITZ7",
 }
 # unconditional implications proved in Order.thy (stronger, weaker)
-IMPL = [("IRR.F", "IRR.W"), ("IRR.F", "IRR.MEM"), ("ASYM.P", "ASYM.ANTI"),
-        ("TRANS.CUT", "TRANS.P"), ("AMALG.INF", "AMALG.FIN"),
-        ("TS.ID", "TS.FULL"), ("TS.FULL", "TS.TYPED"), ("TR.FULL", "TR.TYPED"),
-        ("EX.FULL", "EX.LEV"), ("EX.FULL", "EX.PRED"), ("FIN.B3", "FIN.FIN")]
+PROVED = [("IRR.F", "IRR.W"), ("IRR.F", "IRR.MEM"), ("ASYM.P", "ASYM.ANTI"),
+          ("TRANS.CUT", "TRANS.P"), ("AMALG.INF", "AMALG.FIN"),
+          ("TS.ID", "TS.FULL"), ("TS.FULL", "TS.TYPED"), ("TR.FULL", "TR.TYPED"),
+          ("EX.FULL", "EX.LEV"), ("EX.FULL", "EX.PRED"), ("FIN.B3", "FIN.FIN")]
 # at most one entry from each group (exact characterisations of adm, or contradictory)
 EXCL = [{"C1", "C2", "C3d", "C3s"}, {"EMPTY.NONE", "EMPTY.SOME"}, {"BETA.ID", "BETA.GROUND"}]
 # entries that mention lam/den: the core clause LAM_CORE is added when one is present
 LAMB = {"IRR.W", "TS.TYPED", "TR.TYPED", "EX.PRED", "EX.LEV", "C1", "C2", "C3d",
         "BETA.ID", "BETA.GROUND"}
+# Propagation uses only implications whose weaker side is outside the formula layer.
+# A package means: its entries + FACT, + LAM_CORE iff it explicitly contains a LAMB
+# entry. An implication into a LAMB entry would silently add LAM_CORE, so it is not
+# used (fixed 2026-11-27; earlier grow summaries used it and are superseded).
+IMPL = [(a, b) for a, b in PROVED if b not in LAMB]
 
 SH = 'sledgehammer [timeout = {t}, provers = "vampire e cvc5 z3 zipperposition", minimize = false, preplay_timeout = 5]'
 NP = 'nitpick [timeout = {t}, card prp = 1-6, card pfun = 1-3, max_threads = 1, show_consts, format = 1]'
@@ -147,8 +152,7 @@ def run_batch(pkgs, t_sh=20, t_np=20):
                              capture_output=True, text=True, timeout=120 + 3 * (t_sh + t_np) * max(1, len(pkgs) // 4)).stdout
     except subprocess.TimeoutExpired as e:
         out = (e.stdout or b"").decode() if isinstance(e.stdout, bytes) else (e.stdout or "")
-    finally:
-        subprocess.run(["pkill", "-f", "poly -q"], capture_output=True)
+        subprocess.run(["pkill", "-f", "poly -q"], capture_output=True)  # only after a timeout
     elapsed = time.time() - t0
     # split messages by "Output (line N of"
     msgs = {}
@@ -177,7 +181,7 @@ def run_batch(pkgs, t_sh=20, t_np=20):
             cls = "trivial-only"
         else:
             cls = "unknown"
-        results.append({"key": key(p), "class": cls, "proof": info["refute"] or info["refuteN1"],
+        results.append({"key": key(p), "semantics": "v2", "class": cls, "proof": info["refute"] or info["refuteN1"],
                         "model": info["model_text"], "nitpick": info["model"], "batch": name,
                         "t_sh": t_sh, "t_np": t_np, "date": time.strftime("%Y-%m-%d")})
     return results, elapsed
