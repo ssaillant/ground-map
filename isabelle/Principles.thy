@@ -139,6 +139,13 @@ section \<open>Non-triviality (cumulative, k = 3, d = 3)\<close>
 definition N1 :: bool where "N1 \<longleftrightarrow> (\<exists>\<Gamma> p. G \<Gamma> p)"
 definition N2 :: bool where
   "N2 \<longleftrightarrow> N1 \<and> (\<exists>a b c. distinct [a, b, c] \<and> T a \<and> T b \<and> T c)"
+text \<open>N4 without its cumulative part (N3 has no formal statement): one of the four pairs of
+  classically equivalent shapes listed in the registry is distinct and has different sets of
+  full grounds.\<close>
+definition N4_pairs :: bool where
+  "N4_pairs \<longleftrightarrow> (\<exists>x y. ((\<exists>p. x = p \<and> y = neg (neg p)) \<or> (\<exists>p q. x = conj p q \<and> y = conj q p)
+       \<or> (\<exists>p. x = p \<and> y = conj p p) \<or> (\<exists>p q. x = disj p q \<and> y = disj q p))
+     \<and> x \<noteq> y \<and> {\<Gamma>. G \<Gamma> x} \<noteq> {\<Gamma>. G \<Gamma> y})"
 definition N5_chain :: bool where
   "N5_chain \<longleftrightarrow> (\<exists>x0 x1 x2 x3. distinct [x0, x1, x2, x3] \<and> PG x0 x1 \<and> PG x1 x2 \<and> PG x2 x3)"
 

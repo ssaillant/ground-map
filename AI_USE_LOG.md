@@ -198,3 +198,15 @@ AI-use disclosure. One entry per working session.
   there).
 - Human review: pending.
 
+
+## 2026-11-27 — Follow-ups on the model-certificate review questions
+
+- Tool and model as above.
+- Prompt: reviewer's questions on the four choices (re-checking, N3, N4, classicality) and
+  "If you haven't checked whether [Fritz 2022] already states the finite case, then check."
+- What the model did: read fritz2022 pp. 304-310 and 327-329 (page images) and, through a
+  fetch subagent, Fritz "Operands and instances" (RSL 2023) pp. 188-201; added N4_pairs to
+  Principles.thy and the locale (the registry's four shapes), proved for every model;
+  built model MF (IMM.FRITZ7 with CL.PROP, CL.QUANT, TS.FULL); updated F2 with the
+  literature check and MF. Session builds, no sorry/oops/axioms.
+- Human review: pending.

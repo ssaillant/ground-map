@@ -76,19 +76,20 @@ Principles that the search left unknown on their own, because they quantify over
 
 | Principle or package | Class | Non-triviality | Carriers | Isabelle |
 |---|---|---|---|---|
-| `BETA.GROUND` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: pr5 => pr5 (3125 functions) | `MD`: MD_core, MD_BETA_GROUND |
-| `BETA.ID` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: pr5 => pr5 (3125 functions) | `MC`: MC_core, MC_BETA_ID |
-| `C1` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_C1 |
-| `C2` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_C2 (k = 1) |
-| `C3d` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_C3d |
-| `EX.LEV` | finite-model | N5 (N3: instance MA_N3_EX) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MA`: MA_core, MA_EX_LEV, MA_N3_EX (EX.FULL also holds: MA_EX_FULL) |
-| `EX.PRED` | finite-model | N5 (N3: instance MA_N3_EX) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MA`: MA_core, MA_EX_PRED, MA_N3_EX (EX.FULL also holds: MA_EX_FULL) |
-| `FIN.B3` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_FIN_B3 |
-| `IMM.FRITZ7` | infinite-model | N5 (N3: vacuous on the registry's list (IMM is not listed); instance ME_N3_conj if (∧1) counts as CONJ) | prp: term algebra tm (infinite); atoms and conjunctions of truths true, all else false; pfun: unit | `ME`: ME_core, ME_IMM_FRITZ7, ME_infinite; no finite model: imm_fritz7_no_finite_model, imm_fritz7_prp_infinite |
-| `IRR.W` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_IRR_W (IRR.F also holds: MB_IRR_F) |
-| `TR.TYPED` | finite-model | N5 (N3: instance MB_N3_TR_TYPED) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_TR_TYPED, MB_N3_TR_TYPED |
-| `TS.TYPED` | finite-model | N5 (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_TS_TYPED |
+| `BETA.GROUND` | finite-model | N5 (N4 formal: MD_N4s) (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: pr5 => pr5 (3125 functions) | `MD`: MD_core, MD_BETA_GROUND, MD_N4s |
+| `BETA.ID` | finite-model | N5 (N4 formal: MC_N4s) (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: pr5 => pr5 (3125 functions) | `MC`: MC_core, MC_BETA_ID, MC_N4s |
+| `C1` | finite-model | N5 (N4 formal: MB_N4s) (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_C1, MB_N4s |
+| `C2` | finite-model | N5 (N4 formal: MB_N4s) (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_C2 (k = 1), MB_N4s |
+| `C3d` | finite-model | N5 (N4 formal: MB_N4s) (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_C3d, MB_N4s |
+| `EX.LEV` | finite-model | N5 (N4 formal: MA_N4s) (N3: instance MA_N3_EX) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MA`: MA_core, MA_EX_LEV, MA_N3_EX (EX.FULL also holds: MA_EX_FULL), MA_N4s |
+| `EX.PRED` | finite-model | N5 (N4 formal: MA_N4s) (N3: instance MA_N3_EX) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MA`: MA_core, MA_EX_PRED, MA_N3_EX (EX.FULL also holds: MA_EX_FULL), MA_N4s |
+| `FIN.B3` | finite-model | N5 (N4 formal: MB_N4s) (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_FIN_B3, MB_N4s |
+| `IMM.FRITZ7` | infinite-model | N5 (N4 formal: ME_N4s) (N3: vacuous on the registry's list (IMM is not listed); instance ME_N3_conj if (∧1) counts as CONJ) | prp: term algebra tm (infinite); atoms and conjunctions of truths true, all else false; pfun: unit | `ME`: ME_core, ME_IMM_FRITZ7, ME_infinite; no finite model: imm_fritz7_no_finite_model, imm_fritz7_prp_infinite, ME_N4s |
+| `IRR.W` | finite-model | N5 (N4 formal: MB_N4s) (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_IRR_W (IRR.F also holds: MB_IRR_F), MB_N4s |
+| `TR.TYPED` | finite-model | N5 (N4 formal: MB_N4s) (N3: instance MB_N3_TR_TYPED) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_TR_TYPED, MB_N3_TR_TYPED, MB_N4s |
+| `TS.TYPED` | finite-model | N5 (N4 formal: MB_N4s) (N3: vacuous (no introduction entry)) | prp: 5 propositions (pr5), all true; pfun: unit (one function) | `MB`: MB_core, MB_TS_TYPED, MB_N4s |
 | `ALL.INST`, `AMALG.INF`, `ASYM.P`, `C3d`, `CL.PROP`, `CL.QUANT`, `CONJ.BIN`, `CONJ.GRAIN`, `DISJ.BOTH`, `DISJ.ONE`, `EMPTY.NONE`, `EX.FULL`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.FULL`, `TR.NEG`, `TRANS.CUT`, `TRANS.P`, `TS.FULL` (package) | infinite-model | N5 (N1, N2, N5_chain proved) (N3: not tested) | prp: closed terms (infinite datatype ptm); pfun: lambda terms over ptm; application is a term of its own | `M1`: M1_package (with fidelity, M1_not_BETA_ID, M1_app_ungrounded) |
+| `CL.PROP`, `CL.QUANT`, `IMM.FRITZ7`, `TS.FULL` (package) | infinite-model | N5 (N4 formal: MF_core) (N3: instance MF_N3 if the IMM clauses count as CONJ and DISJ; otherwise not applicable) | prp: term algebra tm (infinite), classical truth (At n true iff n even); pfun: unit (one propositional function, so C3s fails) | `MF`: MF_core, MF_IMM_FRITZ7, MF_classical, MF_N3; no finite model by imm_fritz7_no_finite_model |
 
 ## 5. Unknown
 

@@ -127,6 +127,39 @@ text \<open>N4 (registry, nontriviality): some pair of classically equivalent pr
   the witness pair as an argument; each model below names its pair.\<close>
 definition N4_pair :: "'p \<Rightarrow> 'p \<Rightarrow> bool" where
   "N4_pair x y \<longleftrightarrow> x \<noteq> y \<and> {\<Gamma>. G \<Gamma> x} \<noteq> {\<Gamma>. G \<Gamma> y}"
+definition N4_pairs :: bool where
+  "N4_pairs \<longleftrightarrow> (\<exists>x y. ((\<exists>p. x = p \<and> y = neg (neg p)) \<or> (\<exists>p q. x = conj p q \<and> y = conj q p)
+       \<or> (\<exists>p. x = p \<and> y = conj p p) \<or> (\<exists>p q. x = disj p q \<and> y = disj q p))
+     \<and> x \<noteq> y \<and> {\<Gamma>. G \<Gamma> x} \<noteq> {\<Gamma>. G \<Gamma> y})"
+
+lemma N4_dn:
+  assumes "N4_pair p (neg (neg p))" shows "N4_pairs"
+proof -
+  have "\<exists>p'. p = p' \<and> neg (neg p) = neg (neg p')" by blast
+  hence sh: "(\<exists>p'. p = p' \<and> neg (neg p) = neg (neg p')) \<or> (\<exists>p' q. p = conj p' q \<and> neg (neg p) = conj q p')
+       \<or> (\<exists>p'. p = p' \<and> neg (neg p) = conj p' p') \<or> (\<exists>p' q. p = disj p' q \<and> neg (neg p) = disj q p')"
+    by (rule disjI1)
+  show ?thesis unfolding N4_pairs_def
+    by (rule exI[of _ p], rule exI[of _ "neg (neg p)"]) (use sh assms in \<open>simp add: N4_pair_def\<close>)
+qed
+lemma N4_cc:
+  assumes "N4_pair p (conj p p)" shows "N4_pairs"
+proof -
+  have sh: "(\<exists>p'. p = p' \<and> conj p p = neg (neg p')) \<or> (\<exists>p' q. p = conj p' q \<and> conj p p = conj q p')
+       \<or> (\<exists>p'. p = p' \<and> conj p p = conj p' p') \<or> (\<exists>p' q. p = disj p' q \<and> conj p p = disj q p')"
+    by (rule disjI2, rule disjI2, rule disjI1, blast)
+  show ?thesis unfolding N4_pairs_def
+    by (rule exI[of _ p], rule exI[of _ "conj p p"]) (use sh assms in \<open>simp add: N4_pair_def\<close>)
+qed
+
+definition CL_PROP :: bool where
+  "CL_PROP \<longleftrightarrow> (\<forall>p q. (T (neg p) \<longleftrightarrow> \<not> T p) \<and> (T (conj p q) \<longleftrightarrow> T p \<and> T q)
+                     \<and> (T (disj p q) \<longleftrightarrow> T p \<or> T q))"
+definition CL_QUANT :: bool where
+  "CL_QUANT \<longleftrightarrow> (\<forall>f. (T (exq f) \<longleftrightarrow> (\<exists>a. T (app f a))) \<and> (T (allq f) \<longleftrightarrow> (\<forall>a. T (app f a)))
+                     \<and> (T (bigconj f) \<longleftrightarrow> (\<forall>q\<in>sat f. T q)))"
+definition TS_FULL :: bool where
+  "TS_FULL \<longleftrightarrow> (\<forall>p. T (tr p) \<longleftrightarrow> T p)"
 
 end
 
@@ -153,6 +186,7 @@ lemma K_faithful:
   "K.IRR_W = IRR_W" "K.IRR_F = IRR_F" "K.TS_TYPED = TS_TYPED" "K.TR_TYPED = TR_TYPED"
   "K.EX_PRED = EX_PRED" "K.EX_LEV = EX_LEV" "K.EX_FULL = EX_FULL" "K.FIN_B3 = FIN_B3"
   "K.IMM_FRITZ7 = IMM_FRITZ7" "K.N1 = N1" "K.N2 = N2" "K.N5_chain = N5_chain"
+  "K.N4_pairs = N4_pairs" "K.CL_PROP = CL_PROP" "K.CL_QUANT = CL_QUANT" "K.TS_FULL = TS_FULL"
   by (simp_all add: K_den K_aux K_vacW fun_eq_iff
         K.LAM_CORE_def LAM_CORE_def K.C1_def C1_def K.C2_def C2_def K.C3d_def C3d_def
         K.f_id_def f_id_def K.f_tr_def f_tr_def K.f_em_def f_em_def K.f_tem_def f_tem_def
@@ -160,7 +194,8 @@ lemma K_faithful:
         K.IRR_W_def IRR_W_def K.IRR_F_def IRR_F_def K.TS_TYPED_def TS_TYPED_def
         K.TR_TYPED_def TR_TYPED_def K.EX_PRED_def EX_PRED_def K.EX_LEV_def EX_LEV_def
         K.EX_FULL_def EX_FULL_def K.FIN_B3_def FIN_B3_def K.IMM_FRITZ7_def IMM_FRITZ7_def
-        K.N1_def N1_def K.N2_def N2_def K.N5_chain_def N5_chain_def)
+        K.N1_def N1_def K.N2_def N2_def K.N5_chain_def N5_chain_def K.N4_pairs_def N4_pairs_def
+        K.CL_PROP_def CL_PROP_def K.CL_QUANT_def CL_QUANT_def K.TS_FULL_def TS_FULL_def)
 
 section \<open>Five propositions on a cycle\<close>
 
@@ -198,6 +233,8 @@ proof -
   have "GB {P0} P1" "\<not> GB {P0} P3" unfolding GB_def by auto
   thus "MB.N4_pair P1 (nx (nx P1))" unfolding MB.N4_pair_def by auto
 qed
+
+lemma MB_N4s: "MB.N4_pairs" using MB.N4_dn[OF MB_N4] .
 
 lemma MB_C1: "MB.C1" by (simp add: MB.C1_def)
 lemma MB_C2: "MB.C2 1" unfolding MB.C2_def by (auto intro!: exI[of _ "Var 0"])
@@ -241,6 +278,8 @@ proof -
   have "GA {P0} P1" "\<not> GA {P0} P3" unfolding GA_def by auto
   thus "MA.N4_pair P1 (nx (nx P1))" unfolding MA.N4_pair_def by auto
 qed
+
+lemma MA_N4s: "MA.N4_pairs" using MA.N4_dn[OF MA_N4] .
 
 lemma MA_EX_FULL: "MA.EX_FULL" by (simp add: MA.EX_FULL_def GA_def)
 lemma MA_EX_PRED: "MA.EX_PRED" by (simp add: MA.EX_PRED_def GA_def)
@@ -304,6 +343,8 @@ proof -
   thus "MC.N4_pair P1 (nx (nx P1))" unfolding MC.N4_pair_def by auto
 qed
 
+lemma MC_N4s: "MC.N4_pairs" using MC.N4_dn[OF MC_N4] .
+
 lemma MC_BETA_ID: "MC.BETA_ID" by (simp add: MC.BETA_ID_def MC_den lamC_def)
 
 text \<open>Model D: applying a function adds one step, app f p = nx (f p); the redex is then
@@ -331,6 +372,8 @@ proof -
   have "GB {P0} P1" "\<not> GB {P0} P3" unfolding GB_def by auto
   thus "MD.N4_pair P1 (nx (nx P1))" unfolding MD.N4_pair_def by auto
 qed
+
+lemma MD_N4s: "MD.N4_pairs" using MD.N4_dn[OF MD_N4] .
 
 lemma MD_BETA_GROUND: "MD.BETA_GROUND"
   using nx_neq by (simp add: MD.BETA_GROUND_def MD_den lamC_def GB_def)
@@ -468,23 +511,128 @@ lemma ME_core: "ME.FACT" "ME.N1" "ME.N2" "ME.N5_chain"
   and ME_N4: "ME.N4_pair (At 0) (Cj (At 0) (At 0))"
   and ME_infinite: "infinite (UNIV :: tm set)"
 proof -
-  show "ME.FACT" by (auto simp: ME.FACT_def GE_def)
-  have g: "GE {x} (Cj x x)" if "TE x" for x unfolding GE_def using that by auto
-  show "ME.N1" unfolding ME.N1_def using g[of "At 0"] by auto
-  thus "ME.N2" unfolding ME.N2_def by (intro conjI exI[of _ "At 0"] exI[of _ "At 1"] exI[of _ "At 2"]) simp_all
+  show "ME.FACT" unfolding ME.FACT_def GE_def by auto
+  have g: "GE {x} (Cj x x)" if "TE x" for x unfolding GE_def using that by simp
+  have pg: "ME.PG x (Cj x x)" if "TE x" for x unfolding ME.PG_def using g[OF that] by blast
+  show n1: "ME.N1" unfolding ME.N1_def using g[of "At 0"] by auto
+  have "distinct [At 0, At 1, At 2]" "TE (At 0)" "TE (At 1)" "TE (At 2)" by simp_all
+  thus "ME.N2" unfolding ME.N2_def using n1 by blast
   define x1 where "x1 = Cj (At 0) (At 0)"
   define x2 where "x2 = Cj x1 x1"
   define x3 where "x3 = Cj x2 x2"
-  have T12: "TE x1" "TE x2" unfolding x1_def x2_def by simp_all
+  have T: "TE (At 0)" "TE x1" "TE x2" unfolding x1_def x2_def by simp_all
   have "ME.PG (At 0) x1" "ME.PG x1 x2" "ME.PG x2 x3"
-    unfolding ME.PG_def x1_def x2_def x3_def using g T12 unfolding x1_def x2_def by auto
+    using pg[OF T(1)] pg[OF T(2)] pg[OF T(3)] unfolding x1_def x2_def x3_def by simp_all
   moreover have "distinct [At 0, x1, x2, x3]" unfolding x1_def x2_def x3_def by simp
   ultimately show "ME.N5_chain" unfolding ME.N5_chain_def by blast
-  have "{\<Gamma>. GE \<Gamma> (At 0)} = {}" "{At 0} \<in> {\<Gamma>. GE \<Gamma> (Cj (At 0) (At 0))}" by (auto simp: GE_def)
-  thus "ME.N4_pair (At 0) (Cj (At 0) (At 0))" unfolding ME.N4_pair_def by auto
+  have e: "\<not> GE \<Gamma> (At 0)" for \<Gamma> unfolding GE_def by simp
+  have "{\<Gamma>. GE \<Gamma> (At 0)} \<noteq> {\<Gamma>. GE \<Gamma> (Cj (At 0) (At 0))}" using e g[of "At 0"] by auto
+  moreover have "At 0 \<noteq> Cj (At 0) (At 0)" by simp
+  ultimately show "ME.N4_pair (At 0) (Cj (At 0) (At 0))" unfolding ME.N4_pair_def by blast
   have "inj At" by (simp add: inj_def)
-  thus "infinite (UNIV :: tm set)" using infinite_UNIV_nat
-    by (meson finite_imageD finite_subset subset_UNIV)
+  have "\<not> finite (range At)"
+  proof
+    assume "finite (range At)"
+    hence "finite (UNIV :: nat set)" using finite_imageD[OF _ \<open>inj At\<close>] by blast
+    thus False by simp
+  qed
+  thus "infinite (UNIV :: tm set)" using finite_subset[OF subset_UNIV] by blast
+qed
+
+lemma ME_N4s: "ME.N4_pairs" using ME.N4_cc[OF ME_N4] .
+
+section \<open>IMM.FRITZ7 with classical truth: CL.PROP, CL.QUANT and TS.FULL\<close>
+
+text \<open>Model F. The same term algebra, now with classical truth: an atom At n is true iff n is
+  even, the connectives and the truth ascription Tc are truth-functional, and the three
+  quantified propositions get the truth values CL.QUANT requires for the single
+  propositional function (the identity): exq and bigconj true, allq false. A true
+  conjunction is fully grounded by its two conjuncts; a true disjunction by the set of its
+  true disjuncts (one or both). Nothing else grounds anything. Each proposition has at most
+  one full ground, so immediate and mediate ground coincide. Fritz's main result
+  (P.FRITZ.MAIN) adds C3s; this model has one propositional function and so fails C3s.\<close>
+
+primrec TF :: "tm \<Rightarrow> bool" where
+  "TF (At n) = even n" | "TF (Cj a b) = (TF a \<and> TF b)" | "TF (Dj a b) = (TF a \<or> TF b)"
+| "TF (Ng a) = (\<not> TF a)" | "TF (Tc a) = TF a" | "TF (Qu n) = (n \<noteq> 1)"
+
+definition GF :: "tm set \<Rightarrow> tm \<Rightarrow> bool" where
+  "GF \<Gamma> q \<longleftrightarrow> (\<exists>a b. q = Cj a b \<and> TF a \<and> TF b \<and> \<Gamma> = {a, b})
+             \<or> (\<exists>a b. q = Dj a b \<and> (TF a \<or> TF b) \<and> \<Gamma> = {x. (x = a \<or> x = b) \<and> TF x})"
+
+interpretation MF: gsig TF At Ng Cj Dj Tc "\<lambda>(_::unit) p. p" "\<lambda>_. Qu 0" "\<lambda>_. Qu 1" "\<lambda>_. Qu 2"
+  "\<lambda>_ _ _. ()" "\<lambda>_. True" GF "\<lambda>_. At 0" "At 0" .
+
+lemma GF_unique: "GF \<Gamma> q \<Longrightarrow> GF \<Delta> q \<Longrightarrow> \<Delta> = \<Gamma>"
+  unfolding GF_def by (elim disjE exE conjE) simp_all
+
+lemma MF_IG: "MF.IG \<Gamma> q \<longleftrightarrow> GF \<Gamma> q"
+proof
+  assume "MF.IG \<Gamma> q" thus "GF \<Gamma> q" by (simp add: MF.IG_def)
+next
+  assume g: "GF \<Gamma> q"
+  have H: "\<forall>\<Delta>. GF \<Delta> q \<longrightarrow> (\<forall>p\<in>\<Gamma> - \<Delta>. \<exists>\<Delta>'\<subseteq>\<Delta>. GF \<Delta>' p)"
+  proof (intro allI impI ballI)
+    fix \<Delta> p assume d: "GF \<Delta> q" and p: "p \<in> \<Gamma> - \<Delta>"
+    have "\<Delta> = \<Gamma>" using GF_unique[OF g d] .
+    thus "\<exists>\<Delta>'\<subseteq>\<Delta>. GF \<Delta>' p" using p by simp
+  qed
+  show "MF.IG \<Gamma> q" unfolding MF.IG_def using g H by (rule conjI)
+qed
+
+lemma MF_IPG: "MF.IPG r q \<longleftrightarrow>
+    (\<exists>a b. q = Cj a b \<and> TF a \<and> TF b \<and> (r = a \<or> r = b)) \<or> (\<exists>a b. q = Dj a b \<and> TF r \<and> (r = a \<or> r = b))"
+  unfolding MF.IPG_def MF_IG GF_def by auto
+
+lemma MF_IMM_FRITZ7: "MF.IMM_FRITZ7"
+proof -
+  have "\<not> MF.IPG (At 0) (At 2)" by (simp add: MF_IPG)
+  hence nt: "\<not> (\<forall>p q. TF p \<and> TF q \<longrightarrow> MF.IPG p q)" by force
+  show ?thesis unfolding MF.IMM_FRITZ7_def using nt by (auto simp: MF_IPG)
+qed
+
+lemma MF_classical: "MF.CL_PROP" "MF.CL_QUANT" "MF.TS_FULL"
+proof -
+  show "MF.CL_PROP" by (simp add: MF.CL_PROP_def)
+  show "MF.TS_FULL" by (simp add: MF.TS_FULL_def)
+  have "TF (At 0)" "\<not> TF (At 1)" by simp_all
+  hence "\<exists>a. TF a" "\<not> (\<forall>a. TF a)" by blast+
+  moreover have "\<forall>q\<in>MF.sat f. TF q" for f by (simp add: MF.sat_def)
+  ultimately show "MF.CL_QUANT" unfolding MF.CL_QUANT_def by simp
+qed
+
+lemma MF_core: "MF.FACT" "MF.N1" "MF.N2" "MF.N5_chain" "MF.N4_pairs"
+  and MF_N4: "MF.N4_pair (At 0) (Cj (At 0) (At 0))"
+proof -
+  show "MF.FACT" unfolding MF.FACT_def GF_def by auto
+  have g: "GF {x} (Cj x x)" if "TF x" for x unfolding GF_def using that by simp
+  have pg: "MF.PG x (Cj x x)" if "TF x" for x unfolding MF.PG_def using g[OF that] by blast
+  show n1: "MF.N1" unfolding MF.N1_def using g[of "At 0"] by auto
+  have "distinct [At 0, At 2, At 4]" "TF (At 0)" "TF (At 2)" "TF (At 4)" by simp_all
+  thus "MF.N2" unfolding MF.N2_def using n1 by blast
+  define x1 where "x1 = Cj (At 0) (At 0)"
+  define x2 where "x2 = Cj x1 x1"
+  define x3 where "x3 = Cj x2 x2"
+  have T: "TF (At 0)" "TF x1" "TF x2" unfolding x1_def x2_def by simp_all
+  have "MF.PG (At 0) x1" "MF.PG x1 x2" "MF.PG x2 x3"
+    using pg[OF T(1)] pg[OF T(2)] pg[OF T(3)] unfolding x1_def x2_def x3_def by simp_all
+  moreover have "distinct [At 0, x1, x2, x3]" unfolding x1_def x2_def x3_def by simp
+  ultimately show "MF.N5_chain" unfolding MF.N5_chain_def by blast
+  have e: "\<not> GF \<Gamma> (At 0)" for \<Gamma> unfolding GF_def by simp
+  have "{\<Gamma>. GF \<Gamma> (At 0)} \<noteq> {\<Gamma>. GF \<Gamma> (Cj (At 0) (At 0))}" using e g[of "At 0"] by auto
+  moreover have "At 0 \<noteq> Cj (At 0) (At 0)" by simp
+  ultimately show N4: "MF.N4_pair (At 0) (Cj (At 0) (At 0))" unfolding MF.N4_pair_def by blast
+  thus "MF.N4_pairs" by (rule MF.N4_cc)
+qed
+
+text \<open>N3 instances for the classical model, if the IMM clauses count as introduction entries:
+  a conjunction of two distinct truths, and a disjunction with exactly one true disjunct.\<close>
+lemma MF_N3:
+  "MF.IPG (At 0) (Cj (At 0) (At 2)) \<and> MF.IPG (At 2) (Cj (At 0) (At 2)) \<and> distinct [At 0, At 2, Cj (At 0) (At 2)]
+   \<and> GF {At 0} (Dj (At 0) (At 1)) \<and> distinct [At 0, Dj (At 0) (At 1)]"
+proof -
+  have "{x. (x = At 0 \<or> x = At 1) \<and> TF x} = {At 0}" by auto
+  thus ?thesis by (simp add: MF_IPG GF_def)
 qed
 
 end
