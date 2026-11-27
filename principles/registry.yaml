@@ -1,0 +1,1482 @@
+# Ground Map: principle registry
+# Single source of truth for the consistency map. Results are tied to
+# registry_version. DRAFT for review (step 1). Only the arguments in
+# puzzles.checked have been machine-checked (isabelle/Russell_Checks.thy and
+# isabelle/Fine_Checks.thy, isabelle/Signature.thy, Isabelle2026); no
+# package in the map has been checked yet. Reviewer decisions D1–D3 are
+# recorded in the section `decisions` and implemented in 0.2.0-draft.
+
+registry_version: 0.2.1-draft
+date: 2026-11-26
+status: draft-for-review
+decisions:
+  # Reviewer decisions, recorded with the version that implements them.
+  - id: D1
+    date: 2026-11-26
+    decided_by: Said Saillant (reviewer), approving the recommendation in the decision note
+    implemented_in: 0.2.0-draft
+    question: how to encode Fritz's "only its conjuncts" without a primitive of immediate ground
+    decision: option (d) - define immediate full ground IG from mediate full ground by Fritz's support proposal (fritz2022 p. 322), with the added clause that Γ itself fully grounds q (our reading); state Fritz's (⋀≺) for the partial notion IPG (new family IMM, entry IMM.CONJ). CONJ.GRAIN is kept as a control.
+    checks: grain_from_conj_imm, fritz_cantor_imm, fritz_p315_imm in isabelle/Signature.thy
+  - id: D2
+    date: 2026-11-26
+    decided_by: Said Saillant (reviewer), approving the recommendation in the decision note
+    implemented_in: 0.2.0-draft
+    question: what Woods's "occurs in the grounds" means
+    decision: option (c) - uniform substitution on formulas, embedded occurrences included (woods2018 pp. 640–641, fn. 35 p. 644); one-world approximation of Woods's modal test (fn. 27), recorded on every IRR.W result. The draft membership reading is kept only as the control entry IRR.MEM.
+    checks: kramer_vacuous in isabelle/Signature.thy (Krämer's self-ground of ∃p p is vacuous, as Woods p. 640 says)
+  - id: D3
+    date: 2026-11-26
+    decided_by: Said Saillant (reviewer), approving the recommendation in the decision note
+    implemented_in: 0.2.0-draft
+    question: how to state level and truth-freeness restrictions over a base type
+    decision: option (c) - a datatype of formulas with a denotation map into prop, used only by the restricted principles (EX.PRED, EX.LEV, TS.TYPED, TR.TYPED), comprehension, BETA and Woods's substitution. Propositions stay a base type and ground still relates sets of propositions. C3 splits into C3d (definable) and C3s (every function); new family BETA (BETA.ID, BETA.GROUND; neither = the rejection Goodman reports of Fritz).
+    checks: kramer_v2 in isabelle/Signature.thy (Krämer's puzzle in the new encoding)
+  - id: D4
+    date: 2026-11-27
+    decided_by: Said Saillant (reviewer), decision card
+    implemented_in: 0.2.1-draft (recorded; applies from step 4)
+    question: how step 4 classifies packages that have only infinite models (finding F1)
+    decision: add a classification "infinite-model", certified by an infinite model constructed in Isabelle (for example a term model) and checked like any other result. Classes are now refuted, finite-model, infinite-model, unknown.
+changelog:
+  - version: 0.2.1-draft
+    date: 2026-11-27
+    changes:
+      - Added IMM.FRITZ7 (Fritz's seven principles of immediate partial ground, pp. 304–305, for the defined IPG); Fritz's main result checked (isabelle/Fritz_Main.thy).
+      - Step 3 validation complete - every target reproduced (puzzles.validation).
+      - Fine 2012a citations moved to CUP pages from the published volume supplied 2026-11-27.
+      - New finding for step 4 (findings.F1) - most packages have no finite model (isabelle/No_Finite_Models.thy).
+  - version: 0.2.0-draft
+    date: 2026-11-26
+    changes:
+      - Implemented reviewer decisions D1–D3 (section decisions).
+      - Signature - added datatype fm, den, lam, fv, subf, lvl, tfree, adm, sat, IG, IPG, vacW; removed lv, trf and the bundles LEVELS and TRUTHFREE; core clauses LAM.T and LAM.ENV.
+      - Convention - a free pfun variable in a family statement ranges over admissible functions (adm f); COMP fixes adm. CL.QUANT is not restricted.
+      - "Families - IRR.W restated by vacW, IRR.MEM added as control; EX.PRED, EX.LEV, TS.TYPED, TR.TYPED restated on formulas; COMP now C1, C2, C3d, C3s; new families BETA and IMM; CONJ.GRAIN marked control."
+      - Isabelle - isabelle/Signature.thy (Isabelle2026; no sorry, oops or axioms) checks the signature and six results.
+  - version: 0.1.2-draft
+    date: 2026-11-26
+    changes:
+      - Verified Fine 2010 (published, NDJFL pp. 97–118) and Lovett (Phil. Studies 177, 2020, pp. 2541–2564) against PDFs supplied by the reviewer; entries citing Fine 2010 moved from secondary/unverified to published-page.
+      - "Corrected: Fine 2010 p. 108 questions Disjunctive Grounding for two true disjuncts (DISJ.ONE), not the collective rule DISJ.BOTH."
+      - Added DISJ.WEAK and EX.WEAK (Fine 2010 p. 108, Weak Disjunctive and Weak Existential Grounding). Added witness f_tem to C1 (Fine's Universal and Particular Middle, pp. 99, 102–103).
+      - Split P.FINE.UNIVERSAL into Fine's own version (truth predicate, p. 102) and the sentence-position variant via Woods p. 645; P.FINE.PARTICULAR now cites Fine p. 106 directly. Four new Isabelle2026 checks in isabelle/Fine_Checks.thy.
+  - version: 0.1.1-draft
+    date: 2026-11-26
+    changes:
+      - Verified Fine 2012b (published), Fine 2012a (author manuscript) and Fritz 2022 (published) against PDFs supplied by the reviewer; tags updated.
+      - CONJ.INF, CONJ.GRAIN and CL.QUANT now use the satisfier reading of infinitary conjunction (conjuncts = the propositions satisfying f), as in Fritz 2022 p. 306.
+      - Puzzle and conjecture entries updated with Isabelle2026 results (isabelle/Russell_Checks.thy).
+      - PENDING at 0.1.1 (applied in 0.2.0 as D1–D3) - formula layer with denotations; Woods vacuity by uniform substitution; BETA family; C3 split into C3d/C3s; Fritz option via defined immediate ground.
+
+# ---------------------------------------------------------------------------
+# How to read this file
+# ---------------------------------------------------------------------------
+# Every source quotation carries a `check` value:
+#   published-page : read in the published version; the page is the journal
+#                    page shown in the running header.
+#   manuscript     : read verbatim in an accepted manuscript or repository
+#                    copy; journal pagination NOT verified. `locator` gives a
+#                    section (or the manuscript's own page, labelled ms p.).
+#   secondary      : this work was not read; the quote or locator is taken
+#                    from a work that cites it (named in `via`).
+#   unverified     : no text read. No quotation is given, only a paraphrase,
+#                    which must not be cited until checked.
+# All quotations were obtained by automated text extraction of PDFs (formula
+# rendering can be lossy); each must be re-checked against the PDF before
+# publication.
+#
+# `statement` is the formal statement to be encoded in Isabelle/HOL over the
+# fixed signature below; free variables are universally quantified. `readings` lists every place a choice between
+# readings was made: `chosen` is what the statement encodes, `alternatives`
+# what it does not, and `why` the reason. Lines marked INFERENCE are mine,
+# not the source's.
+#
+# Lattice: each family is a chain ordered by strength (rank 1 weakest), or a
+# set of mutually exclusive `alternatives`. A package picks, for each family,
+# nothing (rank 0) or one entry. Choosing an entry of a chain includes every
+# weaker entry of that chain (statements below are cumulative unless marked
+# `standalone`). Cross-family implications are listed under `implies`.
+
+# ---------------------------------------------------------------------------
+# Fixed signature (not switchable)
+# ---------------------------------------------------------------------------
+signature:
+  isabelle_theory: isabelle/Signature.thy (the definitions below are checked there)
+  isabelle: |
+    typedecl prop          (* propositions: a base type, never bool; prp in Isabelle *)
+    typedecl pfun          (* propositional functions *)
+    datatype fm = Var nat | Cst nat | Neg fm | Conj fm fm | Disj fm fm | Tr fm
+                | Ex nat fm | All nat fm | BigC nat fm     (* formula layer, D3 *)
+    consts
+      T       :: "prop ⇒ bool"             (* truth (actual truth), metalevel predicate *)
+      atom    :: "nat ⇒ prop"              (* atomic propositions named by Cst *)
+      neg     :: "prop ⇒ prop"
+      conj    :: "prop ⇒ prop ⇒ prop"
+      disj    :: "prop ⇒ prop ⇒ prop"
+      tr      :: "prop ⇒ prop"             (* the proposition that p is true *)
+      app     :: "pfun ⇒ prop ⇒ prop"      (* value of a propositional function *)
+      ex      :: "pfun ⇒ prop"             (* ∃p. f p; exq in Isabelle *)
+      all     :: "pfun ⇒ prop"             (* ∀p. f p; allq in Isabelle *)
+      bigconj :: "pfun ⇒ prop"             (* conjunction of the satisfiers of f *)
+      tot     :: "pfun ⇒ prop"             (* totality fact for f; used only by ALL.TOT *)
+      lam     :: "nat ⇒ fm ⇒ (nat ⇒ prop) ⇒ pfun"  (* λx.φ under an environment *)
+      adm     :: "pfun ⇒ bool"             (* admissible functions; fixed by COMP *)
+      G       :: "prop set ⇒ prop ⇒ bool"  (* strict full mediate factive ground *)
+    primrec den :: "(nat ⇒ prop) ⇒ fm ⇒ prop"   (* denotation *)
+      den v (Var n) = v n          den v (Cst n) = atom n
+      den v (Neg a) = neg (den v a)          den v (Tr a) = tr (den v a)
+      den v (Conj a b) = conj (den v a) (den v b)    (* Disj likewise *)
+      den v (Ex x a) = ex (lam x a v)    den v (All x a) = all (lam x a v)
+      den v (BigC x a) = bigconj (lam x a v)
+    primrec fv, subf             (* free variables; subformulas *)
+    primrec lvl :: "fm ⇒ nat"     (* quantifier depth: Ex/All/BigC add 1, connectives take max *)
+    primrec tfree :: "fm ⇒ bool"  (* no Tr subformula *)
+    definition inst f ≡ range (app f)
+    definition sat f ≡ {p. T (app f p)}
+    definition PG p q ≡ ∃Γ. p ∈ Γ ∧ G Γ q                       (* partial ground *)
+    definition IG Γ q ≡ G Γ q ∧ (∀Δ. G Δ q ⟶ (∀p∈Γ - Δ. ∃Δ'⊆Δ. G Δ' p))   (* D1 *)
+    definition IPG p q ≡ ∃Γ. p ∈ Γ ∧ IG Γ q                     (* immediate partial *)
+    definition vacW A Γ c ≡ ∃Φ v z.                               (* D2 *)
+        Γ = (λφ. den (v(z:=A)) φ) ` Φ
+      ∧ (∃φ∈Φ. z ∈ fv φ)
+      ∧ (∀φ∈Φ. ∀ψ∈subf φ. z ∉ fv ψ ⟶ den (v(z:=A)) ψ ≠ A)
+      ∧ (∀B. (∀φ∈Φ. T (den (v(z:=B)) φ)) ⟶ G ((λφ. den (v(z:=B)) φ) ` Φ) c)
+  core_axioms:
+    # Assumed as hypotheses of every theorem, never as Isabelle axioms.
+    FACT: |
+      G Γ p ⟹ T p ∧ (∀q∈Γ. T q)
+    LAM.T: |
+      T (app (lam x a v) p) ⟷ T (den (v(x:=p)) a)
+    LAM.ENV: |
+      (∀y∈fv a - {x}. v y = w y) ⟶ lam x a v = lam x a w
+  notes:
+    - Factivity is part of the primitive (design decision), so it is core, not a
+      family. Correia's logical grounding is explicitly non-factive (see the
+      bibliography entry correia2014); his rules are imported here only in their
+      factive form.
+    - Grounds are HOL sets, so they may be empty or infinite unless EMPTY or FIN
+      says otherwise. No constant maps `prop set` to `prop`; every map from a
+      collection of propositions to a proposition goes through `pfun`, so HOL's
+      built-in set comprehension cannot by itself manufacture a Cantor or
+      Russell argument. Which propositional functions exist is governed by COMP.
+    - >-
+        Fine's and Krämer's puzzles quantify first-order over propositions with a
+        truth predicate, or into sentence position. With a base type `prop` both
+        become quantification over `prop` via `ex`/`all`. Consequence: Krämer's
+        (PE) "∃y y = <∃x x is true>" holds trivially (every term of type prop
+        denotes), so the Finean counterpart cannot be blocked by denying (PE).
+        The same holds for Fine's Propositional Existence, "∃p(p = |A|)"
+        (fine2010 p. 100). Fine's first option, predicativism, rejects exactly
+        that principle (pp. 104, 109), so v1 cannot represent it; the
+        comprehension family COMP restricts propositional functions, not
+        propositions. See the readings on EX.FULL.
+    - "`tot` is inert unless ALL.TOT is selected."
+    - >-
+        Convention (D3). A free variable f of type pfun in a family statement
+        ranges over admissible functions: read `P f` as `adm f ⟶ P f`. COMP fixes
+        adm. CL.QUANT is the exception and holds for every f.
+    - >-
+        Formula layer (D3). Formulas are syntax for describing propositions and
+        functions; they are not the relata of ground. A restriction stated on a
+        formula (lvl a = 0, tfree a) applies to a proposition whenever some
+        formula with the property denotes it under some environment. Identities
+        between propositions (ID family) can therefore make a restricted principle
+        apply to a proposition that also has an unrestricted presentation; this is
+        the intended reading of "the proposition expressed by a quantifier-free
+        formula", and it is recorded on every result that uses a restricted entry.
+    - >-
+        Woods's vacuity (D2). Φ presents the grounds with the variable z marking
+        the occurrences of A. The third clause forces every occurrence to be marked
+        (no z-free subformula denotes A), which encodes Woods's uniform
+        substitution, embedded occurrences included. Limits - "anywhere" is read in
+        the one model only (Woods fn. 27 asks for a modal test, so IRR.W is weaker
+        than his principle); a z-containing subformula may still denote A through
+        an identity (e.g. ¬¬A = A), which the clause does not exclude.
+
+auxiliary_bundles: {}
+  # LEVELS and TRUTHFREE (v0.1.x) were removed by D3: levels and truth-freeness
+  # are now the functions lvl and tfree on formulas.
+
+# ---------------------------------------------------------------------------
+# Families
+# ---------------------------------------------------------------------------
+families:
+
+  # 1 ------------------------------------------------------------------------
+  - id: IRR
+    name: Irreflexivity
+    order: chain
+    entries:
+      - id: IRR.W
+        rank: 1
+        name: Substantive irreflexivity (Woods)
+        statement: |
+          G Γ c ∧ c ∈ Γ ⟶ vacW c Γ c        (* vacW: signature, D2 *)
+        sources:
+          - work: woods2018
+            locator: p. 641
+            check: published-page
+            quote: "...,A < A unless A occurs vacuously in ...,A<A"
+          - work: woods2018
+            locator: p. 640
+            check: published-page
+            quote: "A proposition A occurs vacuously in a grounding fact γ when A occurs in the grounds of γ"
+            note: The rest of the definition (paraphrase of the extraction) says that
+              substituting any B for A in the grounds yields a grounding fact
+              wherever the modified grounds hold; substitution is in the grounds only
+              (pp. 640–641).
+          - work: woods2018
+            locator: p. 644
+            check: published-page
+            quote: "...A... < A unless A occurs vacuously in ...A, ... < A for all ... such that ...A, ... < A"
+            note: PARTIAL SUBSTANTIVE IRREFLEXIVITY; partial-ground symbols lost in extraction.
+        readings:
+          - point: what "occurs in the grounds" means
+            chosen: uniform substitution of every occurrence, embedded ones included, on the formula layer (D2, 2026-11-26)
+            alternatives: ['membership, a ∈ Γ - the v0.1.x reading, kept as the control IRR.MEM', 'constituent occurrence over prop without formulas - not definable on a base type']
+            why: woods2018 p. 640 (uniform substitution "in the grounds"; embedded occurrences count), fn. 35 p. 644 (sentential and argument position). Lovett 2020 p. 2551 reads Woods the same way. Fine's "A in one capacity ... a ground for A in another capacity" (fine2010 p. 104) is the idea Woods develops (Woods p. 638).
+          - point: 'Woods p. 640 - "for any proposition B, γ A/B holds anywhere the (modified) grounds of γ A/B are true"'
+            chosen: for every B whatsoever, provided the modified grounds are true in the model
+            alternatives: ['a modal test over worlds (Woods fn. 27)']
+            why: v1 has no modality. The one-world test is easier to pass, so IRR.W is weaker than Woods's principle; recorded on every IRR.W result.
+          - point: which presentation of the grounds
+            chosen: some presentation Φ in which every occurrence of A is marked
+            alternatives: ['every such presentation']
+            why: INFERENCE - Woods quantifies over substituends, not presentations; with every occurrence marked, different presentations differ only in how the other grounds are written. Flagged for step 3 validation.
+          - point: full versus partial version
+            chosen: full-ground version (p. 641); the partial version (p. 644) is implied once vac is checked for every Γ, which this statement does
+            alternatives: ['separate entry for p. 644']
+            why: with set-valued full ground and PG defined from it, the two coincide on this encoding (INFERENCE, to be proved in step 2).
+      - id: IRR.F
+        rank: 2
+        name: Irreflexivity (no proposition partially grounds itself)
+        statement: |
+          G Γ c ⟶ c ∉ Γ          (* equivalently ¬ PG c c, by definition of PG *)
+        sources:
+          - work: woods2018
+            locator: p. 632
+            check: published-page
+            quote: "...,A < A"
+            note: Stated as IRREFLEXIVITY (a fact never grounds itself); the negation sign did not survive extraction.
+          - work: kramer2013
+            locator: introduction, first paragraph
+            check: manuscript
+            quote: "grounding is irreflexive, i.e. that nothing grounds itself"
+          - work: korbmacher2018a
+            locator: Def. 2, axiom G1
+            check: manuscript
+            quote: "G1 ∀x¬(x ◁ x)"
+          - work: correia2014
+            locator: Prop. 1.2(3), ms p. 4–5
+            check: manuscript
+            quote: "Not: Γ,φ Λ φ."
+            note: Correia's Generalised Irreflexivity, for non-factive logical grounding.
+        readings:
+          - point: full versus partial irreflexivity
+            chosen: one entry; with PG defined as membership in a full ground they are the same principle
+            alternatives: []
+            why: definitional (INFERENCE).
+      - id: IRR.MEM
+        rank: 1
+        standalone: true
+        control: true
+        name: Membership irreflexivity (control, not a source principle)
+        statement: |
+          vacM Γ a c ≡ a ∈ Γ ∧ (∀b. T b ⟶ G (insert b (Γ - {a})) c)
+          G Γ c ∧ c ∈ Γ ⟶ vacM Γ c c
+        sources: []
+        readings:
+          - point: status
+            chosen: control for IRR.W (D2); replaces only the bare member and leaves embedded occurrences
+            alternatives: []
+            why: it is not Woods's principle (woods2018 pp. 640–641). Implied by IRR.F, incomparable with IRR.W (INFERENCE); a package may select IRR.MEM in place of IRR.W, never both.
+
+  # 2 ------------------------------------------------------------------------
+  - id: ASYM
+    name: Asymmetry of partial ground
+    order: chain
+    entries:
+      - id: ASYM.ANTI
+        rank: 1
+        name: Antisymmetry
+        statement: |
+          PG p q ∧ PG q p ⟶ p = q
+        sources:
+          - work: woods2018
+            locator: p. 632, fn. 4
+            check: published-page
+            quote: null
+            note: Paraphrase of extraction - under substantive irreflexivity, ASYMMETRY would have to be weakened to ANTISYMMETRY.
+        readings:
+          - point: whether Woods states antisymmetry formally
+            chosen: textbook antisymmetry
+            alternatives: ['a vacuity-qualified asymmetry parallel to IRR.W']
+            why: the footnote names the principle without a formal statement in the extracted text.
+      - id: ASYM.P
+        rank: 2
+        name: Asymmetry
+        statement: |
+          PG p q ⟶ ¬ PG q p
+        sources:
+          - work: kramer2013
+            locator: introduction, after (F3)/(F4)
+            check: manuscript
+            quote: null
+            note: named "the principle that grounding is asymmetric"; Krämer's Finean counterpart (F3)/(F4) violates it directly, without transitivity.
+        readings:
+          - point: why a separate family
+            chosen: kept separate from IRR because without TRANS asymmetry is not derivable from irreflexivity, and the Finean counterpart needs only ASYM
+            alternatives: ['merge into IRR']
+            why: lets the map show that Fine-style circles need either ASYM or IRR+TRANS.
+
+  # 3 ------------------------------------------------------------------------
+  - id: TRANS
+    name: Transitivity and Cut
+    order: chain
+    entries:
+      - id: TRANS.P
+        rank: 1
+        name: Transitivity of partial ground
+        statement: |
+          PG p q ∧ PG q r ⟶ PG p r
+        sources:
+          - work: kramer2013
+            locator: section on the Finean counterpart
+            check: manuscript
+            quote: "If p < q and q < r then p < r"
+            note: called "the Transitivity of Grounding" (TG).
+          - work: korbmacher2018b
+            locator: Def. 1, axiom G2
+            check: manuscript
+            quote: "∀x∀y∀z(x ◁ y ∧ y ◁ z → x ◁ z)"
+        readings:
+          - point: Krämer's "<" is a sentential operator (full or partial left open in the extract); Korbmacher's ◁ is partial
+            chosen: transitivity of PG
+            alternatives: ['transitivity of single-premise full ground only']
+            why: PG transitivity is what the puzzles use.
+      - id: TRANS.CUT
+        rank: 2
+        name: Cut for strict full ground (mediacy)
+        statement: |
+          G Γ q ∧ Δ ⊆ Γ ∧ (∀p∈Δ. G (H p) p) ⟶ G ((Γ - Δ) ∪ (⋃p∈Δ. H p)) q
+        sources:
+          - work: fine2012b
+            locator: p. 5, rule Cut(</<)
+            check: published-page
+            quote: "Cut(</<): Δ1 ≤ A1 Δ2 ≤ A2 ... A1, A2, ... < C / Δ1,Δ2,... < C"
+            note: Premises above the slash, conclusion below (rule bar lost in extraction). Each A_i is weakly grounded; with Identity (A ≤ A) for members left in place and Subsumption (strict implies weak), this yields the strict-only partial replacement stated here.
+          - work: correia2014
+            locator: Prop. 1.2(4), ms p. 4–5
+            check: manuscript
+            quote: "If Γ,φ Λ ψ, φ ∉ Γ and Δ Λ φ, then Γ,Δ Λ ψ."
+            note: Correia's restricted Cut; he notes unrestricted Cut fails for his (tree-based, non-mediate) notion.
+        readings:
+          - point: partial replacement (Δ ⊆ Γ) versus replacing every member
+            chosen: partial replacement, which implies TRANS.P
+            alternatives: ['replace all members of Γ (does not imply TRANS.P)']
+            why: '"mediate" ground should be closed under grounding any subset of a full ground.'
+          - point: Fine's Cut mixes strict and weak ground
+            chosen: strict-only form
+            alternatives: ['none available in v1, weak ground out of scope']
+            why: design decision. Checked against fine2012b p. 5 - the strict-only form is the special case of Cut(</<) in which every weak premise is either strict or an Identity; it is weaker than Fine's rule, which also admits weak grounds that are neither.
+          - point: infinitely many replaced members
+            chosen: allowed (Δ any set)
+            alternatives: ['finite Δ only']
+            why: FIN restricts this when selected.
+
+  # 4 ------------------------------------------------------------------------
+  - id: AMALG
+    name: Amalgamation
+    order: chain
+    entries:
+      - id: AMALG.FIN
+        rank: 1
+        name: Binary amalgamation
+        statement: |
+          G Γ p ∧ G Δ p ⟶ G (Γ ∪ Δ) p
+        sources:
+          - work: correia2014
+            locator: remark F, ms p. 8
+            check: manuscript
+            quote: "Fine (2012a, 2012b) takes the concept of (strict) grounding to obey a principle he calls 'Amalgamation'."
+          - work: fine2012b
+            locator: p. 7, Amalgamation(<)
+            check: published-page
+            quote: "the weak or strict grounds for a given truth can be amalgamated, or combined, into a single ground."
+            note: Derivable in PLG (p. 7); stated for arbitrarily many grounds "Δ1 < C Δ2 < C ... / Δ1, Δ2... < C".
+          - work: fine2012a
+            locator: p. 57 (CUP; ms p. 26)
+            check: published-page
+            quote: "In other words, the strict grounds for a given truth can be amalgamated, or combined, into a single ground."
+            note: checked in the CUP volume supplied 2026-11-27; derived there from the rules as the Amalgamation Rule for strict ground.
+        readings:
+          - point: whether Fine's Amalgamation applies to strict full ground or only to weak
+            chosen: strict
+            alternatives: []
+            why: verified - fine2012b p. 7 states Amalgamation(<) for strict ground.
+          - point: interaction with DISJ.ONE
+            chosen: none built in
+            alternatives: []
+            why: INFERENCE - AMALG.FIN + DISJ.ONE yields G {p,q} (p∨q) for true p,q, i.e. DISJ.BOTH; Correia (remark F) gives exactly this as the reason strict logical grounding fails Amalgamation.
+      - id: AMALG.INF
+        rank: 2
+        name: Infinitary amalgamation
+        statement: |
+          F ≠ {} ∧ (∀Γ∈F. G Γ p) ⟶ G (⋃F) p
+        sources:
+          - work: fine2012b
+            locator: p. 7, Amalgamation(<)
+            check: published-page
+            quote: "Δ1 < C Δ2 < C ... / Δ1, Δ2... < C"
+        readings:
+          - point: arity
+            chosen: arbitrary nonempty families
+            alternatives: ['binary only']
+            why: Fine's rule (as usually reported) is stated for arbitrarily many grounds; unverified.
+
+  # 5 ------------------------------------------------------------------------
+  - id: CL
+    name: Classical behaviour of truth
+    order: chain
+    entries:
+      - id: CL.PROP
+        rank: 1
+        name: Classical truth for the connectives
+        statement: |
+          T (neg p) ⟷ ¬ T p
+          T (conj p q) ⟷ T p ∧ T q
+          T (disj p q) ⟷ T p ∨ T q
+        sources: []
+        readings:
+          - point: source
+            chosen: no single source; this is the classical background every cited paper assumes
+            alternatives: ['split consistency (T(neg p) ⟶ ¬T p) from bivalence']
+            why: kept as one entry to stay near the target size; split in v1.1 if the map shows bivalence alone matters (Krämer fn. 5 reports that Fine's Universal Argument "assumes that every proposition is either true or false") Checked against fine2010 - Fine's premise is Universal Middle, "true or not true" (p. 102), not bivalence; he notes it fails under intuitionism and the Kleene tables (p. 107).
+      - id: CL.QUANT
+        rank: 2
+        name: Classical truth for quantifiers and infinitary conjunction
+        statement: |
+          T (ex f) ⟷ (∃a. T (app f a))
+          T (all f) ⟷ (∀a. T (app f a))
+          T (bigconj f) ⟷ (∀q∈sat f. T q)      (* sat f ≡ {p. T (app f p)} *)
+        sources: []
+        readings:
+          - point: domain of the propositional quantifiers
+            chosen: all of prop (unrestricted)
+            alternatives: ['level-relative domains, as in a ramified hierarchy']
+            why: >-
+              Krämer's "hierarchy of sentential quantifiers" is modelled by restricting the grounding principle (EX.LEV), not the truth clause. Flagged: a ramified reading would also restrict this clause.
+
+  # 6 ------------------------------------------------------------------------
+  - id: TS
+    name: Truth schema and transparency for tr
+    order: chain
+    entries:
+      - id: TS.TYPED
+        rank: 1
+        name: Typed truth schema
+        statement: |
+          tfree a ⟶ (T (tr (den v a)) ⟷ T (den v a))      (* D3: on formulas *)
+        sources:
+          - work: korbmacher2018b
+            locator: Def. 1–2, axiom T3 and typing restriction
+            check: manuscript
+            quote: "for all 0 < β ≤ α, if Tr_β(⌜φ⌝), then Sent_<β(⌜φ⌝)."
+        readings:
+          - point: hierarchy depth
+            chosen: two levels only (truth-free sentences and one truth predicate)
+            alternatives: ['levels up to α < ε0 as in Korbmacher']
+            why: the puzzles need one step; a full hierarchy would need indexed tr.
+          - point: Korbmacher's T3 (only lower-level sentences are true_β)
+            chosen: omitted, so that TS.FULL is strictly stronger and the family stays a chain
+            alternatives: ['add a clause that tr applied to a non-truth-free proposition is untrue, which contradicts TS.FULL']
+            why: lattice shape; the T3 clause is a mutation candidate (step 5). Fine-style circles are already blocked by TR.TYPED without it.
+      - id: TS.FULL
+        rank: 2
+        name: Truth schema
+        statement: |
+          T (tr p) ⟷ T p
+        sources:
+          - work: kramer2013
+            locator: section on the Finean counterpart
+            check: manuscript
+            quote: "If p & ∃x x=<p>, then <p> is true"
+            note: Truth-Introduction (TI); the existence conjunct is automatic here (see signature notes).
+        readings:
+          - point: TI is one direction
+            chosen: biconditional
+            alternatives: ['TS.UP - T p ⟶ T (tr p) only']
+            why: the puzzles use only the upward direction; the biconditional is the classical default. Mutation test in step 5 will use TS.UP.
+      - id: TS.ID
+        rank: 3
+        name: Transparency (tr p = p)
+        statement: |
+          tr p = p
+        sources: []
+        readings:
+          - point: why include
+            chosen: identity between propositions is a registry entry by design
+            alternatives: []
+            why: INFERENCE - with TR.FULL and IRR.F it is refuted at once (G {p} p); included as a pipeline sanity check and to mark the deflationist option.
+
+  # 7 ------------------------------------------------------------------------
+  - id: ID
+    name: Identities between propositions (Boolean)
+    order: chain
+    entries:
+      - id: ID.AC
+        rank: 1
+        name: Associativity, commutativity, idempotence
+        statement: |
+          conj p q = conj q p       disj p q = disj q p
+          conj p (conj q r) = conj (conj p q) r
+          disj p (disj q r) = disj (disj p q) r
+          conj p p = p              disj p p = p
+        sources:
+          - work: correia2014
+            locator: remark B, ms p. 6
+            check: manuscript
+            quote: "The notion of logical grounding intended to be characterised by STRICT GROUNDING is thus very fine-grained."
+            note: Cited as the contrary view. Correia also notes (Correia 2010) he argues elsewhere for a more coarse-grained conception and that both are viable.
+        readings:
+          - point: ID.DN placed above ID.AC
+            chosen: chain AC < DN (DN includes AC)
+            alternatives: ['two independent families']
+            why: target size; no source treats DN-identity without AC. Split if the map needs DN alone.
+          - point: idempotence
+            chosen: included
+            alternatives: ['AC without idempotence']
+            why: INFERENCE - idempotence plus CONJ.BIN gives G {p} p for true p, refuting IRR.F; included so the map shows it. Split into its own rank if that result swamps the family.
+      - id: ID.DN
+        rank: 2
+        name: Double negation identity
+        statement: |
+          neg (neg p) = p
+        sources: []
+        readings:
+          - point: source
+            chosen: none cited; standard coarse-grained view
+            alternatives: []
+            why: INFERENCE - refuted with NEG.DN and IRR.F; sanity check and coarse-grain marker.
+
+  # 8 ------------------------------------------------------------------------
+  - id: CONJ
+    name: Conjunction (binary and infinitary)
+    order: chain
+    entries:
+      - id: CONJ.BIN
+        rank: 1
+        name: Binary conjunction introduction
+        statement: |
+          T p ∧ T q ⟶ G {p, q} (conj p q)
+        sources:
+          - work: korbmacher2018a
+            locator: Sect. 4.1
+            check: manuscript
+            quote: "∀x∀y(Tr(x)∧Tr(y) → x◁x∧·y ∧ y◁x∧·y)"
+          - work: correia2014
+            locator: rule (∧1), ms p. 3–4
+            check: manuscript
+            quote: null
+            note: rule display garbled in extraction; reconstructed as φ, ψ ⊢ φ∧ψ.
+        readings:
+          - point: Korbmacher's principle is about partial ground
+            chosen: full ground {p,q}
+            alternatives: ['partial only - PG p (conj p q) ∧ PG q (conj p q)']
+            why: full is the primitive; the partial reading follows from it.
+      - id: CONJ.INF
+        rank: 2
+        name: Infinitary conjunction introduction
+        statement: |
+          sat f ≠ {} ∧ (∀q∈sat f. T q) ⟶ G (sat f) (bigconj f)
+        sources:
+          - work: fritz2022
+            locator: p. 299 (abstract)
+            check: published-page
+            quote: "Current views of metaphysical ground suggest that a true conjunction is immediately grounded in its conjuncts, and only its conjuncts"
+          - work: fritz2022
+            locator: p. 306, sect. 2.3
+            check: published-page
+            quote: "(⋀≺) ∀pp∀p(p ≺ ⋀ pp ↔ p ε pp)"
+            note: Fritz's ≺ is immediate partial ground and pp ranges over pluralities of truths; the conjuncts are the members of pp. Fritz calls this principle more controversial than his seven main principles (p. 308).
+        readings:
+          - point: immediate versus mediate
+            chosen: mediate (the primitive)
+            alternatives: ['immediate - out of scope in v1']
+            why: design decision; flagged because Fritz's premise is about immediate ground.
+          - point: conjuncts of an infinitary conjunction
+            chosen: the propositions satisfying f (sat f), as with Fritz's pluralities
+            alternatives: ['the values of f (inst f) - the v0.1.0 reading, withdrawn']
+            why: fritz2022 p. 306. Comprehension for pluralities then runs through COMP, as Fritz's plural comprehension (p. 306) and its predicative restriction (p. 315) do.
+          - point: nonempty conjunct set
+            chosen: required
+            alternatives: ['allow the empty conjunction (zero-grounded)']
+            why: Fritz admits the empty plurality (p. 303); kept out so CONJ.INF does not interact with EMPTY by default.
+      - id: CONJ.GRAIN
+        rank: 3
+        control: true
+        name: Grain of true conjunctions (stipulated; control for IMM.CONJ since D1)
+        statement: |
+          T (conj p q) ∧ conj p q = conj p' q' ⟶ {p, q} = {p', q'}
+          (∀q∈sat f. T q) ∧ (∀q∈sat g. T q) ∧ bigconj f = bigconj g ⟶ sat f = sat g
+        sources:
+          - work: fritz2022
+            locator: p. 306, (S⋀)
+            check: published-page
+            quote: "(S⋀) ∀pp∀qq(⋀ pp = ⋀ qq → pp ≡ qq)"
+            note: Derived by Fritz from (⋀≺); with (T⋀) it is inconsistent by a plural Cantor/Russell–Myhill argument (p. 307).
+        readings:
+          - point: how to express "only its conjuncts" without immediate ground
+            chosen: state the individuation consequence (distinct conjunct sets give distinct conjunctions) directly
+            alternatives:
+              - a mediate exclusivity clause (every member of a full ground of ⋀X is in X or partially grounds a member of X); INFERENCE - this does not yield injectivity, so it cannot reproduce Fritz
+              - add immediate ground for this entry only (reopens a design decision)
+              - define immediate full ground from mediate full ground by Fritz's support proposal (fritz2022 p. 322) and state "only its conjuncts" for the defined notion; Fritz leaves evaluating that definition open ("beyond the scope of this article", p. 322)
+            why: Fritz's own mediate characterization (p. 322 - the mediate grounds of p ∧ q are exactly p, q and their mediate grounds) is the weak exclusivity clause above, so it does not yield grain. DECIDED (D1, 2026-11-26) - the third alternative is implemented as IMM.CONJ, from which grain is derived (grain_from_conj_imm); this entry stays as a control that assumes grain.
+
+  # 9 ------------------------------------------------------------------------
+  - id: DISJ
+    name: Disjunction
+    order: chain
+    entries:
+      - id: DISJ.ONE
+        rank: 1
+        name: Each true disjunct grounds the disjunction
+        statement: |
+          T p ⟶ G {p} (disj p q)
+          T q ⟶ G {q} (disj p q)
+        sources:
+          - work: kramer2013
+            locator: paragraph after "Re (iii)"
+            check: manuscript
+            quote: "if p, then p < (p ∨ q)"
+            note: Krämer cites Fine 2012a, 60 for it.
+          - work: fine2012a
+            locator: p. 58 (CUP), rules ∨I-L, ∨I-R; p. 60
+            check: published-page
+            quote: "A or B, separately, is a ground for A ∨ B"
+            note: p. 58. Krämer's p. 60 is a related passage (the grounds for A, if true, ground A ∨ ¬A). Fine's rule is not stated with a truth premise; the factive reading is v1's.
+          - work: woods2018
+            locator: p. 643
+            check: published-page
+            quote: "if A, then A<A ∨ B"
+          - work: fine2010
+            locator: p. 100, Disjunctive Grounding
+            check: published-page
+            quote: "A/A ≺(A ∨B)"
+            note: partial ground. On p. 108 Fine calls the rule "unnecessarily strong" when both disjuncts are true and proposes DISJ.WEAK; Fritz (p. 304) reports this passage.
+          - work: correia2014
+            locator: rules (∨2), (∨3), ms p. 3–4
+            check: manuscript
+            quote: null
+        readings:
+          - point: full versus partial
+            chosen: '{p} is a full ground'
+            alternatives: ['partial only']
+            why: all three sources read it as a complete ground.
+      - id: DISJ.BOTH
+        rank: 2
+        name: Both true disjuncts jointly ground the disjunction
+        statement: |
+          T p ∧ T q ⟶ G {p, q} (disj p q)
+        sources:
+          - work: correia2014
+            locator: remark D, rule (∨4), ms p. 7
+            check: manuscript
+            quote: "not clear to me whether the new rules should be adopted."
+          - work: fine2012a
+            locator: p. 58 (CUP; ms p. 28)
+            check: published-page
+            quote: "if A and B are separate grounds for A ˅ B then A, B should be a collective ground for A ˅ B."
+            note: Fine motivates this rule by Amalgamation. (Corrected in 0.1.2 - Fine 2010 p. 108, as reported by Fritz p. 304, questions DISJ.ONE for two true disjuncts, not this collective rule.)
+        readings:
+          - point: status
+            chosen: optional entry; endorsed by Fine 2012a (p. 58), left open by Correia
+            alternatives: []
+            why: Correia leaves it open. Fine 2010 does not discuss the collective rule (checked).
+      - id: DISJ.WEAK
+        rank: 0
+        name: Weak disjunctive grounding (some true disjunct grounds)
+        added: 0.1.2-draft, pending review
+        statement: |
+          T (disj p q) ⟶ PG p (disj p q) ∨ PG q (disj p q)
+        sources:
+          - work: fine2010
+            locator: p. 108, Weak Disjunctive Grounding
+            check: published-page
+            quote: "Any disjunctive truth is grounded by a disjunct."
+          - work: fritz2022
+            locator: p. 304, (∨1)
+            check: published-page
+            quote: "every true disjunction has at least one disjunct as a ground"
+            note: Fritz states it for immediate partial ground and pairs it with (∨2), only disjuncts ground a disjunction.
+        readings:
+          - point: partial versus full
+            chosen: partial (PG), as in Fine's ≺
+            alternatives: ['G {p} (disj p q) ∨ G {q} (disj p q)']
+            why: Fine's operator is partial. INFERENCE - implied by DISJ.ONE under CL.PROP, so rank 0 in this family; it does not block Fine's universal argument, where only one disjunct is true (Fine p. 109).
+
+  # 10 -----------------------------------------------------------------------
+  - id: NEG
+    name: Negation
+    order: chain
+    entries:
+      - id: NEG.DN
+        rank: 1
+        name: Double negation
+        statement: |
+          T p ⟶ G {p} (neg (neg p))
+        sources:
+          - work: korbmacher2018a
+            locator: Sect. 4.1
+            check: manuscript
+            quote: "∀x(Tr(x) → x ◁ ¬·¬·x)"
+          - work: correia2014
+            locator: rule (¬), ms p. 3–4; remark E
+            check: manuscript
+            quote: null
+            note: called double negation introduction.
+        readings: []
+      - id: NEG.DM
+        rank: 2
+        name: Negated conjunction and disjunction
+        statement: |
+          T (neg p) ⟶ G {neg p} (neg (conj p q))
+          T (neg q) ⟶ G {neg q} (neg (conj p q))
+          T (neg p) ∧ T (neg q) ⟶ G {neg p, neg q} (neg (disj p q))
+        sources:
+          - work: correia2014
+            locator: rules (∧2), (∧3), (∨1), ms p. 3–4
+            check: manuscript
+            quote: null
+            note: reconstructed from the tree-node table; rule displays garbled.
+        readings:
+          - point: negated universal and existential
+            chosen: omitted in v1
+            alternatives: ['Correia (∀2), (∃1)']
+            why: keeps the family size down; add if the quantifier families turn out to matter.
+
+  # 11 -----------------------------------------------------------------------
+  - id: EX
+    name: Existential grounding
+    order: chain
+    entries:
+      - id: EX.PRED
+        rank: 1
+        name: Predicative existential grounding (instance free of quantifiers)
+        statement: |
+          lvl a = 0 ∧ T (app f (den w a)) ⟶ G {app f (den w a)} (ex f)      (* D3; adm f *)
+        sources:
+          - work: kramer2013
+            locator: section "Can we give reasons to reject (X)"
+            check: manuscript
+            quote: "restricts (EG-S) to cases in which α is free of sentential quantifiers"
+          - work: woods2018
+            locator: p. 635
+            check: published-page
+            quote: "if A is free for p in the predicative fact ϕ(A), then ϕ(A) < ∃p(ϕ(p))"
+        readings:
+          - point: what must be quantifier-free
+            chosen: the instance, presented by a quantifier-free formula a (Krämer's α)
+            alternatives: ['the whole instance φ(a) (Woods''s "predicative fact ϕ(A)")']
+            why: Krämer's wording is explicit; Woods's is the stronger restriction and is a mutation candidate.
+      - id: EX.LEV
+        rank: 2
+        name: Level-restricted existential grounding
+        statement: |
+          lvl a < lvl (Ex x b) ∧ T (app (lam x b v) (den w a))
+            ⟶ G {app (lam x b v) (den w a)} (ex (lam x b v))      (* D3; adm (lam x b v) *)
+        sources:
+          - work: kramer2013
+            locator: section "Can we give reasons to reject (X)"
+            check: manuscript
+            quote: "a less restrictive option is to introduce a hierarchy of sentential quantifiers"
+        readings:
+          - point: encoding of the hierarchy
+            chosen: one unindexed ∃; the level of the quantified formula bounds the level of the instance
+            alternatives: ['indexed quantifiers ex_n ranging over level < n']
+            why: keeps one signature for all packages. The bound needs the function to be presented by a formula, so EX.LEV is silent on functions that are not lam-terms (possible under C3s); by the chain convention EX.LEV includes EX.PRED, which covers them.
+      - id: EX.FULL
+        rank: 3
+        name: Existential grounding (unrestricted)
+        statement: |
+          T (app f a) ⟶ G {app f a} (ex f)
+        sources:
+          - work: kramer2013
+            locator: section "Re (iii)"
+            check: manuscript
+            quote: "From ϕ(α), infer ϕ(α) < ∃p ϕ(p)."
+          - work: woods2018
+            locator: p. 634
+            check: published-page
+            quote: "true propositions whose dominant logical component is an existential quantifier are grounded in their true instances."
+          - work: fine2010
+            locator: p. 101, Existential Grounding
+            check: published-page
+            quote: "A(y), E(y)/A(y) ≺∃x A(x)"
+            note: Fine's ≺ is partial ground ("helps ground", p. 99) and the rule carries an existence premise E(y), trivial here. Fine's principle is weaker than EX.FULL; with TRANS.P and IRR.F it suffices for his arguments. Fine 2010 p. 108 proposes the weaker EX.WEAK.
+          - work: lovett2020
+            locator: p. 2544, rule ∃-I
+            check: published-page
+            quote: "A < ∃vA[t/v]"
+            note: Lovett's < is strict full ground and the rule is non-factive (no premise); the factive version is not stated for ∃-I. Read from the page image (the rule is typeset as an image).
+        readings:
+          - point: full versus partial
+            chosen: each true instance is a full ground
+            alternatives: ['partial']
+            why: Krämer's (2) and Woods p. 634 use it as a complete ground.
+          - point: first-order quantification over propositions (Fine) versus quantification into sentence position (Krämer)
+            chosen: collapsed into ex over pfun
+            alternatives: ['a separate first-order domain of propositions with a "proposition" predicate']
+            why: base-type design. Consequence flagged in signature notes - (PE) cannot fail.
+
+      - id: EX.WEAK
+        rank: 0
+        name: Weak existential grounding (some instance grounds)
+        added: 0.1.2-draft, pending review
+        statement: |
+          T (ex f) ⟶ (∃a. PG (app f a) (ex f))
+        sources:
+          - work: fine2010
+            locator: p. 108, Weak Existential Grounding
+            check: published-page
+            quote: "Any existential truth is grounded by an instance."
+          - work: fritz2022
+            locator: p. 325
+            check: published-page
+            quote: "∃pφ → ∃p(φ  ≺  ∃pφ)"
+            note: Fritz says this weakening "may well restore consistency" but leaves the theory of quantified grounds "excessively weak".
+        readings:
+          - point: place in the family
+            chosen: rank 0, below EX.FULL
+            alternatives: ['a separate family']
+            why: INFERENCE - EX.WEAK is implied by EX.FULL under CL.QUANT but is incomparable with EX.PRED and EX.LEV, so the EX chain is no longer linear; flagged for review. Fine p. 108 says the Particular Arguments then fail.
+
+  # 12 -----------------------------------------------------------------------
+  - id: ALL
+    name: Universal grounding
+    order: alternatives
+    entries:
+      - id: ALL.INST
+        name: Instances alone
+        statement: |
+          (∀a. T (app f a)) ⟶ G (inst f) (all f)
+        sources:
+          - work: correia2014
+            locator: rule (∀1), ms p. 13–14
+            check: manuscript
+            quote: null
+            note: (∀1) takes all instances for "all the constants of the language"; Correia calls it problematic for classically valid rules.
+          - work: fine2010
+            locator: p. 100, Universal Grounding
+            check: published-page
+            quote: "∀x A(x), E(y)/A(y) ≺∀x A(x)"
+            note: partial ground of each instance. On p. 109 Fine takes all the instances to be a full ground "relative to certain presuppositions" (that the objects listed are all there are), which is the reading ALL.INST encodes; he also rejects a weak universal rule, since a universal truth cannot be grounded "by some of its instances to the exclusion of the others" (p. 109).
+        readings:
+          - point: substitutional (Correia) versus objectual instances
+            chosen: "objectual - all values app f a for every a of type prop"
+            alternatives: ['instances for named constants only']
+            why: matches the base-type quantifier.
+      - id: ALL.TOT
+        name: Instances plus a totality fact
+        statement: |
+          (∀a. T (app f a)) ⟶ T (tot f) ∧ G (insert (tot f) (inst f)) (all f)
+        sources:
+          - work: woods2018
+            locator: p. 645, Obj. 5
+            check: published-page
+            quote: "TOTALITY, A0, A1,...< ∀p p ∨ ¬p"
+          - work: fine2012a
+            locator: pp. 61–62 (CUP)
+            check: published-page
+            quote: "the “totality” claim that a1, a2, . . . are all of the individuals that there are"
+            note: p. 61. Fine distinguishes the totality claim from the corresponding universal claim and takes it in the weak sense "at most" (p. 62); Fritz cites pp. 60–62 for the "that's all" ground (fritz2022 p. 305).
+        readings:
+          - point: what the totality fact says
+            chosen: an opaque constant tot f, required true whenever all instances are
+            alternatives: ['tot f = "a, b, ... are all the propositions" with its own grounds']
+            why: v1 does not model the content of totality facts.
+
+  # 13 -----------------------------------------------------------------------
+  - id: TR
+    name: Grounding of truth ascriptions (Aristotelian principle)
+    order: chain
+    entries:
+      - id: TR.TYPED
+        rank: 1
+        name: Typed Aristotelian principle
+        statement: |
+          tfree a ∧ T (den v a) ⟶ G {den v a} (tr (den v a))      (* D3: on formulas *)
+        sources:
+          - work: korbmacher2018b
+            locator: Def. 2, APU_T^γ
+            check: manuscript
+            quote: "∀x(Tr_γ(x) → x ◁ Tr_γ(ẋ))"
+        readings:
+          - point: hierarchy depth
+            chosen: two levels, as for TS.TYPED
+            alternatives: []
+            why: see TS.TYPED.
+      - id: TR.FULL
+        rank: 2
+        name: Aristotelian principle
+        statement: |
+          T p ⟶ G {p} (tr p)
+        sources:
+          - work: kramer2013
+            locator: section on the Finean counterpart
+            check: manuscript
+            quote: "If <p> is true then p < <p> is true"
+            note: Krämer's (A), "often associated with Aristotle".
+        readings:
+          - point: antecedent T p versus T (tr p)
+            chosen: T p (with TS the two coincide)
+            alternatives: ['T (tr p)']
+            why: makes TR independent of TS for the map.
+      - id: TR.NEG
+        rank: 3
+        name: Aristotelian principle with the falsity clause
+        statement: |
+          T (neg p) ⟶ G {neg p} (neg (tr p))
+        sources:
+          - work: korbmacher2018b
+            locator: Def. 2, APU_F^γ
+            check: manuscript
+            quote: "∀x(Tr_γ(¬x) → ¬x ◁ ¬Tr_γ(ẋ))"
+        readings:
+          - point: typed versus untyped
+            chosen: untyped (added on top of TR.FULL)
+            alternatives: ['typed falsity clause on top of TR.TYPED']
+            why: chain order; the typed falsity clause is a v1.1 candidate.
+
+  # 14 -----------------------------------------------------------------------
+  - id: EMPTY
+    name: Empty grounds (zero-grounding)
+    order: alternatives
+    entries:
+      - id: EMPTY.NONE
+        name: No zero-grounding
+        statement: |
+          ¬ G {} p
+        sources:
+          - work: correia2014
+            locator: Prop. 1.2(1), ms p. 4–5
+            check: manuscript
+            quote: null
+            note: '"If Γ Λ φ, then Γ ≠ ∅" (the ≠ sign is garbled in extraction).'
+        readings: []
+      - id: EMPTY.SOME
+        name: Some truth is zero-grounded
+        statement: |
+          ∃p. G {} p
+        sources:
+          - work: fine2012a
+            locator: p. 47 (CUP; ms p. 13), continued p. 48
+            check: published-page
+            quote: "The case in which a given statement is zero-grounded, i.e. grounded in zero antecedents, must"
+            note: continues "be sharply distinguished from the case in which it is ungrounded". On p. 48 Fine gives the empty conjunction ⊤ as grounded in its zero conjuncts; Fritz cites p. 48 (p. 303).
+          - work: woods2018
+            locator: p. 637, fn. 19
+            check: published-page
+            quote: null
+            note: mentions being "zero-grounded" in Fine's sense; gives no definition.
+        readings:
+          - point: which truths are zero-grounded
+            chosen: existence only
+            alternatives: ['named zero-grounded truths (e.g. the empty conjunction, which the signature cannot express since inst f is never empty)']
+            why: no source text read. INFERENCE - by FACT, G {} p already entails T p.
+
+  # 15 -----------------------------------------------------------------------
+  - id: FIN
+    name: Finitary grounds
+    order: chain
+    entries:
+      - id: FIN.FIN
+        rank: 1
+        name: Every full ground is finite
+        statement: |
+          G Γ p ⟶ finite Γ
+        sources: []
+        readings:
+          - point: source
+            chosen: no source; the switch for infinitary ground required by the design
+            alternatives: []
+            why: INFERENCE - refuted with ALL.INST or CONJ.INF once some f has infinitely many true values.
+      - id: FIN.B3
+        rank: 2
+        name: Every full ground has at most three members
+        statement: |
+          G Γ p ⟶ finite Γ ∧ card Γ ≤ 3
+        sources: []
+        readings:
+          - point: purpose
+            chosen: exactly the fragment the first-order TPTP mirror (G1, G2, G3 predicates) represents
+            alternatives: []
+            why: mirror disagreements are findings only for packages that include FIN.B3; for others the mirror is incomplete by construction.
+
+  # 16 -----------------------------------------------------------------------
+  - id: COMP
+    name: Comprehension - which propositional functions the principles quantify over
+    order: chain
+    note: D3. Each entry fixes adm exactly, so entries are standalone (not cumulative); the admissible sets grow along the chain (INFERENCE - the named witnesses are lam-terms of level 0).
+    entries:
+      - id: C1
+        rank: 1
+        standalone: true
+        name: Named witnesses only
+        statement: |
+          f_id  ≡ lam 0 (Var 0) e0
+          f_tr  ≡ lam 0 (Tr (Var 0)) e0
+          f_em  ≡ lam 0 (Disj (Var 0) (Neg (Var 0))) e0
+          f_tem ≡ lam 0 (Disj (Tr (Var 0)) (Neg (Tr (Var 0)))) e0
+          adm f ⟷ f ∈ {f_id, f_tr, f_em, f_tem}
+          (* with BETA.ID: app f_id p = p, app f_tr p = tr p, app f_em p = disj p (neg p),
+             app f_tem p = disj (tr p) (neg (tr p)) - the v0.1.x C1 identities *)
+        sources:
+          - work: kramer2013
+            locator: (1)–(2) and (F1)
+            check: manuscript
+            quote: null
+            note: '"∃p p" (f_id) and "∃x x is true" (f_tr).'
+          - work: woods2018
+            locator: p. 645
+            check: published-page
+            quote: null
+            note: '"∀p p ∨ ¬p" (f_em).'
+          - work: fine2010
+            locator: pp. 99, 102–103 (Universal and Particular Middle)
+            check: published-page
+            quote: "∀x(T (x) ∨¬T (x))"
+            note: f_tem; Fine's universal and particular arguments for propositions.
+        readings:
+          - point: which of Fine's cases to name
+            chosen: the propositional cases (f_tem, f_tr); Fine's cases for facts and sentences are not named
+            alternatives: ['facts with an existence predicate (Fine pp. 102–103)', 'sentences with a naming device (p. 98)']
+            why: v1 has no facts, existence predicate or sentences. Fine's fact arguments with "obtains" in place of "exists" become the propositional ones when facts are true propositions (p. 106), so f_tr covers them.
+          - point: identity of the witnesses with their values
+            chosen: not part of C1; it comes from BETA.ID
+            alternatives: ['state the identities in C1, as in v0.1.x']
+            why: D3 - β-conversion is its own family, so that Fritz's rejection of it (via Goodman) is representable.
+      - id: C2
+        rank: 2
+        standalone: true
+        name: Level-bounded definable comprehension
+        statement: |
+          adm f ⟷ (∃x a v. lvl a ≤ k ∧ f = lam x a v)      (* v1: k = 1 *)
+        sources: []
+        readings:
+          - point: bound
+            chosen: k = 1 (bodies with at most one nested quantifier)
+            alternatives: ['k as a mutation parameter (step 5)']
+            why: D3 replaces the v0.1.x closure conditions, which did not bound the level of new quantified propositions. Predicative in the sense of bounding quantifier depth, not Russell's ramification.
+      - id: C3d
+        rank: 3
+        standalone: true
+        name: Definable comprehension (impredicative)
+        statement: |
+          adm f ⟷ (∃x a v. f = lam x a v)
+        sources: []
+        readings:
+          - point: what "definable" means
+            chosen: denoted by a formula of the formula layer under some environment
+            alternatives: ['definable in the object language with ground as an operator']
+            why: D3. The formula layer has no ground operator, so Fritz's comprehension instance with "non-self-grounding" (fritz2022 p. 315) is not C3d-definable; it is available under C3s.
+      - id: C3s
+        rank: 4
+        standalone: true
+        name: Full comprehension (standard semantics)
+        statement: |
+          (∀f. adm f) ∧ (∀h :: prop ⇒ prop. ∃f. app f = h)
+        sources: []
+        readings:
+          - point: source
+            chosen: the HOL default made explicit; matches arbitrary plural comprehension as Kment and Fritz use it
+            alternatives: []
+            why: needed for the Cantor-style results and for X.UNIVERSAL.TRUTHS, whose witness is defined by cases on truth (not C3d-definable; to be confirmed by a model in step 3).
+
+  # 17 -----------------------------------------------------------------------
+  - id: BETA
+    name: β-conversion for lam-terms (D3)
+    order: alternatives
+    note: Selecting neither entry is the rejection of both that Goodman reports of Fritz. The core clause LAM.T (truth of redex and reduct agree) holds in every package.
+    entries:
+      - id: BETA.ID
+        name: β-identity (redex and reduct identical)
+        statement: |
+          app (lam x a v) p = den (v(x:=p)) a
+        sources:
+          - work: goodman2023
+            locator: discussion of Krämer's puzzle (pages not visible)
+            check: unverified
+            quote: "Fritz argues that there could be a principled basis for rejecting both β-conversion and (9)"
+            note: quoted from the published PDF's text as fetched; Fritz's own paper (Goodman's reference [17]) not read.
+        readings:
+          - point: role
+            chosen: the identity the v0.1.x named witnesses built in
+            alternatives: []
+            why: Krämer's puzzle in its original form uses it (∃p p is its own instance).
+      - id: BETA.GROUND
+        name: β-grounding (reduct strictly grounds the distinct redex)
+        statement: |
+          T (den (v(x:=p)) a) ⟶ app (lam x a v) p ≠ den (v(x:=p)) a
+                                ∧ G {den (v(x:=p)) a} (app (lam x a v) p)
+        sources:
+          - work: goodman2023
+            locator: principle (9) (pages not visible)
+            check: unverified
+            quote: null
+            note: Goodman's (9), as reported in the decision note; to be checked against the JPL pages.
+        readings:
+          - point: distinctness
+            chosen: stated, so that BETA.GROUND excludes BETA.ID
+            alternatives: ['grounding without distinctness (then it contradicts IRR.F whenever BETA.ID also holds)']
+            why: keeps the family a set of alternatives.
+
+  # 18 -----------------------------------------------------------------------
+  - id: IMM
+    name: Immediate ground, defined from mediate ground (D1)
+    order: chain
+    entries:
+      - id: IMM.CONJ
+        rank: 1
+        name: Only its conjuncts (Fritz's (⋀≺) for the defined immediate ground)
+        statement: |
+          (∀r∈sat f. T r) ⟶ (∀p. IPG p (bigconj f) ⟷ p ∈ sat f)      (* adm f *)
+        sources:
+          - work: fritz2022
+            locator: p. 306, (⋀≺)
+            check: published-page
+            quote: "(⋀≺) ∀pp∀p(p ≺ ⋀ pp ↔ p ε pp)"
+          - work: fritz2022
+            locator: p. 322
+            check: published-page
+            quote: "let pp support qq just in case every q among qq which is not one of pp is fully grounded in some of pp"
+            note: Fritz's proposal defines immediate full grounds as those supported by every plurality that mediately fully grounds the proposition; "Evaluating this proposal is beyond the scope of this article" (p. 322).
+        readings:
+          - point: definition of immediate ground
+            chosen: IG Γ q ≡ G Γ q ∧ every full ground of q supports Γ (signature)
+            alternatives: ['Fritz''s wording without the clause G Γ q', 'a primitive of immediate ground (option c)', 'mediate Cut-refinement exclusivity (option b)']
+            why: D1. Without G Γ q the empty set qualifies vacuously (INFERENCE). On Fine's (p∧q)∧r the definition picks {p∧q, r}, not {p, q, r} (checked by hand).
+          - point: empty plurality
+            chosen: allowed (sat f may be empty; then bigconj f has no immediate partial grounds)
+            alternatives: ['require sat f ≠ {}']
+            why: Fritz admits the empty plurality (p. 303).
+          - point: Fritz's seven principles of §2.4
+            chosen: separate entry IMM.FRITZ7
+            alternatives: []
+            why: IMM.CONJ covers the arbitrary-conjunction variant (§2.3) only.
+      - id: IMM.FRITZ7
+        rank: 2
+        standalone: true
+        name: Fritz's seven principles of immediate partial ground
+        statement: |
+          (∧1) T p ∧ T q ⟶ IPG p (conj p q) ∧ IPG q (conj p q)
+          (∧2) IPG r (conj p q) ⟶ r = p ∨ r = q
+          (∨1) T (disj p q) ⟶ IPG p (disj p q) ∨ IPG q (disj p q)
+          (∨2) IPG r (disj p q) ⟶ r = p ∨ r = q
+          (∀1) T (all g) ⟶ IPG (app g x) (all g)                  (* adm g *)
+          (∀2) IPG q (all g) ∧ (∀x. q ≠ app g x) ⟶ q = tt          (* adm g; tt :: prop *)
+          (nt) ¬ (∀p q. T p ∧ T q ⟶ IPG p q)
+        sources:
+          - work: fritz2022
+            locator: pp. 304–305
+            check: published-page
+            quote: "(∧2) ∀p∀q∀r (r ≺(p∧q) →r = p ∨r = q)"
+            note: Fritz states all seven for immediate partial ground ≺; (∀1), (∀2) are schemata over formulas φ in which p occurs free; t is the "that's all" truth if there is one, else an arbitrary proposition (p. 305).
+        readings:
+          - point: schematic (∀1), (∀2)
+            chosen: stated for every admissible function g
+            alternatives: ['only for lam-terms of formulas (C3d)']
+            why: with C3s every function is admissible. Fritz's derivation of (Sψ) and (Tψ) needs the principles only for the function ψ is built from (p. 308); the formula layer has no constructor for the plural parameter "r ε rr", so C3s supplies that function.
+          - point: standalone
+            chosen: not cumulative with IMM.CONJ
+            alternatives: []
+            why: Fritz rests his main argument on the seven principles alone (p. 308).
+
+# ---------------------------------------------------------------------------
+# Non-triviality levels (measured on each model; not part of the lattice)
+# ---------------------------------------------------------------------------
+nontriviality:
+  cumulative: true
+  parameters: {k: 3, d: 3}
+  levels:
+    - id: N1
+      statement: "∃Γ p. G Γ p"
+    - id: N2
+      statement: "N1 ∧ ∃ k pairwise distinct p with T p"
+    - id: N3
+      statement: |
+        N2 ∧ every selected introduction entry (CONJ, DISJ, NEG, EX, ALL, TR)
+        has an instance whose antecedent holds with pairwise distinct relata and
+        whose grounded proposition is not among its grounds
+    - id: N4
+      statement: |
+        N3 ∧ some pair from {(p, neg (neg p)), (conj p q, conj q p),
+        (p, conj p p), (disj p q, disj q p)} consists of distinct propositions
+        with different sets of full grounds {Γ. G Γ x}
+    - id: N5
+      statement: "N4 ∧ ∃ x0 … xd pairwise distinct with PG x0 x1, …, PG x(d-1) xd"
+  readings:
+    - point: cumulative versus independent levels
+      chosen: cumulative, so "highest level" is well defined; each level is also reported separately
+      why: the brief asks for the highest level.
+    - point: '"equivalent propositions" in N4'
+      chosen: pairs that are classically equivalent by construction
+      alternatives: ['any two propositions with the same truth value (too weak in a one-world model)']
+      why: v1 has no modality, so "equivalent" cannot mean necessarily equivalent.
+
+# ---------------------------------------------------------------------------
+# Validation targets for step 3 (all reproduced 2026-11-27; see puzzles.validation)
+# ---------------------------------------------------------------------------
+puzzles:
+  targets:
+  - id: P.KRAMER
+    source: kramer2013 (1)–(2)
+    package: [C1, BETA.ID, CL.QUANT, EX.FULL, IRR.F]
+    expected: refuted
+    derivation: |
+      CL.PROP gives a truth, so T (ex f_id); ex f_id is a true instance of
+      itself (app f_id (ex f_id) = ex f_id), so G {ex f_id} (ex f_id).
+  - id: P.FINE.PARTICULAR
+    source: fine2010 p. 106 ("something is true", facts read as true propositions); kramer2013 (F1)–(F4); lovett2020 p. 2541 (factive version, fn. 21 p. 2550)
+    package: [C1, BETA.ID, CL.QUANT, TS.FULL, TR.FULL, EX.FULL, ASYM.P]
+    also_refuted_with: [TRANS.P, IRR.F]   # instead of ASYM.P
+    expected: refuted
+  - id: P.FINE.UNIVERSAL
+    source: fine2010 pp. 102–103, Universal Argument for Propositions, steps (1)–(9)
+    package: [C1, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, ALL.INST, DISJ.ONE, TR.FULL, TRANS.P, IRR.F]
+    expected: refuted
+    derivation: |
+      s = all f_tem is true; d = disj (tr s) (neg (tr s)) is an instance, so PG d s
+      (Fine's step 4); T (tr s), so PG (tr s) d (step 6); PG s (tr s) (step 7);
+      TRANS.P gives PG s s (step 8).
+  - id: P.FINE.PARTICULAR.PROPS
+    source: fine2010 p. 103, Particular Argument for Propositions
+    package: [C1, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, EX.FULL, DISJ.ONE, TR.FULL, TRANS.P, IRR.F]
+    expected: refuted
+    note: Fine p. 108 - blocked by replacing EX.FULL and DISJ.ONE with EX.WEAK and DISJ.WEAK; a target for step 3.
+  - id: P.FINE.UNIVERSAL.SP
+    source: sentence-position variant of fine2010 p. 102, instance from woods2018 p. 645
+    package: [C1, BETA.ID, CL.QUANT, ALL.INST, DISJ.ONE, TRANS.P, IRR.F]
+    expected: refuted
+    derivation: |
+      s = all f_em is true; s is a true disjunct of app f_em s = disj s (neg s),
+      so PG s (disj s (neg s)); that disjunction is an instance of s, so
+      PG (disj s (neg s)) s; TRANS.P gives PG s s.
+  - id: P.FRITZ.CANTOR
+    source: fritz2022 pp. 306–307 (sect. 2.3, arbitrary conjunction); main result sect. 2.4 pp. 308–310
+    package: [C3s, CL.PROP, CL.QUANT, IMM.CONJ]
+    control_package: [C3s, CL.PROP, CL.QUANT, CONJ.GRAIN]
+    expected: refuted, without irreflexivity
+    caveat: reproduces the arbitrary-conjunction variant (S⋀)+(T⋀) of §2.3, with grain derived from IMM.CONJ (D1). Fritz's main result (§2.4, seven principles of immediate ground, (∧1)–(∀2) and (nt), pp. 304–305) needs further IMM entries.
+  - id: P.FRITZ.MAIN
+    source: fritz2022 §2.4, pp. 308–310
+    package: [C3s, CL.PROP, CL.QUANT, IMM.FRITZ7]
+    expected: refuted (Fritz), without irreflexivity
+  - id: P.WOODS.CHECK
+    source: woods2018 (no model given in the paper)
+    package: [C1, BETA.ID, CL.QUANT, EX.FULL, IRR.W, TRANS.P]
+    expected: unknown; a model here would be a finding (Woods proposes, "not prove", p. 639)
+  checked:
+    # Machine-checked 2026-11-26 in Isabelle2026, isabelle/Russell_Checks.thy (no sorry, oops or axioms; principles are hypotheses).
+    # Encoding note (D3): Russell_Checks and Fine_Checks predate the formula layer. Their hypotheses
+    # quantify over every pfun and state the C1 identities directly (e.g. app f_id p = p); in v0.2
+    # terms that is C1 + BETA.ID with the admissible witnesses used. kramer_v2 in Signature.thy
+    # re-checks Krämer's puzzle in the v0.2 encoding.
+    - id: P.KRAMER
+      theorem: kramer
+      status: refuted (checked)
+    - id: X.UNIVERSAL.TRUTHS
+      theorem: universal_of_truths
+      package: [C3s, CL.PROP, CL.QUANT, ALL.INST, IRR.F]
+      status: refuted (checked)
+      note: the universal whose instances are exactly the truths is one of its own instances. Uses a function defined by cases on truth, so it needs C3s (every function), not definable comprehension.
+      prior_art: transposition of the Russell–Myhill diagonal for ground in Kment, "Russell-Myhill and Grounding" (p. 8); not a finding. Closest case in fine2010 - a universal argument from "every true proposition is true" with quantifiers restricted to truths (pp. 106–107), which needs truth-grounding and transitivity; ours builds the restriction into the function and needs neither. Lovett 2020 does not discuss it (checked).
+    - id: X.CONJ.TRUTHS
+      theorem: conjunction_of_truths
+      package: [C1, BETA.ID, CL.PROP, CL.QUANT, CONJ.INF, IRR.F]
+      status: refuted (checked)
+      note: the conjunction of all truths is one of its own conjuncts (satisfier reading).
+      prior_art: degenerate case, under irreflexivity, of Fritz's predicative argument with the non-self-grounding truths (fritz2022 p. 315); Kment p. 9 draws the parallel conclusion for existence-grounding.
+    # Machine-checked 2026-11-26 in Isabelle2026, isabelle/Fine_Checks.thy.
+    - id: P.FINE.UNIVERSAL
+      theorem: fine_universal_props
+      status: refuted (checked)
+    - id: P.FINE.PARTICULAR.PROPS
+      theorem: fine_particular_props
+      status: refuted (checked)
+    - id: P.FINE.PARTICULAR
+      theorem: something_true_asym (with ASYM.P), something_true_trans (with TRANS.P and IRR.F)
+      status: refuted (checked)
+      note: Lovett's Asymmetry(<) is for strict full ground; both groundings here have singleton full grounds, so full-ground asymmetry would also suffice.
+    # Machine-checked 2026-11-26 in Isabelle2026, isabelle/Signature.thy (v0.2 encoding).
+    - id: P.KRAMER
+      theorem: kramer_v2
+      package: [C1, BETA.ID, CL.PROP, CL.QUANT, EX.FULL, IRR.F]
+      status: refuted (checked)
+    - id: P.FRITZ.CANTOR
+      theorem: fritz_cantor_imm (uses grain_from_conj_imm)
+      package: [C3s, CL.PROP, CL.QUANT, IMM.CONJ]
+      status: refuted (checked)
+      note: no irreflexivity, transitivity or other ground principle is used; the inconsistency comes from IMM.CONJ, truth-functionality of bigconj and full comprehension, as Fritz says (pp. 306–307).
+    - id: P.FRITZ.P315
+      source: fritz2022 p. 315 (the non-self-grounding truths)
+      theorem: fritz_p315_imm
+      package: [C3s, CL.PROP, CL.QUANT, IMM.CONJ]
+      status: refuted (checked)
+      note: needs C3s here; Fritz's instance of comprehension is predicative but mentions ground, which the formula layer cannot express (see C3d).
+    - id: P.FRITZ.MAIN
+      theorem: fritz_main_imm (isabelle/Fritz_Main.thy; generic form fritz_main_generic)
+      package: [C3s, CL.PROP, CL.QUANT, IMM.FRITZ7]
+      status: refuted (checked)
+      note: follows Fritz's proof step by step - two distinct truths from (nt) (p. 308), the hat-conjunction and hat-disjunction lemmas, (Lφ), (Sψ), (Tψ) (pp. 309–310), then the Cantorian step. The generic theorem shows the seven principles are inconsistent for any factive relation, not only for IPG. "r ε rr" is encoded as a proposition app (mem X) r with T (app (mem X) r) ⟷ r ∈ X, given by C3s.
+    - id: P.FINE.UNIVERSAL.SP
+      theorem: fine_universal_sp (isabelle/Fine_Checks.thy)
+      status: refuted (checked)
+    - id: V.WOODS.KRAMER
+      source: woods2018 p. 640 (Krämer's ∃p p is vacuous)
+      theorem: kramer_vacuous
+      package: [C1, BETA.ID, EX.FULL]
+      status: validation (checked) - the self-ground {∃p p} of ∃p p satisfies vacW, so IRR.W does not exclude it; matches Woods's verdict.
+  validation:
+    # Step 3 of the brief: "reproduce Krämer's puzzle, Fine's puzzles, and Fritz's Cantor-style result".
+    date: 2026-11-27
+    status: passed - every target is reproduced by a checked Isar proof (Isabelle2026; no sorry, oops or axioms)
+    reproduced: [P.KRAMER, P.FINE.PARTICULAR, P.FINE.PARTICULAR.PROPS, P.FINE.UNIVERSAL, P.FINE.UNIVERSAL.SP, P.FRITZ.CANTOR, P.FRITZ.MAIN]
+    encoding_checks: [V.WOODS.KRAMER]
+    open: [P.WOODS.CHECK]
+    caveat: Russell_Checks and Fine_Checks use the pre-D3 encoding (identities stated directly); only P.KRAMER is re-checked in the v0.2 encoding (kramer_v2). Re-stating the Fine proofs over the formula layer is mechanical and is scheduled with step 4.
+  conjectures:
+    # INFERENCE: superseded by X.UNIVERSAL.TRUTHS (simpler, checked). Kept for the record.
+    - id: X.RUSSELL.ALL
+      package: [C3s, CL.PROP, CL.QUANT, ALL.INST, IRR.F]
+      claim: refuted, without disjunction or transitivity
+      sketch: |
+        Let D = {p. T p ∧ (∃f. p = all f ∧ p ∉ inst f)}. If D is empty, take a
+        constant f with true value q; then all f ∈ inst f = {q}, so
+        G {q} q. Otherwise C3 gives g with inst g = D, and all g is true. If
+        all g ∉ D then all g ∈ D (witness g). So all g ∈ inst g, and
+        ALL.INST gives G (inst g) (all g) with all g among its grounds.
+      significance: if it checks, unrestricted universal grounding plus full
+        comprehension is incompatible with irreflexivity outright, so Fine's
+        universal puzzle does not need DISJ or TRANS under C3. The same sketch
+        applies to CONJ.INF. Literature check needed before calling it new.
+
+  # Candidate validation targets from sources received after step 3 passed.
+  # Not encoded, not part of the step 3 result; reviewer decides whether to add them.
+  candidates:
+    - id: P.LITLAND.INTERNALITY
+      source: litland2023 sect. 4.4, p. 12 (variant of litland2015 pp. 489-491, not received)
+      claim_in_source: Irreflexivity (mediate partial), disjunction grounding, restricted "or"-Internality and Aristotle's Principle (T p implies p grounds T p) are jointly inconsistent; fn. 30, the inconsistency persists if T p is identical to p.
+      registry_mapping: INFERENCE, unchecked - roughly [IRR.F or IRR.P, DISJ.ONE/DISJ.BOTH, TR.FULL] plus a new INTERNALITY family; Internality has no registry entry yet.
+      status: not encoded
+    - id: P.CORREIA.2026
+      source: correia2026 sects. 8-9 (truth-teller/liar puzzles; Cantorian puzzle for immediate ground)
+      status: not read in this thread
+    - id: P.ELGIN.IDENTITY
+      source: elgin2026 (a = b partially grounds itself)
+      status: not read in this thread
+
+# ---------------------------------------------------------------------------
+# Findings that bear on the search (step 4)
+# ---------------------------------------------------------------------------
+findings:
+  - id: F1
+    date: 2026-11-27
+    claim: No package containing CL.PROP, TRANS.P and IRR.F together with any of CONJ.BIN, DISJ.ONE or TR.FULL (+ TS.FULL) has a finite model.
+    proof: isabelle/No_Finite_Models.thy (chain_no_finite; no_finite_model_conj, _disj, _tr). The chain p, s p, s (s p), ... of truths, with s = λp. conj p p, disj p p or tr p, must repeat in a finite domain, and transitivity then gives PG x x.
+    consequence: Nitpick can certify models only for packages that drop transitivity, irreflexivity or every such "successor" rule. Most packages of interest need infinite-model certificates (for example term models built in Isabelle), which the brief's classification "finite-model" does not cover. DECIDED (D4, 2026-11-27) - add the class "infinite-model", certified by a model constructed in Isabelle.
+    status: checked
+
+# ---------------------------------------------------------------------------
+# Bibliography and access status
+# ---------------------------------------------------------------------------
+bibliography:
+  litland2023:
+    cite: "Litland, J. E. (2023). Ground first: against the proof-theoretic definition of ground. Synthese 201: 28. doi:10.1007/s11229-022-04028-8"
+    read: published version supplied by reviewer 2026-11-27; sect. 4.4 read
+    relevance: 'P.LITLAND.INTERNALITY; cites Litland 2015 (Phil. Rev. 124(4): 481-532) and Litland 2022 (Analysis 81(4): 639-647, "Wilhelmine inconsistency"), neither received'
+  kramer2016:
+    cite: "Krämer, S. (2016/2018). Towards a theory of ground-theoretic content. Synthese. doi:10.1007/s11229-016-1242-6"
+    read: author's accepted version (eprints.gla.ac.uk/140553) supplied 2026-11-27; sect. 5.4 skimmed; AM pagination only
+    relevance: truthmaker (modes-of-verification) semantics in which irreflexivity holds exactly for "irreflexive" propositions - a candidate source of models and of a restricted-IRR family; not mined
+  poggiolesi2019:
+    cite: "Poggiolesi, F. Logics of grounding. Routledge Handbook of Metaphysical Grounding (draft 10 Apr 2019, hal-02100816v1)"
+    read: draft supplied 2026-11-27; survey; skimmed
+    relevance: secondary; reports Korbmacher's PG consistent with a model built from grounding trees (cross-check for korbmacher2018a/b)
+  correia2026:
+    cite: "Correia, F. Worldly grounding and the puzzles. Philosophical Studies 183 (2026): 2553-2574. doi:10.1007/s11098-025-02378-w"
+    read: supplied 2026-11-27 (sources/phil-studies-2026-higher-order-ground/); not mined
+  elgin2026:
+    cite: "Elgin, S. Z. Indiscernibility and the grounds of identity. Philosophical Studies 183 (2026): 2693-2715. doi:10.1007/s11098-024-02124-8"
+    read: supplied 2026-11-27; not mined
+  leech2026:
+    cite: "Leech, J. Nothing to it?: generalized identity and zero-grounding. Philosophical Studies 183 (2026): 2635-2655. doi:10.1007/s11098-024-02279-4"
+    read: supplied 2026-11-27; not mined; bears on empty-grounds entry
+  fine2010:
+    cite: "Fine, K. (2010). Some Puzzles of Ground. Notre Dame Journal of Formal Logic 51(1): 97–118. doi:10.1215/00294527-2010-007"
+    read: published version supplied by reviewer 2026-11-26 (journal pages 97–118); sects. 1–7 checked, sect. 8 (fixed points) not yet mined
+    needed_from_reviewer: false
+  lovett2020:
+    cite: "Lovett, A. (2020). The Puzzles of Ground. Philosophical Studies 177: 2541–2564 (online 20 July 2019). doi:10.1007/s11098-019-01325-w"
+    read: published version supplied by reviewer 2026-11-26 (journal pages 2541–2564); sects. 1–6 checked, sects. 7–8 skimmed
+    needed_from_reviewer: false
+    note: primitive is strict full ground; the main puzzles are for non-factive ground (rules without premises, p. 2544), which v1's core FACT excludes; the factive versions (fn. 21, p. 2550) are in the map. Lovett's solution takes weak ground as fundamental (sect. 7), outside v1. He argues Woods's solution fails for truth of self-referential sentences and for conjunction and disjunction cases (p. 2552), also outside v1's signature.
+  fine2012a:
+    cite: "Fine, K. (2012). Guide to Ground. In F. Correia and B. Schnieder (eds), Metaphysical Grounding, CUP, 37–80."
+    read: author manuscript (60 pp.) supplied 2026-11-26; published CUP volume supplied 2026-11-27 (printed page = PDF page minus 10)
+    pagination: CUP pages, with ms pages in parentheses where first checked there. Fritz's "Fine 2012, p. 51" (immediate ground and the "ground-theoretic hierarchy") is CUP p. 51, checked.
+    needed_from_reviewer: false
+  fine2012b:
+    cite: "Fine, K. (2012). The Pure Logic of Ground. Review of Symbolic Logic 5(1): 1–25. doi:10.1017/S1755020311000086"
+    read: published RSL version supplied by reviewer (journal pages 1–25)
+    needed_from_reviewer: false
+  kramer2013:
+    cite: "Krämer, S. (2013). A Simpler Puzzle of Ground. Thought 2(2): 85–89. doi:10.1002/tht3.77"
+    read: accepted manuscript (eprints.gla.ac.uk/140561), full text
+    access: open (AM); published pagination not verified.
+    needed_from_reviewer: published version, for page numbers only
+  correia2014:
+    cite: "Correia, F. (2014). Logical Grounds. Review of Symbolic Logic 7(1): 31–59."
+    read: repository copy (libra.unine.ch); first ~46% verbatim (to start of sect. 4), rest only summarized; ms page numbers, not journal pages
+    needed_from_reviewer: journal pages for the quotes above; sects. 5–7 (truth predicate, sect. 7.3)
+  woods2018:
+    cite: "Woods, J. (2018). Emptying a Paradox of Ground. Journal of Philosophical Logic 47(4): 631–648. doi:10.1007/s10992-017-9442-1"
+    read: published version (eprints.whiterose.ac.uk/113935, CC-BY), full text with running heads
+    needed_from_reviewer: false
+  korbmacher2018a:
+    cite: "Korbmacher, J. (2018). Axiomatic Theories of Partial Ground I: The Base Theory. Journal of Philosophical Logic 47: 161–191. doi:10.1007/s10992-016-9423-9"
+    read: open-access copy (core.ac.uk), first ~47% verbatim; no page numbers visible
+    needed_from_reviewer: page numbers; disjunction and quantifier axioms
+  korbmacher2018b:
+    cite: "Korbmacher, J. (2018). Axiomatic Theories of Partial Ground II: Partial Ground and Hierarchies of Typed Truth. Journal of Philosophical Logic 47: 193–226. doi:10.1007/s10992-017-9444-z"
+    read: Springer HTML, ~77% verbatim; no page numbers visible
+    needed_from_reviewer: page numbers
+  fritz2022:
+    cite: "Fritz, P. (2022). Ground and Grain. Philosophy and Phenomenological Research 105(2): 299–330. doi:10.1111/phpr.12822"
+    read: published version supplied by reviewer (pp. 299–330); the PDF carries a hidden text layer from another article, filtered out before extraction
+    needed_from_reviewer: false
+  derosset_fine2023:
+    cite: "deRosset, L. and Fine, K. (2023). A Semantics for the Impure Logic of Ground. Journal of Philosophical Logic 52: 415–493. doi:10.1007/s10992-022-09676-2"
+    read: preprint dated 2022-07-08 supplied by reviewer (84 pp., own pagination); not yet mined
+    needed_from_reviewer: JPL pagination, later
+    note: not yet used by any entry; its impure rules should be checked against CONJ, DISJ, NEG, EX, ALL in step 2.
+  kment:
+    cite: "Kment, B. Russell-Myhill and Grounding. Analysis (per acknowledgements; details to be confirmed)."
+    read: author's file, full text (princeton.edu/~bkment/articles/rmp.pdf)
+  goodman2023:
+    cite: "Goodman, J. Grounding Generalizations. Journal of Philosophical Logic. doi:10.1007/s10992-022-09689-x"
+    read: published version, first ~40%
+  fritz2023:
+    cite: "Fritz, P. (2023). Operands and Instances. Review of Symbolic Logic 16(1): 188ff. doi:10.1017/S175502032100040X"
+    read: published, pp. 188–201 verbatim
+  fine_derosset2024a:
+    cite: "Fine, K. and deRosset, L. Approaches to the Impure Logic of Ground (draft of 2024-05-09)."
+    read: supplied by reviewer; not yet mined
+  fine_derosset2024b:
+    cite: "Fine, K. and deRosset, L. Truthmaker Semantics, Ground, and Generality (draft of 2024-05-09)."
+    read: supplied by reviewer; not yet mined
+  derosset2015:
+    cite: "deRosset, L. Better Semantics for the Pure Logic of Ground. Analytic Philosophy (forthcoming as of 2015 draft)."
+    read: supplied by reviewer; not yet mined

@@ -1,0 +1,30 @@
+name: check
+on:
+  push:
+  pull_request:
+jobs:
+  isabelle:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      ISABELLE_URL: https://isabelle.in.tum.de/dist/Isabelle2026_linux.tar.gz
+      ISABELLE_SHA256: 858c995b32216b3876bf395c3be843147d1f1eee404bc6c958d7534ee335e48d
+    steps:
+      - uses: actions/checkout@v4
+      - name: No sorry, oops or axiomatization
+        run: scripts/check_no_sorry.sh isabelle
+      - name: Registry parses
+        run: python3 -c "import yaml; yaml.safe_load(open('principles/registry.yaml'))"
+      - name: Cache Isabelle tarball
+        uses: actions/cache@v4
+        with:
+          path: Isabelle2026_linux.tar.gz
+          key: isabelle-${{ env.ISABELLE_SHA256 }}
+      - name: Download and verify pinned Isabelle
+        run: |
+          [ -f Isabelle2026_linux.tar.gz ] || curl -fsSL -o Isabelle2026_linux.tar.gz "$ISABELLE_URL"
+          echo "$ISABELLE_SHA256  Isabelle2026_linux.tar.gz" | sha256sum -c -
+          tar xzf Isabelle2026_linux.tar.gz -C "$RUNNER_TEMP"
+      - name: Build session Ground_Map_Checks
+        run: |
+          "$RUNNER_TEMP/Isabelle2026/bin/isabelle" build -v -o threads=4 -D isabelle

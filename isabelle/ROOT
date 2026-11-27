@@ -1,0 +1,8 @@
+session Ground_Map_Checks = HOL +
+  options [timeout = 600]
+  theories
+    Russell_Checks
+    Fine_Checks
+    Signature
+    Fritz_Main
+    No_Finite_Models
