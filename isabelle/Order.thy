@@ -178,4 +178,43 @@ qed
 
 lemma EMPTY_excl: "EMPTY_NONE \<longleftrightarrow> \<not> EMPTY_SOME" unfolding EMPTY_NONE_def EMPTY_SOME_def by blast
 
+text \<open>BETA.ID and BETA.GROUND exclude each other as soon as some proposition is true:
+  the lambda term for the identity body applied to a truth p would be both identical
+  to p and distinct from it. CL.QUANT supplies a truth.\<close>
+lemma BETA_excl: assumes id: "BETA_ID" and gr: "BETA_GROUND" and t: "T p" shows False
+proof -
+  let ?v = "\<lambda>_::nat. p"
+  have d: "den (?v(0 := p)) (Var 0) = p" by simp
+  have "app (lam 0 (Var 0) ?v) p = den (?v(0 := p)) (Var 0)"
+    using id unfolding BETA_ID_def by blast
+  moreover have "app (lam 0 (Var 0) ?v) p \<noteq> den (?v(0 := p)) (Var 0)"
+    using gr t d unfolding BETA_GROUND_def by metis
+  ultimately show False by blast
+qed
+
+corollary BETA_excl_CL_QUANT: "BETA_ID \<Longrightarrow> BETA_GROUND \<Longrightarrow> CL_QUANT \<Longrightarrow> False"
+  using BETA_excl CL_QUANT_truth by blast
+
+text \<open>The binary clause of CONJ.GRAIN follows from Fritz's (\<and>1) and (\<and>2) once
+  conjunction is truth-functional: the immediate partial grounds of a true conjunction
+  are exactly its two conjuncts, so equal true conjunctions have the same conjuncts.\<close>
+lemma grain_bin_from_FRITZ7:
+  assumes cl: "CL_PROP" and f7: "IMM_FRITZ7"
+      and t: "T (conj p q)" and e: "conj p q = conj p' q'"
+  shows "{p, q} = {p', q'}"
+proof -
+  have i1: "T a \<and> T b \<Longrightarrow> IPG a (conj a b) \<and> IPG b (conj a b)" for a b
+    using f7 unfolding IMM_FRITZ7_def by blast
+  have i2: "IPG r (conj a b) \<Longrightarrow> r = a \<or> r = b" for r a b
+    using f7 unfolding IMM_FRITZ7_def by blast
+  have c: "T (conj a b) \<longleftrightarrow> T a \<and> T b" for a b using cl unfolding CL_PROP_def by blast
+  have t1: "T p \<and> T q" using t c by blast
+  have t2: "T p' \<and> T q'" using t e c by metis
+  have "IPG p (conj p' q') \<and> IPG q (conj p' q')" using i1[OF t1] e by simp
+  hence a: "(p = p' \<or> p = q') \<and> (q = p' \<or> q = q')" using i2 by blast
+  have "IPG p' (conj p q) \<and> IPG q' (conj p q)" using i1[OF t2] e by simp
+  hence b: "(p' = p \<or> p' = q) \<and> (q' = p \<or> q' = q)" using i2 by blast
+  from a b show ?thesis by auto
+qed
+
 end

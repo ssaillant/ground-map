@@ -250,3 +250,29 @@ AI-use disclosure. One entry per working session.
   refutations replayed); scripts/verify_models.py (113 of 113 models, two at level N0).
 - Human review: pending.
 
+## 2026-11-27 — Open questions of the repair (registry 0.3.1-draft)
+
+- Tool: Claude Code (cloud session), the same project thread as the audit; Isabelle2026
+  pinned. No source was read or re-fetched.
+- Model: the same model as the audit entry above; identifier to be entered by the
+  reviewer.
+- Prompt: "What are we missing here? The choices you made, nice. You see that it doesn't
+  change, it's bound still, does not. Makes sense to me. So let's try to establish what
+  we haven't established, with the exception of the page numbers. If it's not already in
+  the information, I don't think I have it." (reviewer). Read as: the choices made in
+  applying D5 are accepted; settle the items the report lists as not established, page
+  numbers excepted; say what is missing.
+- What the model did: built the models MH and MS and proved that the sentence-position
+  package without CL.PROP has no finite model (isabelle/Separation_Models.thy); proved
+  each puzzle from the admissibility of the one witness it uses, and Fine's universal
+  package refuted with typed truth entries (isabelle/Puzzle_Packages.thy); proved two
+  earlier inferences (isabelle/Order.thy); wrote scripts/separations.py and stored seven
+  separating models; added findings F7 and F8, the `reviewed` field of D5 and the
+  restructured `implications` section to the registry; added section 8 to the generated
+  results page and section 11 to the audit report.
+- Decisions the model took itself: none that changes a statement. The three COMP pairs
+  were moved from the rank pairs to a list of their own. A change to comprehension (one
+  entry per witness) is proposed to the reviewer and not made.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py (113 of
+  113); the seven separating models re-checked by the independent evaluator.
+- Human review: pending.

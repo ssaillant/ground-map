@@ -1,12 +1,13 @@
 # Ground Map: principle registry
 # Single source of truth for the consistency map. Results are tied to
 # registry_version. DRAFT for review. Version 0.3.0-draft applies the repairs
-# of the audit of 2026-11-27 (decision D5; docs/audit-2026-11-27.md). Reviewer
-# decisions are recorded in the section `decisions`; where a decision was
-# applied with choices the reviewer has not yet seen, they are listed under
-# `choices_made_in_applying_it` and marked pending review.
+# of the audit of 2026-11-27 (decision D5; docs/audit-2026-11-27.md). Version
+# 0.3.1-draft changes no statement: it records results on the questions the
+# repair left open (findings F7, F8; section `implications`). Reviewer
+# decisions are recorded in the section `decisions`; choices made while
+# applying a decision are listed under `choices_made_in_applying_it`.
 
-registry_version: 0.3.0-draft
+registry_version: 0.3.1-draft
 date: 2026-11-27
 status: draft-for-review
 decisions:
@@ -55,17 +56,34 @@ decisions:
       Grounding gets an entry (ALL.PART), and the puzzle packages are stated
       with the partial principles the sources use. Citations and reading notes
       are corrected as the audit proposed.
+    reviewed: >-
+      2026-11-27, Said Saillant, after the repair report. His words - "The
+      choices you made, nice. You see that it doesn't change, it's bound still,
+      does not. Makes sense to me." INFERENCE (the assistant's reading) - this
+      accepts the choices below, the remark on the bound referring to the first
+      one (C2 unchanged). No choice was discussed singly; each can still be
+      reverted on its own.
     choices_made_in_applying_it:
-      # Made by the assistant while applying D5, not by the reviewer. Each is
-      # pending review and can be reverted on its own.
+      # Made by the assistant while applying D5, not by the reviewer. Reviewed
+      # 2026-11-27 (see `reviewed`).
       - C2 is left as it was. Its level bound binds the body, not the parameters (the environment), so it is predicative in the bound variable only. Flagged on C2. Closing the parameters as well would change which functions C2 admits and is left to the reviewer.
       - EX.LEV closes the instance formula a only. The body b of the quantified function keeps its parameters. Flagged on EX.LEV.
       - Besides ALL.PART (named in A4), three further partial entries were added, DISJ.PART, EX.PART and TR.PART, because Fine's 2010 rules for disjunction, existence and truth are partial as well and the puzzle packages are now stated with them.
       - The ALL family is no longer a set of alternatives. ALL.INST and ALL.TOT each imply ALL.PART, and the search does not treat them as mutually exclusive (it never did).
-      - P.FINE.UNIVERSAL.SP now lists CL.PROP. The checked proof uses it; whether the package without it is refutable is not established.
+      - P.FINE.UNIVERSAL.SP now lists CL.PROP. The checked proof uses it. SETTLED 0.3.1 - the package without it is consistent (model MS, finding F7), so the premise was missing from the 0.2.x listing and adding it was required.
       - Puzzle targets are stated with the weakest entries the checked proofs use. The 0.2.x packages follow from them by the implications in Order.thy.
     checks: isabelle/Restricted_Models.thy (MG_package), isabelle/Puzzle_Packages.thy, isabelle/Order.thy; isabelle/Audit_Checks.thy keeps the proofs that the 0.2.x definitions collapsed
 changelog:
+  - version: 0.3.1-draft
+    date: 2026-11-27
+    changes:
+      - No statement changed and no entry added. Requested by the reviewer - establish what the repair report listed as not established, page numbers excepted.
+      - New theory isabelle/Separation_Models.thy (models MH and MS; ME_separates_IMM; sp_package_no_finite_model). New script scripts/separations.py and results/separations.jsonl (seven separating models found by Nitpick, re-verified by the independent evaluator each time docs/results.md is generated).
+      - Section `implications` - every pair under rank_order_without_implication is now separated by a model; the three COMP pairs moved to `not_comparable`; the BETA selection rule cites a theorem (BETA_excl).
+      - Puzzle targets - each argument is proved from the admissibility of the one C1 witness it uses (theorems named *_witness in isabelle/Puzzle_Packages.thy). P.FINE.UNIVERSAL with typed truth entries is refuted (fine_universal_typed_refuted). P.FINE.UNIVERSAL.SP needs excluded middle (fine_universal_sp_em) and is consistent without it (MS).
+      - Two inferences are now theorems - BETA.ID and BETA.GROUND exclude each other given a truth (BETA_excl); the binary clause of CONJ.GRAIN follows from IMM.FRITZ7 with CL.PROP (grain_bin_from_FRITZ7).
+      - New findings F7 (the sentence-position package without CL.PROP is consistent, with infinite models only) and F8 (each puzzle uses one C1 witness; because C1 admits the four together, the particular puzzles contain Krämer's and Fine's universal puzzle contains its sentence-position variant).
+      - Decision D5 - the reviewer's response to the choices made in applying it is recorded under `reviewed`.
   - version: 0.3.0-draft
     date: 2026-11-27
     changes:
@@ -291,11 +309,13 @@ implications:
     # Rules of the search, not theorems: at most one entry from each group.
     - {group: [C1, C2, C3d, C3s], why: each fixes adm exactly}
     - {group: [EMPTY.NONE, EMPTY.SOME], why: contradictory (EMPTY_excl)}
-    - {group: [BETA.ID, BETA.GROUND], why: 'INFERENCE - contradictory as soon as some proposition is true, by the distinctness clause of BETA.GROUND; not a theorem of Order.thy'}
+    - {group: [BETA.ID, BETA.GROUND], why: 'contradictory as soon as some proposition is true, by the distinctness clause of BETA.GROUND (BETA_excl; with CL.QUANT outright, BETA_excl_CL_QUANT). An inference until 0.3.0, a theorem of Order.thy since 0.3.1'}
   rank_order_without_implication:
-    # Audit finding A2. The higher-ranked entry does not contain the lower one
-    # and no implication between the two is proved. INFERENCE - none is
-    # provable; no separating model has been built for these pairs.
+    # Audit finding A2. The higher-ranked entry does not contain the lower one.
+    # 0.3.1 - for each pair a model in which the higher-ranked entry holds and
+    # the lower-ranked one fails is recorded under `separations` (IMM pair) or
+    # `separations_by_search` (the other seven). Until 0.3.0 the
+    # non-implications were inferences.
     - [CL.QUANT, CL.PROP]
     - [ID.DN, ID.AC]
     - [CONJ.INF, CONJ.BIN]
@@ -304,6 +324,14 @@ implications:
     - [NEG.DM, NEG.DN]
     - [TR.NEG, TR.FULL]
     - [IMM.FRITZ7, IMM.CONJ]
+  not_comparable:
+    # 0.3.1 - listed under rank_order_without_implication until 0.3.0. Each
+    # COMP entry says exactly which functions are admissible, and the search
+    # takes at most one of them (selection_rules), so no result is ever carried
+    # from one to another. INFERENCE - neither entry of a pair implies the
+    # other in general (C3s admits every function, C1 four). Not tested by a
+    # model - these are formula-layer entries, where Nitpick's models are not
+    # genuine, and no model was built by hand for them.
     - [C2, C1]
     - [C3d, C2]
     - [C3s, C3d]
@@ -314,6 +342,36 @@ implications:
       model: MG
       theorem: MG_package, MG_not_EX_FULL, MG_not_TS_FULL, MG_not_TR_FULL (isabelle/Restricted_Models.thy)
       note: MG also fails EX.PART, since it satisfies C1, BETA.ID, CL.QUANT and IRR.F and those refute EX.PART (kramer_package). So neither EX.PRED nor EX.LEV implies EX.PART.
+    - holds: [EX.PART]
+      fails: [EX.PRED, EX.LEV, EX.FULL]
+      model: MH
+      theorem: MH_package (isabelle/Separation_Models.thy)
+      note: Added 0.3.1. MH has MG's propositions and functions; any two distinct truths together fully ground any truth and no single truth grounds anything, so every true instance is a partial ground and none is a full ground. With MG, EX.PART and the two restricted entries are independent in both directions. MH is a separation only - every truth partially grounds itself there.
+    - holds: [IMM.FRITZ7]
+      fails: [IMM.CONJ]
+      model: ME
+      theorem: ME_separates_IMM (isabelle/Separation_Models.thy; ME is the model of finding F2)
+      note: Added 0.3.1. A weak separation - ME is not classical and its arbitrary conjunction is a false constant, so it does not bear on whether IMM.FRITZ7 implies IMM.CONJ given CL.PROP and CL.QUANT. That question is open.
+    - holds: [C1, BETA.ID, CL.QUANT, ALL.INST, DISJ.ONE, TRANS.P, IRR.F, ASYM.P]
+      fails: [CL.PROP]
+      model: MS
+      theorem: MS_package (isabelle/Separation_Models.thy)
+      note: Added 0.3.1. Finding F7.
+  separations_by_search:
+    # Added 0.3.1. Non-implications established by a finite model that Nitpick
+    # found for FACT, the first entry, N1 and the negation of the second
+    # (scripts/separations.py). Each model is stored in results/separations.jsonl
+    # and re-checked by scripts/verify_models.py's evaluator whenever
+    # docs/results.md is generated. None of these entries mentions lam or den,
+    # so the models are genuine. Each is a non-implication between the two
+    # entries alone, not under further principles.
+    - [CL.QUANT, CL.PROP]
+    - [ID.DN, ID.AC]
+    - [CONJ.INF, CONJ.BIN]
+    - [CONJ.GRAIN, CONJ.BIN]
+    - [DISJ.BOTH, DISJ.ONE]
+    - [NEG.DM, NEG.DN]
+    - [TR.NEG, TR.FULL]
 
 # ---------------------------------------------------------------------------
 # Families
@@ -654,6 +712,10 @@ families:
             chosen: closed truth-free formulas (fv a = {}), that is, truth-free sentences
             alternatives: ['every truth-free formula under every environment - the 0.2.x statement, equivalent to TS.FULL because Var 0 is truth-free and denotes any proposition (finding F5)']
             why: Korbmacher's typed truth predicate applies to sentences of lower level. Separated from TS.FULL by the model MG (MG_package, isabelle/Restricted_Models.thy).
+          - point: whether typed truth blocks Fine's universal argument (0.3.1)
+            chosen: no claim is attached to this entry
+            alternatives: ['the 0.2.x remark that typed truth blocks Fine-style circles (withdrawn in 0.3.0)']
+            why: Under C1 it does not. Fine's universal package with TS.TYPED and TR.TYPED in place of TS.FULL and TR.PART is refuted (fine_universal_typed_refuted), because C1 also admits f_em and the sentence-position argument uses no truth entry. Whether typed truth blocks the argument where only f_tem is admissible cannot be stated with the present COMP entries (finding F8).
           - point: hierarchy depth
             chosen: two levels only (truth-free sentences and one truth predicate)
             alternatives: ['levels up to α < ε0 as in Korbmacher']
@@ -831,7 +893,7 @@ families:
           - point: FLAGGED 0.3.0 (audit) - the first clause (grain of binary conjunction)
             chosen: included
             alternatives: ['the infinitary clause only, which is all (S⋀) states']
-            why: the binary clause is not in Fritz's §2.3. INFERENCE - it follows from his (∧1) and (∧2) (pp. 304–305) for true conjunctions; not machine-checked. It makes the entry stronger than the quoted source.
+            why: the binary clause is not in Fritz's §2.3. It follows from his (∧1) and (∧2) (pp. 304–305) for true conjunctions - checked in 0.3.1 (grain_bin_from_FRITZ7, isabelle/Order.thy), for the defined IPG and with CL.PROP, which gives the truth of both conjuncts. It makes the entry stronger than the quoted source.
           - point: relation to CONJ.BIN
             chosen: standalone; neither CONJ.GRAIN nor CONJ.INF includes CONJ.BIN
             alternatives: []
@@ -921,7 +983,7 @@ families:
       - id: DISJ.PART
         rank: 0
         name: Each true disjunct partially grounds the disjunction
-        added: 0.3.0-draft (D5), pending review
+        added: 0.3.0-draft (D5); reviewed 2026-11-27 (see D5 `reviewed`)
         statement: |
           T p ⟶ PG p (disj p q)
           T q ⟶ PG q (disj p q)
@@ -1115,7 +1177,7 @@ families:
       - id: EX.PART
         rank: 0
         name: Existential grounding (partial, unrestricted)
-        added: 0.3.0-draft (D5), pending review
+        added: 0.3.0-draft (D5); reviewed 2026-11-27 (see D5 `reviewed`)
         statement: |
           T (app f a) ⟶ PG (app f a) (ex f)      (* adm f *)
         sources:
@@ -1133,7 +1195,7 @@ families:
           - point: place in the family
             chosen: implied by EX.FULL (EX_FULL_PART); implies EX.WEAK under CL.QUANT (EX_PART_WEAK)
             alternatives: ['state the puzzles with EX.FULL only (0.2.x)']
-            why: it is the premise Krämer's and Fine's arguments use. EX.PRED and EX.LEV do not imply it - the model MG satisfies both and refutes it, since Krämer's package with EX.PART is refuted (kramer_package). That EX.PART implies neither of them is an INFERENCE, not proved.
+            why: it is the premise Krämer's and Fine's arguments use. EX.PRED and EX.LEV do not imply it - the model MG satisfies both and refutes it, since Krämer's package with EX.PART is refuted (kramer_package). EX.PART implies neither of them - the model MH satisfies it and fails both (MH_package, isabelle/Separation_Models.thy; an inference until 0.3.0).
 
   # 12 -----------------------------------------------------------------------
   - id: ALL
@@ -1144,7 +1206,7 @@ families:
       - id: ALL.PART
         rank: 0
         name: Each instance partially grounds the universal truth
-        added: 0.3.0-draft (D5), pending review
+        added: 0.3.0-draft (D5); reviewed 2026-11-27 (see D5 `reviewed`)
         statement: |
           (∀b. T (app f b)) ⟶ PG (app f a) (all f)      (* adm f *)
         sources:
@@ -1287,7 +1349,7 @@ families:
       - id: TR.PART
         rank: 0
         name: Propositional grounding (partial)
-        added: 0.3.0-draft (D5), pending review
+        added: 0.3.0-draft (D5); reviewed 2026-11-27 (see D5 `reviewed`)
         statement: |
           T p ⟶ PG p (tr p)
         sources:
@@ -1411,6 +1473,10 @@ families:
             chosen: the propositional cases (f_tem, f_tr); Fine's cases for facts and sentences are not named
             alternatives: ['facts with an existence predicate (Fine pp. 102–103)', 'sentences with a naming device (p. 98)']
             why: v1 has no facts, existence predicate or sentences. Fine's fact arguments with "obtains" in place of "exists" become the propositional ones when facts are true propositions (p. 106), so f_tr covers them.
+          - point: FLAGGED 0.3.1 - the four witnesses are admitted together
+            chosen: one entry admitting f_id, f_tr, f_em and f_tem and nothing else
+            alternatives: ['one entry per witness, each asserting only that the witness is admissible (a lower bound on adm, combinable, and implied by C1)']
+            why: the design fixed comprehension levels C0–C3. Each puzzle uses one witness (theorems *_witness, isabelle/Puzzle_Packages.thy), and no source assumes the four together. With the four bundled, a package cannot contain the witness of one puzzle without those of the others, so the puzzles cannot be separated from one another (finding F8). Put to the reviewer as a decision; not changed here.
           - point: identity of the witnesses with their values
             chosen: not part of C1; it comes from BETA.ID
             alternatives: ['state the identities in C1, as in v0.1.x']
@@ -1633,6 +1699,7 @@ puzzles:
       instance of itself (app f_id (ex f_id) = ex f_id by BETA.ID), so
       PG (ex f_id) (ex f_id), against IRR.F.
     note: CORRECTED 0.3.0 (audit) - the derivation said CL.PROP gives the truth, while the package lists no CL.PROP. Krämer's own premise is that ∃p p is a theorem of logic; here the truth comes from CL.QUANT (reading flagged on CL.QUANT). His "<" is partial ground, hence EX.PART.
+    witness: f_id (kramer_witness assumes adm f_id in place of C1)
   - id: P.FINE.PARTICULAR
     source: fine2010 p. 106 ("something is true", facts read as true propositions), which uses Transitivity and Irreflexivity; kramer2013 (F1)–(F4) and lovett2020 pp. 2541, 2544 for the version from Asymmetry (factive version, Lovett fn. 21 p. 2550)
     package: [C1, BETA.ID, CL.QUANT, TS.FULL, TR.PART, EX.PART, TRANS.P, IRR.F]
@@ -1651,7 +1718,11 @@ puzzles:
       proofs follow the sources' route through the truth predicate (f_tr) and do
       not use f_id. The map can show what this puzzle needs beyond Krämer's
       only in a package where f_id is not admissible or β-identity fails for
-      it; no entry provides that.
+      it; no entry provides that. 0.3.1 - the checked proofs assume only that
+      f_tr is admissible (something_true_trans_witness,
+      something_true_asym_witness), so the limit lies in C1, which admits f_id
+      along with f_tr, and not in the argument (finding F8).
+    witness: f_tr
   - id: P.FINE.UNIVERSAL
     source: fine2010 pp. 102–103, Universal Argument for Propositions, steps (1)–(9)
     package: [C1, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, ALL.PART, DISJ.PART, TR.PART, TRANS.P, IRR.F]
@@ -1662,7 +1733,22 @@ puzzles:
       s = all f_tem is true; d = disj (tr s) (neg (tr s)) is an instance, so PG d s
       by ALL.PART (Fine's step 4); T (tr s), so PG (tr s) d by DISJ.PART (step 6);
       PG s (tr s) by TR.PART (step 7); TRANS.P gives PG s s (step 8).
-    note: Fine's grounding premises are partial-ground rules (pp. 100–101), which the package now lists. CL.PROP and CL.QUANT stand in for Fine's Universal Middle, which he takes as a logical truth and notes fails intuitionistically (p. 107). The argument survives the move from ALL.INST to ALL.TOT (audit finding A4).
+    note: >-
+      Fine's grounding premises are partial-ground rules (pp. 100–101), which
+      the package now lists. CL.PROP and CL.QUANT stand in for Fine's Universal
+      Middle, which he takes as a logical truth and notes fails
+      intuitionistically (p. 107). The argument survives the move from ALL.INST
+      to ALL.TOT (audit finding A4). LIMIT, 0.3.1 - the package contains the
+      package of P.FINE.UNIVERSAL.SP, so it is refuted without its truth
+      entries and is not minimal. In particular it stays refuted with TS.TYPED
+      and TR.TYPED in place of TS.FULL and TR.PART (fine_universal_typed_refuted).
+      That settles the question the repair report left open, and by an argument
+      that is not Fine's - it runs through f_em, which C1 admits, and no truth
+      predicate. The checked proof of Fine's own route assumes only that f_tem
+      is admissible (fine_universal_witness). Whether typed truth blocks that
+      route when f_em is not admissible is open and cannot be stated with the
+      present COMP entries (finding F8).
+    witness: f_tem
   - id: P.FINE.PARTICULAR.PROPS
     source: fine2010 p. 103, Particular Argument for Propositions
     package: [C1, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, EX.PART, DISJ.PART, TR.PART, TRANS.P, IRR.F]
@@ -1675,18 +1761,30 @@ puzzles:
       argument for the case of propositions." (p. 103). The proof is this
       project's. Fine p. 108 - blocked by replacing the existential and
       disjunctive rules with EX.WEAK and DISJ.WEAK. LIMIT - the package contains
-      Krämer's package and is not minimal (see P.FINE.PARTICULAR).
+      Krämer's package and is not minimal (see P.FINE.PARTICULAR). The proof
+      assumes only that f_tem is admissible (fine_particular_props_witness).
+    witness: f_tem
   - id: P.FINE.UNIVERSAL.SP
     source: sentence-position variant of fine2010 p. 102, instance from woods2018 p. 645
     package: [C1, BETA.ID, CL.PROP, CL.QUANT, ALL.PART, DISJ.PART, TRANS.P, IRR.F]
     expected: refuted
-    theorem: fine_universal_sp_package (isabelle/Puzzle_Packages.thy)
+    theorem: fine_universal_sp_package; fine_universal_sp_em and fine_universal_sp_witness for the weaker hypotheses (isabelle/Puzzle_Packages.thy)
     status: refuted (checked)
     derivation: |
       s = all f_em is true; s is a true disjunct of app f_em s = disj s (neg s),
       so PG s (disj s (neg s)); that disjunction is an instance of s, so
       PG (disj s (neg s)) s; TRANS.P gives PG s s.
-    note: CHANGED 0.3.0 (D5, pending review) - CL.PROP added. The truth of all f_em is excluded middle for every proposition, which the proof gets from CL.PROP. The 0.2.x package listed no CL.PROP; whether that package is refutable is not established.
+    note: >-
+      CHANGED 0.3.0 (D5) - CL.PROP added. The truth of all f_em is excluded
+      middle for every proposition, which the proof gets from CL.PROP. SETTLED
+      0.3.1 - the 0.2.x package, without CL.PROP, is consistent (model MS,
+      finding F7), so the added premise is needed. What the argument needs of
+      CL.PROP is excluded middle alone - fine_universal_sp_em replaces CL.PROP
+      by the hypothesis that every disj x (neg x) is true, and
+      fine_universal_sp_witness further replaces C1 by the admissibility of
+      f_em. The registry has no entry for excluded middle on its own, so the
+      package keeps CL.PROP.
+    witness: f_em
   - id: P.FRITZ.CANTOR
     source: fritz2022 pp. 306–307 (sect. 2.3, arbitrary conjunction); main result sect. 2.4 pp. 308–310
     package: [C3s, CL.PROP, CL.QUANT, IMM.CONJ]
@@ -1862,6 +1960,18 @@ findings:
     proof: "isabelle/Order.thy (CL_QUANT_truth): either every satisfier of f is true, and then bigconj f is, or some satisfier p is untrue, and then app f p is true. Refuted outright - [BETA.ID, C1, CL.QUANT, EX.FULL, IRR.F], which is Krämer's target as 0.2.x listed it (kramer_package_full); [CL.QUANT, DISJ.WEAK, ID.AC, IRR.F] (quant_disjweak_idac_irr; a truth p equals disj p p, which DISJ.WEAK makes p ground); [CL.QUANT, IRR.F, NEG.DN, TR.NEG, TS.ID] (quant_negdn_trneg_tsid_irr; under TS.ID the falsity clause at neg p makes neg (neg p) ground itself). All three in isabelle/Puzzle_Packages.thy; the search found the same refutations after the repair and they are replayed in isabelle/Results_Refutations.thy. Refuted at N1 with a verified model at N0 - [ASYM.P, EMPTY.NONE, ID.DN, NEG.DN, TRANS.CUT] and [CONJ.GRAIN, DISJ.BOTH, DISJ.WEAK, EMPTY.NONE, EX.FULL, ID.DN, IRR.F, NEG.DN, TR.FULL, TRANS.CUT] (results/models_verified.jsonl, level N0)."
     consequence: "The class trivial-only is renamed refuted-at-N1. It reports what was proved (the package with N1 is refuted) and claims consistency only together with a re-verified model in which nothing grounds anything. The 0.2.x gloss, 'consistent only in models where nothing grounds anything', was a consistency claim resting on a failed proof search (audit finding A3). Whether CL.QUANT should supply a truth is flagged as a reading on CL.QUANT."
     status: checked
+  - id: F7
+    date: 2026-11-27
+    claim: "The sentence-position universal package as registry 0.2.x listed it, FACT, LAM.T, LAM.ENV, C1, BETA.ID, CL.QUANT, ALL.INST, DISJ.ONE, TRANS.P and IRR.F without CL.PROP, is consistent. It has no finite model. With excluded middle added it is refuted."
+    proof: "isabelle/Separation_Models.thy (MS_package, MS_core, MS_N3, MS_N4; sp_package_no_finite_model) and isabelle/Puzzle_Packages.thy (fine_universal_sp_em). In MS a proposition is a truth value with a natural-number rank; conjunction and disjunction are classical and raise the rank; a truth fully grounds every truth of higher rank; negation is classical except that the negation of the false proposition of rank 0 is false. So excluded middle fails at one proposition, CL.PROP fails, and the universal closure of f_em is false (MS_f_em_false). MS also satisfies ASYM.P, with N1, N2, N3 instances for DISJ.ONE and ALL.INST, an N4 pair and a four-step chain. No finite model - FACT, CL.QUANT, DISJ.ONE, TRANS.P and IRR.F give an unending chain t, t ∨ t, ... of distinct truths (the argument of F1, with factivity in place of CL.PROP)."
+    consequence: "The 0.2.x listing omitted a premise of the argument, and the CL.PROP added to P.FINE.UNIVERSAL.SP in 0.3.0 is required. The model is no escape from the puzzle: it is consistent because it denies the logical truth the argument is about, and ALL.INST is exercised in it only by f_tem. LIMITS - MS is one model, with a negation that is non-classical at a single point by stipulation; it was not checked against any CONJ, NEG, EX or TR entry."
+    status: checked
+  - id: F8
+    date: 2026-11-27
+    claim: "Each published puzzle among the targets uses exactly one of the four C1 witnesses - Krämer's f_id, 'something is true' f_tr, Fine's universal and particular arguments for propositions f_tem, the sentence-position universal argument f_em. C1 admits the four together. So, as packages, both particular puzzles contain Krämer's package, and Fine's universal package contains the sentence-position package and is refuted whatever truth entries it lists, TS.TYPED and TR.TYPED included."
+    proof: "isabelle/Puzzle_Packages.thy - kramer_witness, something_true_trans_witness, something_true_asym_witness, fine_universal_witness, fine_particular_props_witness, fine_universal_sp_witness (each assumes adm of one witness, not C1); fine_universal_typed_refuted. The containments are read off the package lists."
+    consequence: "Under the present COMP entries the map classifies the puzzle packages correctly and cannot say what one puzzle needs beyond another: which principles Fine's particular arguments need that Krämer's does not, or whether typing truth blocks Fine's universal argument once f_em is not admissible. Both questions need comprehension entries weaker than C1, for example one per witness. OPEN - Fine's universal package with only f_tem admissible and TS.TYPED, TR.TYPED. INFERENCE, not checked - it is consistent: the universal closure of f_tem is not truth-free, so TS.TYPED and TR.TYPED say nothing about it, and the step that grounds the truth ascription in it (step 7, TR.PART in the full package) is unavailable; a model must be infinite (F1) and needs ranks beyond the finite ones, since truth ascriptions to truth-free sentences of every finite rank must lie above them and below the universal closure."
+    status: checked (the claim); the consequence's last sentence is an inference
 
 # ---------------------------------------------------------------------------
 # Bibliography and access status

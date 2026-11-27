@@ -8,6 +8,7 @@ import json, os, sys
 import yaml
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import driver
+import separations
 
 ROOT = driver.ROOT
 REG = yaml.safe_load(open(os.path.join(ROOT, "principles", "registry.yaml")))
@@ -50,7 +51,7 @@ def main():
              "- **finite-model**: a finite model with at least one grounding fact (N1), either found by "
              "Nitpick and re-checked by an independent implementation of the semantics, or built and "
              "checked in Isabelle (`isabelle/Model_Certificates.thy`, `isabelle/Restricted_Models.thy`, "
-             "section 4);\n"
+             "`isabelle/Separation_Models.thy`, section 4);\n"
              "- **infinite-model**: an infinite model built and checked in Isabelle (decision D4);\n"
              "- **unknown**: no proof and no model within the time limits. Unknown never means consistent.\n")
     L.append("A refutation of a package refutes every stronger package; a model of a package is a model "
@@ -165,6 +166,26 @@ def main():
         if c.get("novelty"):
             L.append(f"- Checked and not a candidate: model `{c['model']}` ({c['theory']}). {c['novelty']}. "
                      f"Falsifiers: {c.get('falsifiers', 'none recorded')}.")
+    L.append("")
+
+    # 8. non-implications
+    L.append("## 8. Entries that do not imply one another\n")
+    L.append("A rank in the registry is a label. Where the registry ranks one entry above another and "
+             "`isabelle/Order.thy` proves no implication, a separating model shows that there is none: "
+             "the higher-ranked entry holds and the lower-ranked one fails. Models built in Isabelle are "
+             "checked there. Models found by Nitpick (`scripts/separations.py`, with FACT and N1) are "
+             "stored in `results/separations.jsonl` and re-checked by the independent implementation of "
+             "the semantics each time this page is generated. A separating model shows a non-implication "
+             "between two entries taken alone; it says nothing about packages that add further principles.\n")
+    L.append("| Holds | Fails | Model | Checked |\n|---|---|---|---|")
+    for sp in REG["implications"].get("separations", []):
+        if sp.get("model"):
+            L.append(f"| {fmt(sp['holds'])} | {fmt(sp['fails'])} | `{sp['model']}` | Isabelle: {sp['theorem']} |")
+    for r in sorted(load("results/separations.jsonl"), key=lambda r: (r["holds"], r["fails"])):
+        c = separations.check(r)
+        card = ", ".join(f"{k} {v}" for k, v in sorted((c.get("card") or {}).items())) or "cardinality not parsed"
+        L.append(f"| `{r['holds']}` | `{r['fails']}` | Nitpick, {card} | "
+                 f"{'re-verified' if c['verified'] else 'NOT VERIFIED'} |")
     L.append("")
     os.makedirs(os.path.join(ROOT, "docs"), exist_ok=True)
     open(os.path.join(ROOT, "docs", "results.md"), "w").write("\n".join(L) + "\n")

@@ -29,15 +29,17 @@ Every registry entry is standalone: a package contains exactly the entries liste
 | `isabelle/Principles.thy` | Every registry principle as an Isabelle definition. |
 | `isabelle/Order.thy` | Proved implications between principles, the only ones the search uses. |
 | `isabelle/Russell_Checks.thy`, `Fine_Checks.thy`, `Fritz_Main.thy`, `Fritz2020_Checks.thy`, `Korbmacher_Checks.thy` | The published puzzles, machine-checked. |
-| `isabelle/Puzzle_Packages.thy` | Krämer's and Fine's puzzles proved from the registry's own entries, with the partial-ground premises the sources use (registry 0.3.0). |
+| `isabelle/Puzzle_Packages.thy` | Krämer's and Fine's puzzles proved from the registry's own entries, with the partial-ground premises the sources use (registry 0.3.0), each also from the one comprehension witness it needs (finding F8). |
 | `isabelle/No_Finite_Models.thy` | Finding F1. |
 | `isabelle/Models.thy` | Term model M1 with hyperintensional application: a classical package of 20 registry entries (plus FACT and LAM_CORE) with transitive, irreflexive ground and impredicative comprehension (finding F3), and Goodman's negation variant of Krämer's puzzle (finding F4). |
 | `isabelle/Results_Refutations.thy` | Refutations found by the search, replayed and checked (generated). |
 | `isabelle/Model_Certificates.thy` | Models built in Isabelle: the signature as a locale with every constant a parameter, a proof that its definitions are the registry's, models for the principles the search could not settle, and finding F2. Records in `results/isabelle_models.jsonl`. |
 | `isabelle/Restricted_Models.thy` | Model MG: the restricted entries (EX.PRED, EX.LEV, TS.TYPED, TR.TYPED) hold together with classical truth while the unrestricted ones fail (finding F5). |
+| `isabelle/Separation_Models.thy` | Models MH (partial existential grounding without the restricted principles) and MS (the sentence-position universal package without classical negation; infinite, finding F7), and the proof that the latter package has no finite model. |
 | `isabelle/Audit_Checks.thy` | Evidence for the audit of 2026-11-27: the 0.2.x definitions of the restricted entries collapsed into the unrestricted ones. |
-| `docs/audit-2026-11-27.md` | Independent audit of the registry against the sources, and the repairs made in 0.3.0. |
+| `docs/audit-2026-11-27.md` | Independent audit of the registry against the sources, the repairs made in 0.3.0, and what 0.3.1 settled of the questions the repair left open. |
 | `scripts/driver.py` | The search: asks Sledgehammer for refutations and Nitpick for models, then propagates results along proved implications. |
+| `scripts/separations.py` | Finds finite models separating two entries that the registry ranks without a proved implication, and re-checks the stored ones (`results/separations.jsonl`). |
 | `results/` | Raw search output (`queries.jsonl`), replay and model-verification records. |
 | `docs/results.md` | The generated summary. Do not edit by hand. |
 | `AI_USE_LOG.md` | Prompts, models and human review, for AI-use disclosure. |
