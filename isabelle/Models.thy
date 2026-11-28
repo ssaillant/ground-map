@@ -102,6 +102,10 @@ definition "pC3d S \<longleftrightarrow> (\<forall>f. sadm S f \<longleftrightar
 definition "pBETA_ID S \<longleftrightarrow> (\<forall>x a v p. sapp S (slam S x a v) p = sden S (v(x:=p)) a)"
 definition "pN1 S \<longleftrightarrow> (\<exists>\<Gamma> p. sG S \<Gamma> p)"
 definition "pN2 S \<longleftrightarrow> pN1 S \<and> (\<exists>a b c. distinct [a, b, c] \<and> sT S a \<and> sT S b \<and> sT S c)"
+definition "pN4_pairs S \<longleftrightarrow> (\<exists>x y. ((\<exists>p. x = p \<and> y = sneg S (sneg S p))
+       \<or> (\<exists>p q. x = sconj S p q \<and> y = sconj S q p) \<or> (\<exists>p. x = p \<and> y = sconj S p p)
+       \<or> (\<exists>p q. x = sdisj S p q \<and> y = sdisj S q p))
+     \<and> x \<noteq> y \<and> {\<Gamma>. sG S \<Gamma> x} \<noteq> {\<Gamma>. sG S \<Gamma> y})"
 definition "pN5_chain S \<longleftrightarrow> (\<exists>x0 x1 x2 x3. distinct [x0, x1, x2, x3]
      \<and> pPG S x0 x1 \<and> pPG S x1 x2 \<and> pPG S x2 x3)"
 
@@ -121,7 +125,7 @@ lemma fidelity:
   "pDISJ_BOTH S0 = DISJ_BOTH" "pNEG_DN S0 = NEG_DN" "pNEG_DM S0 = NEG_DM"
   "pEX_FULL S0 = EX_FULL" "pALL_INST S0 = ALL_INST" "pTR_FULL S0 = TR_FULL"
   "pTR_NEG S0 = TR_NEG" "pEMPTY_NONE S0 = EMPTY_NONE" "pC3d S0 = C3d" "pBETA_ID S0 = BETA_ID"
-  "pN1 S0 = N1" "pN2 S0 = N2" "pN5_chain S0 = N5_chain"
+  "pN1 S0 = N1" "pN2 S0 = N2" "pN5_chain S0 = N5_chain" "pN4_pairs S0 = N4_pairs"
   by (simp_all only: pFACT_def FACT_def pLAM_CORE_def LAM_CORE_def pIRR_F_def IRR_F_def
       pASYM_P_def ASYM_P_def pTRANS_P_def TRANS_P_def pTRANS_CUT_def TRANS_CUT_def
       pAMALG_INF_def AMALG_INF_def pCL_PROP_def CL_PROP_def pCL_QUANT_def CL_QUANT_def
@@ -129,7 +133,7 @@ lemma fidelity:
       pDISJ_ONE_def DISJ_ONE_def pDISJ_BOTH_def DISJ_BOTH_def pNEG_DN_def NEG_DN_def
       pNEG_DM_def NEG_DM_def pEX_FULL_def EX_FULL_def pALL_INST_def ALL_INST_def
       pTR_FULL_def TR_FULL_def pTR_NEG_def TR_NEG_def pEMPTY_NONE_def EMPTY_NONE_def
-      pC3d_def C3d_def pBETA_ID_def BETA_ID_def pN1_def N1_def pN2_def N2_def pN5_chain_def N5_chain_def
+      pC3d_def C3d_def pBETA_ID_def BETA_ID_def pN1_def N1_def pN2_def N2_def pN5_chain_def N5_chain_def pN4_pairs_def N4_pairs_def
       S0_simps S0_sel)
 
 section \<open>M1: a term model with hyperintensional application\<close>
@@ -551,16 +555,92 @@ proof -
   ultimately show ?thesis unfolding pN5_chain_def by blast
 qed
 
+text \<open>N3 (registry, nontriviality; no formal statement): every introduction entry of the
+  package has an instance whose antecedent holds, with pairwise distinct relata, and whose
+  grounded proposition is not among its grounds. One instance per entry.\<close>
+
+definition "f_em1 = mlam 0 (Disj (Var 0) (Neg (Var 0))) (\<lambda>_. PAtom 0)"
+definition "f_id1 = mlam 0 (Var 0) (\<lambda>_. PAtom 0)"
+
+lemma M1_N3:
+  shows N3_CONJ_BIN: "eval (PAtom 0) \<and> eval (PTr (PAtom 0)) \<and> distinct [PAtom 0, PTr (PAtom 0), PConj (PAtom 0) (PTr (PAtom 0))]
+      \<and> gr {PAtom 0, PTr (PAtom 0)} (PConj (PAtom 0) (PTr (PAtom 0)))"
+    and N3_DISJ_ONE: "eval (PAtom 0) \<and> distinct [PAtom 0, PAtom 1, PDisj (PAtom 0) (PAtom 1)]
+      \<and> gr {PAtom 0} (PDisj (PAtom 0) (PAtom 1))"
+    and N3_DISJ_BOTH: "eval (PAtom 0) \<and> eval (PTr (PAtom 0)) \<and> distinct [PAtom 0, PTr (PAtom 0), PDisj (PAtom 0) (PTr (PAtom 0))]
+      \<and> gr {PAtom 0, PTr (PAtom 0)} (PDisj (PAtom 0) (PTr (PAtom 0)))"
+    and N3_NEG_DN: "eval (PAtom 0) \<and> PAtom 0 \<noteq> PNeg (PNeg (PAtom 0)) \<and> gr {PAtom 0} (PNeg (PNeg (PAtom 0)))"
+    and N3_NEG_DM: "eval (PNeg (PAtom 1)) \<and> eval (PNeg (PAtom 2))
+      \<and> distinct [PNeg (PAtom 1), PNeg (PAtom 2), PNeg (PConj (PAtom 1) (PAtom 2)), PNeg (PDisj (PAtom 1) (PAtom 2))]
+      \<and> gr {PNeg (PAtom 1)} (PNeg (PConj (PAtom 1) (PAtom 2)))
+      \<and> gr {PNeg (PAtom 2)} (PNeg (PConj (PAtom 1) (PAtom 2)))
+      \<and> gr {PNeg (PAtom 1), PNeg (PAtom 2)} (PNeg (PDisj (PAtom 1) (PAtom 2)))"
+    and N3_EX_FULL: "madm f_id1 \<and> eval (PApp f_id1 (PAtom 0)) \<and> PApp f_id1 (PAtom 0) \<noteq> PEx f_id1
+      \<and> gr {PApp f_id1 (PAtom 0)} (PEx f_id1)"
+    and N3_ALL_INST: "madm f_em1 \<and> (\<forall>a. eval (PApp f_em1 a)) \<and> PAll f_em1 \<notin> range (PApp f_em1)
+      \<and> gr (range (PApp f_em1)) (PAll f_em1)"
+    and N3_TR_FULL: "eval (PAtom 0) \<and> PAtom 0 \<noteq> PTr (PAtom 0) \<and> gr {PAtom 0} (PTr (PAtom 0))"
+    and N3_TR_NEG: "eval (PNeg (PAtom 1)) \<and> PNeg (PAtom 1) \<noteq> PNeg (PTr (PAtom 1))
+      \<and> gr {PNeg (PAtom 1)} (PNeg (PTr (PAtom 1)))"
+proof -
+  have id: "madm f_id1" "madm f_em1" unfolding madm_def f_id1_def f_em1_def by blast+
+  have e1: "eval (PApp f_id1 (PAtom 0))" by (simp add: f_id1_def eval_mlam)
+  have e2: "\<forall>a. eval (PApp f_em1 a)" by (simp add: f_em1_def eval_mlam)
+  show "eval (PAtom 0) \<and> eval (PTr (PAtom 0)) \<and> distinct [PAtom 0, PTr (PAtom 0), PConj (PAtom 0) (PTr (PAtom 0))]
+      \<and> gr {PAtom 0, PTr (PAtom 0)} (PConj (PAtom 0) (PTr (PAtom 0)))" by (simp add: g_conj)
+  show "eval (PAtom 0) \<and> distinct [PAtom 0, PAtom 1, PDisj (PAtom 0) (PAtom 1)]
+      \<and> gr {PAtom 0} (PDisj (PAtom 0) (PAtom 1))" by (simp add: g_disjL)
+  show "eval (PAtom 0) \<and> eval (PTr (PAtom 0)) \<and> distinct [PAtom 0, PTr (PAtom 0), PDisj (PAtom 0) (PTr (PAtom 0))]
+      \<and> gr {PAtom 0, PTr (PAtom 0)} (PDisj (PAtom 0) (PTr (PAtom 0)))" by (simp add: g_disjB)
+  show "eval (PAtom 0) \<and> PAtom 0 \<noteq> PNeg (PNeg (PAtom 0)) \<and> gr {PAtom 0} (PNeg (PNeg (PAtom 0)))"
+    by (simp add: g_dn)
+  show "eval (PNeg (PAtom 1)) \<and> eval (PNeg (PAtom 2))
+      \<and> distinct [PNeg (PAtom 1), PNeg (PAtom 2), PNeg (PConj (PAtom 1) (PAtom 2)), PNeg (PDisj (PAtom 1) (PAtom 2))]
+      \<and> gr {PNeg (PAtom 1)} (PNeg (PConj (PAtom 1) (PAtom 2)))
+      \<and> gr {PNeg (PAtom 2)} (PNeg (PConj (PAtom 1) (PAtom 2)))
+      \<and> gr {PNeg (PAtom 1), PNeg (PAtom 2)} (PNeg (PDisj (PAtom 1) (PAtom 2)))"
+    by (simp add: g_dmL g_dmR g_dmD)
+  show "madm f_id1 \<and> eval (PApp f_id1 (PAtom 0)) \<and> PApp f_id1 (PAtom 0) \<noteq> PEx f_id1
+      \<and> gr {PApp f_id1 (PAtom 0)} (PEx f_id1)" using id e1 by (simp add: g_ex)
+  show "madm f_em1 \<and> (\<forall>a. eval (PApp f_em1 a)) \<and> PAll f_em1 \<notin> range (PApp f_em1)
+      \<and> gr (range (PApp f_em1)) (PAll f_em1)" using id e2 by (auto intro: g_all)
+  show "eval (PAtom 0) \<and> PAtom 0 \<noteq> PTr (PAtom 0) \<and> gr {PAtom 0} (PTr (PAtom 0))" by (simp add: g_tr)
+  show "eval (PNeg (PAtom 1)) \<and> PNeg (PAtom 1) \<noteq> PNeg (PTr (PAtom 1))
+      \<and> gr {PNeg (PAtom 1)} (PNeg (PTr (PAtom 1)))" by (simp add: g_trneg)
+qed
+
+text \<open>N4 (registry, with D8: M1 satisfies CL.PROP): the pair (p, neg (neg p)) at an atom.
+  The atom has no full ground at all, since nothing it depends on exists; its double
+  negation is grounded in it.\<close>
+
+lemma atom_ungrounded: "\<not> gr \<Gamma> (PAtom n)"
+proof
+  assume "gr \<Gamma> (PAtom n)"
+  then have "\<Gamma> \<noteq> {}" "\<forall>r\<in>\<Gamma>. cst r (PAtom n)" by (auto dest: gr_sound)
+  then obtain r where "cst r (PAtom n)" by blast
+  then show False by (auto dest: cst_rank)
+qed
+
+lemma M1_N4_pairs: "pN4_pairs M1"
+proof -
+  have "{\<Gamma>. gr \<Gamma> (PAtom 0)} = {}" using atom_ungrounded by blast
+  moreover have "{PAtom 0} \<in> {\<Gamma>. gr \<Gamma> (PNeg (PNeg (PAtom 0)))}" by (simp add: g_dn)
+  ultimately have d: "{\<Gamma>. gr \<Gamma> (PAtom 0)} \<noteq> {\<Gamma>. gr \<Gamma> (PNeg (PNeg (PAtom 0)))}" by blast
+  have sh: "\<exists>p. PAtom 0 = p \<and> PNeg (PNeg (PAtom 0)) = PNeg (PNeg p)" by blast
+  show ?thesis unfolding pN4_pairs_def M1_sel
+    by (rule exI[of _ "PAtom 0"], rule exI[of _ "PNeg (PNeg (PAtom 0))"]) (use sh d in simp)
+qed
+
 theorem M1_package:
   "pFACT M1" "pLAM_CORE M1" "pC3d M1" "pCL_PROP M1" "pCL_QUANT M1" "pTS_FULL M1"
   "pIRR_F M1" "pASYM_P M1" "pTRANS_P M1" "pTRANS_CUT M1" "pAMALG_INF M1" "pEMPTY_NONE M1"
   "pCONJ_BIN M1" "pCONJ_GRAIN M1" "pDISJ_ONE M1" "pDISJ_BOTH M1" "pNEG_DN M1" "pNEG_DM M1"
   "pEX_FULL M1" "pALL_INST M1" "pTR_FULL M1" "pTR_NEG M1"
-  "pN1 M1" "pN2 M1" "pN5_chain M1"
+  "pN1 M1" "pN2 M1" "pN4_pairs M1" "pN5_chain M1"
   by (fact M1_FACT M1_LAM_CORE M1_C3d M1_CL_PROP M1_CL_QUANT M1_TS_FULL M1_IRR_F M1_ASYM_P
       M1_TRANS_P M1_TRANS_CUT M1_AMALG_INF M1_EMPTY_NONE M1_CONJ_BIN M1_CONJ_GRAIN M1_DISJ_ONE
       M1_DISJ_BOTH M1_NEG_DN M1_NEG_DM M1_EX_FULL M1_ALL_INST M1_TR_FULL M1_TR_NEG M1_N1 M1_N2
-      M1_N5_chain)+
+      M1_N4_pairs M1_N5_chain)+
 
 text \<open>What M1 gives up: application is not substitution, and an instance is not grounded
   in what it would denote by beta-conversion.\<close>

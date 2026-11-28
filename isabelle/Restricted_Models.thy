@@ -320,6 +320,8 @@ proof -
     unfolding MG.N4_pair_def by (auto simp: ngG_def)
 qed
 
+lemma MG_N4s: "MG.N4_pairs" using MG.N4_dn[OF MG_N4] .
+
 lemma MG_C1: "MG.C1"
   by (simp add: MG.C1_def admG_def MG.f_id_def MG.f_tr_def MG.f_em_def MG.f_tem_def lamG_def)
 

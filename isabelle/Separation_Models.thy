@@ -86,6 +86,23 @@ qed
 theorem ME_separates_IMM: "ME.FACT \<and> ME.IMM_FRITZ7 \<and> ME.N1 \<and> \<not> ME.IMM_CONJ"
   using ME_core(1,2) ME_IMM_FRITZ7 ME_not_IMM_CONJ by blast
 
+text \<open>The same separation with classical truth. MF (Model_Certificates.thy) satisfies
+  IMM.FRITZ7 with CL.PROP, CL.QUANT and TS.FULL. Its arbitrary conjunction Qu 2 is true,
+  as CL.QUANT requires, but has no full ground, while the satisfiers of the one
+  propositional function are the truths. So IMM.CONJ fails here too.\<close>
+lemma MF_not_IMM_CONJ: "\<not> MF.IMM_CONJ"
+proof
+  assume A: "MF.IMM_CONJ"
+  have s: "MF.sat () = {p. TF p}" by (simp add: MF.sat_def)
+  have "MF.IPG (At 0) (Qu 2)"
+    using A[unfolded MF.IMM_CONJ_def, rule_format, of "()" "At 0"] s by simp
+  thus False by (simp add: MF_IPG)
+qed
+
+theorem MF_separates_IMM:
+  "MF.FACT \<and> MF.IMM_FRITZ7 \<and> MF.CL_PROP \<and> MF.CL_QUANT \<and> MF.TS_FULL \<and> MF.N1 \<and> \<not> MF.IMM_CONJ"
+  using MF_core(1,2) MF_IMM_FRITZ7 MF_classical MF_not_IMM_CONJ by blast
+
 section \<open>Model H: partial existential grounding without the restricted principles\<close>
 
 text \<open>The propositions, connectives, quantifiers and lambda terms of model MG
@@ -391,6 +408,12 @@ proof -
   have a: "allqS MS.f_tem = (True, 4)" unfolding t allqS_def by simp
   show ?thesis using ad i a by (simp add: djS_def GS_def)
 qed
+
+text \<open>A DISJ.ONE instance with pairwise distinct relata (the instance in MS_N3 is a
+  self-disjunction). N4 does not count for MS: CL.PROP fails (decision D8).\<close>
+lemma MS_N3_disj:
+  "GS {(True, 0)} (djS (True, 0) (True, 1)) \<and> distinct [(True, 0), (True, 1), djS (True, 0) (True, 1)]"
+  by (simp add: GS_def djS_def)
 
 theorem MS_package:
   "MS.FACT \<and> MS.LAM_CORE \<and> MS.C1 \<and> MS.BETA_ID \<and> MS.CL_QUANT' \<and> MS.ALL_INST \<and> MS.DISJ_ONE
@@ -741,6 +764,15 @@ proof -
   show ?thesis using ad i a by (simp add: djT_def up_def GT_def trT_def lt_def)
 qed
 
+text \<open>A DISJ.ONE instance with pairwise distinct relata (the instance in MT_N3 is a
+  self-disjunction), and N4 in the form N4_pairs; CL.PROP holds (MT_classical).\<close>
+lemma MT_N3_disj:
+  "GT {(True, (0, 0))} (djT (True, (0, 0)) (True, (0, 1)))
+   \<and> distinct [(True, (0, 0)), (True, (0, 1)), djT (True, (0, 0)) (True, (0, 1))]"
+  by (simp add: GT_def djT_def up_def lt_def)
+
+lemma MT_N4s: "MT.N4_pairs" using MT.N4_dn[OF MT_N4] .
+
 theorem MT_package:
   "MT.FACT \<and> MT.LAM_CORE \<and> MT.C1_NO_EM \<and> MT.BETA_ID \<and> MT.CL_PROP' \<and> MT.CL_QUANT'
    \<and> MT.TS_FULL' \<and> MT.TS_TYPED \<and> MT.TR_TYPED \<and> MT.ALL_INST \<and> MT.ALL_PART
@@ -966,6 +998,10 @@ proof -
   have ad: "admU MU.f_tr" "admU MU.f_tem" by (simp_all add: admU_def MU_wit)
   show ?thesis using ad unfolding i a x y by (simp add: djT_def up_def GT_def trT_def lt_def)
 qed
+
+text \<open>MU shares GT and djT with MT, so MT_N3_disj is also MU's DISJ.ONE instance with
+  pairwise distinct relata. N4 in the form N4_pairs; CL.PROP holds (MU_classical).\<close>
+lemma MU_N4s: "MU.N4_pairs" using MU.N4_dn[OF MU_N4] .
 
 theorem MU_package:
   "MU.FACT \<and> MU.LAM_CORE \<and> MU.W_TR \<and> MU.W_TEM \<and> MU.BETA_ID \<and> MU.CL_PROP' \<and> MU.CL_QUANT'
