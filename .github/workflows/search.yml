@@ -1,6 +1,9 @@
 name: search
 # Step 4 enumeration. Long runs go here (project decision, 2026-11-27).
 # Push a branch named search/<anything>, or start it by hand with chosen seeds.
+# At the end the results are committed and a pull request against main is opened with the
+# secret RESULTS_PR_TOKEN (scripts/publish_results.sh says which base and which branch).
+# The token is checked first: a search without a working token does not start.
 on:
   push:
     branches: ['search/**']
@@ -12,10 +15,29 @@ on:
       targets:
         description: 'Targets mode: path of a package list (results/targets/<name>.json). Empty = grow.'
         default: ''
+      token_check_only:
+        description: 'Only check RESULTS_PR_TOKEN (no search, no pull request)'
+        type: boolean
+        default: false
 permissions:
   contents: write
 jobs:
+  token:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check RESULTS_PR_TOKEN (missing, expired, or without the needed access)
+        env:
+          RESULTS_PR_TOKEN: ${{ secrets.RESULTS_PR_TOKEN }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+        run: scripts/publish_results.sh check-token
   grow:
+    needs: token
+    if: ${{ github.event.inputs.token_check_only != 'true' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 340
     strategy:
@@ -57,22 +79,38 @@ jobs:
           name: results-seed-${{ matrix.seed }}
           path: out/
   merge:
-    needs: grow
-    if: always()
+    needs: [token, grow]
+    if: ${{ always() && needs.token.result == 'success' && github.event.inputs.token_check_only != 'true' }}
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      RESULTS_PR_TOKEN: ${{ secrets.RESULTS_PR_TOKEN }}
+      REPO: ${{ github.repository }}
+      RUN_ID: ${{ github.run_id }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      RUN_SHA: ${{ github.sha }}
+      REF_NAME: ${{ github.ref_name }}
+      REF_TYPE: ${{ github.ref_type }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
       - uses: actions/download-artifact@v4
         with:
           path: parts
-      - name: Merge results and re-verify models
-        run: |
-          python3 scripts/merge_results.py parts
-          python3 scripts/verify_models.py
-      - name: Commit results to this branch
-        run: |
-          git config user.name "ground-map search"
-          git config user.email "actions@users.noreply.github.com"
-          git add results/
-          git commit -m "search: results of run ${{ github.run_id }}" || echo "nothing new"
-          git push
+          pattern: results-seed-*
+      - name: Merge results, re-verify models, regenerate docs/results.md, commit
+        run: scripts/publish_results.sh prepare parts
+      - name: Keep the merged results as an artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-merged
+          path: |
+            results/
+            docs/results.md
+      - name: Push the results and open the pull request (RESULTS_PR_TOKEN)
+        # A cancelled run keeps its results in the artifacts but opens no pull request.
+        if: ${{ !cancelled() }}
+        run: scripts/publish_results.sh publish
