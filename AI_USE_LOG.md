@@ -422,6 +422,29 @@ AI-use disclosure. One entry per working session.
   that a list can be treated as a function corrected an earlier claim of the model's.
   Checks: full session build; scripts/check_no_sorry.sh. Human review: pending.
 
+## 2026-11-28 — Woods's proposal without totality facts; level corrections (registry 0.7.0-draft, finding F19)
+
+- Tool and model as in the entry above on Woods's substantive irreflexivity (Claude Code, cloud
+  session; Isabelle2026 pinned).
+- Prompt: reviewer, 2026-11-28: "do option 4 as well", option 4 being the model's own proposal
+  to test Woods without totality facts under a constraint that only rule-generated grounds
+  exist.
+- AI contribution: the design of the model MR (structured propositions as a datatype with
+  closures, classical truth by evaluation over truth values, ground as an inductive
+  definition), every proof in isabelle/Rule_Generated.thy, finding F19, the proposed entry
+  proposed.GEN.RULES and its flagged readings. The choice of rules, the reading of
+  "rule-generated" and the comparison with Woods's reply are the model's and are pending
+  review. The claim that a failure of the one-world test is a failure of Woods's modal test,
+  and the claim that the test is trivial without its third clause, are inferences that
+  Isabelle did not check.
+- Correction made by the model to its own earlier work in this version: the records of MV, MY
+  and MZ claimed N5 with N3 instances for only some of their introduction entries. Missing
+  instances proved (MV_N3_more, MY_N3_more, MZ_N3_more); records of MV1-MV3 split, with
+  CONJ.INF at N2. One package of the search set moved from N5 to N2.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/woods_report.py;
+  scripts/verify_models.py; scripts/summarize.py regenerates docs/results.md.
+- Human review: pending.
+
 ## 2026-11-28 — Search results open their own pull request
 
 - Tool: Claude Code (cloud session), project thread "Automate search results PRs". Model:

@@ -31,8 +31,8 @@ text \<open>
   U contains U or the instance U \<or> \<not>U (GR_universal), and putting another truth for U
   removes both, under every presentation of the grounds that the vacuity test allows.
 
-  The basic reflexive facts of the existential cases are vacuous in MR
-  (MR_existential_vacuous). Whether every reflexive fact with an existential conclusion
+  The basic reflexive facts of the existential cases, Woods's Objection 3 among them,
+  are vacuous in MR (MR_existential_vacuous). Whether every reflexive fact with an existential conclusion
   is vacuous in MR is not settled here.
 
   Method as in Model_Certificates.thy: MR is an interpretation of the locale gsig. No
@@ -525,9 +525,9 @@ theorem MR_not_IRR_F: "\<not> MR.IRR_F"
 
 section \<open>The existential cases\<close>
 
-text \<open>Kr\"amer's case and "something is true". The existential truth grounds itself, and
-  every truth grounds it by the rules alone, so the reflexive fact is vacuous in MR. This
-  covers the two basic reflexive facts only.\<close>
+text \<open>Kr\"amer's case, "something is true", and Woods's Objection 3. The existential
+  truth grounds itself, and every truth grounds it by the rules alone, so the reflexive
+  fact is vacuous in MR. This covers these three reflexive facts only.\<close>
 definition fID :: rf where "fID = Clo 0 (Var 0) (\<lambda>_. RA 0)"
 definition fTR :: rf where "fTR = Clo 0 (Tr (Var 0)) (\<lambda>_. RA 0)"
 
@@ -559,6 +559,30 @@ proof -
   thus ?thesis by simp
 qed
 
+text \<open>Woods's Objection 3 (p. 643): the existential \<exists>p(p \<or> A), for any proposition A.
+  Its instance at itself is grounded by it (DISJ.ONE), so it is among its own grounds;
+  and any truth B grounds B \<or> A, an instance, hence the existential.\<close>
+definition fOR :: "rp \<Rightarrow> rf" where
+  "fOR A = lamR 0 (Disj (Var 0) (Var 1)) ((\<lambda>_. RA 0)(1 := A))"
+
+lemma fOR_facts: "admR (fOR A)" "appR (fOR A) p = RD p A"
+proof -
+  show "admR (fOR A)" unfolding admR_def fOR_def by blast
+  have "appR (lamR x a v) q = dR (v(x:=q)) a" for x a v q
+    using MR_BETA_ID unfolding MR.BETA_ID_def MR_den by blast
+  thus "appR (fOR A) p = RD p A" unfolding fOR_def by simp
+qed
+
+lemma every_truth_grounds_or: "TR B \<Longrightarrow> GR {B} (exqR (fOR A))"
+proof -
+  assume B: "TR B"
+  have a: "GR {RD B A} (exqR (fOR A))"
+    using GR.ex[OF fOR_facts(1)[of A], of B] B by (simp add: fOR_facts(2))
+  have "GR (({RD B A} - {RD B A}) \<union> (\<Union>p\<in>{RD B A}. (\<lambda>_. {B}) p)) (exqR (fOR A))"
+    by (rule GR.cut[OF a]) (use GR.disjL[OF B, of A] in auto)
+  thus ?thesis by simp
+qed
+
 lemma singleton_vacuous:
   assumes "\<And>B. TR B \<Longrightarrow> GR {B} c"
   shows "MR.vacW c {c} c"
@@ -582,6 +606,7 @@ qed
 theorem MR_existential_vacuous:
   "GR {exqR fID} (exqR fID) \<and> MR.vacW (exqR fID) {exqR fID} (exqR fID)"
   "GR {exqR fTR} (exqR fTR) \<and> MR.vacW (exqR fTR) {exqR fTR} (exqR fTR)"
+  "GR {exqR (fOR A)} (exqR (fOR A)) \<and> MR.vacW (exqR (fOR A)) {exqR (fOR A)} (exqR (fOR A))"
 proof -
   have t1: "TR (exqR fID)" unfolding ex_truth by (rule exI[of _ "RA 0"]) (simp add: fID_facts(2))
   have t2: "TR (exqR fTR)" unfolding ex_truth by (rule exI[of _ "RA 0"]) (simp add: fTR_facts(2))
@@ -593,6 +618,12 @@ proof -
     using every_truth_grounds_ex[OF t1] v1 by (rule conjI)
   show "GR {exqR fTR} (exqR fTR) \<and> MR.vacW (exqR fTR) {exqR fTR} (exqR fTR)"
     using every_truth_grounds_true[OF t2] v2 by (rule conjI)
+  have t3: "TR (exqR (fOR A))" unfolding ex_truth
+    by (rule exI[of _ "RA 0"]) (simp add: fOR_facts(2))
+  have v3: "MR.vacW (exqR (fOR A)) {exqR (fOR A)} (exqR (fOR A))"
+    by (rule singleton_vacuous) (rule every_truth_grounds_or)
+  show "GR {exqR (fOR A)} (exqR (fOR A)) \<and> MR.vacW (exqR (fOR A)) {exqR (fOR A)} (exqR (fOR A))"
+    using every_truth_grounds_or[OF t3] v3 by (rule conjI)
 qed
 
 section \<open>Non-triviality\<close>
@@ -622,6 +653,23 @@ proof -
     by (intro exI[of _ "RA 0"] exI[of _ "RT (RA 0)"] exI[of _ "RT (RT (RA 0))"]
           exI[of _ "RT (RT (RT (RA 0)))"]) (simp add: pg)
 qed
+
+lemma GR_nonempty: "GR \<Gamma> q \<Longrightarrow> \<Gamma> \<noteq> {}"
+proof (induction rule: GR.induct)
+  case (cut \<Gamma> q \<Delta> H)
+  show ?case
+  proof (cases "\<Gamma> - \<Delta> = {}")
+    case True
+    then obtain p where "p \<in> \<Delta>" using cut by blast
+    hence "H p \<noteq> {}" using cut by blast
+    thus ?thesis using \<open>p \<in> \<Delta>\<close> by blast
+  qed blast
+next
+  case (amalg F p) thus ?case by blast
+qed simp_all
+
+lemma MR_EMPTY_NONE: "MR.EMPTY_NONE"
+  unfolding MR.EMPTY_NONE_def using GR_nonempty by blast
 
 text \<open>N3: for each introduction entry an instance whose grounded proposition is not
   among its grounds.\<close>
@@ -660,10 +708,10 @@ theorem MR_package:
    \<and> MR.CL_PROP \<and> MR.CL_QUANT \<and> MR.TS_FULL \<and> MR.TS_KF
    \<and> MR.EX_FULL \<and> MR.ALL_INST \<and> MR.CONJ_BIN \<and> MR.DISJ_ONE \<and> MR.DISJ_BOTH
    \<and> MR.TR_FULL \<and> MR.TR_NEG \<and> MR.NEG_DN \<and> MR.NEG_DM
-   \<and> MR.TRANS_CUT \<and> MR.AMALG_INF \<and> MR.TRANS_P
+   \<and> MR.TRANS_CUT \<and> MR.AMALG_INF \<and> MR.TRANS_P \<and> MR.EMPTY_NONE
    \<and> MR.N1 \<and> MR.N2 \<and> MR.N4_pairs \<and> MR.N5_chain
    \<and> \<not> MR.IRR_W \<and> \<not> MR.IRR_MEM \<and> \<not> MR.IRR_F"
-  using MR_core MR_W MR_BETA_ID MR_classical MR.cl_ts_kf MR_intro MR_structural MR_levels
+  using MR_core MR_W MR_BETA_ID MR_classical MR.cl_ts_kf MR_intro MR_structural MR_levels MR_EMPTY_NONE
     MR_not_IRR_W MR_not_IRR_MEM MR_not_IRR_F by blast
 
 end
