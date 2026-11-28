@@ -1,0 +1,4125 @@
+{
+ "name": "woods-fine",
+ "t_sh": 45,
+ "t_np": 15,
+ "targets": [
+  {
+   "id": "P.KRAMER/W",
+   "base": "P.KRAMER/W",
+   "kind": "base",
+   "added": null,
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W with IRR.F",
+   "base": "P.KRAMER/W",
+   "kind": "control",
+   "added": "IRR.F for IRR.W",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.F",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W with IRR.MEM",
+   "base": "P.KRAMER/W",
+   "kind": "control",
+   "added": "IRR.MEM for IRR.W",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.MEM",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + ASYM.P",
+   "base": "P.KRAMER/W",
+   "kind": "control",
+   "added": "ASYM.P",
+   "package": [
+    "ASYM.P",
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + ASYM.ANTI",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "ASYM.ANTI",
+   "package": [
+    "ASYM.ANTI",
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + TRANS.CUT",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "TRANS.CUT",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.CUT",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + AMALG.FIN",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "AMALG.FIN",
+   "package": [
+    "AMALG.FIN",
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + AMALG.INF",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "AMALG.INF",
+   "package": [
+    "AMALG.INF",
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + TS.ID",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "TS.ID",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TS.ID",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + TS.KF",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "TS.KF",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TS.KF",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + ID.AC",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "ID.AC",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "ID.AC",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + ID.DN",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "ID.DN",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "ID.DN",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + CONJ.BIN",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "CONJ.BIN",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "CONJ.BIN",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + CONJ.INF",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "CONJ.INF",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "CONJ.INF",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + DISJ.ONE",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "DISJ.ONE",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "DISJ.ONE",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + DISJ.BOTH",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "DISJ.BOTH",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "DISJ.BOTH",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + NEG.DN",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "NEG.DN",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "NEG.DN",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + NEG.DM",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "NEG.DM",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "NEG.DM",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + EX.FULL",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "EX.FULL",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.FULL",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + ALL.INST",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "ALL.INST",
+   "package": [
+    "ALL.INST",
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + ALL.TOT",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "ALL.TOT",
+   "package": [
+    "ALL.TOT",
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + TR.FULL",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "TR.FULL",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.FULL",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + TR.NEG",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "TR.NEG",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.NEG",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + EMPTY.NONE",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "EMPTY.NONE",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EMPTY.NONE",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + EMPTY.SOME",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "EMPTY.SOME",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EMPTY.SOME",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + FIN.FIN",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "FIN.FIN",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "FIN.FIN",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + FIN.B3",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "FIN.B3",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "FIN.B3",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + C1",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "C1",
+   "package": [
+    "BETA.ID",
+    "C1",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + C2",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "C2",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + C3d",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "C3d",
+   "package": [
+    "BETA.ID",
+    "C3d",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + C3s",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "C3s",
+   "package": [
+    "BETA.ID",
+    "C3s",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + IMM.CONJ",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "IMM.CONJ",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IMM.CONJ",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.KRAMER/W + IMM.FRITZ7",
+   "base": "P.KRAMER/W",
+   "kind": "extension",
+   "added": "IMM.FRITZ7",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IMM.FRITZ7",
+    "IRR.W",
+    "W.ID"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "base",
+   "added": null,
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W with IRR.F",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "control",
+   "added": "IRR.F for IRR.W",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.F",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W with IRR.MEM",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "control",
+   "added": "IRR.MEM for IRR.W",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.MEM",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + ASYM.P",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "control",
+   "added": "ASYM.P",
+   "package": [
+    "ASYM.P",
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + ASYM.ANTI",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "ASYM.ANTI",
+   "package": [
+    "ASYM.ANTI",
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + TRANS.CUT",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "TRANS.CUT",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.CUT",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + AMALG.FIN",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "AMALG.FIN",
+   "package": [
+    "AMALG.FIN",
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + AMALG.INF",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "AMALG.INF",
+   "package": [
+    "AMALG.INF",
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + TS.ID",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "TS.ID",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "TS.ID",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + TS.KF",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "TS.KF",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "TS.KF",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + ID.AC",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "ID.AC",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "ID.AC",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + ID.DN",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "ID.DN",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "ID.DN",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + CONJ.BIN",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "CONJ.BIN",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "CONJ.BIN",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + CONJ.INF",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "CONJ.INF",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "CONJ.INF",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + DISJ.ONE",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "DISJ.ONE",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "DISJ.ONE",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + DISJ.BOTH",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "DISJ.BOTH",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "DISJ.BOTH",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + NEG.DN",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "NEG.DN",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "NEG.DN",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + NEG.DM",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "NEG.DM",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "NEG.DM",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + EX.FULL",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "EX.FULL",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.FULL",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + ALL.INST",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "ALL.INST",
+   "package": [
+    "ALL.INST",
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + ALL.TOT",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "ALL.TOT",
+   "package": [
+    "ALL.TOT",
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + TR.FULL",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "TR.FULL",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.FULL",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + TR.NEG",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "TR.NEG",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.NEG",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + EMPTY.NONE",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "EMPTY.NONE",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EMPTY.NONE",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + EMPTY.SOME",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "EMPTY.SOME",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EMPTY.SOME",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + FIN.FIN",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "FIN.FIN",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "FIN.FIN",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + FIN.B3",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "FIN.B3",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "FIN.B3",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + C1",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "C1",
+   "package": [
+    "BETA.ID",
+    "C1",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + C2",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "C2",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + C3d",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "C3d",
+   "package": [
+    "BETA.ID",
+    "C3d",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + C3s",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "C3s",
+   "package": [
+    "BETA.ID",
+    "C3s",
+    "CL.QUANT",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + IMM.CONJ",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "IMM.CONJ",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IMM.CONJ",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR/W + IMM.FRITZ7",
+   "base": "P.FINE.PARTICULAR/W",
+   "kind": "extension",
+   "added": "IMM.FRITZ7",
+   "package": [
+    "BETA.ID",
+    "CL.QUANT",
+    "EX.PART",
+    "IMM.FRITZ7",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "base",
+   "added": null,
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W with IRR.F",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "control",
+   "added": "IRR.F for IRR.W",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.F",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W with IRR.MEM",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "control",
+   "added": "IRR.MEM for IRR.W",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.MEM",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + ASYM.P",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "control",
+   "added": "ASYM.P",
+   "package": [
+    "ALL.PART",
+    "ASYM.P",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + ASYM.ANTI",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "ASYM.ANTI",
+   "package": [
+    "ALL.PART",
+    "ASYM.ANTI",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + TRANS.CUT",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "TRANS.CUT",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.CUT",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + AMALG.FIN",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "AMALG.FIN",
+   "package": [
+    "ALL.PART",
+    "AMALG.FIN",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + AMALG.INF",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "AMALG.INF",
+   "package": [
+    "ALL.PART",
+    "AMALG.INF",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + TS.ID",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "TS.ID",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "TS.ID",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + TS.KF",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "TS.KF",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "TS.KF",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + ID.AC",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "ID.AC",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "ID.AC",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + ID.DN",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "ID.DN",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "ID.DN",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + CONJ.BIN",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "CONJ.BIN",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "CONJ.BIN",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + CONJ.INF",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "CONJ.INF",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "CONJ.INF",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + DISJ.ONE",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "DISJ.ONE",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.ONE",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + DISJ.BOTH",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "DISJ.BOTH",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.BOTH",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + NEG.DN",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "NEG.DN",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "NEG.DN",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + NEG.DM",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "NEG.DM",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "NEG.DM",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + EX.FULL",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "EX.FULL",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.FULL",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + ALL.INST",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "ALL.INST",
+   "package": [
+    "ALL.INST",
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + ALL.TOT",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "ALL.TOT",
+   "package": [
+    "ALL.PART",
+    "ALL.TOT",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + TR.FULL",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "TR.FULL",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.FULL",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + TR.NEG",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "TR.NEG",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.NEG",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + EMPTY.NONE",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "EMPTY.NONE",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EMPTY.NONE",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + EMPTY.SOME",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "EMPTY.SOME",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EMPTY.SOME",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + FIN.FIN",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "FIN.FIN",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "FIN.FIN",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + FIN.B3",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "FIN.B3",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "FIN.B3",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + C1",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "C1",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "C1",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + C2",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "C2",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + C3d",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "C3d",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "C3d",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + C3s",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "C3s",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "C3s",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + IMM.CONJ",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "IMM.CONJ",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IMM.CONJ",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL/W + IMM.FRITZ7",
+   "base": "P.FINE.UNIVERSAL/W",
+   "kind": "extension",
+   "added": "IMM.FRITZ7",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IMM.FRITZ7",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "base",
+   "added": null,
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W with IRR.F",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "control",
+   "added": "IRR.F for IRR.W",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.F",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W with IRR.MEM",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "control",
+   "added": "IRR.MEM for IRR.W",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.MEM",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + ASYM.P",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "control",
+   "added": "ASYM.P",
+   "package": [
+    "ASYM.P",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + ASYM.ANTI",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "ASYM.ANTI",
+   "package": [
+    "ASYM.ANTI",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + TRANS.CUT",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "TRANS.CUT",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.CUT",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + AMALG.FIN",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "AMALG.FIN",
+   "package": [
+    "AMALG.FIN",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + AMALG.INF",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "AMALG.INF",
+   "package": [
+    "AMALG.INF",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + TS.ID",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "TS.ID",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "TS.ID",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + TS.KF",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "TS.KF",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "TS.KF",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + ID.AC",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "ID.AC",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "ID.AC",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + ID.DN",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "ID.DN",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "ID.DN",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + CONJ.BIN",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "CONJ.BIN",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "CONJ.BIN",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + CONJ.INF",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "CONJ.INF",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "CONJ.INF",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + DISJ.ONE",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "DISJ.ONE",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.ONE",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + DISJ.BOTH",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "DISJ.BOTH",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.BOTH",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + NEG.DN",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "NEG.DN",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "NEG.DN",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + NEG.DM",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "NEG.DM",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "NEG.DM",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + EX.FULL",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "EX.FULL",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.FULL",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + ALL.INST",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "ALL.INST",
+   "package": [
+    "ALL.INST",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + ALL.TOT",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "ALL.TOT",
+   "package": [
+    "ALL.TOT",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + TR.FULL",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "TR.FULL",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.FULL",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + TR.NEG",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "TR.NEG",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.NEG",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + EMPTY.NONE",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "EMPTY.NONE",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EMPTY.NONE",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + EMPTY.SOME",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "EMPTY.SOME",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EMPTY.SOME",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + FIN.FIN",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "FIN.FIN",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "FIN.FIN",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + FIN.B3",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "FIN.B3",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "FIN.B3",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + C1",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "C1",
+   "package": [
+    "BETA.ID",
+    "C1",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + C2",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "C2",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + C3d",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "C3d",
+   "package": [
+    "BETA.ID",
+    "C3d",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + C3s",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "C3s",
+   "package": [
+    "BETA.ID",
+    "C3s",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + IMM.CONJ",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "IMM.CONJ",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IMM.CONJ",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.PARTICULAR.PROPS/W + IMM.FRITZ7",
+   "base": "P.FINE.PARTICULAR.PROPS/W",
+   "kind": "extension",
+   "added": "IMM.FRITZ7",
+   "package": [
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IMM.FRITZ7",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.TEM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "base",
+   "added": null,
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W with IRR.F",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "control",
+   "added": "IRR.F for IRR.W",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.F",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W with IRR.MEM",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "control",
+   "added": "IRR.MEM for IRR.W",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.MEM",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + ASYM.P",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "control",
+   "added": "ASYM.P",
+   "package": [
+    "ALL.PART",
+    "ASYM.P",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + ASYM.ANTI",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "ASYM.ANTI",
+   "package": [
+    "ALL.PART",
+    "ASYM.ANTI",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + TRANS.CUT",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "TRANS.CUT",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.CUT",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + AMALG.FIN",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "AMALG.FIN",
+   "package": [
+    "ALL.PART",
+    "AMALG.FIN",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + AMALG.INF",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "AMALG.INF",
+   "package": [
+    "ALL.PART",
+    "AMALG.INF",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + TS.ID",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "TS.ID",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "TS.ID",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + TS.KF",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "TS.KF",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "TS.KF",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + ID.AC",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "ID.AC",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "ID.AC",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + ID.DN",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "ID.DN",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "ID.DN",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + CONJ.BIN",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "CONJ.BIN",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "CONJ.BIN",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + CONJ.INF",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "CONJ.INF",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "CONJ.INF",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + DISJ.ONE",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "DISJ.ONE",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.ONE",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + DISJ.BOTH",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "DISJ.BOTH",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.BOTH",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + NEG.DN",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "NEG.DN",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "NEG.DN",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + NEG.DM",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "NEG.DM",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "NEG.DM",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + EX.FULL",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "EX.FULL",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.FULL",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + ALL.INST",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "ALL.INST",
+   "package": [
+    "ALL.INST",
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + ALL.TOT",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "ALL.TOT",
+   "package": [
+    "ALL.PART",
+    "ALL.TOT",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + TR.FULL",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "TR.FULL",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.FULL",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + TR.NEG",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "TR.NEG",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TR.NEG",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + EMPTY.NONE",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "EMPTY.NONE",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EMPTY.NONE",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + EMPTY.SOME",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "EMPTY.SOME",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EMPTY.SOME",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + FIN.FIN",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "FIN.FIN",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "FIN.FIN",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + FIN.B3",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "FIN.B3",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "FIN.B3",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + C1",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "C1",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "C1",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + C2",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "C2",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + C3d",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "C3d",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "C3d",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + C3s",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "C3s",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "C3s",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + IMM.CONJ",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "IMM.CONJ",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IMM.CONJ",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.FINE.UNIVERSAL.SP/W + IMM.FRITZ7",
+   "base": "P.FINE.UNIVERSAL.SP/W",
+   "kind": "extension",
+   "added": "IMM.FRITZ7",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "IMM.FRITZ7",
+    "IRR.W",
+    "TRANS.P",
+    "W.EM"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3",
+   "base": "P.WOODS.OBJ3",
+   "kind": "base",
+   "added": null,
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 with IRR.F",
+   "base": "P.WOODS.OBJ3",
+   "kind": "control",
+   "added": "IRR.F for IRR.W",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.F",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 with IRR.MEM",
+   "base": "P.WOODS.OBJ3",
+   "kind": "control",
+   "added": "IRR.MEM for IRR.W",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.MEM",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + ASYM.P",
+   "base": "P.WOODS.OBJ3",
+   "kind": "control",
+   "added": "ASYM.P",
+   "package": [
+    "ASYM.P",
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + ASYM.ANTI",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "ASYM.ANTI",
+   "package": [
+    "ASYM.ANTI",
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + TRANS.CUT",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "TRANS.CUT",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.CUT",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + AMALG.FIN",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "AMALG.FIN",
+   "package": [
+    "AMALG.FIN",
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + AMALG.INF",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "AMALG.INF",
+   "package": [
+    "AMALG.INF",
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + TS.ID",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "TS.ID",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P",
+    "TS.ID"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + TS.KF",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "TS.KF",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P",
+    "TS.KF"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + ID.AC",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "ID.AC",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "ID.AC",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + ID.DN",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "ID.DN",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "ID.DN",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + CONJ.BIN",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "CONJ.BIN",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "CONJ.BIN",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + CONJ.INF",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "CONJ.INF",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "CONJ.INF",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + DISJ.ONE",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "DISJ.ONE",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.ONE",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + DISJ.BOTH",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "DISJ.BOTH",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.BOTH",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + NEG.DN",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "NEG.DN",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "NEG.DN",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + NEG.DM",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "NEG.DM",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "NEG.DM",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + EX.FULL",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "EX.FULL",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.FULL",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + ALL.INST",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "ALL.INST",
+   "package": [
+    "ALL.INST",
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + ALL.TOT",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "ALL.TOT",
+   "package": [
+    "ALL.TOT",
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + TR.FULL",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "TR.FULL",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.FULL",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + TR.NEG",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "TR.NEG",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.NEG",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + EMPTY.NONE",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "EMPTY.NONE",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EMPTY.NONE",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + EMPTY.SOME",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "EMPTY.SOME",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EMPTY.SOME",
+    "EX.PART",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + FIN.FIN",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "FIN.FIN",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "FIN.FIN",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + FIN.B3",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "FIN.B3",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "FIN.B3",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + IMM.CONJ",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "IMM.CONJ",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IMM.CONJ",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.WOODS.OBJ3 + IMM.FRITZ7",
+   "base": "P.WOODS.OBJ3",
+   "kind": "extension",
+   "added": "IMM.FRITZ7",
+   "package": [
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IMM.FRITZ7",
+    "IRR.W",
+    "TRANS.P"
+   ]
+  },
+  {
+   "id": "P.UNION/W",
+   "base": "P.UNION/W",
+   "kind": "base",
+   "added": null,
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W with IRR.F",
+   "base": "P.UNION/W",
+   "kind": "control",
+   "added": "IRR.F for IRR.W",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.F",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W with IRR.MEM",
+   "base": "P.UNION/W",
+   "kind": "control",
+   "added": "IRR.MEM for IRR.W",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.MEM",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + ASYM.P",
+   "base": "P.UNION/W",
+   "kind": "control",
+   "added": "ASYM.P",
+   "package": [
+    "ALL.PART",
+    "ASYM.P",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + ASYM.ANTI",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "ASYM.ANTI",
+   "package": [
+    "ALL.PART",
+    "ASYM.ANTI",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + TRANS.CUT",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "TRANS.CUT",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.CUT",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + AMALG.FIN",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "AMALG.FIN",
+   "package": [
+    "ALL.PART",
+    "AMALG.FIN",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + AMALG.INF",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "AMALG.INF",
+   "package": [
+    "ALL.PART",
+    "AMALG.INF",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + TS.ID",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "TS.ID",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "TS.ID",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + TS.KF",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "TS.KF",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "TS.KF",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + ID.AC",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "ID.AC",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "ID.AC",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + ID.DN",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "ID.DN",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "ID.DN",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + CONJ.BIN",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "CONJ.BIN",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "CONJ.BIN",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + CONJ.INF",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "CONJ.INF",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "CONJ.INF",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + DISJ.ONE",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "DISJ.ONE",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.ONE",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + DISJ.BOTH",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "DISJ.BOTH",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.BOTH",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + NEG.DN",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "NEG.DN",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "NEG.DN",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + NEG.DM",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "NEG.DM",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "NEG.DM",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + EX.FULL",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "EX.FULL",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.FULL",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + ALL.INST",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "ALL.INST",
+   "package": [
+    "ALL.INST",
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + ALL.TOT",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "ALL.TOT",
+   "package": [
+    "ALL.PART",
+    "ALL.TOT",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + TR.FULL",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "TR.FULL",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.FULL",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + TR.NEG",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "TR.NEG",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.NEG",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + EMPTY.NONE",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "EMPTY.NONE",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EMPTY.NONE",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + EMPTY.SOME",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "EMPTY.SOME",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EMPTY.SOME",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + FIN.FIN",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "FIN.FIN",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "FIN.FIN",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + FIN.B3",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "FIN.B3",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "FIN.B3",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + C1",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "C1",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "C1",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + C2",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "C2",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "C2",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + C3d",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "C3d",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "C3d",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + C3s",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "C3s",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "C3s",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + IMM.CONJ",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "IMM.CONJ",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IMM.CONJ",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W + IMM.FRITZ7",
+   "base": "P.UNION/W",
+   "kind": "extension",
+   "added": "IMM.FRITZ7",
+   "package": [
+    "ALL.PART",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.PART",
+    "EX.PART",
+    "IMM.FRITZ7",
+    "IRR.W",
+    "TR.PART",
+    "TRANS.P",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "P.UNION/W at full strength",
+   "base": "P.UNION/W",
+   "kind": "model-check",
+   "added": null,
+   "package": [
+    "ALL.INST",
+    "BETA.ID",
+    "CL.PROP",
+    "CL.QUANT",
+    "DISJ.ONE",
+    "EX.FULL",
+    "IRR.W",
+    "TR.FULL",
+    "TRANS.CUT",
+    "TS.FULL",
+    "W.EM",
+    "W.ID",
+    "W.TEM",
+    "W.TR"
+   ]
+  },
+  {
+   "id": "package of model MV",
+   "base": "P.UNION/W",
+   "kind": "model-check",
+   "added": null,
+   "package": [
+    "ALL.INST",
+    "AMALG.INF",
+    "BETA.ID",
+    "C3s",
+    "CL.PROP",
+    "CL.QUANT",
+    "CONJ.BIN",
+    "CONJ.INF",
+    "DISJ.BOTH",
+    "DISJ.ONE",
+    "EMPTY.NONE",
+    "EX.FULL",
+    "IRR.W",
+    "NEG.DM",
+    "NEG.DN",
+    "TR.FULL",
+    "TR.NEG",
+    "TRANS.CUT",
+    "TS.FULL"
+   ]
+  }
+ ]
+}

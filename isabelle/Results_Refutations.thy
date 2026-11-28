@@ -28,64 +28,84 @@ text \<open>refuted: CL.QUANT,IRR.F,NEG.DN,TR.NEG,TS.ID\<close>
 lemma refuted_5: "FACT \<and> CL_QUANT \<and> IRR_F \<and> NEG_DN \<and> TR_NEG \<and> TS_ID \<Longrightarrow> False"
   by (metis CL_QUANT_truth FACT_def IRR_F_def NEG_DN_def TR_NEG_def TS_ID_def insertI1)
 
+text \<open>refuted: BETA.ID,CL.QUANT,EX.PART,IRR.F,W.ID\<close>
+lemma refuted_6: "FACT \<and> LAM_CORE \<and> BETA_ID \<and> CL_QUANT \<and> EX_PART \<and> IRR_F \<and> W_ID \<Longrightarrow> False"
+  by (metis CL_QUANT_def CL_QUANT_truth EX_PART_def IRR_F_def PG_def W_ID_def beta_id_f_id)
+
 text \<open>refuted: CL.PROP,ID.DN,IRR.F,NEG.DN,TRANS.CUT\<close>
-lemma refuted_6: "FACT \<and> CL_PROP \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<Longrightarrow> False"
+lemma refuted_7: "FACT \<and> CL_PROP \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<Longrightarrow> False"
   by (metis ASYM_ANTI_def ASYM_P_def CL_PROP_def CONJ_BIN_def DISJ_BOTH_def DISJ_ONE_def DISJ_WEAK_def EMPTY_NONE_def EMPTY_SOME_def ID_AC_def ID_DN_def IRR_F_def IRR_MEM_def IRR_W_def N1_def NEG_DM_def NEG_DN_def TRANS_P_def TR_FULL_def TR_NEG_def TR_TYPED_def TS_FULL_def TS_ID_def TS_TYPED_def boolean_algebra.compl_zero bot_set_def bot_set_def singletonI singleton_iff)
 
 text \<open>refuted: CL.PROP,IRR.F,TR.NEG,TRANS.CUT,TS.ID\<close>
-lemma refuted_7: "FACT \<and> CL_PROP \<and> IRR_F \<and> TRANS_CUT \<and> TR_NEG \<and> TS_ID \<Longrightarrow> False"
+lemma refuted_8: "FACT \<and> CL_PROP \<and> IRR_F \<and> TRANS_CUT \<and> TR_NEG \<and> TS_ID \<Longrightarrow> False"
   by (metis CL_PROP_def IRR_F_def TR_NEG_def TS_ID_def singletonI)
 
 text \<open>refuted: ASYM.P,CL.PROP,ID.DN,NEG.DN,TRANS.CUT\<close>
-lemma refuted_8: "FACT \<and> ASYM_P \<and> CL_PROP \<and> ID_DN \<and> NEG_DN \<and> TRANS_CUT \<Longrightarrow> False"
+lemma refuted_9: "FACT \<and> ASYM_P \<and> CL_PROP \<and> ID_DN \<and> NEG_DN \<and> TRANS_CUT \<Longrightarrow> False"
   by (metis ASYM_ANTI_def ASYM_P_IRR_F CL_PROP_def CONJ_BIN_def DISJ_BOTH_def DISJ_ONE_def DISJ_WEAK_def EMPTY_NONE_def EMPTY_SOME_def ID_AC_def ID_DN_def IRR_F_def IRR_MEM_def IRR_W_def Int.Pos_def N1_def NEG_DM_def NEG_DN_def One_nat_def String.plus_literal_def Sup_empty Sup_empty TRANS_P_def TR_FULL_def TR_NEG_def TR_TYPED_def TS_FULL_def TS_ID_def TS_TYPED_def UNIV_I UNIV_def bexCI bex_UNIV bool_Compl_def bot_set_def list.set(1) singletonI top_bool_def)
 
 text \<open>refuted at N1 (package and N1): ASYM.P,EMPTY.NONE,ID.DN,NEG.DN,TRANS.CUT\<close>
-lemma refuted_9: "FACT \<and> ASYM_P \<and> EMPTY_NONE \<and> ID_DN \<and> NEG_DN \<and> TRANS_CUT \<and> N1 \<Longrightarrow> False"
+lemma refuted_10: "FACT \<and> ASYM_P \<and> EMPTY_NONE \<and> ID_DN \<and> NEG_DN \<and> TRANS_CUT \<and> N1 \<Longrightarrow> False"
   by (metis ASYM_ANTI_def ASYM_P_IRR_F CL_PROP_def CONJ_BIN_def DISJ_BOTH_def DISJ_ONE_def DISJ_PART_def DISJ_WEAK_def EMPTY_excl FACT_def ID_AC_def ID_DN_def IRR_F_def IRR_MEM_def IRR_W_def N1_def NEG_DM_def NEG_DN_def TRANS_P_def TR_FULL_def TR_NEG_def TR_PART_def TR_TYPED_def TS_FULL_def TS_ID_def TS_TYPED_def bot_set_def bot_set_def singletonI)
 
+text \<open>refuted: ASYM.P,BETA.ID,CL.QUANT,EX.PART,IRR.W,W.ID\<close>
+lemma refuted_11: "FACT \<and> LAM_CORE \<and> ASYM_P \<and> BETA_ID \<and> CL_QUANT \<and> EX_PART \<and> IRR_W \<and> W_ID \<Longrightarrow> False"
+  by (metis ASYM_P_def CL_QUANT_def CL_QUANT_truth EX_PART_def W_ID_def beta_id_f_id)
+
 text \<open>refuted: CL.PROP,ID.DN,IRR.F,NEG.DN,TR.FULL,TRANS.CUT\<close>
-lemma refuted_10: "FACT \<and> CL_PROP \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<Longrightarrow> False"
+lemma refuted_12: "FACT \<and> CL_PROP \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<Longrightarrow> False"
   by (metis ASYM_ANTI_def ASYM_P_def CL_PROP_def CONJ_BIN_def DISJ_BOTH_def DISJ_ONE_def DISJ_WEAK_def EMPTY_NONE_def EMPTY_SOME_def ID_AC_def ID_DN_def IRR_F_def IRR_MEM_def IRR_W_def N1_def NEG_DM_def NEG_DN_def TRANS_P_def TR_NEG_def TR_TYPED_def TS_FULL_def TS_ID_def TS_TYPED_def bot_set_def singletonI singleton_iff)
 
 text \<open>refuted: CL.PROP,DISJ.WEAK,IRR.F,TR.NEG,TRANS.CUT,TS.ID\<close>
-lemma refuted_11: "FACT \<and> CL_PROP \<and> DISJ_WEAK \<and> IRR_F \<and> TRANS_CUT \<and> TR_NEG \<and> TS_ID \<Longrightarrow> False"
+lemma refuted_13: "FACT \<and> CL_PROP \<and> DISJ_WEAK \<and> IRR_F \<and> TRANS_CUT \<and> TR_NEG \<and> TS_ID \<Longrightarrow> False"
   by (metis CL_PROP_def IRR_F_def TR_NEG_def TS_ID_def singletonI)
 
 text \<open>refuted: ASYM.P,CL.PROP,EMPTY.NONE,ID.DN,NEG.DN,TRANS.CUT\<close>
-lemma refuted_12: "FACT \<and> ASYM_P \<and> CL_PROP \<and> EMPTY_NONE \<and> ID_DN \<and> NEG_DN \<and> TRANS_CUT \<Longrightarrow> False"
+lemma refuted_14: "FACT \<and> ASYM_P \<and> CL_PROP \<and> EMPTY_NONE \<and> ID_DN \<and> NEG_DN \<and> TRANS_CUT \<Longrightarrow> False"
   by (metis ASYM_ANTI_def ASYM_P_IRR_F CL_PROP_def CONJ_BIN_def DISJ_BOTH_def DISJ_ONE_def DISJ_WEAK_def EMPTY_excl ID_AC_def ID_DN_def IRR_F_def IRR_MEM_def IRR_W_def Int.Pos_def N1_def NEG_DM_def NEG_DN_def One_nat_def String.plus_literal_def Sup_empty TRANS_P_def TR_FULL_def TR_NEG_def TR_TYPED_def TS_FULL_def TS_ID_def TS_TYPED_def UNIV_def bex_UNIV bool_Compl_def bot_set_def bot_set_def list.set(1) singletonI top_bool_def)
 
 text \<open>refuted: CL.PROP,EX.FULL,ID.DN,IRR.F,NEG.DN,TR.FULL,TRANS.CUT\<close>
-lemma refuted_13: "FACT \<and> CL_PROP \<and> EX_FULL \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<Longrightarrow> False"
+lemma refuted_15: "FACT \<and> CL_PROP \<and> EX_FULL \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<Longrightarrow> False"
   by (metis ASYM_P_def CL_PROP_def ID_DN_def IRR_F_def IRR_MEM_def IRR_W_def N1_def NEG_DN_def TRANS_P_def singletonI)
 
 text \<open>refuted: ASYM.ANTI,CL.PROP,DISJ.WEAK,IRR.F,TR.NEG,TRANS.CUT,TS.ID\<close>
-lemma refuted_14: "FACT \<and> ASYM_ANTI \<and> CL_PROP \<and> DISJ_WEAK \<and> IRR_F \<and> TRANS_CUT \<and> TR_NEG \<and> TS_ID \<Longrightarrow> False"
+lemma refuted_16: "FACT \<and> ASYM_ANTI \<and> CL_PROP \<and> DISJ_WEAK \<and> IRR_F \<and> TRANS_CUT \<and> TR_NEG \<and> TS_ID \<Longrightarrow> False"
   by (metis CL_PROP_def IRR_F_def TR_NEG_def TS_ID_def singletonI singleton_conv)
 
 text \<open>refuted: CL.PROP,EMPTY.NONE,EX.FULL,ID.DN,IRR.F,NEG.DN,TR.FULL,TRANS.CUT\<close>
-lemma refuted_15: "FACT \<and> CL_PROP \<and> EMPTY_NONE \<and> EX_FULL \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<Longrightarrow> False"
+lemma refuted_17: "FACT \<and> CL_PROP \<and> EMPTY_NONE \<and> EX_FULL \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<Longrightarrow> False"
   by (metis ASYM_P_def CL_PROP_def EMPTY_excl ID_DN_def IRR_F_def IRR_MEM_def IRR_W_def N1_def NEG_DN_def TRANS_P_def singletonI)
 
+text \<open>refuted: ASYM.P,BETA.ID,C2,CL.PROP,CL.QUANT,DISJ.PART,EX.PART,IRR.W,TRANS.P\<close>
+lemma refuted_18: "FACT \<and> LAM_CORE \<and> (C2 1) \<and> ASYM_P \<and> BETA_ID \<and> CL_PROP \<and> CL_QUANT \<and> DISJ_PART \<and> EX_PART \<and> IRR_W \<and> TRANS_P \<Longrightarrow> False"
+  by (metis ASYM_P_def C2_W(1) CL_QUANT_def CL_QUANT_truth DISJ_PART_def EX_PART_def FACT_def PG_def W_ID_def beta_id_f_id bexI fun_upd_apply rangeI)
+
 text \<open>refuted: CL.PROP,DISJ.WEAK,EMPTY.NONE,EX.FULL,ID.DN,IRR.F,NEG.DN,TR.FULL,TRANS.CUT\<close>
-lemma refuted_16: "FACT \<and> CL_PROP \<and> DISJ_WEAK \<and> EMPTY_NONE \<and> EX_FULL \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<Longrightarrow> False"
+lemma refuted_19: "FACT \<and> CL_PROP \<and> DISJ_WEAK \<and> EMPTY_NONE \<and> EX_FULL \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<Longrightarrow> False"
   by (metis ASYM_P_def CL_PROP_def EMPTY_excl ID_DN_def IRR_F_def IRR_MEM_def IRR_W_def N1_def NEG_DN_def TRANS_P_def singletonI)
 
 text \<open>refuted: CL.PROP,DISJ.BOTH,DISJ.WEAK,EMPTY.NONE,EX.FULL,ID.DN,IRR.F,NEG.DN,TR.FULL,TRANS.CUT\<close>
-lemma refuted_17: "FACT \<and> CL_PROP \<and> DISJ_BOTH \<and> DISJ_WEAK \<and> EMPTY_NONE \<and> EX_FULL \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<Longrightarrow> False"
+lemma refuted_20: "FACT \<and> CL_PROP \<and> DISJ_BOTH \<and> DISJ_WEAK \<and> EMPTY_NONE \<and> EX_FULL \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<Longrightarrow> False"
   by (metis ALL_INST_def ALL_TOT_def ASYM_ANTI_def ASYM_P_def BETA_GROUND_def BETA_ID_def C1_def C3d_def C3s_def CL_PROP_def CL_QUANT_def CONJ_BIN_def CONJ_GRAIN_def CONJ_IMM_def CONJ_INF_def Collect_empty_eq DISJ_ONE_def EMPTY_excl EX_LEV_def EX_PRED_def EX_WEAK_def ID_AC_def ID_DN_def IMM_CONJ_def IMM_FRITZ7_def IRR_F_def IRR_MEM_def IRR_W_def Int.Pos_def LAM_CORE_def N1_def NEG_DM_def NEG_DN_def One_nat_def String.plus_literal_def Sup_empty Sup_empty Sup_empty Sup_empty TRANS_P_def TR_NEG_def TR_TYPED_def TS_FULL_def TS_ID_def TS_TYPED_def UNIV_def bex_UNIV bool_Compl_def bot_nat_def bot_set_def card.empty empty_iff f_em_def f_id_def f_tem_def f_tr_def induct_rulify_fallback(5) list.set(1) mem_Collect_eq normalize_nat_def of_nat_eq_id singletonI top_boolI)
 
 text \<open>refuted at N1 (package and N1): CONJ.GRAIN,DISJ.BOTH,DISJ.WEAK,EMPTY.NONE,EX.FULL,ID.DN,IRR.F,NEG.DN,TR.FULL,TRANS.CUT\<close>
-lemma refuted_18: "FACT \<and> CONJ_GRAIN \<and> DISJ_BOTH \<and> DISJ_WEAK \<and> EMPTY_NONE \<and> EX_FULL \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<and> N1 \<Longrightarrow> False"
+lemma refuted_21: "FACT \<and> CONJ_GRAIN \<and> DISJ_BOTH \<and> DISJ_WEAK \<and> EMPTY_NONE \<and> EX_FULL \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<and> N1 \<Longrightarrow> False"
   by (metis Diff_empty FACT_def ID_DN_def IRR_F_def N1_def NEG_DN_def Sup_insert TRANS_CUT_def Un_def bot.extremum ex_in_conv image_def image_empty insert_iff)
 
 text \<open>refuted: CL.PROP,CONJ.GRAIN,DISJ.BOTH,DISJ.WEAK,EMPTY.NONE,EX.FULL,ID.DN,IRR.F,NEG.DN,TR.FULL,TRANS.CUT\<close>
-lemma refuted_19: "FACT \<and> CL_PROP \<and> CONJ_GRAIN \<and> DISJ_BOTH \<and> DISJ_WEAK \<and> EMPTY_NONE \<and> EX_FULL \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<Longrightarrow> False"
+lemma refuted_22: "FACT \<and> CL_PROP \<and> CONJ_GRAIN \<and> DISJ_BOTH \<and> DISJ_WEAK \<and> EMPTY_NONE \<and> EX_FULL \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<Longrightarrow> False"
   by (metis ALL_INST_def ALL_TOT_def ASYM_ANTI_def ASYM_P_def BETA_GROUND_def BETA_ID_def C1_def C3d_def C3s_def CL_PROP_def CL_QUANT_def CONJ_BIN_def CONJ_IMM_def CONJ_INF_def Collect_empty_eq DISJ_ONE_def EMPTY_excl EX_LEV_def EX_PRED_def EX_WEAK_def ID_AC_def ID_DN_def IMM_CONJ_def IMM_FRITZ7_def IRR_F_def IRR_MEM_def IRR_W_def Int.Pos_def LAM_CORE_def N1_def NEG_DM_def NEG_DN_def One_nat_def String.plus_literal_def Sup_empty Sup_empty Sup_empty Sup_empty TRANS_P_def TR_NEG_def TR_TYPED_def TS_FULL_def TS_ID_def TS_TYPED_def UNIV_def bex_UNIV bool_Compl_def bot_nat_def bot_set_def card.empty empty_iff f_em_def f_id_def f_tem_def f_tr_def induct_rulify_fallback(5) list.set(1) mem_Collect_eq normalize_nat_def of_nat_eq_id singletonI top_boolI)
 
+text \<open>refuted: ALL.PART,BETA.ID,CL.PROP,CL.QUANT,DISJ.PART,EX.PART,IRR.F,TR.PART,TRANS.P,TS.FULL,W.EM,W.ID,W.TEM,W.TR\<close>
+lemma refuted_23: "FACT \<and> LAM_CORE \<and> ALL_PART \<and> BETA_ID \<and> CL_PROP \<and> CL_QUANT \<and> DISJ_PART \<and> EX_PART \<and> IRR_F \<and> TRANS_P \<and> TR_PART \<and> TS_FULL \<and> W_EM \<and> W_ID \<and> W_TEM \<and> W_TR \<Longrightarrow> False"
+  by (metis CL_QUANT_truth EX_PART_def FACT_def IRR_F_def PG_def W_ID_def beta_id_f_id)
+
 text \<open>refuted: AMALG.FIN,CL.PROP,CONJ.GRAIN,DISJ.BOTH,DISJ.WEAK,EMPTY.NONE,EX.FULL,ID.DN,IRR.F,NEG.DN,TR.FULL,TRANS.CUT\<close>
-lemma refuted_20: "FACT \<and> AMALG_FIN \<and> CL_PROP \<and> CONJ_GRAIN \<and> DISJ_BOTH \<and> DISJ_WEAK \<and> EMPTY_NONE \<and> EX_FULL \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<Longrightarrow> False"
+lemma refuted_24: "FACT \<and> AMALG_FIN \<and> CL_PROP \<and> CONJ_GRAIN \<and> DISJ_BOTH \<and> DISJ_WEAK \<and> EMPTY_NONE \<and> EX_FULL \<and> ID_DN \<and> IRR_F \<and> NEG_DN \<and> TRANS_CUT \<and> TR_FULL \<Longrightarrow> False"
   by (metis ALL_INST_def ALL_TOT_def AMALG_INF_def ASYM_ANTI_def ASYM_P_def BETA_GROUND_def BETA_ID_def C1_def C3d_def C3s_def CL_PROP_def CL_QUANT_def CONJ_BIN_def CONJ_IMM_def CONJ_INF_def DISJ_ONE_def EMPTY_excl EX_LEV_def EX_WEAK_def ID_AC_def ID_DN_def IMM_CONJ_def IMM_FRITZ7_def IRR_F_def IRR_MEM_def IRR_W_def Int.Pos_def N1_def NEG_DM_def NEG_DN_def One_nat_def String.plus_literal_def Sup_empty Sup_empty Sup_empty Sup_empty Sup_empty TRANS_P_def TR_NEG_def TS_FULL_def TS_ID_def TS_TYPED_def UNIV_def bool_Compl_def bot_set_def singletonI top_bool_def)
+
+text \<open>refuted: ALL.PART,ASYM.P,BETA.ID,CL.PROP,CL.QUANT,DISJ.PART,EX.PART,IRR.W,TR.PART,TRANS.P,TS.FULL,W.EM,W.ID,W.TEM,W.TR\<close>
+lemma refuted_25: "FACT \<and> LAM_CORE \<and> ALL_PART \<and> ASYM_P \<and> BETA_ID \<and> CL_PROP \<and> CL_QUANT \<and> DISJ_PART \<and> EX_PART \<and> IRR_W \<and> TRANS_P \<and> TR_PART \<and> TS_FULL \<and> W_EM \<and> W_ID \<and> W_TEM \<and> W_TR \<Longrightarrow> False"
+  by (metis ASYM_P_def CL_QUANT_truth EX_PART_def FACT_def PG_def TR_PART_def TS_FULL_def W_ID_def beta_id_f_id)
 
 end
