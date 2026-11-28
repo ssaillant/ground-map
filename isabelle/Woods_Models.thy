@@ -1021,6 +1021,49 @@ proof -
     by (simp add: GV_single ngV_def numeral_2_eq_2)
 qed
 
+text \<open>N3 for the remaining introduction entries of MV: DISJ.BOTH, TR.NEG, the three
+  clauses of NEG.DM, and CONJ.INF. The instance of CONJ.INF uses a function that is true
+  of exactly one proposition, (True, L 0); such a function is admissible at C3s only.
+  A function defined by a formula is true of all truths, of all falsehoods, of
+  everything or of nothing, so at C1, C2 and C3d the conjunction of the truths it is
+  true of is itself one of them.\<close>
+definition fD :: "pv \<Rightarrow> pv" where
+  "fD p = (if p = (True, L 0) then (True, L 0) else (False, L 0))"
+
+lemma MV_N3_more:
+  "GV {(True, L 0), (True, L 1)} (djV (True, L 0) (True, L 1))
+     \<and> djV (True, L 0) (True, L 1) = (True, L 2)"
+  "GV {ngV (False, L 0)} (ngV (trV (False, L 0))) \<and> ngV (False, L 0) = (True, L 1)
+     \<and> ngV (trV (False, L 0)) = (True, L 2)"
+  "GV {ngV (False, L 0)} (ngV (cjV (False, L 0) (False, L 1)))
+     \<and> GV {ngV (False, L 1)} (ngV (cjV (False, L 0) (False, L 1)))
+     \<and> GV {ngV (False, L 0), ngV (False, L 1)} (ngV (djV (False, L 0) (False, L 1)))
+     \<and> ngV (False, L 0) = (True, L 1) \<and> ngV (False, L 1) = (True, L 2)
+     \<and> ngV (cjV (False, L 0) (False, L 1)) = (True, L 3)
+     \<and> ngV (djV (False, L 0) (False, L 1)) = (True, L 3)"
+  "GV (MV.sat fD) (bigV fD) \<and> MV.sat fD = {(True, L 0)} \<and> bigV fD = (True, Top 0)"
+proof -
+  show "GV {(True, L 0), (True, L 1)} (djV (True, L 0) (True, L 1))
+     \<and> djV (True, L 0) (True, L 1) = (True, L 2)"
+    by (simp add: GV_def djV_def numeral_2_eq_2)
+  show "GV {ngV (False, L 0)} (ngV (trV (False, L 0))) \<and> ngV (False, L 0) = (True, L 1)
+     \<and> ngV (trV (False, L 0)) = (True, L 2)"
+    by (simp add: GV_single ngV_def trV_def numeral_2_eq_2)
+  show "GV {ngV (False, L 0)} (ngV (cjV (False, L 0) (False, L 1)))
+     \<and> GV {ngV (False, L 1)} (ngV (cjV (False, L 0) (False, L 1)))
+     \<and> GV {ngV (False, L 0), ngV (False, L 1)} (ngV (djV (False, L 0) (False, L 1)))
+     \<and> ngV (False, L 0) = (True, L 1) \<and> ngV (False, L 1) = (True, L 2)
+     \<and> ngV (cjV (False, L 0) (False, L 1)) = (True, L 3)
+     \<and> ngV (djV (False, L 0) (False, L 1)) = (True, L 3)"
+    by (simp add: GV_def ngV_def cjV_def djV_def numeral_2_eq_2 numeral_3_eq_3)
+  have s: "MV.sat fD = {(True, L 0)}" unfolding MV.sat_def fD_def by (rule set_eqI) simp
+  have "fst (fD p) \<longrightarrow> fst p" for p unfolding fD_def by simp
+  hence t: "(\<forall>p. fst (fD p) \<longrightarrow> fst p) = True" by blast
+  have b: "bigV fD = (True, Top 0)" unfolding bigV_def t ..
+  show "GV (MV.sat fD) (bigV fD) \<and> MV.sat fD = {(True, L 0)} \<and> bigV fD = (True, Top 0)"
+    unfolding s b by (simp add: GV_single)
+qed
+
 text \<open>The limit of the model, stated as a theorem: every truth helps ground every true
   quantified proposition, and every true proposition that is built from one.\<close>
 lemma MV_top_universal:
@@ -1485,6 +1528,14 @@ proof -
     by (simp add: GY_single trY_def)
 qed
 
+text \<open>N3 for the two remaining introduction entries of MY, CONJ.BIN and DISJ.BOTH.\<close>
+lemma MY_N3_more:
+  "GY {(True, Lw 0), (True, Lw 1)} (cjY (True, Lw 0) (True, Lw 1))
+     \<and> cjY (True, Lw 0) (True, Lw 1) = (True, Lw 2)"
+  "GY {(True, Lw 0), (True, Lw 1)} (djY (True, Lw 0) (True, Lw 1))
+     \<and> djY (True, Lw 0) (True, Lw 1) = (True, Lw 2)"
+  by (simp_all add: GY_def cjY_def djY_def numeral_2_eq_2)
+
 theorem MY_package:
   "MY.FACT \<and> MY.LAM_CORE \<and> MY.C3s \<and> MY.W_ID \<and> MY.W_TR \<and> MY.W_EM \<and> MY.W_TEM \<and> MY.BETA_ID
    \<and> MY.CL_PROP \<and> MY.CL_QUANT \<and> MY.TS_FULL \<and> MY.EX_FULL \<and> MY.ALL_INST \<and> MY.CONJ_BIN
@@ -1642,6 +1693,13 @@ proof -
   show "GZ {(True, L 0)} (trV (True, L 0)) \<and> trV (True, L 0) = (True, L 1)"
     by (simp add: GZ_single trV_def)
 qed
+
+text \<open>N3 for the two remaining introduction entries of MZ, TR.NEG and NEG.DN.\<close>
+lemma MZ_N3_more:
+  "GZ {ngV (False, L 0)} (ngV (trV (False, L 0))) \<and> ngV (False, L 0) = (True, L 1)
+     \<and> ngV (trV (False, L 0)) = (True, L 2)"
+  "GZ {(True, L 0)} (ngV (ngV (True, L 0))) \<and> ngV (ngV (True, L 0)) = (True, L 2)"
+  by (simp_all add: GZ_single ngV_def trV_def numeral_2_eq_2)
 
 section \<open>Part 7. TS.KF in the models\<close>
 

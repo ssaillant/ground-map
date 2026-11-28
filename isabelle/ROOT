@@ -22,3 +22,4 @@ session Ground_Map_Checks = HOL +
     NonClassical
     Kripke_Model
     Woods_Models
+    Rule_Generated
