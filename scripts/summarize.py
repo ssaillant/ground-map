@@ -8,6 +8,7 @@ import json, os, sys
 import yaml
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import driver
+import separations
 
 ROOT = driver.ROOT
 REG = yaml.safe_load(open(os.path.join(ROOT, "principles", "registry.yaml")))
@@ -40,23 +41,32 @@ def main():
     L.append("A *package* is a set of registry principles, always together with factivity (FACT). "
              "Each package is classified as\n\n"
              "- **refuted**: Isabelle has checked a proof that the package is inconsistent;\n"
-             "- **trivial-only**: inconsistent once at least one grounding fact is required (N1); "
-             "consistent only in models where nothing grounds anything;\n"
+             "- **refuted at N1**: Isabelle has checked a proof that the package is inconsistent with "
+             "N1 (at least one grounding fact), and no refutation of the package itself was found. This "
+             "is not a consistency claim. Where the row says *model at N0 verified*, a model of the "
+             "package in which nothing grounds anything was found by Nitpick and re-checked by the "
+             "independent implementation; otherwise the package without N1 is unknown. (Until registry "
+             "0.3.0-draft this class was called trivial-only and was described as consistent without a "
+             "model; audit finding A3.);\n"
              "- **finite-model**: a finite model with at least one grounding fact (N1), either found by "
              "Nitpick and re-checked by an independent implementation of the semantics, or built and "
-             "checked in Isabelle (`isabelle/Model_Certificates.thy`, section 4);\n"
+             "checked in Isabelle (`isabelle/Model_Certificates.thy`, `isabelle/Restricted_Models.thy`, "
+             "`isabelle/Separation_Models.thy`, section 4);\n"
              "- **infinite-model**: an infinite model built and checked in Isabelle (decision D4);\n"
              "- **unknown**: no proof and no model within the time limits. Unknown never means consistent.\n")
     L.append("A refutation of a package refutes every stronger package; a model of a package is a model "
              "of every weaker one. \"Stronger\" uses only the implications proved in "
-             "`isabelle/Order.thy`.\n")
+             "`isabelle/Order.thy`. Every entry is standalone: a package contains exactly the entries "
+             "listed, and an entry's rank in the registry is a label, not an inclusion.\n")
 
     # 1. checked puzzles
     L.append("## 1. Published puzzles, machine-checked\n")
     L.append("| Puzzle | Package | Expected | Isabelle |\n|---|---|---|---|")
     checked = {c["id"]: c for c in REG["puzzles"]["checked"]}
     for t in REG["puzzles"]["targets"]:
-        c = checked.get(t["id"], {})
+        # a target that names its own theorem (about the registry constants, for exactly the
+        # listed package) takes precedence over the older entries under puzzles.checked
+        c = t if t.get("theorem") else checked.get(t["id"], {})
         L.append(f"| {t['id']} ({t['source'].split(';')[0]}) | {fmt(t['package'])} | {t['expected'].split(';')[0]} | "
                  f"{c.get('status', REG['puzzles']['validation'].get('status', '')[:6] if t['id'] in REG['puzzles']['validation'].get('reproduced', []) else 'open')}"
                  f"{' - `' + c['theorem'] + '`' if c.get('theorem') else ''} |")
@@ -67,22 +77,30 @@ def main():
     L.append("\nCaveat from the registry: " + REG["puzzles"]["validation"].get("caveat", "") + "\n")
 
     # 2. search: minimal refuted packages
-    ref = [r for r in q if r["class"] in ("refuted", "trivial-only")]
+    ref = [r for r in q if r["class"] in ("refuted", "refuted-at-N1")]
     def keyof(r):
         rp = replay.get(r["key"])
         return pk(rp["checked_key"]) if rp and rp.get("checked_key") is not None else pk(r["key"])
-    refs = [(keyof(r), r["class"], bool(replay.get(r["key"], {}).get("replayed"))) for r in ref]
+    def n0(r):
+        v = verified.get(r["key"], {})
+        return bool(v.get("verified")) and v.get("level") == "N0"
+    refs = [(keyof(r), r["class"], bool(replay.get(r["key"], {}).get("replayed")), n0(r)) for r in ref]
+    outright = [driver.closure(k) for k, c, _, _ in refs if c == "refuted"]
     mins = []
-    for k, c, ok in sorted(refs, key=lambda x: len(x[0])):
+    for k, c, ok, m0 in sorted(refs, key=lambda x: len(x[0])):
         cl = driver.closure(k)
-        if not any(driver.closure(m) <= cl and mc == c for m, mc, _ in mins):
-            mins.append((k, c, ok))
+        if c == "refuted-at-N1" and any(o <= cl for o in outright):
+            continue  # refuted outright by a smaller package
+        if not any(driver.closure(m) <= cl and mc == c for m, mc, _, _ in mins):
+            mins.append((k, c, ok, m0))
     L.append("## 2. Search: minimal refuted packages found so far\n")
     L.append(f"{len(q)} packages queried. Minimal refuted packages (every proper weakening tested is not refuted, "
              "or was not tested):\n")
     L.append("| Package | Class | Replayed in Isabelle |\n|---|---|---|")
-    for k, c, ok in mins:
-        L.append(f"| {fmt(k)} | {c} | {'yes (`isabelle/Results_Refutations.thy`)' if ok else 'no'} |")
+    for k, c, ok, m0 in mins:
+        cname = c if c == "refuted" else ("refuted at N1; model at N0 verified" if m0
+                                          else "refuted at N1; without N1 unknown")
+        L.append(f"| {fmt(k)} | {cname} | {'yes (`isabelle/Results_Refutations.thy`)' if ok else 'no'} |")
     L.append("")
 
     # 3. maximal verified models
@@ -103,27 +121,33 @@ def main():
     # 4. Isabelle-built model certificates
     L.append("## 4. Models built in Isabelle\n")
     L.append("Principles that the search left unknown on their own, because they quantify over the formula "
-             "layer (where Nitpick reports only potentially spurious models) or have no finite model. Each "
+             "layer (where Nitpick reports only potentially spurious models) or have no finite model, and "
+             "packages certified by a model built by hand. Each "
              "model is an interpretation of the signature with every constant as a parameter (locale `gsig`); "
              "`K_faithful` proves that the locale's definitions are the registry's. The infinite term model M1 "
              "(`isabelle/Models.thy`) uses the same method with a record of operations in place of the locale; "
              "its lemma `fidelity` plays the role of `K_faithful`. Each package includes "
-             "FACT, and LAM_CORE when it mentions the formula layer.\n")
+             "FACT, and LAM_CORE when it mentions the formula layer. The models MT and MU are the "
+             "models of finding F9: the puzzles that involve truth, with typed grounding of truth "
+             "ascriptions, stated with the witness entries of decision D9.\n")
     if certs:
         L.append("| Principle or package | Class | Non-triviality | Carriers | Isabelle |\n|---|---|---|---|---|")
         for k in sorted(certs, key=lambda k: ("," in k, k)):
             c = certs[k]
             name = fmt(pk(k)) + " (package)" if "," in k else f"`{k}`"
             L.append(f"| {name} | {c['class']} | {c['nontriviality']} (N3: {c['n3']}) | {c['carriers']} | "
-                     f"`{c['model']}`: {c['theorems']} |")
+                     f"`{c['model']}`: {c['theorems']}" + (f". {c['note']}" if c.get("note") else "") + " |")
     L.append("")
 
     # 5. unknowns
     sing = {r["key"]: r["class"] for r in q if "," not in r["key"]}
     unk_single = sorted(k for k, c in sing.items() if c == "unknown" and k not in certs)
+    unk = [r for r in q if r["class"] == "unknown" and r["key"] not in certs]
+    unk_ref = [r for r in unk if any(o <= driver.closure(pk(r["key"])) for o in outright)]
     L.append("## 5. Unknown\n")
-    L.append(f"{sum(1 for r in q if r['class'] == 'unknown' and r['key'] not in certs)} queried packages are "
-             "unknown. Principles that are unknown even on their own (with FACT and N1): " + (fmt(unk_single) if unk_single else "none") +
+    L.append(f"{len(unk) - len(unk_ref)} queried packages are "
+             f"unknown ({len(unk_ref)} further packages that the search left unknown contain a package "
+             "refuted in section 2 and are therefore refuted). Principles that are unknown even on their own (with FACT and N1): " + (fmt(unk_single) if unk_single else "none") +
              ". Section 4 resolves the principles that were unknown on their own; unknown packages that "
              "combine several principles remain.\n")
 
@@ -141,9 +165,29 @@ def main():
              "infinite-model certificates.\n")
     for k in sorted(certs):
         c = certs[k]
-        if c.get("class") == "infinite-model" and c.get("novelty"):
+        if c.get("novelty"):
             L.append(f"- Checked and not a candidate: model `{c['model']}` ({c['theory']}). {c['novelty']}. "
                      f"Falsifiers: {c.get('falsifiers', 'none recorded')}.")
+    L.append("")
+
+    # 8. non-implications
+    L.append("## 8. Entries that do not imply one another\n")
+    L.append("A rank in the registry is a label. Where the registry ranks one entry above another and "
+             "`isabelle/Order.thy` proves no implication, a separating model shows that there is none: "
+             "the higher-ranked entry holds and the lower-ranked one fails. Models built in Isabelle are "
+             "checked there. Models found by Nitpick (`scripts/separations.py`, with FACT and N1) are "
+             "stored in `results/separations.jsonl` and re-checked by the independent implementation of "
+             "the semantics each time this page is generated. A separating model shows a non-implication "
+             "between two entries taken alone; it says nothing about packages that add further principles.\n")
+    L.append("| Holds | Fails | Model | Checked |\n|---|---|---|---|")
+    for sp in REG["implications"].get("separations", []):
+        if sp.get("model"):
+            L.append(f"| {fmt(sp['holds'])} | {fmt(sp['fails'])} | `{sp['model']}` | Isabelle: {sp['theorem']} |")
+    for r in sorted(load("results/separations.jsonl"), key=lambda r: (r["holds"], r["fails"])):
+        c = separations.check(r)
+        card = ", ".join(f"{k} {v}" for k, v in sorted((c.get("card") or {}).items())) or "cardinality not parsed"
+        L.append(f"| `{r['holds']}` | `{r['fails']}` | Nitpick, {card} | "
+                 f"{'re-verified' if c['verified'] else 'NOT VERIFIED'} |")
     L.append("")
     os.makedirs(os.path.join(ROOT, "docs"), exist_ok=True)
     open(os.path.join(ROOT, "docs", "results.md"), "w").write("\n".join(L) + "\n")
