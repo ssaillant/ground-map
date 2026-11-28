@@ -90,7 +90,7 @@ check_token() {
   [ "$code" = 200 ] || die "RESULTS_PR_TOKEN cannot read pull requests of $REPO (HTTP $code). Grant it Pull requests: Read and write."
   # A dry-run push needs write access but creates nothing.
   local probe; probe="$(mktemp -d)"
-  git -C "$probe" init -q
+  git -C "$probe" -c init.defaultBranch=probe init -q
   git -C "$probe" -c user.name=probe -c user.email=probe@invalid commit -q --allow-empty -m probe
   if ! git -C "$probe" push --dry-run -q "$(remote)" HEAD:refs/heads/results/token-probe 2>"$TMP/err"; then
     die "RESULTS_PR_TOKEN cannot push to $REPO. Grant it Contents: Read and write. git said: $(tr '\n' ' ' < "$TMP/err")"
