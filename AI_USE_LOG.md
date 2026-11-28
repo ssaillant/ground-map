@@ -300,6 +300,33 @@ AI-use disclosure. One entry per working session.
   rerun.
 - Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py (113 of
   113); scripts/summarize.py reproduces docs/results.md.
+
+## 2026-11-27 — Non-classical families: strong Kleene, Korbmacher's untyped repair, Poggiolesi
+
+- Tool and model as above (Claude Code, cloud session; Isabelle2026 pinned, hash checked).
+- Prompt: "yes" (reviewer), to the coordinator's proposal to add the non-classical families -
+  (a) Korbmacher-style grounding restricted to grounded truths, (b) a Kripke-style
+  fixed-point truth predicate, (c) Poggiolesi's finer-negation repair of Wilhelm.
+- What the model did: read korbmacher2015 (slides), fine2010 sect. 8 and notes 12-15,
+  poggiolesi2022 in full, Goodman 2023 sect. 4; web checks of Litland 2022, Korbmacher
+  2018b, Schindler 2014 and the PhilArchive citations of Wilhelm 2021 (via fetch, summary
+  level). Wrote isabelle/Poggiolesi_Checks.thy (Wilhelm's inconsistency; Poggiolesi's
+  published interpretation fails her condition (1); a normal-form model proves her
+  theorem), isabelle/NonClassical.thy (strong Kleene definitions and order lemmas; liar
+  results; Fine p. 109 reproduced; DISJ.ONE refuted under SK twice; Korbmacher's untyped
+  repair plus foundation refuted) and isabelle/Kripke_Model.thy (strong Kleene term model
+  K1 with Kripke stages and efficient ground; certifies Fine's compromise package with
+  BETA.ID and C3d at N1, N2, N5). Registry section `proposed` (0.3.0-draft, pending
+  review), candidates P.WILHELM.2021 and P.POGGIOLESI.2022, findings F5-F8 (renumbered F10-F13 and decision D6 when merged onto the audit, 2026-11-28). Session builds,
+  no sorry/oops/axioms.
+- Reading choices made by the model and flagged for review: T stays bivalent at the
+  metalevel (gaps are propositions with neither T p nor T (neg p)); Fine's existence
+  predicate and putative domain omitted; bigconj a gap in K1; strict efficiency, not
+  fn. 13's broadened notion; SR.LIAR as identity; DIAG.K non-atomic; Fund read as atomic and
+  Korbmacher's slide-3 formula taken as a principle he does not assert; Poggiolesi's ≅ read
+  literally, ≐ as any relation containing it, Leibniz's law as a congruence reading.
+- Not entered in the enumeration (driver.py) or results/ until the reviewer adopts the
+  entries.
 - Human review: pending.
 
 ## 2026-11-27 — Follow-ups on the model-certificate review questions

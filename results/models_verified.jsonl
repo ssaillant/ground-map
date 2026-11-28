@@ -109,5 +109,6 @@
 {"key": "ASYM.ANTI,CL.QUANT,DISJ.WEAK,IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 2}}
 {"key": "ASYM.ANTI,CONJ.GRAIN,DISJ.WEAK,IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"prp": 2, "pfun": 2}}
 {"key": "ASYM.ANTI,DISJ.WEAK,EX.WEAK,IRR.F,TR.NEG,TRANS.CUT,TS.ID", "verified": true, "failed": [], "card": {"pfun": 2, "prp": 2}}
+{"key": "SK.QUANT", "verified": true, "failed": [], "card": {"prp": 1, "pfun": 1}}
 {"key": "ASYM.P,EMPTY.NONE,ID.DN,NEG.DN,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 1}, "level": "N0"}
 {"key": "CONJ.GRAIN,DISJ.BOTH,DISJ.WEAK,EMPTY.NONE,EX.FULL,ID.DN,IRR.F,NEG.DN,TR.FULL,TRANS.CUT", "verified": true, "failed": [], "card": {"prp": 1, "pfun": 1}, "level": "N0"}

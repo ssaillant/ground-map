@@ -58,14 +58,18 @@ ENTRIES = {
     "W.ID": "W_ID", "W.TR": "W_TR", "W.EM": "W_EM", "W.TEM": "W_TEM",
     "BETA.ID": "BETA_ID", "BETA.GROUND": "BETA_GROUND",
     "IMM.CONJ": "IMM_CONJ", "IMM.FRITZ7": "IMM_FRITZ7",
+    # D6 (2026-11-27): strong Kleene entries, defined in isabelle/NonClassical.thy
+    "SK.PROP": "SK_PROP", "SK.QUANT": "SK_QUANT", "TS.KF": "TS_KF",
 }
-# unconditional implications proved in Order.thy (stronger, weaker)
+# unconditional implications proved in Order.thy and NonClassical.thy (stronger, weaker)
 PROVED = [("IRR.F", "IRR.W"), ("IRR.F", "IRR.MEM"), ("ASYM.P", "ASYM.ANTI"),
           ("TRANS.CUT", "TRANS.P"), ("AMALG.INF", "AMALG.FIN"),
           ("TS.ID", "TS.FULL"), ("TS.FULL", "TS.TYPED"), ("TR.FULL", "TR.TYPED"),
           ("EX.FULL", "EX.LEV"), ("EX.FULL", "EX.PRED"), ("FIN.B3", "FIN.FIN"),
           ("DISJ.ONE", "DISJ.PART"), ("EX.FULL", "EX.PART"), ("TR.FULL", "TR.PART"),
-          ("ALL.INST", "ALL.PART"), ("ALL.TOT", "ALL.PART")]
+          ("ALL.INST", "ALL.PART"), ("ALL.TOT", "ALL.PART"),
+          # D6: proved in NonClassical.thy (cl_sk, ts_kf_full, ts_id_kf)
+          ("CL.PROP", "SK.PROP"), ("TS.KF", "TS.FULL"), ("TS.ID", "TS.KF")]
 # decision D9: every comprehension level implies every witness entry (C1_W, C2_W, C3d_W,
 # C3s_W). The witness entries mention lam, so IMPL below does not propagate along these.
 PROVED += [(c, w) for c in ("C1", "C2", "C3d", "C3s") for w in ("W.ID", "W.TR", "W.EM", "W.TEM")]
@@ -149,7 +153,7 @@ class Store:
 def run_batch(pkgs, t_sh=20, t_np=20):
     os.makedirs(WORK, exist_ok=True)
     name = "Q_" + hashlib.sha1("|".join(key(p) for p in pkgs).encode()).hexdigest()[:10]
-    lines = [f"theory {name} imports Ground_Map_Checks.Order begin"]
+    lines = [f"theory {name} imports Ground_Map_Checks.Order Ground_Map_Checks.NonClassical begin"]
     where = {}
     for i, p in enumerate(pkgs):
         tm = term(p)
