@@ -342,6 +342,16 @@ proof -
     by (auto simp: nf_star dest: arg_cong[where f = "ev e"])
 qed
 
+text \<open>NQ is not a congruence for single negation, as LEIBNIZ allows: \<not>(p \<and> q) and
+  \<not>p \<or> \<not>q are identified, but their negations are not. So NQ is not identity of
+  propositions on Wilhelm's reading ("the same proposition", wilhelm2021 p. 1), under which
+  A \<approx> B gives \<not>A \<approx> \<not>B.\<close>
+
+lemma NQ_not_neg_congruence:
+  "NQ (LN (LC (LV 0) (LV 1))) (LD (LN (LV 0)) (LN (LV 1)))"
+  "\<not> NQ (LN (LN (LC (LV 0) (LV 1)))) (LN (LD (LN (LV 0)) (LN (LV 1))))"
+  unfolding NQ_def by simp_all
+
 text \<open>The normal-form interpretation is also factive and irreflexive: every ground is
   true, and no formula is an immediate ground of anything with the same normal form.\<close>
 

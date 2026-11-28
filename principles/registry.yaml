@@ -168,6 +168,7 @@ changelog:
       - P.WILHELM.2021 - source is now Wilhelm's own text; claim_in_source quotes his two theorems separately (Theorem 1 - (1), (4)-(7); Theorem 2 - (2), (3), (5), (6), (8), proof only "analogous"). The earlier claim "(1)-(8) are inconsistent" was a paraphrase.
       - isabelle/Poggiolesi_Checks.thy - new theorems wilhelm_thm1 (Wilhelm's own route) and wilhelm_thm2 (Theorem 2, first checked here), both with Leibniz's law only in the grounded place (RESP_R), which is weaker than RESP_Q used by wilhelm_inconsistency.
       - proposed.WP - W.1-8 gains Wilhelm's p. 1 as source (poggiolesi2022 p. 2 restates (1)-(8) with the same content); new FLAGGED readings - what ≈ expresses (Wilhelm, identity of propositions; Poggiolesi, identity from a grounding perspective, not nested) left to the reviewer, and the form of Leibniz's law the derivations need.
+      - isabelle/Poggiolesi_Checks.thy - lemma NQ_not_neg_congruence (the normal-form model's identity is not a congruence for single negation), cited by the reading of ≈.
   - version: 0.8.0-draft
     date: 2026-11-28
     changes:
@@ -2757,7 +2758,7 @@ proposed:
             - point: what ≈ expresses
               chosen: 'none - FLAGGED, the reviewer''s choice. The formula-level checks take ≈ as an arbitrary relation Q (reflexive, symmetric, respected by ground) and so hold on either reading; wilhelm_prp takes it as = on prp, which is Wilhelm''s reading.'
               alternatives: ['identity of propositions - "intuitively, ''x ≈ y'' says that x and y are the same proposition" (wilhelm2021 p. 1); his language L has ¬, ∧, ∨ and states no restriction on nesting ≈ or →', '"ground-propositional identity" - "intuitively, A ≈ B says that A and B are the same proposition from a grounding perspective" - with ⊲ and ≈ not "in the scope of themselves or each other" (poggiolesi2022 pp. 1-2)']
-              why: 'INFERENCE - if the readings differ, Poggiolesi''s repair answers Wilhelm by changing what ≈ expresses as well as by revising (2), (4), (7), (8), and F10 concerns her account, not Wilhelm''s result. Neither text says this.'
+              why: 'The readings differ in what substitution ≈ licenses. On Wilhelm''s, identical propositions have identical negations (A ≈ B gives ¬A ≈ ¬B). Poggiolesi restricts Leibniz''s law to the (¬)²ⁿ/star reformulation (p. 4) and bars nesting, and the normal-form model that certifies her theorem identifies ¬(p ∧ q) with ¬p ∨ ¬q but not ¬¬(p ∧ q) with ¬(¬p ∨ ¬q) (NQ_not_neg_congruence). So poggiolesi_conditions_consistent establishes her theorem on her reading only. Whether (1), (2''), (3), (4''), (5), (6), (7''), (8'') remain consistent when ≈ is also a congruence for single negation (Wilhelm''s reading) is OPEN. INFERENCE - only on her reading does the repair answer Wilhelm by changing what ≈ expresses; neither text says so. F10 is unaffected by the choice (it holds for every E containing ≅).'
             - point: Leibniz's law
               chosen: substitution into the grounded place (RESP_R), with reflexivity and symmetry
               alternatives: ['substitution into both places (RESP_Q, used by wilhelm_inconsistency)', 'full Leibniz over L, which yields symmetry from reflexivity']
