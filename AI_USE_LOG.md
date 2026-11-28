@@ -611,3 +611,8 @@ AI-use disclosure. One entry per working session.
 - Checks: isabelle build (Ground_Map_Checks) passes; scripts/check_no_sorry.sh; registry
   parses; scripts/verify_models.py; scripts/summarize.py.
 - Human review: pending.
+- Addendum (same day): at the reviewer's request ("run the test") tested Poggiolesi's
+  repaired conditions with ≈ read as identity of propositions (congruence for single
+  negation). Result: inconsistent - finding F26, theorem poggiolesi_full_identity and
+  corollary poggiolesi_LEIBNIZ_not_negc in isabelle/Poggiolesi_Checks.thy; hand derivation
+  first, then Isabelle2026 (session builds). Novelty not claimed.

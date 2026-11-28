@@ -13,11 +13,12 @@
 # not adopted (proposed.GEN.RULES). Version 0.8.0-draft integrates Korbmacher
 # 2018b (decision D10; findings F20-F23). Version 0.9.0-draft records the
 # reading of Wilhelm 2021 (no decision, no finding; proposed.WP). Version 0.9.1-draft records an
-# inconsistency among Korbmacher 2018b's printed results (finding F25). Reviewer
+# inconsistency among Korbmacher 2018b's printed results (finding F25). Version
+# 0.9.2-draft adds finding F26 (Poggiolesi's repair under full identity). Reviewer
 # decisions are recorded in the section `decisions`; choices made while
 # applying a decision are listed under `choices_made_in_applying_it`.
 
-registry_version: 0.9.1-draft
+registry_version: 0.9.2-draft
 date: 2026-11-28
 status: draft-for-review
 decisions:
@@ -162,6 +163,10 @@ decisions:
       - P.DONALDSON.SP uses BETA.GROUND as the registry's predication-grounding rule; the circle goes through the instance app f_em s rather than through a λ-abstract applied to an individual, which the signature lacks. FLAGGED as a reconstruction.
       - TR.PART.A is added to driver.py ENTRIES (not LAMB); the search was not rerun.
 changelog:
+  - version: 0.9.2-draft
+    date: 2026-11-28
+    changes:
+      - Finding F26 (requested by the reviewer 2026-11-28, "run the test") - with ≈ read as identity of propositions (a congruence for single negation), Poggiolesi's repaired conditions (1), (5), (6), (7′), (8′) are inconsistent; theorem poggiolesi_full_identity and corollary poggiolesi_LEIBNIZ_not_negc in isabelle/Poggiolesi_Checks.thy. The reading of ≈ in proposed.WP now cites it. No decision, no entry changed.
   - version: 0.9.1-draft
     date: 2026-11-28
     changes:
@@ -2763,7 +2768,7 @@ proposed:
             - point: what ≈ expresses
               chosen: 'none - FLAGGED, the reviewer''s choice. The formula-level checks take ≈ as an arbitrary relation Q (reflexive, symmetric, respected by ground) and so hold on either reading; wilhelm_prp takes it as = on prp, which is Wilhelm''s reading.'
               alternatives: ['identity of propositions - "intuitively, ''x ≈ y'' says that x and y are the same proposition" (wilhelm2021 p. 1); his language L has ¬, ∧, ∨ and states no restriction on nesting ≈ or →', '"ground-propositional identity" - "intuitively, A ≈ B says that A and B are the same proposition from a grounding perspective" - with ⊲ and ≈ not "in the scope of themselves or each other" (poggiolesi2022 pp. 1-2)']
-              why: 'The readings differ in what substitution ≈ licenses. On Wilhelm''s, identical propositions have identical negations (A ≈ B gives ¬A ≈ ¬B). Poggiolesi restricts Leibniz''s law to the (¬)²ⁿ/star reformulation (p. 4) and bars nesting, and the normal-form model that certifies her theorem identifies ¬(p ∧ q) with ¬p ∨ ¬q but not ¬¬(p ∧ q) with ¬(¬p ∨ ¬q) (NQ_not_neg_congruence). So poggiolesi_conditions_consistent establishes her theorem on her reading only. Whether (1), (2''), (3), (4''), (5), (6), (7''), (8'') remain consistent when ≈ is also a congruence for single negation (Wilhelm''s reading) is OPEN. INFERENCE - only on her reading does the repair answer Wilhelm by changing what ≈ expresses; neither text says so. F10 is unaffected by the choice (it holds for every E containing ≅).'
+              why: 'The readings differ in what substitution ≈ licenses. On Wilhelm''s, identical propositions have identical negations (A ≈ B gives ¬A ≈ ¬B). Poggiolesi restricts Leibniz''s law to the (¬)²ⁿ/star reformulation (p. 4) and bars nesting, and the normal-form model that certifies her theorem identifies ¬(p ∧ q) with ¬p ∨ ¬q but not ¬¬(p ∧ q) with ¬(¬p ∨ ¬q) (NQ_not_neg_congruence). So poggiolesi_conditions_consistent establishes her theorem on her reading only. On Wilhelm''s reading the repaired conditions are inconsistent - (1), (5), (6), (7''), (8'') with ≈ an equivalence that is a congruence for single negation and that ground respects in the grounded place (poggiolesi_full_identity; finding F26). So her repair succeeds only on her reading. F10 is unaffected by the choice (it holds for every E containing ≅).'
             - point: Leibniz's law
               chosen: substitution into the grounded place (RESP_R), with reflexivity and symmetry
               alternatives: ['substitution into both places (RESP_Q, used by wilhelm_inconsistency)', 'full Leibniz over L, which yields symmetry from reflexivity']
@@ -3465,6 +3470,38 @@ findings:
       L_<1 has no ground in Korbmacher's theory; the registry's model MK has its cost at the same
       place (MK_neg_tr_grounds). What would settle it - a correction, Korbmacher's 2016 dissertation
       ch. 2 (not read), or the author.
+
+  - id: F26
+    date: 2026-11-28
+    status: checked; pending review (0.9.2-draft)
+    claim: >-
+      Read with Wilhelm's identity of propositions - so that identical propositions have
+      identical negations - Poggiolesi's repaired conditions are inconsistent. Conditions
+      (1), (5), (6), (7′), (8′) of poggiolesi2022 pp. 2-3 are jointly inconsistent for every
+      ground relation and identity relation such that identity is an equivalence, is a
+      congruence for single negation, and is respected by ground in the grounded place.
+      Neither (2′) nor (4′), the conditions she revised, is used.
+    proof: >-
+      isabelle/Poggiolesi_Checks.thy - poggiolesi_full_identity; corollary
+      poggiolesi_LEIBNIZ_not_negc (every interpretation satisfying her conditions with the
+      registry's LEIBNIZ reading fails negation congruence). Derivation - by (7′) with
+      A = B = p, p ∧ p ≈ ¬(¬p ∨ ¬p); by (8′) with A = B = ¬p (so A* = p), ¬p ∨ ¬p ≈ ¬(p ∧ p);
+      by negation congruence ¬(¬p ∨ ¬p) ≈ ¬¬(p ∧ p), so p ∧ p ≈ ¬¬(p ∧ p); by (5), p ∧ p
+      grounds ¬¬(p ∧ p), hence grounds itself; by (1), p ∧ p ≈ p; by (1), p grounds p ∧ p,
+      hence p grounds p, against (6).
+    consequence: >-
+      The two readings of ≈ (proposed.WP) give different verdicts on her theorem. On her
+      reading, with Leibniz's law restricted to the (¬)²ⁿ/star reformulation (p. 4), the
+      conditions are consistent (poggiolesi_conditions_consistent; its identity is not a
+      negation congruence, NQ_not_neg_congruence). On Wilhelm's reading they are not. So the
+      repair answers Wilhelm's dilemma only by weakening what ≈ expresses; revising (2) and
+      (4) does not by itself remove the inconsistency, because (7′) and (8′) with negation
+      congruence put a truth at the same level as its double negation, which is what
+      Wilhelm's derivation exploits. Independent of F10. LIMITS - formula level only; the
+      registry's prp signature has no star operation. The derivation needs (6) only for one
+      true atom. NOVELTY - not claimed. Not found in the sources read (poggiolesi2022,
+      wilhelm2021; litland2022 at summary level only, and it predates Poggiolesi); the
+      literature check of 2026-11-27 found no reply to Poggiolesi. A fuller search is open.
 
 # ---------------------------------------------------------------------------
 # Bibliography and access status
