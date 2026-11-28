@@ -49,39 +49,39 @@ Caveat from the registry: Russell_Checks and Fine_Checks use the pre-D3 encoding
 | `ASYM.P`, `CL.PROP`, `ID.DN`, `NEG.DN` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `CL.PROP`, `ID.DN`, `IRR.F`, `NEG.DN` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `CL.QUANT`, `DISJ.WEAK`, `ID.AC`, `IRR.F` | refuted | yes (`isabelle/Results_Refutations.thy`) |
-| `ASYM.P`, `EMPTY.SOME`, `ID.DN`, `NEG.DN` | refuted at N1; without N1 unknown | no |
-| `EMPTY.SOME`, `IRR.F`, `TR.PART`, `TS.ID` | refuted | no |
-| `CL.QUANT`, `ID.DN`, `IRR.F`, `NEG.DN` | refuted at N1; without N1 unknown | no |
-| `ASYM.P`, `CL.QUANT`, `TR.FULL`, `TS.ID` | refuted | no |
-| `ASYM.P`, `EMPTY.SOME`, `TR.PART`, `TS.ID` | refuted | no |
-| `ASYM.P`, `ID.DN`, `NEG.DN`, `TS.ID` | refuted at N1; without N1 unknown | no |
+| `ASYM.P`, `EMPTY.SOME`, `ID.DN`, `NEG.DN` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `EMPTY.SOME`, `IRR.F`, `TR.PART`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `CL.QUANT`, `ID.DN`, `IRR.F`, `NEG.DN` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `CL.QUANT`, `TR.FULL`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `EMPTY.SOME`, `TR.PART`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `ID.DN`, `NEG.DN`, `TS.ID` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
 | `CL.PROP`, `IRR.F`, `TR.NEG`, `TRANS.CUT`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `CL.QUANT`, `IRR.F`, `NEG.DN`, `TR.NEG`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `BETA.ID`, `C1`, `CL.QUANT`, `EX.PART`, `IRR.F` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `ASYM.P`, `EMPTY.NONE`, `ID.DN`, `NEG.DN`, `TRANS.CUT` | refuted at N1; model at N0 verified | yes (`isabelle/Results_Refutations.thy`) |
 | `BETA.ID`, `CL.QUANT`, `EX.PART`, `IRR.F`, `W.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
-| `ASYM.P`, `EMPTY.SOME`, `ID.DN`, `NEG.DN`, `TS.ID` | refuted | no |
-| `CL.QUANT`, `ID.DN`, `IRR.F`, `TR.NEG`, `TS.ID` | refuted | no |
-| `CL.QUANT`, `ID.DN`, `IRR.F`, `NEG.DN`, `TS.ID` | refuted | no |
-| `CL.PROP`, `EX.FULL`, `IRR.F`, `TR.NEG`, `TS.ID` | refuted at N1; without N1 unknown | no |
-| `CL.PROP`, `EMPTY.NONE`, `IRR.F`, `TR.NEG`, `TS.ID` | refuted | no |
+| `ASYM.P`, `EMPTY.SOME`, `ID.DN`, `NEG.DN`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `CL.QUANT`, `ID.DN`, `IRR.F`, `TR.NEG`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `CL.QUANT`, `ID.DN`, `IRR.F`, `NEG.DN`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `CL.PROP`, `EX.FULL`, `IRR.F`, `TR.NEG`, `TS.ID` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `CL.PROP`, `EMPTY.NONE`, `IRR.F`, `TR.NEG`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `ASYM.P`, `BETA.ID`, `CL.QUANT`, `EX.PART`, `IRR.W`, `W.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
-| `CL.QUANT`, `DISJ.ONE`, `ID.DN`, `IRR.F`, `NEG.DN`, `TR.NEG` | refuted | no |
-| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TR.PART`, `TRANS.CUT` | refuted at N1; without N1 unknown | no |
-| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TRANS.CUT`, `TS.FULL` | refuted at N1; without N1 unknown | no |
-| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TR.PART`, `TS.FULL` | refuted at N1; without N1 unknown | no |
-| `ID.AC`, `ID.DN`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.PART`, `TS.ID` | refuted at N1; without N1 unknown | no |
-| `BETA.ID`, `C2`, `CL.PROP`, `CL.QUANT`, `DISJ.PART`, `EX.PART`, `IRR.F`, `TRANS.P` | refuted | no |
-| `C3s`, `DISJ.WEAK`, `EMPTY.SOME`, `EX.PART`, `EX.WEAK`, `IRR.F`, `TR.PART`, `TRANS.CUT` | refuted | no |
-| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TR.PART`, `TRANS.CUT`, `TS.FULL` | refuted | no |
+| `CL.QUANT`, `DISJ.ONE`, `ID.DN`, `IRR.F`, `NEG.DN`, `TR.NEG` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TR.PART`, `TRANS.CUT` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TRANS.CUT`, `TS.FULL` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TR.PART`, `TS.FULL` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `ID.AC`, `ID.DN`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.PART`, `TS.ID` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `BETA.ID`, `C2`, `CL.PROP`, `CL.QUANT`, `DISJ.PART`, `EX.PART`, `IRR.F`, `TRANS.P` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `C3s`, `DISJ.WEAK`, `EMPTY.SOME`, `EX.PART`, `EX.WEAK`, `IRR.F`, `TR.PART`, `TRANS.CUT` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TR.PART`, `TRANS.CUT`, `TS.FULL` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `ASYM.P`, `BETA.ID`, `C2`, `CL.PROP`, `CL.QUANT`, `DISJ.PART`, `EX.PART`, `IRR.W`, `TRANS.P` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `CONJ.GRAIN`, `DISJ.BOTH`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `ID.DN`, `IRR.F`, `NEG.DN`, `TR.FULL`, `TRANS.CUT` | refuted at N1; model at N0 verified | yes (`isabelle/Results_Refutations.thy`) |
-| `CONJ.GRAIN`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `FIN.FIN`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `TR.NEG`, `TRANS.CUT`, `TS.ID` | refuted at N1; model at N0 verified | no |
-| `CONJ.GRAIN`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `FIN.FIN`, `ID.AC`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `TRANS.CUT`, `TS.ID` | refuted at N1; model at N0 verified | no |
-| `CONJ.GRAIN`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `NEG.DN`, `TRANS.CUT`, `TS.ID` | refuted at N1; model at N0 verified | no |
-| `C3s`, `DISJ.WEAK`, `EX.PART`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.NEG`, `TR.PART`, `TRANS.CUT`, `TS.FULL` | refuted at N1; without N1 unknown | no |
-| `C3s`, `DISJ.WEAK`, `EMPTY.SOME`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.NEG`, `TR.PART`, `TRANS.CUT`, `TS.FULL` | refuted at N1; without N1 unknown | no |
-| `ASYM.P`, `DISJ.BOTH`, `DISJ.PART`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `ID.AC`, `IMM.CONJ`, `IRR.MEM`, `NEG.DM`, `NEG.DN`, `TR.FULL`, `TR.NEG`, `TRANS.P`, `TS.ID` | refuted at N1; without N1 unknown | no |
+| `CONJ.GRAIN`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `FIN.FIN`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `TR.NEG`, `TRANS.CUT`, `TS.ID` | refuted at N1; model at N0 verified | yes (`isabelle/Results_Refutations.thy`) |
+| `CONJ.GRAIN`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `FIN.FIN`, `ID.AC`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `TRANS.CUT`, `TS.ID` | refuted at N1; model at N0 verified | yes (`isabelle/Results_Refutations.thy`) |
+| `CONJ.GRAIN`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `NEG.DN`, `TRANS.CUT`, `TS.ID` | refuted at N1; model at N0 verified | yes (`isabelle/Results_Refutations.thy`) |
+| `C3s`, `DISJ.WEAK`, `EX.PART`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.NEG`, `TR.PART`, `TRANS.CUT`, `TS.FULL` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `C3s`, `DISJ.WEAK`, `EMPTY.SOME`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.NEG`, `TR.PART`, `TRANS.CUT`, `TS.FULL` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `DISJ.BOTH`, `DISJ.PART`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `ID.AC`, `IMM.CONJ`, `IRR.MEM`, `NEG.DM`, `NEG.DN`, `TR.FULL`, `TR.NEG`, `TRANS.P`, `TS.ID` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
 
 ## 3. Search: largest packages with verified finite models
 
