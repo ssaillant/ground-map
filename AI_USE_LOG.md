@@ -539,3 +539,13 @@ AI-use disclosure. One entry per working session.
   of ground was found; five bibliography titles are recorded as leads, not read.
 - Checks: registry parses; scripts/verify_models.py; scripts/summarize.py. No Isabelle change.
 - Human review: pending.
+
+## 2026-11-28 — SEP "Metaphysical Grounding" read
+
+- Tool: Claude Code (cloud session), same thread. Model: to be filled in by the reviewer.
+- Prompt: the reviewer asked for the SEP entry on grounding to be read next.
+- What the model did: had the fetch subagent read the whole entry verbatim; added the
+  bibliography entry sep_grounding, addendum A7 of docs/korbmacher-2018b.md, and the entry to
+  F9's not-read note. No principle, target or finding changed.
+- Checks: registry parses; scripts/verify_models.py; scripts/summarize.py. No Isabelle change.
+- Human review: pending.
