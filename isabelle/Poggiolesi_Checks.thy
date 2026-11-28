@@ -352,6 +352,64 @@ lemma NQ_not_neg_congruence:
   "\<not> NQ (LN (LN (LC (LV 0) (LV 1)))) (LN (LD (LN (LV 0)) (LN (LV 1))))"
   unfolding NQ_def by simp_all
 
+text \<open>Finding F26. On Wilhelm's reading of \<approx> (identity of propositions), identical
+  propositions have identical negations. With that one addition to an equivalence relation
+  that ground respects in the grounded place, the repaired conditions are inconsistent, and
+  the derivation uses neither (2') nor (4'), the conditions Poggiolesi revised:
+  by (7'), p \<and> p \<approx> \<not>(\<not>p \<or> \<not>p); by (8') at \<not>p, \<not>p \<or> \<not>p \<approx> \<not>(p \<and> p), so
+  \<not>(\<not>p \<or> \<not>p) \<approx> \<not>\<not>(p \<and> p) and p \<and> p \<approx> \<not>\<not>(p \<and> p); by (5), p \<and> p grounds itself;
+  by (1), p \<and> p \<approx> p; by (1) again p grounds p \<and> p, hence p.\<close>
+
+definition "EQUIV_Q Q \<longleftrightarrow> (\<forall>a. Q a a) \<and> (\<forall>a b. Q a b \<longrightarrow> Q b a) \<and> (\<forall>a b c. Q a b \<and> Q b c \<longrightarrow> Q a c)"
+definition "NEGC_Q Q \<longleftrightarrow> (\<forall>a b. Q a b \<longrightarrow> Q (LN a) (LN b))"
+
+theorem poggiolesi_full_identity:
+  assumes "W1 e R Q" "W5 e R Q" "W6 e R" "P7 Q" "P8 Q"
+      and "EQUIV_Q Q" "NEGC_Q Q" "RESP_R R Q"
+  shows False
+proof -
+  obtain n where n: "e n" "\<not> R (LV n) (LV n)" using assms(3) unfolding W6_def by blast
+  let ?p = "LV n"
+  have refl: "\<forall>a. Q a a" and sym: "\<forall>a b. Q a b \<longrightarrow> Q b a"
+    and trans: "\<forall>a b c. Q a b \<and> Q b c \<longrightarrow> Q a c"
+    using assms(6) unfolding EQUIV_Q_def by blast+
+  have q7: "Q (LC ?p ?p) (LN (LD (LN ?p) (LN ?p)))"
+    using assms(4) unfolding P7_def by (metis star.simps(5,7))
+  have q8: "Q (LD (LN ?p) (LN ?p)) (LN (LC ?p ?p))"
+    using assms(5) unfolding P8_def by (metis star.simps(2,6))
+  have qn: "Q (LN (LD (LN ?p) (LN ?p))) (LN (LN (LC ?p ?p)))"
+    using assms(7) q8 unfolding NEGC_Q_def by blast
+  have qdn: "Q (LN (LN (LC ?p ?p))) (LC ?p ?p)" using q7 qn trans sym by blast
+  have "R (LC ?p ?p) (LN (LN (LC ?p ?p)))" using assms(2) n(1) refl unfolding W5_def by simp
+  hence "R (LC ?p ?p) (LC ?p ?p)" using assms(8) qdn unfolding RESP_R_def by blast
+  hence "Q (LC ?p ?p) ?p" using assms(1) unfolding W1_def by blast
+  moreover have "R ?p (LC ?p ?p)" using assms(1) n(1) refl unfolding W1_def by simp
+  ultimately have "R ?p ?p" using assms(8) unfolding RESP_R_def by blast
+  with n(2) show False by blast
+qed
+
+text \<open>Her Leibniz reading is consistent with the conditions (poggiolesi_conditions_consistent);
+  adding negation congruence is what fails. EQUIV_Q is part of LEIBNIZ.\<close>
+
+lemma LEIBNIZ_EQUIV_RESP: "LEIBNIZ e R Q \<Longrightarrow> EQUIV_Q Q \<and> RESP_R R Q"
+proof -
+  assume L: "LEIBNIZ e R Q"
+  then have refl: "\<forall>a. Q a a" and sym: "\<forall>a b. Q a b \<longrightarrow> Q b a"
+    and trans: "\<forall>a b c. Q a b \<and> Q b c \<longrightarrow> Q a c" and resp: "RESP_Q R Q"
+    unfolding LEIBNIZ_def by blast+
+  have "EQUIV_Q Q" unfolding EQUIV_Q_def using refl sym trans by blast
+  moreover have "RESP_R R Q" unfolding RESP_R_def
+  proof (intro allI impI)
+    fix a b b' assume "Q b b'" "R a b"
+    with resp refl show "R a b'" unfolding RESP_Q_def by blast
+  qed
+  ultimately show ?thesis by blast
+qed
+
+corollary poggiolesi_LEIBNIZ_not_negc:
+  "W1 e R Q \<Longrightarrow> W5 e R Q \<Longrightarrow> W6 e R \<Longrightarrow> P7 Q \<Longrightarrow> P8 Q \<Longrightarrow> LEIBNIZ e R Q \<Longrightarrow> \<not> NEGC_Q Q"
+  using poggiolesi_full_identity[of e R Q] LEIBNIZ_EQUIV_RESP[of e R Q] by fast
+
 text \<open>The normal-form interpretation is also factive and irreflexive: every ground is
   true, and no formula is an immediate ground of anything with the same normal form.\<close>
 
