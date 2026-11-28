@@ -65,6 +65,35 @@ definition CONJ_BIN_K :: bool where
   "CONJ_BIN_K \<longleftrightarrow> (\<forall>p q. T p \<and> T q \<longrightarrow> G {p, q} (conj p q))"
 definition TS_T3_K :: bool where
   "TS_T3_K \<longleftrightarrow> (\<forall>a v. \<not> tfree a \<and> fv a = {} \<longrightarrow> \<not> T (tr (den v a)))"
+
+text \<open>The Aristotelian principle with the antecedent of the sources. Fine's Propositional
+  Grounding (fine2010 p. 101) and Kr\"amer's (A) ("If <p> is true then p \<prec> <p> is true",
+  kramer2013) and Korbmacher's APT (korbmacher2018b p. 198) all have the truth of the truth
+  ascription as antecedent. The registry's TR.PART and TR.FULL have T p instead (reading
+  "antecedent" on TR.PART). Defined here for finding F20; not a registry entry.\<close>
+definition TR_PART_A :: bool where
+  "TR_PART_A \<longleftrightarrow> (\<forall>p. T (tr p) \<longrightarrow> PG p (tr p))"
+definition TR_FULL_A :: bool where
+  "TR_FULL_A \<longleftrightarrow> (\<forall>p. T (tr p) \<longrightarrow> G {p} (tr p))"
+
+text \<open>With FACT the registry's TR.PART yields truth introduction, the half of TS.FULL that
+  the old target proofs used. Under TS.FULL the two antecedents coincide.\<close>
+lemma TR_PART_TI: "FACT \<Longrightarrow> TR_PART \<Longrightarrow> T p \<Longrightarrow> T (tr p)"
+  unfolding FACT_def TR_PART_def PG_def by blast
+
+lemma TR_PART_A_iff: "TS_FULL' \<Longrightarrow> TR_PART_A \<longleftrightarrow> TR_PART"
+  unfolding TS_FULL'_def TR_PART_A_def TR_PART_def by blast
+
+lemma TR_FULL_A_PART_A: "TR_FULL_A \<Longrightarrow> TR_PART_A"
+  unfolding TR_FULL_A_def TR_PART_A_def PG_def by blast
+
+text \<open>The partial entries from the full ones, restated in the locale (cf. Order.thy).\<close>
+lemma EX_FULL_PART_K: "EX_FULL \<Longrightarrow> EX_PART"
+  unfolding EX_FULL_def EX_PART_def PG_def by blast
+lemma ALL_INST_PART_K: "ALL_INST \<Longrightarrow> ALL_PART"
+  unfolding ALL_INST_def ALL_PART_def PG_def inst_def by blast
+lemma DISJ_ONE_PART_K: "DISJ_ONE \<Longrightarrow> DISJ_PART"
+  unfolding DISJ_ONE_def DISJ_PART_def PG_def by blast
 end
 
 lemma K_faithful_korb:
@@ -379,6 +408,17 @@ lemma MK_neg_tr_grounds:
   "MK.PG (ngT (trK (allqK MK.f_tem))) (allqK MK.f_tem)"
   by (simp_all add: MK_wit quant_valK trK_def ngT_def djT_def up_def MK_PG lt_def)
 
+text \<open>MK satisfies the Aristotelian principle in the sources' form, for every
+  proposition: a true truth ascription is true of a true lower-tier proposition, which
+  lies below it. So the truth targets with TR.PART in that form and without TS.FULL are
+  modelled (finding F20), and Korbmacher's solution keeps his APT at level 1 unrestricted.\<close>
+lemma MK_TR_A: "MK.TR_FULL_A" "MK.TR_PART_A"
+proof -
+  show "MK.TR_FULL_A"
+    by (auto simp: MK.TR_FULL_A_def trK_def GK_def lt_def)
+  thus "MK.TR_PART_A" by (rule MK.TR_FULL_A_PART_A)
+qed
+
 lemma MK_fails: "\<not> MK.TS_FULL'" "\<not> MK.TR_PART"
 proof -
   show "\<not> MK.TS_FULL'"
@@ -415,6 +455,17 @@ proof -
   show ?thesis using i
     by (simp add: MK_wit wit_appK quant_valK GK_def trK_def lt_def djT_def cjT_def ngT_def up_def)
 qed
+
+text \<open>Finding F20, caveat. The three truth targets with the Aristotelian principle in
+  the sources' form (TR.PART.A for TR.PART) and without TS.FULL hold together in MK: the
+  entries of P.FINE.PARTICULAR, P.FINE.UNIVERSAL and P.FINE.PARTICULAR.PROPS, so read.\<close>
+theorem MK_truth_targets_source_form:
+  "MK.W_TR \<and> MK.W_TEM \<and> MK.BETA_ID \<and> MK.CL_PROP' \<and> MK.CL_QUANT'
+   \<and> MK.TR_PART_A \<and> MK.EX_PART \<and> MK.ALL_PART \<and> MK.DISJ_PART
+   \<and> MK.TRANS_P \<and> MK.IRR_F \<and> MK.ASYM_P \<and> \<not> MK.TS_FULL'"
+  using MK_W MK_BETA_ID MK_classical MK_TR_A(2) MK.EX_FULL_PART_K[OF MK_quant(1)]
+    MK.ALL_INST_PART_K[OF MK_quant(2)] MK.DISJ_ONE_PART_K[OF MK_conn(1)] MK_order MK_fails(1)
+  by blast
 
 theorem MK_package:
   "MK.FACT \<and> MK.LAM_CORE \<and> MK.W_TR \<and> MK.W_TEM \<and> MK.BETA_ID \<and> MK.CL_PROP' \<and> MK.CL_QUANT'

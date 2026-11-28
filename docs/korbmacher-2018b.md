@@ -130,3 +130,57 @@ The same Lemma 3 instance together with RP11 (p. 208, printed without restrictio
 6. **Leave as candidates** (out of scope for v1): the full hierarchy (needs an indexed `tr`), the doubly typed theory (needs an indexed ground; it is Korbmacher's conjecture, pp. 224–225), and P.CORREIA.2026 as the scope test of F9.
 
 Tooling note: sections 1–5 were written without running Isabelle. The 0.8.0 theorems were built locally with the pinned Isabelle2026 (session Ground_Map_Checks) and are checked by the PR's CI.
+
+---
+
+## Addendum, 2026-11-28: Krämer 2013, Donaldson (draft), Litland 2015
+
+The reviewer supplied three sources that §2 listed as unread. They are now in `sources/`: `Kramer-2013-A-simpler-puzzle-of-ground-Thought-eprint.pdf` (Glasgow eprint, accepted manuscript, no journal pagination), `Donaldson-Metaphysical-Foundations-of-Arithmetic-draft.pdf` (draft, 36 pp., draft pagination), `Litland-2015-Grounding-explanation-limit-of-internality-PhilRev.pdf` (journal pages 481–532). Labels as above.
+
+### A1. What they say about F9's option (PAGE)
+
+- **Krämer 2013** lists rejecting the Aristotelian principle as a known response to the Finean version and credits it to Skiles: "Skiles (ms.) advocates rejecting (A) as well as my assumption (i) from the beginning of the paper" (fn. 6). His point is that this does not reach his own puzzle: "Since none of the other auxiliary assumptions (PE), (TI), (A), and (TG) are used in my argument, rejecting any of these will not by itself help with the latter." F9 agrees: W.ID refutes the typed package (`kramer_W`). His own predicativist option restricts (EG-S) "to cases in which α is free of sentential quantifiers", or uses "a hierarchy of sentential quantifiers". That is EX.PRED and EX.LEV, not a restriction of (A).
+- **Donaldson** (appendix, pp. 25–27) has a second-order analogue of Fine's universal argument. His λ rule is "If ⟨λx: φ(x)⟩t, then [⟨λx : φ(x)⟩t]←[φ(t)]" (p. 25), and his instance is ⟨λx : ∀X(Xx ∨ ¬Xx)⟩a (p. 26). Predication-grounding plays the part that truth-grounding plays for Fine. His "neo-Russellian" solution restricts which properties exist: "⟨λ0x: ∃X1 X1x⟩" does not represent a property (p. 27). He identifies it with Fine's predicativist approach: "I think that when Fine (2010) mentions a 'predicativist' approach to his puzzles, he has something like my neo-Russellian proposal in mind" (endnote xlii, p. 36). That is a restriction of comprehension, which F9 does not make.
+- **Litland 2015 §6.3** (pp. 493–494) is the nearest option found. As a contextualist response, he considers restricting Truth-grounding by type: "φ ≺ T⌜φ⌝ holds only when the truth-property assigned to 'T' is of a 'higher' type than any truth-property assigned to a truth-predicate occurring in φ" (p. 493). He objects that "the contextualist needs to independently motivate the restriction on Truth-grounding", since his scenarios are not paradoxical (p. 494). He then keeps truth untyped.
+  - F9 differs from that option in two ways. It has one untyped truth predicate and an untyped truth schema. Its restriction is also stronger: the truth ascription to a proposition that is not truth-free is never grounded in that proposition, at any level.
+  - INFERENCE: Litland's motivation objection applies to F9 with more force than to the contextualist.
+
+**Effect on the novelty claim.** Giving up (A) is a known response (Skiles, via Krämer). Typed Truth-grounding is a considered response (Litland, Korbmacher). What remains for F9 is specific: (A) restricted to truth-free propositions, together with an untyped truth schema and impredicative quantification, with a machine-checked model. Skiles's manuscript is now the closest unread lead.
+
+### A2. A caveat on F20 found while reading Krämer (CODE, checked)
+
+Krämer's (A) reads "If <p> is true then p ≺ <p> is true", and he needs Truth-Introduction (TI) to reach (F2). Fine's Propositional Grounding (p. 101) and Korbmacher's APT (p. 198) also take the truth of the truth ascription as antecedent. The registry's TR.PART instead has antecedent T p. That reading was already flagged on the entry ("under TS.FULL the two coincide"). With FACT, it entails truth introduction (`TR_PART_TI`), and that is why TS.FULL could be dropped.
+
+With the sources' antecedent, the three truth targets are not refuted without TS.FULL. Model MK satisfies that form of the principle for every proposition, together with every other entry of the three targets, and fails TS.FULL (`MK_TR_A`, `MK_truth_targets_source_form` in `isabelle/Korbmacher_Typed.thy`).
+
+So F20 is restated as follows: TS.FULL is redundant given the registry's TR.PART, which does the work of truth introduction. Litland's Truth-grounding (p. 488, Figure 1, "φ / φ ≺ T⌜φ⌝", partial strict ground) has the registry's antecedent. It is added as a source for TR.PART.
+
+### A3. P.KRAMER checked against the source (PAGE)
+
+The package and derivation match (1)–(2):
+- "∃p p" is "a theorem of any standard logic with sentential quantification".
+- "(1) is a true instance of itself", by the null context of (EG-S).
+- Footnote 4 says the claims "are standardly taken to hold for both partial and complete grounding", so EX.FULL is supported as well as EX.PART.
+
+One locator was corrected (ASYM.P: "paragraph after (F3)/(F4)", not "introduction"). The registry writes "<" for Krämer's "≺".
+
+### A4. Litland 2015 and the registry
+
+- **Internality argument** (pp. 487–491). It is modal ("it is necessary that if f and c both obtain, then f grounds c", p. 481), and it needs contingent self-reference through labels. The v1 signature has no worlds, and the proposed family SR has only fixed self-referential propositions. So no target is proposed for v1. Its non-modal step has the structure of Fine's fn. 15, which Litland cites (p. 488) and the registry checks (`fine_fn15`, F12). The reading is recorded on the candidate P.LITLAND.INTERNALITY.
+- **F11.** Appendix B (pp. 522–532) gives models of strict full immediate ground for Kripke's theory of truth. It covers strong Kleene and supervaluation, with untyped truth and first-order quantifiers in a free logic. Ground comes from spanning forests built in stages (§8.5, pp. 516–517). That is prior art for Kripkean ground with untyped truth.
+  - K1 differs in three ways: it has propositional quantifiers, beta identity and a fixed domain.
+  - It also defines ground by efficient premises rather than by deleting inferences.
+  - INFERENCE: neither construction is a special case of the other. F11's literature note now says this.
+
+### A5. Proposals (not made; for decision)
+
+1. **Target P.DONALDSON.SP (cheap).** This is a propositional transcription of Donaldson's puzzle: the sentence-position universal argument with BETA.GROUND in place of BETA.ID, i.e. [W.EM, BETA.GROUND, CL.PROP, CL.QUANT, ALL.PART, DISJ.PART, TRANS.P, IRR.F]. Expected refuted, by this derivation:
+   - s = all f_em.
+   - app f_em s ≺ s by ALL.PART.
+   - disj s (neg s) fully grounds app f_em s by BETA.GROUND.
+   - s ≺ disj s (neg s) by DISJ.PART.
+   - Transitivity then gives PG s s.
+
+   It records that where predication grounds, as for Donaldson, the circle closes without any truth predicate, so typing TR (F9) does not help. It is a reconstruction, because Donaldson's quantifier ranges over properties of individuals, which the signature lacks.
+2. **Entry TR.PART.A** (the Aristotelian principle with the sources' antecedent, now `TR_PART_A` in Korbmacher_Typed.thy). Making it an entry would turn the F20 caveat into a result about registry packages. The cost is one more entry in the TR family.
+3. **Sources to request:** Skiles (ms.), "Some solutions to some puzzles of ground" (Krämer fn. 6; the closest lead for F9's novelty), and Botticchio 2024 (for F11).

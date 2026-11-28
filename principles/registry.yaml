@@ -158,6 +158,8 @@ changelog:
       - Finding F9 restated - novelty and limits, after the comparison with Korbmacher's theory (finding F23). F11's literature note updated.
       - P.KORBMACHER.2015 gains the published source, korbmacher2018b Theorem 3 (p. 221).
       - Model record MK added to results/isabelle_models.jsonl; docs/results.md regenerated. Report docs/korbmacher-2018b.md.
+      - Merged onto 0.7.0-draft (PR #9) - puzzles.irr_w_tests gains packages_as_of (its packages are the 0.6.0-draft targets, with TS.FULL).
+      - Sources supplied by the reviewer 2026-11-28 and read - kramer2013 (re-read; P.KRAMER checked against it), Donaldson's draft (appendix), litland2015. F9's NOVELTY text records them (Krämer fn. 6 names rejecting (A), after Skiles ms.; Litland sect. 6.3 considers typed Truth-grounding). F20 gains a CAVEAT - TS.FULL is redundant only because TR.PART has antecedent T p; with the sources' antecedent the truth targets are modelled without TS.FULL (MK_truth_targets_source_form, MK_TR_A). F11 records Litland's Kripkean models of strict full ground. litland2015 is a new source for TR.PART; P.LITLAND.INTERNALITY gains its reading of litland2015 (modal, out of the v1 signature).
   - version: 0.7.0-draft
     date: 2026-11-28
     changes:
@@ -650,7 +652,7 @@ families:
           PG p q ⟶ ¬ PG q p
         sources:
           - work: kramer2013
-            locator: introduction, after (F3)/(F4)
+            locator: paragraph after (F3)/(F4)
             check: manuscript
             quote: null
             note: named "the principle that grounding is asymmetric"; Krämer's Finean counterpart (F3)/(F4) violates it directly, without transitivity.
@@ -1654,11 +1656,17 @@ families:
             check: manuscript
             quote: "If <p> is true then p < <p> is true"
             note: Krämer's (A). His "<" is partial ground (his fn. 4).
+          - work: litland2015
+            locator: p. 488, Figure 1 (Principles of full ground), Truth-grounding
+            check: published-page
+            quote: "φ / φ ≺ T⌜φ⌝"
+            note: 'Added 0.8.0, read from the page image. ≺ is partial strict ground and < strict full ground (p. 484). The premise is φ, as in this entry, and his T applies to sentences. P. 494 fn. 30 - "I am not claiming that its being the case that φ is a full ground for T⌜φ⌝"; in appendix B he nevertheless models it as strict full immediate ground (p. 522 fn. 73, "pretty clearly incorrect, unless one assumes a strongly deflationary conception of truth").'
         readings:
           - point: antecedent
             chosen: T p, as in TR.FULL
             alternatives: ['T (tr p), as in Fine and Krämer']
             why: keeps TR independent of TS; under TS.FULL the two coincide. Implied by TR.FULL (TR_FULL_PART).
+            note_0_8_0: 'The choice matters once TS.FULL is dropped - with FACT, the T p antecedent entails truth introduction (TR_PART_TI), and the truth targets without TS.FULL are refuted with it but modelled with the sources'' antecedent (MK_truth_targets_source_form; finding F20). Litland''s Truth-grounding (litland2015 p. 488, Figure 1, "φ / φ ≺ T⌜φ⌝", partial strict ground) has the registry''s antecedent; Fine, Krämer and Korbmacher have the other. The sources'' form is defined as TR_PART_A in isabelle/Korbmacher_Typed.thy, not as a registry entry.'
 
   # 14 -----------------------------------------------------------------------
   - id: EMPTY
@@ -2077,6 +2085,7 @@ puzzles:
       CL.QUANT gives a truth (CL_QUANT_truth), so T (ex f_id); ex f_id is a true
       instance of itself (app f_id (ex f_id) = ex f_id by BETA.ID), so
       PG (ex f_id) (ex f_id), against IRR.F.
+    checked_against_source: '0.8.0 - re-read in full from the Glasgow eprint (accepted manuscript, no journal pagination; sources/Kramer-2013-A-simpler-puzzle-of-ground-Thought-eprint.pdf). The package and derivation match (1)-(2) - (1) "∃p p" is "a theorem of any standard logic with sentential quantification", its being "a true instance of itself" uses the null context of (EG-S), and fn. 4 says the claims "are standardly taken to hold for both partial and complete grounding", so EX.FULL is supported as well as EX.PART. The registry writes "<" for his "≺".'
     note: CORRECTED 0.3.0 (audit) - the derivation said CL.PROP gives the truth, while the package lists no CL.PROP. Krämer's own premise is that ∃p p is a theorem of logic; here the truth comes from CL.QUANT (reading flagged on CL.QUANT). His "<" is partial ground, hence EX.PART.
     witness: f_id (kramer_witness assumes adm f_id in place of C1)
   - id: P.FINE.PARTICULAR
@@ -2432,10 +2441,11 @@ puzzles:
   # Not encoded, not part of the step 3 result; reviewer decides whether to add them.
   candidates:
     - id: P.LITLAND.INTERNALITY
-      source: litland2023 sect. 4.4, p. 12 (variant of litland2015 pp. 489-491, not received)
+      source: litland2023 sect. 4.4, p. 12 (variant of litland2015 pp. 489-491); litland2015 sects. 4-5, pp. 487-491 (read 0.8.0)
       claim_in_source: Irreflexivity (mediate partial), disjunction grounding, restricted "or"-Internality and Aristotle's Principle (T p implies p grounds T p) are jointly inconsistent; fn. 30, the inconsistency persists if T p is identical to p.
       registry_mapping: INFERENCE, unchecked - roughly [IRR.F or IRR.P, DISJ.ONE/DISJ.BOTH, TR.FULL] plus a new INTERNALITY family; Internality has no registry entry yet.
-      status: not encoded
+      litland2015_reading: 'Read 0.8.0. The argument (pp. 489-491) uses Subsumption, Transitivity, Non-circularity, ∧-grounding, Truth-grounding, Weak ∨-grounding and Weak ∃-grounding (Figure 1, p. 488) and two scenarios with contingent self-reference through labels; Internality is modal ("it is necessary that if f and c both obtain, then f grounds c", p. 481). Not encodable in v1 - the signature has no worlds, and the scenarios need contingent self-reference (proposed family SR has only fixed self-referential propositions). The non-modal step, that a disjunct reached back from the disjunction cannot ground it, is the structure of Fine fn. 15 (fine2010 p. 117), which Litland cites (p. 488) and which the registry checks as fine_fn15 (finding F12). The typing response he considers (sect. 6.3) is discussed under F9.'
+      status: not encoded; out of v1 signature (modal)
     - id: P.CORREIA.2026
       source: correia2026 sects. 8-9 (truth-teller/liar puzzles; Cantorian puzzle for immediate ground)
       status: not read in this thread
@@ -2732,7 +2742,7 @@ findings:
     date: 2026-11-28
     claim: "With TR.TYPED in place of TR.PART, each of the three targets that involve truth is consistent: 'something is true' (P.FINE.PARTICULAR, in both versions), Fine's universal argument for propositions (P.FINE.UNIVERSAL) and his particular argument for propositions (P.FINE.PARTICULAR.PROPS). The truth schema stays unrestricted (TS.FULL), and so do the existential and universal entries (EX.FULL, ALL.INST). Two packages have models - [W.ID, W.TR, W.TEM, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, TS.TYPED, TR.TYPED, ALL.INST, ALL.PART, DISJ.ONE, DISJ.PART, TRANS.P, IRR.F, ASYM.P] (model MT) and [W.TR, W.TEM, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, TS.TYPED, TR.TYPED, EX.FULL, EX.PART, ALL.INST, ALL.PART, DISJ.ONE, DISJ.PART, TRANS.P, IRR.F, ASYM.P] (model MU). The three variants are sub-packages of the second."
     proof: "isabelle/Separation_Models.thy - MT_package, MT_W, MT_N3, MT_N4, MT_not_TR_PART; MU_package, MU_N3, MU_N4, MU_not_TR_PART. Both models have N1, N2, N3 instances for their DISJ, ALL, TR and (in MU) EX entries, an N4 pair and a four-step chain. A proposition is a truth value with a rank in one of two tiers; a truth ascription has the lowest rank of the upper tier; an existential or universal proposition has upper-tier rank exactly when its body is not truth-free; a truth grounds every truth of higher rank. In MU 'something is true' is grounded in its own truth ascription, which is one of its instances, and does not ground that ascription (MU_not_TR_PART)."
-    consequence: "What Fine's arguments need beyond Krämer's is the untyped grounding of truth ascriptions: TR.PART applied to a quantified truth whose body contains the truth predicate. Typing that one principle blocks the three arguments, and typing the truth schema is not needed. Krämer's puzzle and the sentence-position universal puzzle mention no truth entry and are untouched: adding W.ID to the second package refutes it (kramer_W), and adding W.EM refutes both (fine_universal_sp_W). So W.ID is compatible with the typed packages only in the absence of an unrestricted existential entry, and W.EM only in the absence of ALL.PART or DISJ.PART. LIMITS - two models of one construction; their propositional functions are closures (a variable, a formula and an environment), not functions on propositions; the rank of a quantified proposition is fixed by the syntax of its body, a stipulation of the models; no CONJ or NEG grounding entry was checked; the falsity version of the argument (P.KORBMACHER.APF, F21) is refuted with the untyped TR.NEG, and no typed falsity entry exists to test. COMPARISON (restated 0.8.0, D10, F23) - F9 is not a case of Korbmacher's typed solution (korbmacher2018b), and neither result implies the other. Korbmacher keeps the Aristotelian principle at every level (APU, p. 207) and makes Tr_1 false of every sentence outside L_0 (T3, p. 204), so Tr_1(∃xTr_1(x)) is no true instance of ∃xTr_1(x) ('the grounds of the truth of ∃xTr_α(x) don't include the truth of ∃xTr_α(x) itself', p. 224). MU keeps TS.FULL, so tr s is a true instance of s = 'something is true', and EX.FULL grounds s in tr s; what fails is the Aristotelian principle for s, since TR.TYPED says nothing about a proposition that is not truth-free. His theory covers more grounding rules (negation, conjunction, the downward axioms) and only partial ground over first-order codes; F9 covers full ground, impredicative propositional quantification with BETA.ID, and an untyped truth schema. The registry transcription of his solution is a different package with its own model (P.KORBMACHER.2018B.TYPED, F22). NOVELTY - not found in the sources read, which is weaker than undefended. Fine sets aside giving up Propositional Grounding ('let us keep these assumptions fixed for the rest of the discussion', fine2010 p. 107); Lovett 2020 sect. 6 (pp. 2549-2552) surveys Fine, Korbmacher, rejecting irreflexivity and Woods, none of which is F9's option, and his own solution weakens both links by a weak-ground condition (p. 2557); Genco, Poggiolesi and Rossi 2021 (pp. 1446-1447) keep the Aristotelian rule. Not read - Krämer 2013 and Donaldson 2016 (predicativist sketches, per korbmacher2018b fn. 7), Litland 2015, Correia 2014, Pleitz 2020, Schnieder (forthcoming), deRosset 2021, Botticchio 2024 (Utrecht MA thesis), Korbmacher's 2016 dissertation ch. 2. COST AND SCOPE (INFERENCE) - in MU the truth ascription to 'something is true' grounds it and is not grounded by it, the reverse of the direction Fine's Aristotle passage (p. 106) and Korbmacher's APU support. Typing TR touches only arguments that run through tr; Correia's operator puzzle (correia2026 p. 2566), with ¬¬ in place of truth, is not blocked by it once λp. ¬¬p is admissible (candidate P.CORREIA.2026, not encoded)."
+    consequence: "What Fine's arguments need beyond Krämer's is the untyped grounding of truth ascriptions: TR.PART applied to a quantified truth whose body contains the truth predicate. Typing that one principle blocks the three arguments, and typing the truth schema is not needed. Krämer's puzzle and the sentence-position universal puzzle mention no truth entry and are untouched: adding W.ID to the second package refutes it (kramer_W), and adding W.EM refutes both (fine_universal_sp_W). So W.ID is compatible with the typed packages only in the absence of an unrestricted existential entry, and W.EM only in the absence of ALL.PART or DISJ.PART. LIMITS - two models of one construction; their propositional functions are closures (a variable, a formula and an environment), not functions on propositions; the rank of a quantified proposition is fixed by the syntax of its body, a stipulation of the models; no CONJ or NEG grounding entry was checked; the falsity version of the argument (P.KORBMACHER.APF, F21) is refuted with the untyped TR.NEG, and no typed falsity entry exists to test. COMPARISON (restated 0.8.0, D10, F23) - F9 is not a case of Korbmacher's typed solution (korbmacher2018b), and neither result implies the other. Korbmacher keeps the Aristotelian principle at every level (APU, p. 207) and makes Tr_1 false of every sentence outside L_0 (T3, p. 204), so Tr_1(∃xTr_1(x)) is no true instance of ∃xTr_1(x) ('the grounds of the truth of ∃xTr_α(x) don't include the truth of ∃xTr_α(x) itself', p. 224). MU keeps TS.FULL, so tr s is a true instance of s = 'something is true', and EX.FULL grounds s in tr s; what fails is the Aristotelian principle for s, since TR.TYPED says nothing about a proposition that is not truth-free. His theory covers more grounding rules (negation, conjunction, the downward axioms) and only partial ground over first-order codes; F9 covers full ground, impredicative propositional quantification with BETA.ID, and an untyped truth schema. The registry transcription of his solution is a different package with its own model (P.KORBMACHER.2018B.TYPED, F22). NOVELTY - not found in the sources read, which is weaker than undefended. Fine sets aside giving up Propositional Grounding ('let us keep these assumptions fixed for the rest of the discussion', fine2010 p. 107); Lovett 2020 sect. 6 (pp. 2549-2552) surveys Fine, Korbmacher, rejecting irreflexivity and Woods, none of which is F9's option, and his own solution weakens both links by a weak-ground condition (p. 2557); Genco, Poggiolesi and Rossi 2021 (pp. 1446-1447) keep the Aristotelian rule. Read 0.8.0, after the reviewer supplied them - (a) Krämer 2013 lists rejecting (A), the Aristotelian principle, as a response to the Finean argument and attributes it to Skiles (ms.) ('Skiles (ms.) advocates rejecting (A) as well as my assumption (i)', kramer2013 fn. 6); he notes that rejecting (A) does not help with his sentential puzzle, which F9 confirms (W.ID refutes the typed package, kramer_W); his own predicativist option restricts existential grounding (EX.PRED, EX.LEV), not (A). So giving up (A) is a known response; what F9 adds is the restricted form (A for truth-free propositions only) with an untyped truth schema and impredicative quantification, and a model. (b) Donaldson (draft, appendix pp. 25-27) blocks the second-order analogue of Fine's universal argument by levels of properties, a restriction on which properties exist ('⟨λ0x: ∃X1 X1x⟩' does not represent a property, p. 27), and identifies Fine's 'predicativist' approach with it (endnote xlii, p. 36); that is a restriction of comprehension, not of truth-grounding. (c) Litland 2015 sect. 6.3 (pp. 493-494) considers restricting Truth-grounding by type - 'φ ≺ T⌜φ⌝ holds only when the truth-property assigned to \"T\" is of a \"higher\" type than any truth-property assigned to a truth-predicate occurring in φ' (p. 493) - as a contextualist response, and objects that 'the contextualist needs to independently motivate the restriction on Truth-grounding', since the scenarios are not paradoxical (p. 494); he keeps truth untyped. This is the nearest option found. F9 differs in having one untyped truth predicate with an untyped truth schema, and in never grounding the truth ascription to a proposition that is not truth-free in that proposition, at any level; Litland's motivation objection applies to it with more force. Not read - Skiles (ms.), 'Some solutions to some puzzles of ground' (cited by Krämer; the closest lead), Correia 2014, Pleitz 2020, Schnieder (forthcoming), deRosset 2021, Botticchio 2024 (Utrecht MA thesis), Korbmacher's 2016 dissertation ch. 2. COST AND SCOPE (INFERENCE) - in MU the truth ascription to 'something is true' grounds it and is not grounded by it, the reverse of the direction Fine's Aristotle passage (p. 106) and Korbmacher's APU support. Typing TR touches only arguments that run through tr; Correia's operator puzzle (correia2026 p. 2566), with ¬¬ in place of truth, is not blocked by it once λp. ¬¬p is admissible (candidate P.CORREIA.2026, not encoded)."
     status: checked
 
   - id: F10
@@ -2809,7 +2819,15 @@ findings:
       methods' beyond its scope (p. 224). Lead, not read - Botticchio 2024, Type-free
       Predicational Theories of Ground (Utrecht MA thesis), which appears to build a
       K3/KF-style model of ground and truth; to be read before K1's position is called
-      new. Not checked - Litland 2015 (Phil. Rev.).
+      new. Litland 2015 (read 0.8.0) - appendix B (pp. 522-532) gives models of strict
+      full immediate ground for Kripke's theory of truth with the strong Kleene and
+      supervaluational schemes, untyped truth, first-order quantifiers in a free logic
+      with an existence predicate, and ground defined from spanning forests of
+      'grounding graphs' built in stages (sect. 8.5, pp. 516-517). That is prior art
+      for Kripkean ground with untyped truth and full ground. K1 differs in having
+      propositional quantifiers, beta identity and a fixed domain, and in defining
+      ground by efficient premises rather than by deleting inferences; INFERENCE,
+      not checked - neither construction is a special case of the other.
     limits: >-
       No self-reference (K1_no_liar: the gap is an atom, not a liar); quantifiers over a fixed
       domain without Fine's existence predicate (proposed.SK readings); bigconj is a gap; strict
@@ -3171,10 +3189,27 @@ findings:
       something_true_trans_noTS, something_true_asym_noTS, fine_universal_noTS,
       fine_particular_props_noTS. The earlier proofs used TS_FULL only to infer T (tr q) from
       T q; TR.PART gives PG q (tr q), and the core clause FACT makes its conclusion true.
+      For the caveat - isabelle/Korbmacher_Typed.thy, TR_PART_TI, TR_PART_A_iff,
+      MK_TR_A, MK_truth_targets_source_form.
     consequence: >-
       Source - Korbmacher's Lemma 1 (korbmacher2018b p. 198, steps 3-4) gets Tr(Tr(0=0)) from
-      0=0 ◁ Tr(0=0) by factivity (G3), not by a T-scheme. So the puzzles need no truth schema
-      at all, only the grounding of truth ascriptions with factivity. F9 is unaffected - its
+      0=0 ◁ Tr(0=0) by factivity (G3), not by a T-scheme. CAVEAT, added 0.8.0 after
+      reading kramer2013 - the result depends on the antecedent of TR.PART. The registry
+      states TR.PART with antecedent T p (reading 'antecedent' on TR.PART), and with FACT
+      that entails truth introduction, T p ⟶ T (tr p) (TR_PART_TI), the half of TS.FULL
+      the old proofs used. Fine's Propositional Grounding (fine2010 p. 101), Krämer's (A)
+      ('If <p> is true then p ≺ <p> is true', which he combines with Truth-Introduction
+      (TI) to reach (F2)) and Korbmacher's APT (korbmacher2018b p. 198) have the truth of
+      the truth ascription as antecedent; Litland's Truth-grounding (litland2015 p. 488,
+      from φ infer φ ≺ T⌜φ⌝, partial strict) has the registry's. With the sources' antecedent the three
+      arguments need truth introduction and are blocked without it - model MK satisfies
+      that form of the principle for every proposition together with the other entries
+      of the three targets, and fails TS.FULL (MK_truth_targets_source_form, MK_TR_A,
+      isabelle/Korbmacher_Typed.thy). So the accurate statement is that TS.FULL is
+      redundant given the registry's TR.PART, which already does the work of truth
+      introduction. Korbmacher's Lemma 1 needs a T-scheme only for the truth-free 0=0,
+      because in a predicational theory factivity yields the truth ascriptions of
+      grounded sentences. F9 is unaffected - its
       models satisfy TS.FULL, so they also model the smaller packages' typed variants. Every
       refutation proved for the old packages still holds; only the targets' listed packages
       shrink. INTERACTION - the IRR.W tests (puzzles.irr_w_tests, 0.7.0-draft) copy the
@@ -3219,7 +3254,11 @@ findings:
       theory of partial ground; MK shows that the registry's version of his strategy also
       survives propositional quantification, BETA.ID and full ground, which his proof does
       not cover. In MK "something is true" is not grounded in its own truth ascription,
-      which is untrue (MK_blocks). COST - the untruth of a truth ascription helps ground a
+      which is untrue (MK_blocks). In the sources' form of the Aristotelian principle,
+      with the truth of the truth ascription as antecedent, MK satisfies it for every
+      proposition (MK_TR_A) - the transcription keeps APT^1 unrestricted, as Korbmacher
+      does, and gives up truth introduction for propositions that are not truth-free.
+      COST - the untruth of a truth ascription helps ground a
       truth - with s the universal closure of f_tem, neg (tr s) grounds tr s ∨ ¬tr s, which
       grounds s (MK_neg_tr_grounds). Fine 2010 p. 104 rejects that in his principle (*).
       INFERENCE, not checked - Korbmacher's own standard model (p. 214) appears to share the
@@ -3240,7 +3279,8 @@ findings:
       Comparison, not a theorem. Machine-checked parts - MU satisfies TS.FULL and fails
       TR.PART (MU_package, MU_not_TR_PART); MK satisfies TS.T3 and fails TS.FULL (MK_package,
       MK_fails); TS.T3 and TS.FULL are jointly inconsistent given CL.QUANT, BETA.ID and
-      LAM_CORE (TS_T3_not_FULL). Textual parts - korbmacher2018b pp. 204, 207, 224.
+      LAM_CORE (TS_T3_not_FULL); MK satisfies the Aristotelian principle with the sources'
+      antecedent for every proposition (MK_TR_A). Textual parts - korbmacher2018b pp. 204, 207, 224.
     consequence: >-
       Recorded in F9's COMPARISON and NOVELTY text. The registry's TS chain had no entry for
       Korbmacher's position; TS.T3 supplies it, outside the chain. Report -
@@ -3270,6 +3310,16 @@ bibliography:
     cite: "Ditter, A. The reduction of necessity to essence. Mind (penultimate draft, June 2019)"
     read: 'supplied 2026-11-27; abstract only'
     relevance: 'inconsistency in Fine''s logic of essence E5 plus a principle about the nature of all objects; essence, not ground; outside v1 scope'
+  litland2015:
+    cite: "Litland, J. E. (2015). Grounding, Explanation, and the Limit of Internality. Philosophical Review 124(4): 481-532. doi:10.1215/00318108-3147011"
+    read: 'published version supplied by the reviewer 2026-11-28 (sources/Litland-2015-Grounding-explanation-limit-of-internality-PhilRev.pdf); sects. 1-9 read, appendix B read in part (pp. 522-523); journal pages; Figure 1 read from the page image'
+    relevance: 'source for TR.PART (Truth-grounding, p. 488, partial strict); P.LITLAND.INTERNALITY (pp. 487-491); typed Truth-grounding as a response, sect. 6.3 pp. 493-494 (F9 novelty); Kripkean models of strict full ground, appendix B and sect. 8.5 (F11)'
+    needed_from_reviewer: false
+  donaldson_arith:
+    cite: "Donaldson, T. The (Metaphysical) Foundations of Arithmetic? (draft; published version not checked)"
+    read: 'draft supplied by the reviewer 2026-11-28 (sources/Donaldson-Metaphysical-Foundations-of-Arithmetic-draft.pdf, 36 pp., draft pagination); appendix (pp. 25-27) and endnotes xl-xliv (p. 36) read; main text not read'
+    relevance: 'the "puzzle of property grounding" (p. 26), a second-order analogue of Fine''s universal argument with λ-conversion grounding in place of truth-grounding, and its neo-Russellian solution by levels of properties (pp. 26-27); F9 novelty. Not encoded - the signature has no quantification over propositional functions; see the proposal in docs/korbmacher-2018b.md, addendum'
+    needed_from_reviewer: 'published version (venue and pages), only if the appendix is cited'
   litland2023:
     cite: "Litland, J. E. (2023). Ground first: against the proof-theoretic definition of ground. Synthese 201: 28. doi:10.1007/s11229-022-04028-8"
     read: published version supplied by reviewer 2026-11-27; sect. 4.4 read
@@ -3311,7 +3361,7 @@ bibliography:
     needed_from_reviewer: false
   kramer2013:
     cite: "Krämer, S. (2013). A Simpler Puzzle of Ground. Thought 2(2): 85–89. doi:10.1002/tht3.77"
-    read: accepted manuscript (eprints.gla.ac.uk/140561), full text
+    read: 'accepted manuscript (eprints.gla.ac.uk/140561), full text; re-read in full 2026-11-28 from the copy supplied by the reviewer (sources/Kramer-2013-A-simpler-puzzle-of-ground-Thought-eprint.pdf), which has no journal pagination'
     access: open (AM); published pagination not verified.
     needed_from_reviewer: published version, for page numbers only
   correia2014:

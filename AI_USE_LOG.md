@@ -483,3 +483,21 @@ AI-use disclosure. One entry per working session.
 - Checks: full session build with the pinned Isabelle2026; scripts/check_no_sorry.sh;
   scripts/verify_models.py; scripts/summarize.py regenerates docs/results.md.
 - Human review: pending.
+
+## 2026-11-28 — Krämer 2013, Donaldson (draft), Litland 2015 against F9; merge of PR #9
+
+- Tool: Claude Code (cloud session), same thread as the Korbmacher 2018b entry. Model: to be
+  filled in by the reviewer.
+- Prompt: the coordinator relayed the reviewer's upload of the three sources ("a few more")
+  with the request to read them against F9/F23, update the novelty statement in PR #10,
+  check P.KRAMER against Krämer 2013, and propose a target for Litland's argument if one is
+  warranted.
+- What the model did: merged main (PR #9) into the branch and resolved the conflicts;
+  read the three sources (Litland's Figure 1 and Donaldson's appendix from page images);
+  added TR_PART_A, TR_PART_TI, MK_TR_A and MK_truth_targets_source_form
+  (isabelle/Korbmacher_Typed.thy), which qualify finding F20; edited F9, F11, F20, F22,
+  F23, TR.PART, TR.FULL, P.KRAMER, P.LITLAND.INTERNALITY and the bibliography; wrote the
+  addendum to docs/korbmacher-2018b.md. Proposals there are not implemented.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py;
+  scripts/summarize.py; scripts/woods_report.py after the merge.
+- Human review: pending.
