@@ -382,6 +382,69 @@ AI-use disclosure. One entry per working session.
   scripts/summarize.py regenerates docs/results.md.
 - Human review: pending.
 
+## 2026-11-28 — Woods's substantive irreflexivity against the Krämer and Fine targets (registry 0.7.0-draft)
+
+- Tool and model as above (Claude Code, cloud session; Isabelle2026 pinned; the search ran on
+  GitHub Actions, workflow search.yml, run 46125372163).
+- Prompt: reviewer, 2026-11-28: "First, build that model in Isabelle with the existing method
+  [...]. Then define the real test: Fine's packages with IRR.W in place of IRR.F (Woods's
+  objections 3 and 5, disjunction and ∀p(p ∨ ¬p)). Run those as a search on GitHub, then
+  hand-build models for whatever survives."
+- Sources: Woods 2018 pp. 640-645 was read through a web extraction of the open-access PDF
+  (page numbers given, only short fragments verbatim); the file is not in the project's
+  sources. Paraphrases in the registry are marked as such.
+- What the model did: wrote isabelle/Woods_Models.thy (theorems on what IRR.W demands under
+  classical truth, Woods's Objection 3, controls with ASYM.P; models MW, MV, MV1-MV3, MY,
+  MY2, MZ, MZ2, MQ, MQ2, MX, MX2; ALL.TOT in MV); chose the seven test packages and the
+  search set of 229 packages (scripts/woods_targets.py); added a `targets` mode to
+  scripts/driver.py and to the search workflow; ran the search and replayed its
+  refutations; wrote scripts/woods_report.py and section 9 of the results page; registry
+  0.7.0-draft with puzzles.irr_w_tests and findings F14-F17. No entry, statement or decision
+  of the registry was changed.
+- Reading choices made by the model and flagged for review: which packages count as the
+  test (IRR.W for IRR.F and nothing else changed); C2 as the comprehension level for
+  Objection 3; ALL.TOT read with tot as a constant function, which does not test Woods's
+  reply to Objection 5; the one-world vacuity test (decision D2) throughout.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/replay.py (25 of 26
+  recorded refutations replay; the one that does not is covered by woods_obj3_refuted);
+  scripts/verify_models.py; scripts/summarize.py regenerates docs/results.md;
+  scripts/woods_report.py finds no package both modelled and refuted.
+- Not done: models for the packages with IMM.CONJ or IMM.FRITZ7 (14 packages, unknown);
+  higher-level models for single identity entries; a literature check on novelty beyond the
+  project's sources.
+- Human review: pending.
+- Addition the same day, after the reviewer supplied page images of Woods 2018 p. 645 with
+  fnn. 36-38 and asked whether his comments change the options: the registry's reading
+  of p. 645 was checked against the images and extended; Part 11 of
+  isabelle/Woods_Models.thy (totality_substitution_false, totality_reply_vacuous,
+  totality_one_world, totality_example) and finding F18 were added. The reading of the
+  totality fact used there is the model's and is flagged for review; the reviewer's point
+  that a list can be treated as a function corrected an earlier claim of the model's.
+  Checks: full session build; scripts/check_no_sorry.sh. Human review: pending.
+
+## 2026-11-28 — Woods's proposal without totality facts; level corrections (registry 0.7.0-draft, finding F19)
+
+- Tool and model as in the entry above on Woods's substantive irreflexivity (Claude Code, cloud
+  session; Isabelle2026 pinned).
+- Prompt: reviewer, 2026-11-28: "do option 4 as well", option 4 being the model's own proposal
+  to test Woods without totality facts under a constraint that only rule-generated grounds
+  exist.
+- AI contribution: the design of the model MR (structured propositions as a datatype with
+  closures, classical truth by evaluation over truth values, ground as an inductive
+  definition), every proof in isabelle/Rule_Generated.thy, finding F19, the proposed entry
+  proposed.GEN.RULES and its flagged readings. The choice of rules, the reading of
+  "rule-generated" and the comparison with Woods's reply are the model's and are pending
+  review. The claim that a failure of the one-world test is a failure of Woods's modal test,
+  and the claim that the test is trivial without its third clause, are inferences that
+  Isabelle did not check.
+- Correction made by the model to its own earlier work in this version: the records of MV, MY
+  and MZ claimed N5 with N3 instances for only some of their introduction entries. Missing
+  instances proved (MV_N3_more, MY_N3_more, MZ_N3_more); records of MV1-MV3 split, with
+  CONJ.INF at N2. One package of the search set moved from N5 to N2.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/woods_report.py;
+  scripts/verify_models.py; scripts/summarize.py regenerates docs/results.md.
+- Human review: pending.
+
 ## 2026-11-28 — Search results open their own pull request
 
 - Tool: Claude Code (cloud session), project thread "Automate search results PRs". Model:
