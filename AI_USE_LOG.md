@@ -198,6 +198,108 @@ AI-use disclosure. One entry per working session.
   there).
 - Human review: pending.
 
+## 2026-11-27 — Independent faithfulness audit; second opinion on the certificate rules
+
+- Tool: Claude Code (cloud session), project thread "Review formalizations against the
+  sources"; Isabelle2026 pinned, hash checked. Source retrieval for works not in the
+  project files (Krämer 2013, Woods 2018, Korbmacher 2018a/b, Correia 2014) used
+  web-fetch subagents in the same session, which return verbatim fragments of at most
+  125 characters.
+- Model: a different model from the entries above, at the reviewer's request. Its
+  identifier is recorded in the project thread and is to be entered here by the reviewer.
+- Prompt: "let's open up a thread to read the sources again but with [the model named by
+  the reviewer] and do/review 1 and 2" (reviewer), where 1 is the faithfulness of the
+  formalizations and 2 the four certificate rules; with the coordinator's note asking for
+  a per-entry verdict table that separates textual evidence, verification and inference,
+  and for clear citation errors only to be fixed.
+- What the model did: re-read every cited passage it could reach (page images for Fine
+  2012b, Fritz 2022 and Lovett's rule display); compared each registry statement with
+  Principles.thy and each puzzle proof with the published derivation; wrote
+  docs/audit-2026-11-27.md and isabelle/Audit_Checks.thy; corrected five citation errors
+  in the registry (listed in the report, section 7). No statement and no status label was
+  changed.
+- Main results, all for review: four restricted entries are provably equivalent to their
+  unrestricted counterparts in the current encoding; the registry's chain convention is
+  not what Principles.thy implements; "trivial-only" is assigned without a model; Fine's
+  partial Universal Grounding has no entry; Fine's Cut was misquoted from an OCR layer.
+- Human review: pending.
+
+## 2026-11-27 — Repairs after the audit (registry 0.3.0-draft)
+
+- Tool: Claude Code (cloud session), the same project thread as the audit; Isabelle2026
+  pinned. Sources were read from the project files (page images where the text layer is
+  unreliable); nothing was re-fetched for the repair.
+- Model: the same model as the audit entry above; identifier to be entered by the
+  reviewer.
+- Prompt: "Please repair all" (reviewer), in reply to the audit report. Read as: carry
+  out the repairs proposed under findings A1 to A4 and the report's list "Proposed and
+  not done".
+- What the model did: changed the four restricted entries to closed formulas in
+  Principles.thy and in the certificate locale; built the model MG
+  (isabelle/Restricted_Models.thy); added four partial-ground entries and proved the
+  Krämer and Fine targets from the registry constants (isabelle/Puzzle_Packages.thy);
+  renamed the search class trivial-only to refuted-at-N1 and recomputed 22 search rows;
+  rewrote the registry's convention on chains, added its `implications` section,
+  decision D5, findings F5 and F6, source additions and flagged readings; regenerated
+  docs/results.md; added section 10 to the audit report.
+- Decisions the model took itself, listed in the registry under D5
+  (`choices_made_in_applying_it`) and in the report, section 10: C2 left unchanged;
+  EX.LEV closes the instance only; three partial entries beyond the one the audit named;
+  CL.PROP added to one puzzle target.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/replay.py (20 of 20
+  refutations replayed); scripts/verify_models.py (113 of 113 models, two at level N0).
+- Human review: pending.
+
+## 2026-11-27 — Open questions of the repair (registry 0.3.1-draft)
+
+- Tool: Claude Code (cloud session), the same project thread as the audit; Isabelle2026
+  pinned. No source was read or re-fetched.
+- Model: the same model as the audit entry above; identifier to be entered by the
+  reviewer.
+- Prompt: "What are we missing here? The choices you made, nice. You see that it doesn't
+  change, it's bound still, does not. Makes sense to me. So let's try to establish what
+  we haven't established, with the exception of the page numbers. If it's not already in
+  the information, I don't think I have it." (reviewer). Read as: the choices made in
+  applying D5 are accepted; settle the items the report lists as not established, page
+  numbers excepted; say what is missing.
+- What the model did: built the models MH, MS and MT (the last after reporting, to turn an
+  inference in finding F8 into a checked model) and proved that the sentence-position
+  package without CL.PROP has no finite model (isabelle/Separation_Models.thy); proved
+  each puzzle from the admissibility of the one witness it uses, and Fine's universal
+  package refuted with typed truth entries (isabelle/Puzzle_Packages.thy); proved two
+  earlier inferences (isabelle/Order.thy); wrote scripts/separations.py and stored seven
+  separating models; added findings F7 and F8, the `reviewed` field of D5 and the
+  restructured `implications` section to the registry; added section 8 to the generated
+  results page and section 11 to the audit report.
+- Decisions the model took itself: none that changes a statement. The three COMP pairs
+  were moved from the rank pairs to a list of their own. A change to comprehension (one
+  entry per witness) is proposed to the reviewer and not made.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py (113 of
+  113); the seven separating models re-checked by the independent evaluator.
+- Human review: pending.
+
+## 2026-11-28 — Witness entries (registry 0.3.2-draft, decision D9)
+
+- Tool: Claude Code (cloud session), the same project thread as the audit; Isabelle2026
+  pinned. No source was read or re-fetched.
+- Model: the same model as the audit entry above; identifier to be entered by the
+  reviewer.
+- Prompt: the reviewer chose the option "Add four witness entries" on a decision card
+  asking "Add comprehension entries weaker than C1, one per witness?". The card's text
+  for that option: "Each asserts that one witness is admissible; C1 stays and implies
+  them. I restate the puzzles with them and try to build the typed-truth model."
+- What the model did: defined W_ID, W_TR, W_EM and W_TEM (isabelle/Principles.thy) and
+  proved that C1, C2, C3d and C3s imply them (isabelle/Order.thy); proved each puzzle
+  with its witness entry (isabelle/Puzzle_Packages.thy); built model MU and restated
+  model MT with the entries (isabelle/Separation_Models.thy); added the family WIT,
+  decision D9 and finding F9 to the registry and restated five puzzle targets; added the
+  entries to the search tables (scripts/driver.py); added section 12 to the audit report.
+- Decisions the model took itself, listed in the registry under D9
+  (`choices_made_in_applying_it`): a family of its own for the entries; no entry denying
+  admissibility; targets restated with the witness entries; the automatic search not
+  rerun.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py (113 of
+  113); scripts/summarize.py reproduces docs/results.md.
 
 ## 2026-11-27 — Non-classical families: strong Kleene, Korbmacher's untyped repair, Poggiolesi
 
@@ -215,7 +317,7 @@ AI-use disclosure. One entry per working session.
   repair plus foundation refuted) and isabelle/Kripke_Model.thy (strong Kleene term model
   K1 with Kripke stages and efficient ground; certifies Fine's compromise package with
   BETA.ID and C3d at N1, N2, N5). Registry section `proposed` (0.3.0-draft, pending
-  review), candidates P.WILHELM.2021 and P.POGGIOLESI.2022, findings F5-F8. Session builds,
+  review), candidates P.WILHELM.2021 and P.POGGIOLESI.2022, findings F5-F8 (renumbered F10-F13 and decision D6 when merged onto the audit, 2026-11-28). Session builds,
   no sorry/oops/axioms.
 - Reading choices made by the model and flagged for review: T stays bivalent at the
   metalevel (gaps are propositions with neither T p nor T (neg p)); Fine's existence
