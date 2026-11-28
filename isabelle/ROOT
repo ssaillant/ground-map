@@ -1,5 +1,5 @@
 session Ground_Map_Checks = HOL +
-  options [timeout = 600]
+  options [timeout = 1200]
   sessions "HOL-Library"
   theories
     Russell_Checks
@@ -11,7 +11,6 @@ session Ground_Map_Checks = HOL +
     Principles
     Order
     Fritz2020_Checks
-    Results_Refutations
     Model_Certificates
     Models
     Puzzle_Packages
@@ -21,6 +20,7 @@ session Ground_Map_Checks = HOL +
     Audit_Checks
     Poggiolesi_Checks
     NonClassical
+    Results_Refutations
     Kripke_Model
     Woods_Models
     Rule_Generated

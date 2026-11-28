@@ -611,6 +611,30 @@ AI-use disclosure. One entry per working session.
 - Checks: isabelle build (Ground_Map_Checks) passes; scripts/check_no_sorry.sh; registry
   parses; scripts/verify_models.py; scripts/summarize.py.
 - Human review: pending.
+- Addendum (same day): at the reviewer's request ("run the test") tested Poggiolesi's
+  repaired conditions with ≈ read as identity of propositions (congruence for single
+  negation). Result: inconsistent - finding F26, theorem poggiolesi_full_identity and
+  corollary poggiolesi_LEIBNIZ_not_negc in isabelle/Poggiolesi_Checks.thy; hand derivation
+  first, then Isabelle2026 (session builds). Novelty not claimed.
+
+## 2026-11-28 — Replay of every search refutation in Isabelle
+
+- Tool and model as in the non-classical families entry above.
+- Prompt: the reviewer asked why the minimal refuted packages on the results page were not
+  all checked in Isabelle, and then said "go ahead" to replaying all of them and adding the
+  replay to the results pipeline.
+- What the model did: scripts/replay.py now imports NonClassical (needed for the strong
+  Kleene entries), checks in batches of 25 that split on timeout, and is incremental by
+  default (--all rechecks everything); isabelle/ROOT puts Results_Refutations after
+  NonClassical and raises the session time limit from 600 to 1200 s; publish_results.sh
+  replays new refutations when ISABELLE is set, and the merge job of search.yml installs
+  Isabelle and builds the heap (job limit 120 min). Full replay run locally.
+- Checks: 292 of the 293 refuted records replay (36 min, local, 4 threads); session builds
+  in 2 min 19 s locally; incremental rerun reproduces the same files; the one record that
+  does not replay stays marked not replayed. scripts/tests/publish_results_test.sh - cases
+  inmain and open fail both with and without this change (not investigated).
+- Human review: pending.
+
 
 ## 2026-11-28 — Finding F27: antisymmetry and contingent truths (registry 0.9.3-draft)
 

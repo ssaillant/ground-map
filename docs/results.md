@@ -49,39 +49,39 @@ Caveat from the registry: Russell_Checks and Fine_Checks use the pre-D3 encoding
 | `ASYM.P`, `CL.PROP`, `ID.DN`, `NEG.DN` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `CL.PROP`, `ID.DN`, `IRR.F`, `NEG.DN` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `CL.QUANT`, `DISJ.WEAK`, `ID.AC`, `IRR.F` | refuted | yes (`isabelle/Results_Refutations.thy`) |
-| `ASYM.P`, `EMPTY.SOME`, `ID.DN`, `NEG.DN` | refuted at N1; without N1 unknown | no |
-| `EMPTY.SOME`, `IRR.F`, `TR.PART`, `TS.ID` | refuted | no |
-| `CL.QUANT`, `ID.DN`, `IRR.F`, `NEG.DN` | refuted at N1; without N1 unknown | no |
-| `ASYM.P`, `CL.QUANT`, `TR.FULL`, `TS.ID` | refuted | no |
-| `ASYM.P`, `EMPTY.SOME`, `TR.PART`, `TS.ID` | refuted | no |
-| `ASYM.P`, `ID.DN`, `NEG.DN`, `TS.ID` | refuted at N1; without N1 unknown | no |
+| `ASYM.P`, `EMPTY.SOME`, `ID.DN`, `NEG.DN` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `EMPTY.SOME`, `IRR.F`, `TR.PART`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `CL.QUANT`, `ID.DN`, `IRR.F`, `NEG.DN` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `CL.QUANT`, `TR.FULL`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `EMPTY.SOME`, `TR.PART`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `ID.DN`, `NEG.DN`, `TS.ID` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
 | `CL.PROP`, `IRR.F`, `TR.NEG`, `TRANS.CUT`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `CL.QUANT`, `IRR.F`, `NEG.DN`, `TR.NEG`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `BETA.ID`, `C1`, `CL.QUANT`, `EX.PART`, `IRR.F` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `ASYM.P`, `EMPTY.NONE`, `ID.DN`, `NEG.DN`, `TRANS.CUT` | refuted at N1; model at N0 verified | yes (`isabelle/Results_Refutations.thy`) |
 | `BETA.ID`, `CL.QUANT`, `EX.PART`, `IRR.F`, `W.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
-| `ASYM.P`, `EMPTY.SOME`, `ID.DN`, `NEG.DN`, `TS.ID` | refuted | no |
-| `CL.QUANT`, `ID.DN`, `IRR.F`, `TR.NEG`, `TS.ID` | refuted | no |
-| `CL.QUANT`, `ID.DN`, `IRR.F`, `NEG.DN`, `TS.ID` | refuted | no |
-| `CL.PROP`, `EX.FULL`, `IRR.F`, `TR.NEG`, `TS.ID` | refuted at N1; without N1 unknown | no |
-| `CL.PROP`, `EMPTY.NONE`, `IRR.F`, `TR.NEG`, `TS.ID` | refuted | no |
+| `ASYM.P`, `EMPTY.SOME`, `ID.DN`, `NEG.DN`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `CL.QUANT`, `ID.DN`, `IRR.F`, `TR.NEG`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `CL.QUANT`, `ID.DN`, `IRR.F`, `NEG.DN`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `CL.PROP`, `EX.FULL`, `IRR.F`, `TR.NEG`, `TS.ID` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `CL.PROP`, `EMPTY.NONE`, `IRR.F`, `TR.NEG`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `ASYM.P`, `BETA.ID`, `CL.QUANT`, `EX.PART`, `IRR.W`, `W.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
-| `CL.QUANT`, `DISJ.ONE`, `ID.DN`, `IRR.F`, `NEG.DN`, `TR.NEG` | refuted | no |
-| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TR.PART`, `TRANS.CUT` | refuted at N1; without N1 unknown | no |
-| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TRANS.CUT`, `TS.FULL` | refuted at N1; without N1 unknown | no |
-| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TR.PART`, `TS.FULL` | refuted at N1; without N1 unknown | no |
-| `ID.AC`, `ID.DN`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.PART`, `TS.ID` | refuted at N1; without N1 unknown | no |
-| `BETA.ID`, `C2`, `CL.PROP`, `CL.QUANT`, `DISJ.PART`, `EX.PART`, `IRR.F`, `TRANS.P` | refuted | no |
-| `C3s`, `DISJ.WEAK`, `EMPTY.SOME`, `EX.PART`, `EX.WEAK`, `IRR.F`, `TR.PART`, `TRANS.CUT` | refuted | no |
-| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TR.PART`, `TRANS.CUT`, `TS.FULL` | refuted | no |
+| `CL.QUANT`, `DISJ.ONE`, `ID.DN`, `IRR.F`, `NEG.DN`, `TR.NEG` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TR.PART`, `TRANS.CUT` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TRANS.CUT`, `TS.FULL` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TR.PART`, `TS.FULL` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `ID.AC`, `ID.DN`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.PART`, `TS.ID` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `BETA.ID`, `C2`, `CL.PROP`, `CL.QUANT`, `DISJ.PART`, `EX.PART`, `IRR.F`, `TRANS.P` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `C3s`, `DISJ.WEAK`, `EMPTY.SOME`, `EX.PART`, `EX.WEAK`, `IRR.F`, `TR.PART`, `TRANS.CUT` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TR.PART`, `TRANS.CUT`, `TS.FULL` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `ASYM.P`, `BETA.ID`, `C2`, `CL.PROP`, `CL.QUANT`, `DISJ.PART`, `EX.PART`, `IRR.W`, `TRANS.P` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `CONJ.GRAIN`, `DISJ.BOTH`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `ID.DN`, `IRR.F`, `NEG.DN`, `TR.FULL`, `TRANS.CUT` | refuted at N1; model at N0 verified | yes (`isabelle/Results_Refutations.thy`) |
-| `CONJ.GRAIN`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `FIN.FIN`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `TR.NEG`, `TRANS.CUT`, `TS.ID` | refuted at N1; model at N0 verified | no |
-| `CONJ.GRAIN`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `FIN.FIN`, `ID.AC`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `TRANS.CUT`, `TS.ID` | refuted at N1; model at N0 verified | no |
-| `CONJ.GRAIN`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `NEG.DN`, `TRANS.CUT`, `TS.ID` | refuted at N1; model at N0 verified | no |
-| `C3s`, `DISJ.WEAK`, `EX.PART`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.NEG`, `TR.PART`, `TRANS.CUT`, `TS.FULL` | refuted at N1; without N1 unknown | no |
-| `C3s`, `DISJ.WEAK`, `EMPTY.SOME`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.NEG`, `TR.PART`, `TRANS.CUT`, `TS.FULL` | refuted at N1; without N1 unknown | no |
-| `ASYM.P`, `DISJ.BOTH`, `DISJ.PART`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `ID.AC`, `IMM.CONJ`, `IRR.MEM`, `NEG.DM`, `NEG.DN`, `TR.FULL`, `TR.NEG`, `TRANS.P`, `TS.ID` | refuted at N1; without N1 unknown | no |
+| `CONJ.GRAIN`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `FIN.FIN`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `TR.NEG`, `TRANS.CUT`, `TS.ID` | refuted at N1; model at N0 verified | yes (`isabelle/Results_Refutations.thy`) |
+| `CONJ.GRAIN`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `FIN.FIN`, `ID.AC`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `TRANS.CUT`, `TS.ID` | refuted at N1; model at N0 verified | yes (`isabelle/Results_Refutations.thy`) |
+| `CONJ.GRAIN`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `NEG.DN`, `TRANS.CUT`, `TS.ID` | refuted at N1; model at N0 verified | yes (`isabelle/Results_Refutations.thy`) |
+| `C3s`, `DISJ.WEAK`, `EX.PART`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.NEG`, `TR.PART`, `TRANS.CUT`, `TS.FULL` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `C3s`, `DISJ.WEAK`, `EMPTY.SOME`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.NEG`, `TR.PART`, `TRANS.CUT`, `TS.FULL` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `DISJ.BOTH`, `DISJ.PART`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `ID.AC`, `IMM.CONJ`, `IRR.MEM`, `NEG.DM`, `NEG.DN`, `TR.FULL`, `TR.NEG`, `TRANS.P`, `TS.ID` | refuted at N1; without N1 unknown | yes (`isabelle/Results_Refutations.thy`) |
 
 ## 3. Search: largest packages with verified finite models
 
@@ -192,6 +192,7 @@ Non-triviality levels are cumulative, and N4 counts only where CL.PROP holds (de
 - **F23** (inference; pending review (0.8.0-draft, D10)): F9 (MT, MU) and Korbmacher's typed theory are different solutions to Fine's puzzles, and neither result implies the other. F9 keeps the untyped truth schema and gives up the Aristotelian principle for semantic propositions; Korbmacher keeps the Aristotelian principle at every level and gives up the untyped truth schema (T3). Proof: Comparison, not a theorem.
 - **F24** (checked; pending review (0.8.0-draft, D11)): (a) Donaldson's puzzle of property grounding, transcribed, is refuted - [W.EM, BETA.GROUND, CL.PROP, CL.QUANT, ALL.PART, DISJ.PART, TRANS.P, IRR.F] (target P.DONALDSON.SP). (b) With the Aristotelian principle in the sources' form (TR.PART.A), each of the three truth targets is refuted with TS.FULL and has a model without it. Proof: isabelle/Puzzle_Packages.
 - **F25** (checked (instance level); the reading of the page is by hand; pending review (0.9.1-draft)): Four printed results of korbmacher2018b are jointly inconsistent at level 2 (PGA_2) - Lemma 3 (p. 210, the typed T-scheme 'for all sentences φ ∈ L<γ', 0 < γ ≤ β < α), T3 (p. 204, '∀x(Trβ(x) → Sent<β(x))') with T1 (p. 204), APD_F (p. 207, '∀x(Trβ(¬Trγ(ẋ)) → ¬x ◁ ¬Trγ(ẋ))', γ < β ≤ α) and G3a (p. 203, '∀x∀y(x ◁ y → (Sent<β(x) → Trβ(x)))'). With c the code of Tr_1(⌜0=0⌝) - Lemma 3 at φ(x) = ¬Tr_1(x), β = γ = 2, and T3^1 give Tr_2(⌜¬Tr_1(c)⌝); APD_F^{2,1} gives ¬Tr_1(⌜0=0⌝) ◁ ¬Tr_1(c); G3a^2 gives Tr_2(⌜¬Tr_1(⌜0=0⌝)⌝); Lemma 3 gives ¬Tr_1(⌜0=0⌝), against T1^1. Without ground, Lemma 3, T3 and RP11 (p. 208, '∀x(Trβ(¬Trγ ẋ) ↔ Trγ(¬x))') are already inconsistent at c. Each of two repairs restores consistency of the instances used - dropping Lemma 3 (the positive reading), or restricting APD_F and RP11 to Sent<γ(x) (the classical reading). SAFE FORM - either PGA_2 as printed is inconsistent, or Lemma 3 is not a theorem of it; given Cor. 3 (p. 213), the second. Rechecked on the page images 2026-11-28 - Lemma 3's statement (p. 210), the ranges 0 < β < α of Def. 1 (p. 205) with PG_α = PG_<α+1 (p. 205), so G3a^2, T1^1 and T3^1 are axioms of PGA_2, and γ < β ≤ α for APD_F (Def. 2, p. 207). The Lemma 3 instances used are closed sentences (φ = ¬Tr_1(c) and φ = ¬Tr_1(⌜0=0⌝)), so no reading of its free variables is needed. INFERENCE - the gap is the case ¬Tr_γ(t) of the induction behind Lemma 3, which needs Tr_γ(¬t) ↔ ¬Tr_γ(t) and so holds only for t in L_<γ. No published correction found (one web search, 2026-11-28; not conclusive). Proof: isabelle/Korbmacher_Lemma3.
+- **F26** (checked; pending review (0.9.2-draft)): Read with Wilhelm's identity of propositions - so that identical propositions have identical negations - Poggiolesi's repaired conditions are inconsistent. Conditions (1), (5), (6), (7′), (8′) of poggiolesi2022 pp. 2-3 are jointly inconsistent for every ground relation and identity relation such that identity is an equivalence, is a congruence for single negation, and is respected by ground in the grounded place. Neither (2′) nor (4′), the conditions she revised, is used. Proof: isabelle/Poggiolesi_Checks.
 - **F27** (checked (the theorems); the readings and the literature check are by hand; pending review (0.9.3-draft)): STRUCTURAL FORM (stated first since the reviewer's note of 2026-11-28). With the conjunction entry and the unrestricted existential entry, "something is the case" and its conjunction with any truth help ground each other. Let E be exq f_id and q any truth. E helps ground E ∧ q (CONJ.BIN); E ∧ q is a true instance of E, so it helps ground E (EX.PART at f_id, BETA.ID). Entries used - W.ID, BETA.ID, FACT, CONJ.BIN, EX.PART. Not used - any order entry (irreflexivity, asymmetry, antisymmetry, transitivity), CL.PROP, CL.QUANT. E is true at every world, so when q is contingent the two propositions differ in modal status and are distinct. The existential entry is an essential premise, and it is used at the instance E ∧ q - that E helps ground itself, with the conjunction entry, does not give the direction from E ∧ q to E (model LD). COROLLARY (the form in which the finding was first recorded). With antisymmetry (ASYM.ANTI) in place of irreflexivity, E ∧ q = E, so q is true at every world and no truth is contingent; with CL.PROP and consistency of truth at each world, every world agrees with the actual one on every proposition. Contrapositively, given a contingent truth, partial ground is not antisymmetric. WEAK-FIRST FORM. For any relation of weak partial ground that satisfies the weak forms of the two rules, E and E ∧ q weakly partially ground each other; so E is not a strict partial ground of E ∧ q in Fine's defined sense (weak and not reversed), for any truth q, and weak partial ground is not antisymmetric given a contingent truth. Proof: isabelle/Antisymmetry_Collapse.
 
 ## 7. Candidate novel results
