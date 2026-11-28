@@ -325,6 +325,17 @@ AI-use disclosure. One entry per working session.
   N5); lemma MG_N4s; results page column "Certificate". Build passes, no sorry/oops/axioms.
 - Human review: pending.
 
+## 2026-11-27 — M1 non-triviality N3 and N4
+
+- Tool and model as above (Claude Code, cloud session; Isabelle2026 pinned).
+- Prompt: correction relayed by the coordinator from the certificates thread (M1's record
+  claimed N5 with only N1, N2 and N5_chain proved; levels are cumulative).
+- What the model did: proved N3 instances for all nine introduction entries of the M1
+  package (M1_N3) and N4_pairs (M1_N4_pairs, pair at an atom and its double negation;
+  CL.PROP holds, so N4 counts under D8), with a fidelity clause for N4_pairs; corrected the
+  M1 record, finding F3 and the changelog.
+- Human review: pending.
+
 ## 2026-11-28 — Merge of main (PR #4) into this branch; lemma MF_not_IMM_CONJ
 
 - Tool and model as above.
