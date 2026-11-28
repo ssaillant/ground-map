@@ -128,6 +128,7 @@ changelog:
       - Finding F2 extended with the classical model MF and the Fritz literature check.
       - Finding F3 corrected - M1's N5 now rests on proved N3 (M1_N3) and N4 (M1_N4_pairs); the earlier record claimed N5 with only N1, N2 and N5_chain proved. No entry changed.
       - Section `implications` - new separation by MF - IMM.FRITZ7 does not imply IMM.CONJ given CL.PROP, CL.QUANT and TS.FULL (MF_separates_IMM). The question the 0.3.1 note on ME left open is settled for packages without C3s.
+      - Model records - MT and MU are at N5 (MT_N4s, MU_N4s; DISJ.ONE instance with distinct disjuncts MT_N3_disj), MS at N3 with N4 excluded by D8 (MS_N3_disj).
   - version: 0.3.2-draft
     date: 2026-11-28
     changes:

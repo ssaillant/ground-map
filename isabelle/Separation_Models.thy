@@ -409,6 +409,12 @@ proof -
   show ?thesis using ad i a by (simp add: djS_def GS_def)
 qed
 
+text \<open>A DISJ.ONE instance with pairwise distinct relata (the instance in MS_N3 is a
+  self-disjunction). N4 does not count for MS: CL.PROP fails (decision D8).\<close>
+lemma MS_N3_disj:
+  "GS {(True, 0)} (djS (True, 0) (True, 1)) \<and> distinct [(True, 0), (True, 1), djS (True, 0) (True, 1)]"
+  by (simp add: GS_def djS_def)
+
 theorem MS_package:
   "MS.FACT \<and> MS.LAM_CORE \<and> MS.C1 \<and> MS.BETA_ID \<and> MS.CL_QUANT' \<and> MS.ALL_INST \<and> MS.DISJ_ONE
    \<and> MS.TRANS_P \<and> MS.IRR_F \<and> MS.ASYM_P \<and> MS.N1 \<and> MS.N2 \<and> MS.N5_chain \<and> \<not> MS.CL_PROP'"
@@ -758,6 +764,15 @@ proof -
   show ?thesis using ad i a by (simp add: djT_def up_def GT_def trT_def lt_def)
 qed
 
+text \<open>A DISJ.ONE instance with pairwise distinct relata (the instance in MT_N3 is a
+  self-disjunction), and N4 in the form N4_pairs; CL.PROP holds (MT_classical).\<close>
+lemma MT_N3_disj:
+  "GT {(True, (0, 0))} (djT (True, (0, 0)) (True, (0, 1)))
+   \<and> distinct [(True, (0, 0)), (True, (0, 1)), djT (True, (0, 0)) (True, (0, 1))]"
+  by (simp add: GT_def djT_def up_def lt_def)
+
+lemma MT_N4s: "MT.N4_pairs" using MT.N4_dn[OF MT_N4] .
+
 theorem MT_package:
   "MT.FACT \<and> MT.LAM_CORE \<and> MT.C1_NO_EM \<and> MT.BETA_ID \<and> MT.CL_PROP' \<and> MT.CL_QUANT'
    \<and> MT.TS_FULL' \<and> MT.TS_TYPED \<and> MT.TR_TYPED \<and> MT.ALL_INST \<and> MT.ALL_PART
@@ -983,6 +998,10 @@ proof -
   have ad: "admU MU.f_tr" "admU MU.f_tem" by (simp_all add: admU_def MU_wit)
   show ?thesis using ad unfolding i a x y by (simp add: djT_def up_def GT_def trT_def lt_def)
 qed
+
+text \<open>MU shares GT and djT with MT, so MT_N3_disj is also MU's DISJ.ONE instance with
+  pairwise distinct relata. N4 in the form N4_pairs; CL.PROP holds (MU_classical).\<close>
+lemma MU_N4s: "MU.N4_pairs" using MU.N4_dn[OF MU_N4] .
 
 theorem MU_package:
   "MU.FACT \<and> MU.LAM_CORE \<and> MU.W_TR \<and> MU.W_TEM \<and> MU.BETA_ID \<and> MU.CL_PROP' \<and> MU.CL_QUANT'

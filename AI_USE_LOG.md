@@ -346,6 +346,11 @@ AI-use disclosure. One entry per working session.
   (isabelle/Separation_Models.thy); proved MG_N4s; relabelled the records M1, MS, MT, MU
   to N2 under the cumulative reading of the levels and D8, keeping the issued value in
   `nontriviality_as_issued`.
+- Correction after the audit thread pointed out existing N3 lemmas: added MT_N4s, MU_N4s,
+  MT_N3_disj and MS_N3_disj (DISJ.ONE instances with distinct disjuncts) and set MT and
+  MU to N5, MS to N3 (N4 excluded by D8). M1 is left to PR #6, which proves its N3 and N4.
+  Dated notes added to docs/audit-2026-11-27.md where it calls the classical IMM question
+  open.
 - Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py;
   scripts/summarize.py regenerates docs/results.md.
 - Human review: pending.
