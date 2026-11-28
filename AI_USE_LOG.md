@@ -548,4 +548,25 @@ AI-use disclosure. One entry per working session.
   bibliography entry sep_grounding, addendum A7 of docs/korbmacher-2018b.md, and the entry to
   F9's not-read note. No principle, target or finding changed.
 - Checks: registry parses; scripts/verify_models.py; scripts/summarize.py. No Isabelle change.
+
+## 2026-11-28 — Results of the strong Kleene search run (46120076428)
+
+- Tool and model as in the non-classical families entry above (Claude Code, cloud session;
+  Isabelle2026).
+- Prompt: the coordinator's request to check run 46120076428 and, if finished, bring its
+  results into main in a small pull request with a summary, without colliding with the
+  numbering of open pull request #10.
+- What the model did: merged the run's records (771 queries, 4 grow runs) from branch
+  search/sk-d6; replayed every refutation that contains TS.KF with TS.FULL in its place
+  (59 of 59 go through) and every refutation that contains SK.PROP or SK.QUANT with those
+  entries dropped (57 of 58 go through; the remaining package contains CL.PROP and
+  CL.QUANT, which imply SK.QUANT by cl_sk_quant, and its replay timed out, so no reduced
+  record was added for it); recorded the 107 reduced packages in results/queries.jsonl
+  (batch replay-sk-2026-11-28, proof scripts in the records); fixed scripts/summarize.py so
+  that a package listed as minimal is dropped when an equal-size package with a strictly
+  weaker closure appears later in the ordering; regenerated docs/results.md and
+  results/models_verified.jsonl. No registry change, no new D/F identifier.
+- Checks: replays in Isabelle2026 (process_theories against session Ground_Map_Checks);
+  scripts/verify_models.py (497 of 498 models re-verified; one model uses an evaluator
+  feature not yet implemented); CI isabelle check on the pull request.
 - Human review: pending.

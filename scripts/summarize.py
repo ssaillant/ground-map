@@ -105,6 +105,11 @@ def main():
             continue  # refuted outright by a smaller package
         if not any(driver.closure(m) <= cl and mc == c for m, mc, _, _ in mins):
             mins.append((k, c, ok, m0))
+    # equal-size packages arrive in arbitrary order, so drop any entry whose closure
+    # strictly contains that of another entry of the same class (or of an outright refutation)
+    mins = [x for x in mins
+            if not any(driver.closure(y[0]) < driver.closure(x[0]) and (y[1] == x[1] or y[1] == "refuted")
+                       for y in mins)]
     L.append("## 2. Search: minimal refuted packages found so far\n")
     L.append(f"{len(q)} packages queried. Minimal refuted packages (every proper weakening tested is not refuted, "
              "or was not tested):\n")
