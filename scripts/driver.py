@@ -43,6 +43,8 @@ ENTRIES = {
     "AMALG.FIN": "AMALG_FIN", "AMALG.INF": "AMALG_INF",
     "CL.PROP": "CL_PROP", "CL.QUANT": "CL_QUANT",
     "TS.TYPED": "TS_TYPED", "TS.FULL": "TS_FULL", "TS.ID": "TS_ID",
+    # D10 (2026-11-28): Korbmacher 2018b entries, defined in isabelle/Principles.thy
+    "TS.T3": "TS_T3", "NEG.ALL": "NEG_ALL", "TR.PART.A": "TR_PART_A",  # D11
     "ID.AC": "ID_AC", "ID.DN": "ID_DN",
     "CONJ.BIN": "CONJ_BIN", "CONJ.INF": "CONJ_INF", "CONJ.GRAIN": "CONJ_GRAIN",
     "DISJ.ONE": "DISJ_ONE", "DISJ.BOTH": "DISJ_BOTH", "DISJ.WEAK": "DISJ_WEAK",
@@ -76,7 +78,7 @@ PROVED += [(c, w) for c in ("C1", "C2", "C3d", "C3s") for w in ("W.ID", "W.TR", 
 # at most one entry from each group (exact characterisations of adm, or contradictory)
 EXCL = [{"C1", "C2", "C3d", "C3s"}, {"EMPTY.NONE", "EMPTY.SOME"}, {"BETA.ID", "BETA.GROUND"}]
 # entries that mention lam/den: the core clause LAM_CORE is added when one is present
-LAMB = {"IRR.W", "TS.TYPED", "TR.TYPED", "EX.PRED", "EX.LEV", "C1", "C2", "C3d",
+LAMB = {"IRR.W", "TS.TYPED", "TS.T3", "TR.TYPED", "EX.PRED", "EX.LEV", "C1", "C2", "C3d",
         "BETA.ID", "BETA.GROUND", "W.ID", "W.TR", "W.EM", "W.TEM"}
 # Propagation uses only implications whose weaker side is outside the formula layer.
 # A package means: its entries + FACT, + LAM_CORE iff it explicitly contains a LAMB

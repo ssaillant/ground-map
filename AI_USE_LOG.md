@@ -463,6 +463,92 @@ AI-use disclosure. One entry per working session.
   (see the pull request).
 - Human review: pending.
 
+## 2026-11-28 — Korbmacher 2018b: registry 0.8.0-draft (decision D10)
+
+- Tool: Claude Code (cloud session), project thread on Korbmacher 2018b. Model: to be
+  filled in by the reviewer.
+- Prompt: the coordinator relayed the reviewer's upload of Korbmacher 2018b (JPL 47) with
+  the request to compare finding F9 with Korbmacher's results, check the registry's
+  Korbmacher entries, and propose entries and targets; after the report, the reviewer's
+  instruction "lets do 1-4 and revisit 5 afterwards".
+- What the model did: read the paper in full from page images (the text layer drops ◁);
+  wrote the report (docs/korbmacher-2018b.md); added entries TS.T3 and NEG.ALL
+  (isabelle/Principles.thy); proved the three truth targets without TS.FULL and the
+  falsity version P.KORBMACHER.APF (isabelle/Puzzle_Packages.thy); built model MK of the
+  typed target and proved TS_T3_not_FULL and TS_T3_grain (isabelle/Korbmacher_Typed.thy);
+  edited the registry (D10, targets, findings F20-F23, F9 and F11 text, sources with
+  pages), driver.py ENTRIES and LAMB, and the MK, MT and MU model records.
+- Not done: item 5 of the report (the apparent inconsistency of Korbmacher's Lemma 3 with
+  APD_F), deferred by the reviewer; no search rerun with the new entries.
+- Checks: full session build with the pinned Isabelle2026; scripts/check_no_sorry.sh;
+  scripts/verify_models.py; scripts/summarize.py regenerates docs/results.md.
+- Human review: pending.
+
+## 2026-11-28 — Krämer 2013, Donaldson (draft), Litland 2015 against F9; merge of PR #9
+
+- Tool: Claude Code (cloud session), same thread as the Korbmacher 2018b entry. Model: to be
+  filled in by the reviewer.
+- Prompt: the coordinator relayed the reviewer's upload of the three sources ("a few more")
+  with the request to read them against F9/F23, update the novelty statement in PR #10,
+  check P.KRAMER against Krämer 2013, and propose a target for Litland's argument if one is
+  warranted.
+- What the model did: merged main (PR #9) into the branch and resolved the conflicts;
+  read the three sources (Litland's Figure 1 and Donaldson's appendix from page images);
+  added TR_PART_A, TR_PART_TI, MK_TR_A and MK_truth_targets_source_form
+  (isabelle/Korbmacher_Typed.thy), which qualify finding F20; edited F9, F11, F20, F22,
+  F23, TR.PART, TR.FULL, P.KRAMER, P.LITLAND.INTERNALITY and the bibliography; wrote the
+  addendum to docs/korbmacher-2018b.md. Proposals there are not implemented.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py;
+  scripts/summarize.py; scripts/woods_report.py after the merge.
+- Human review: pending.
+
+## 2026-11-28 — Decision D11: TR.PART.A and P.DONALDSON.SP
+
+- Tool: Claude Code (cloud session), same thread. Model: to be filled in by the reviewer.
+- Prompt: the reviewer's reply accepting proposals 1 and 2 of the addendum ("I would add
+  target P, Donaldson, SP. Add the sources form of the Aristotelian principle as an entry,
+  yes.").
+- What the model did: added TR_PART_A to isabelle/Principles.thy; proved donaldson_sp_W,
+  TR_PART_A_TS_FULL and the *_A refutations (isabelle/Puzzle_Packages.thy); extended
+  MK_package with TR.PART.A and the faithfulness lemma; edited the registry (D11, entry
+  TR.PART.A, target P.DONALDSON.SP, source_form_variant on the truth targets, finding F24),
+  driver.py ENTRIES and the MK record.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py;
+  scripts/summarize.py.
+- Human review: pending.
+
+## 2026-11-28 — Skiles attribution marked secondhand; Skiles chapter and SEP entry checked
+
+- Tool: Claude Code (cloud session), same thread. Model: to be filled in by the reviewer.
+- Prompt: the reviewer asked that the attribution to Skiles (Krämer fn. 6) be recorded as
+  secondhand; the coordinator relayed two sources (Skiles, "Identity and the Epistemology of
+  Grounding"; SEP "Metaphysical Explanation") to check for the manuscript and the puzzles.
+- What the model did: edited F9's NOVELTY text and the bibliography; searched the Skiles
+  chapter (PDF) and had a fetch subagent read the SEP entry (sects. 1-7.2 verbatim,
+  bibliography only as a summary); added addendum A6 to docs/korbmacher-2018b.md.
+- Checks: registry parses; scripts/verify_models.py; scripts/summarize.py. No Isabelle change.
+- Human review: pending.
+
+## 2026-11-28 — SEP "Metaphysical Explanation" read in full
+
+- Tool: Claude Code (cloud session), same thread. Model: to be filled in by the reviewer.
+- Prompt: the reviewer asked for the rest of the SEP article to be read.
+- What the model did: had the fetch subagent read the remainder of the page (end of sect. 7.2,
+  bibliography, Other Internet Resources, Related Entries) verbatim; updated the sep_metaexpl
+  bibliography entry and addendum A6 of docs/korbmacher-2018b.md. No discussion of the puzzles
+  of ground was found; five bibliography titles are recorded as leads, not read.
+- Checks: registry parses; scripts/verify_models.py; scripts/summarize.py. No Isabelle change.
+- Human review: pending.
+
+## 2026-11-28 — SEP "Metaphysical Grounding" read
+
+- Tool: Claude Code (cloud session), same thread. Model: to be filled in by the reviewer.
+- Prompt: the reviewer asked for the SEP entry on grounding to be read next.
+- What the model did: had the fetch subagent read the whole entry verbatim; added the
+  bibliography entry sep_grounding, addendum A7 of docs/korbmacher-2018b.md, and the entry to
+  F9's not-read note. No principle, target or finding changed.
+- Checks: registry parses; scripts/verify_models.py; scripts/summarize.py. No Isabelle change.
+
 ## 2026-11-28 — Results of the strong Kleene search run (46120076428)
 
 - Tool and model as in the non-classical families entry above (Claude Code, cloud session;
@@ -483,4 +569,16 @@ AI-use disclosure. One entry per working session.
 - Checks: replays in Isabelle2026 (process_theories against session Ground_Map_Checks);
   scripts/verify_models.py (497 of 498 models re-verified; one model uses an evaluator
   feature not yet implemented); CI isabelle check on the pull request.
+- Human review: pending.
+
+## 2026-11-28 — P.LITLAND.INTERNALITY checked against Litland 2015 and 2023
+
+- Tool: Claude Code (cloud session), same thread. Model: to be filled in by the reviewer.
+- Prompt: the coordinator asked for the entry's formulation, pages and status to be checked
+  against the primary texts and any fix folded into PR #10.
+- What the model did: read litland2023 sect. 2 and 4.4 and litland2015 sect. 3.1 and Figure 1,
+  with page images for the ground symbols; rewrote the entry's source, claim_in_source and
+  registry_mapping (correcting IRR.P and TR.FULL); added litland2023 p. 12 to F9's NOVELTY;
+  added addendum A8 of docs/korbmacher-2018b.md. Status unchanged.
+- Checks: registry parses; scripts/verify_models.py; scripts/summarize.py. No Isabelle change.
 - Human review: pending.
