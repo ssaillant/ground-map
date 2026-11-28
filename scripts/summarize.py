@@ -208,12 +208,13 @@ def main():
     if tests:
         L.append("## 9. Woods's substantive irreflexivity in place of strict irreflexivity\n")
         L.append("The Krämer and Fine targets of section 1 with `IRR.W` for `IRR.F`, the package of "
-                 "Woods's Objection 3, and their union (registry, `puzzles.irr_w_tests`; findings F14-F17). "
+                 "Woods's Objection 3, and their union (registry, `puzzles.irr_w_tests`; findings F14-F18). "
                  "Every model is built in Isabelle (`isabelle/Woods_Models.thy`). `IRR.W` is tested with the "
                  "one-world vacuity test of decision D2, which is weaker than Woods's modal test, so a model "
                  "here does not show that his own principle is satisfied. The seven packages contain no totality "
                  "fact, and where `ALL.TOT` is added below the totality fact cannot be rewritten under "
-                 "substitution, so nothing here tests his own reply to Objection 5.\n")
+                 "substitution, so no model here tests his own reply to Objection 5. Finding F18 assesses that "
+                 "reply directly: on a stated reading of the totality fact it holds, but vacuously.\n")
         L.append("| Package | Entries | Status | Model |\n|---|---|---|---|")
         for t in tests["packages"]:
             L.append(f"| {t['id']} ({t['source']}) | {fmt(t['package'])} | {t['status']} | `{t['model']}` |")

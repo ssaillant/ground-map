@@ -15,7 +15,8 @@ text \<open>
   C2 and C3d. Part 5 is the model MY of the same packages with antisymmetry. Parts 6
   to 10 cover single further entries: MZ (one-membered grounds; FIN.B3), TS.KF in every
   model, ALL.TOT in MV, MQ (a zero-grounded truth; EMPTY.SOME), and the flat model MX
-  (TS.ID, ID.AC, ID.DN).
+  (TS.ID, ID.AC, ID.DN). Part 11 is about Woods's reply to Objection 5: on a stated
+  reading of the totality fact, the reply holds vacuously.
 
   Method as in Model_Certificates.thy: a model is an interpretation of the locale gsig,
   whose definitions are proved identical to the registry's (K_faithful, K_faithful_more,
@@ -1990,5 +1991,128 @@ proof -
   show "GX {(True, 0)} (djX (True, 0) (False, 1)) \<and> djX (True, 0) (False, 1) = (True, 1)"
     by (simp add: GX_single djX_def)
 qed
+
+section \<open>Part 11. Woods's reply to Objection 5 and the totality fact\<close>
+
+text \<open>
+  Woods 2018, p. 645 (page image supplied by the reviewer, 2026-11-28). The universal
+  truth c is taken to be grounded by a list X of facts, which are all the facts, together
+  with a totality fact testifying to this. To test whether a member of X occurs
+  vacuously, a proposition B is substituted for it uniformly: in the list, inside the
+  other members, and inside the totality fact, which becomes a different totality fact.
+  Woods says that the modified grounds presumably ground c in any case in which they
+  are true.
+
+  Reading formalised here. Truth is relative to a world. tot X is the totality fact for
+  the list X. A totality fact is COMPLETE: if tot X is true at w, every fact at w is in X
+  or is itself a totality fact. sub is the uniform substitution, sub ` X the modified
+  list and tot (sub ` X) the modified totality fact.
+
+  The reflexive case is the one where the replaced member is c itself. If c is not in
+  the modified list (it has been replaced, and no other member turns into it), then at
+  any world where c is a fact the modified totality fact is false: it leaves a fact
+  out. So the modified grounds are not all true there (totality_substitution_false).
+  If c is a fact at every world, as a logical truth is, the modified grounds are true
+  at no world, and the clause of the vacuity test for this substitution holds whatever
+  grounds what (totality_reply_vacuous). The same holds with one world and any true c
+  (totality_one_world).
+
+  This is a statement about the reading above, not about Woods's intentions; fn. 37
+  says the assumption that the totality fact is among the grounds can be avoided by
+  other means, which are not available to us.
+\<close>
+
+theorem totality_substitution_false:
+  fixes Tw :: "'w \<Rightarrow> 'p \<Rightarrow> bool" and tot :: "'p set \<Rightarrow> 'p" and sub :: "'p \<Rightarrow> 'p"
+  assumes complete: "\<And>w X p. Tw w (tot X) \<Longrightarrow> Tw w p \<Longrightarrow> p \<in> X \<or> (\<exists>Y. p = tot Y)"
+      and nottot: "\<And>Y. c \<noteq> tot Y"
+      and gone: "c \<notin> sub ` X"
+      and fact: "Tw w c"
+  shows "\<not> (\<forall>q\<in>insert (tot (sub ` X)) (sub ` X). Tw w q)"
+proof
+  assume "\<forall>q\<in>insert (tot (sub ` X)) (sub ` X). Tw w q"
+  hence "Tw w (tot (sub ` X))" by blast
+  hence "c \<in> sub ` X \<or> (\<exists>Y. c = tot Y)" using complete fact by blast
+  thus False using gone nottot by blast
+qed
+
+theorem totality_reply_vacuous:
+  fixes Tw :: "'w \<Rightarrow> 'p \<Rightarrow> bool" and tot :: "'p set \<Rightarrow> 'p" and sub :: "'p \<Rightarrow> 'p"
+    and Gw :: "'w \<Rightarrow> 'p set \<Rightarrow> 'p \<Rightarrow> bool"
+  assumes complete: "\<And>w X p. Tw w (tot X) \<Longrightarrow> Tw w p \<Longrightarrow> p \<in> X \<or> (\<exists>Y. p = tot Y)"
+      and nottot: "\<And>Y. c \<noteq> tot Y"
+      and gone: "c \<notin> sub ` X"
+      and necessary: "\<And>w. Tw w c"
+  shows "\<forall>w. (\<forall>q\<in>insert (tot (sub ` X)) (sub ` X). Tw w q)
+              \<longrightarrow> Gw w (insert (tot (sub ` X)) (sub ` X)) c"
+proof (intro allI impI)
+  fix w assume A: "\<forall>q\<in>insert (tot (sub ` X)) (sub ` X). Tw w q"
+  have "\<not> (\<forall>q\<in>insert (tot (sub ` X)) (sub ` X). Tw w q)"
+    by (rule totality_substitution_false[where Tw = Tw and tot = tot and c = c])
+       (use complete nottot gone necessary in blast)+
+  thus "Gw w (insert (tot (sub ` X)) (sub ` X)) c" using A by blast
+qed
+
+corollary totality_one_world:
+  fixes T1 :: "'p \<Rightarrow> bool" and tot :: "'p set \<Rightarrow> 'p" and sub :: "'p \<Rightarrow> 'p"
+    and G1 :: "'p set \<Rightarrow> 'p \<Rightarrow> bool"
+  assumes complete: "\<And>X p. T1 (tot X) \<Longrightarrow> T1 p \<Longrightarrow> p \<in> X \<or> (\<exists>Y. p = tot Y)"
+      and nottot: "\<And>Y. c \<noteq> tot Y"
+      and gone: "c \<notin> sub ` X"
+      and fact: "T1 c"
+  shows "(\<forall>q\<in>insert (tot (sub ` X)) (sub ` X). T1 q)
+              \<longrightarrow> G1 (insert (tot (sub ` X)) (sub ` X)) c"
+proof
+  assume A: "\<forall>q\<in>insert (tot (sub ` X)) (sub ` X). T1 q"
+  have "\<not> (\<forall>q\<in>insert (tot (sub ` X)) (sub ` X). (\<lambda>_ :: unit. T1) () q)"
+    by (rule totality_substitution_false[where Tw = "\<lambda>_ :: unit. T1" and tot = tot and c = c])
+       (use complete nottot gone fact in blast)+
+  thus "G1 (insert (tot (sub ` X)) (sub ` X)) c" using A by blast
+qed
+
+text \<open>The hypotheses can be met together, so the theorems are not empty. Worlds are sets
+  of numbers; the atom TA n is true at w when n is 0 or in w, so TA 0 is true at every
+  world; TT S, the totality fact for the atoms numbered in S, is true at w when S is
+  exactly the set of numbers of the atoms true at w. The substitution puts TA 1 for
+  TA 0. At every world the unmodified grounds, all the true atoms with their totality
+  fact, are true, and TA 0 is among them.\<close>
+datatype tfact = TA nat | TT "nat set"
+definition totE :: "tfact set \<Rightarrow> tfact" where "totE X = TT {n. TA n \<in> X}"
+fun TwE :: "nat set \<Rightarrow> tfact \<Rightarrow> bool" where
+  "TwE w (TA n) = (n = 0 \<or> n \<in> w)"
+| "TwE w (TT S) = (S = insert 0 w)"
+definition subE :: "tfact \<Rightarrow> tfact" where "subE p = (if p = TA 0 then TA 1 else p)"
+
+lemma totality_example:
+  "TwE w (totE X) \<Longrightarrow> TwE w p \<Longrightarrow> p \<in> X \<or> (\<exists>Y. p = totE Y)"
+  "TA 0 \<noteq> totE Y"
+  "TA 0 \<notin> subE ` X"
+  "TwE w (TA 0)"
+  "TA 0 \<in> TA ` insert 0 w \<and> (\<forall>q\<in>insert (totE (TA ` insert 0 w)) (TA ` insert 0 w). TwE w q)"
+proof -
+  show "TwE w (totE X) \<Longrightarrow> TwE w p \<Longrightarrow> p \<in> X \<or> (\<exists>Y. p = totE Y)"
+  proof (cases p)
+    case (TA n)
+    assume "TwE w (totE X)" "TwE w p"
+    hence "{n. TA n \<in> X} = insert 0 w" "n \<in> insert 0 w" using TA by (simp_all add: totE_def)
+    thus ?thesis using TA by blast
+  next
+    case (TT S)
+    have "totE (TA ` S) = TT S" by (auto simp: totE_def)
+    thus ?thesis using TT by metis
+  qed
+  show "TA 0 \<noteq> totE Y" by (simp add: totE_def)
+  show "TA 0 \<notin> subE ` X" by (auto simp: subE_def)
+  show "TwE w (TA 0)" by simp
+  have "totE (TA ` insert 0 w) = TT (insert 0 w)" by (auto simp: totE_def)
+  thus "TA 0 \<in> TA ` insert 0 w \<and> (\<forall>q\<in>insert (totE (TA ` insert 0 w)) (TA ` insert 0 w). TwE w q)"
+    by auto
+qed
+
+text \<open>Hence, in this example, the modified grounds are true at no world.\<close>
+corollary totality_example_never:
+  "\<not> (\<forall>q\<in>insert (totE (subE ` X)) (subE ` X). TwE w q)"
+  by (rule totality_substitution_false[where Tw = TwE and tot = totE and c = "TA 0"])
+     (use totality_example in blast)+
 
 end

@@ -9,7 +9,7 @@
 # 0.6.0-draft adds the strong Kleene entries (decision D6; findings F10-F13)
 # and the section `proposed`. Version 0.7.0-draft changes no entry: it adds the
 # tests of Woods's substantive irreflexivity against the Krämer and Fine
-# targets (puzzles.irr_w_tests; findings F14-F17). Reviewer
+# targets (puzzles.irr_w_tests; findings F14-F18). Reviewer
 # decisions are recorded in the section `decisions`; choices made while
 # applying a decision are listed under `choices_made_in_applying_it`.
 
@@ -140,7 +140,7 @@ changelog:
       - New section puzzles.irr_w_tests - seven packages with IRR.W (the five Krämer and Fine targets with IRR.W for IRR.F, Woods's Objection 3, and their union), each with its status and model. The search set built on them is results/targets/woods-fine.json (scripts/woods_targets.py); its classification is results/woods_search.jsonl (scripts/woods_report.py).
       - New models in isabelle/Woods_Models.thy - MW (finite), MV (infinite; all seven packages at full strength, C3s), MV1, MV2, MV3 (MV at C1, C2, C3d), MY and MY2 (with ASYM.ANTI), MZ and MZ2 (one-membered grounds, for FIN.B3 and FIN.FIN), MQ and MQ2 (a zero-grounded truth, for EMPTY.SOME), MX and MX2 (flat, for TS.ID, ID.AC and ID.DN). TS.KF is proved in every one of them, and ALL.TOT in MV and its three readings (MV_ALL_TOT; the constant tot is read as a constant function). Records in results/isabelle_models.jsonl.
       - Search run 46125372163 on GitHub (229 packages) and its classification - 201 modelled, 14 refuted (the controls), 14 unknown (finding F17).
-      - New findings F14 (what IRR.W demands under classical truth), F15 (the packages are consistent with IRR.W at N5, and what the models cost), F16 (antisymmetry forces the circles to collapse), F17 (outcome of the search).
+      - New findings F14 (what IRR.W demands under classical truth), F15 (the packages are consistent with IRR.W at N5, and what the models cost), F16 (antisymmetry forces the circles to collapse), F17 (outcome of the search), F18 (Woods's reply to Objection 5 holds vacuously on a stated reading of the totality fact; isabelle/Woods_Models.thy Part 11; added after the reviewer supplied p. 645).
       - scripts/driver.py has a mode `targets` for a fixed list of packages, and .github/workflows/search.yml an input `targets` that selects it. scripts/merge_results.py now ranks the class refuted-at-N1 (it was treated as unknown when merging).
   - version: 0.6.0-draft
     date: 2026-11-27
@@ -2127,12 +2127,23 @@ puzzles:
       universal case with a totality fact among the grounds; substituting B for one of
       the grounds must also be done inside the totality fact ("uniformly"), and the
       modified grounds then ground the universal truth whenever they are true; fn. 37
-      says the solution assumes the totality fact is among the grounds.
+      says the solution assumes the totality fact is among the grounds. VERIFIED
+      2026-11-28 against page images of p. 645 with fnn. 36-38 supplied by the reviewer,
+      with these additions to the paraphrase - the grounds displayed are TOTALITY, A0,
+      A1, ... "where the Ans are all the facts" and TOTALITY is the totality fact
+      testifying to this (so the list is of all the facts, not of the instances of
+      p ∨ ¬p); the question asked is whether the modified grounds could all be true
+      without grounding the universal truth; the substitution is made in TOTALITY "on
+      reasonable treatments" of it, and in the other members of the list; the conclusion
+      that the modified grounds ground the universal truth where they are true is
+      introduced by "Presumably" and not argued; fn. 37 adds that the assumption can be
+      avoided with the notion of grounding* facts of an unpublished manuscript (his
+      [33]), which is not available to the project; fn. 38 defers the truth-teller.
     readings:
       - point: which packages test Woods's proposal against Fine
         chosen: the registry's Krämer and Fine targets with IRR.W substituted for IRR.F and nothing else changed, plus the package of Objection 3
         alternatives: ['packages with ALL.TOT, which is how Woods states the universal case (p. 645)']
-        why: the reviewer's request names Fine's packages. ALL.TOT uses an opaque totality constant that cannot be rewritten under substitution (flag on ALL.TOT, audit), so a package with ALL.TOT does not test his reply to Objection 5. The seven packages here use ALL.PART or ALL.INST, without a totality fact. The search set does add ALL.TOT to each of them, and those packages are modelled (MV_ALL_TOT), but only because in MV a true universal proposition is grounded by every non-empty set of truths; the formula language has no constructor for totality facts, so vacW cannot mark an occurrence inside one. This is a gap between the test and Woods's own treatment of the universal case, FLAGGED for the reviewer - closing it needs a formula constructor for totality and a decision on its truth and grounding clauses.
+        why: the reviewer's request names Fine's packages. ALL.TOT uses an opaque totality constant that cannot be rewritten under substitution (flag on ALL.TOT, audit), so a package with ALL.TOT does not test his reply to Objection 5. The seven packages here use ALL.PART or ALL.INST, without a totality fact. The search set does add ALL.TOT to each of them, and those packages are modelled (MV_ALL_TOT), but only because in MV a true universal proposition is grounded by every non-empty set of truths; the formula language has no constructor for totality facts, so vacW cannot mark an occurrence inside one. This is a gap between the test and Woods's own treatment of the universal case, FLAGGED for the reviewer - closing it in the search needs a formula constructor for totality and a decision on its truth and grounding clauses. Reviewer's note 2026-11-28 - a list can be treated as a function; at C3s the list with a substituted member is the instance list of a function, so the constructor is definable there. Finding F18 assesses the reply directly, without the search, and shows what such a test returns.
       - point: Objection 3 needs a propositional function outside the four witnesses
         chosen: C2 (formulas of quantifier level at most 1), which admits p ∨ A for an atom A
         alternatives: ['C3d', 'a new witness entry for p ∨ A']
@@ -2831,6 +2842,52 @@ findings:
       one at a time; combinations of two or more were not searched, apart from those the
       models happen to satisfy together.
 
+  - id: F18
+    date: 2026-11-28
+    status: theorems checked; the reading of the totality fact and the assessment of Woods's reply are pending review (0.7.0-draft)
+    claim: >-
+      On the reading below, Woods's reply to Objection 5 (p. 645) holds, but vacuously, in
+      the reflexive case. Reading - a totality fact for a list is true at a world only if
+      every fact at that world is on the list or is itself a totality fact; substituting
+      B for a member of the list turns the totality fact into the totality fact for the
+      modified list. Let c be a fact that is not a totality fact and is not on the
+      modified list. Then at every world where c is a fact, the modified totality fact is
+      false. If c is a fact at every world, as ∀p(p ∨ ¬p) is, the modified grounds are
+      true at no world, so the clause of Woods's vacuity test for that substitution holds
+      whatever grounds what - for the empty grounding relation as well.
+    proof: >-
+      isabelle/Woods_Models.thy Part 11 - totality_substitution_false,
+      totality_reply_vacuous (any set of worlds, any world-relative truth predicate, any
+      grounding relation), totality_one_world (one world, any true c). The hypotheses
+      are jointly satisfiable - totality_example, totality_example_never.
+    textual_basis: >-
+      woods2018 p. 645, verified against page images (puzzles.irr_w_tests.source_reading).
+      Woods describes TOTALITY as testifying that the listed facts are all the facts, and
+      says the substitution returns a different totality fact. That a totality fact is
+      true only where its list is complete is this registry's reading of "testifying";
+      Woods does not state truth conditions for it.
+    consequence: >-
+      (1) The reply can be assessed without worlds in the signature and without a search.
+      Giving ALL.TOT a rewritable totality fact in the one-world encoding would return a
+      pass for the same reason (totality_one_world), so that extension is not
+      informative. (2) The theorem uses nothing about universal quantification. On this
+      reading any necessary truth c passes the vacuity test in any grounding claim whose
+      grounds contain a totality fact for a list with c on it. FOR THE REVIEWER'S
+      JUDGMENT - whether a pass of this kind fits Woods's gloss of vacuity (p. 640, any
+      proposition would have done in its place) and his reason for the modal clause
+      (fn. 27, a proposition should not pass because too few facts are available to take
+      its place). Here no proposition can take the place of c, at any world. (3) For
+      contingent members of the list the theorem says nothing; the modified grounds may
+      be true at other worlds, and whether they ground the universal truth there is
+      what Woods presumes.
+    limits: >-
+      (a) The hypothesis that c is not on the modified list is assumed, not derived. It
+      is what one expects when propositions are structured, B is not c, and no other
+      member becomes c under the substitution; it can fail if propositions are
+      identified coarsely. (b) Fn. 37 says the reliance on a totality fact among the
+      grounds can be avoided by grounding* facts; that route is not assessed. (c) Whether
+      this observation is in the literature was not checked. NOVELTY - not claimed.
+
 
 # ---------------------------------------------------------------------------
 # Bibliography and access status
@@ -2906,7 +2963,7 @@ bibliography:
     needed_from_reviewer: journal pages for the quotes above; sects. 5–7 (truth predicate, sect. 7.3)
   woods2018:
     cite: "Woods, J. (2018). Emptying a Paradox of Ground. Journal of Philosophical Logic 47(4): 631–648. doi:10.1007/s10992-017-9442-1"
-    read: published version (eprints.whiterose.ac.uk/113935, CC-BY), full text with running heads. Re-read 2026-11-28 by a fetch of the same PDF, pp. 631-641 verbatim; Objections 1-7 (pp. 642-648) only from the Springer HTML, without page numbers. Not in the project's sources folder. Re-read again 2026-11-28 (thread on IRR.W tests) from the same PDF by an extraction that reports page numbers - definitions pp. 640, 641, 644, Objection 3 pp. 643-644, Objection 5 p. 645, fnn. 27, 35-37 - with verbatim fragments of at most 125 characters; the rest of those passages is known here only in paraphrase.
+    read: published version (eprints.whiterose.ac.uk/113935, CC-BY), full text with running heads. Re-read 2026-11-28 by a fetch of the same PDF, pp. 631-641 verbatim; Objections 1-7 (pp. 642-648) only from the Springer HTML, without page numbers. Not in the project's sources folder. Re-read again 2026-11-28 (thread on IRR.W tests) from the same PDF by an extraction that reports page numbers - definitions pp. 640, 641, 644, Objection 3 pp. 643-644, Objection 5 p. 645, fnn. 27, 35-37 - with verbatim fragments of at most 125 characters; the rest of those passages is known here only in paraphrase. Page images of p. 645 (Objection 5 and reply, fnn. 36-38) supplied by the reviewer 2026-11-28 and read in full.
     needed_from_reviewer: false
   korbmacher2018a:
     cite: "Korbmacher, J. (2018). Axiomatic Theories of Partial Ground I: The Base Theory. Journal of Philosophical Logic 47: 161–191. doi:10.1007/s10992-016-9423-9"

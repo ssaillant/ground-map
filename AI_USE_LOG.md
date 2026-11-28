@@ -413,3 +413,11 @@ AI-use disclosure. One entry per working session.
   higher-level models for single identity entries; a literature check on novelty beyond the
   project's sources.
 - Human review: pending.
+- Addition the same day, after the reviewer supplied page images of Woods 2018 p. 645 with
+  fnn. 36-38 and asked whether his comments change the options: the registry's reading
+  of p. 645 was checked against the images and extended; Part 11 of
+  isabelle/Woods_Models.thy (totality_substitution_false, totality_reply_vacuous,
+  totality_one_world, totality_example) and finding F18 were added. The reading of the
+  totality fact used there is the model's and is flagged for review; the reviewer's point
+  that a list can be treated as a function corrected an earlier claim of the model's.
+  Checks: full session build; scripts/check_no_sorry.sh. Human review: pending.
