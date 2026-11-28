@@ -12,6 +12,12 @@ text \<open>
   the packages use the partial entries DISJ.PART, EX.PART, ALL.PART and TR.PART. Each
   full entry implies its partial one (Order.thy), so every package below is also
   refuted with DISJ.ONE, EX.FULL, ALL.INST or ALL.TOT, and TR.FULL in their place.
+
+  Registry 0.3.1-draft. Each argument uses one of the four C1 witnesses only. The
+  theorems named *_witness state this: they assume that the one witness is admissible,
+  not C1. The package theorems follow from them. So Kr\"amer's puzzle needs f_id, the
+  "something is true" puzzle f_tr, Fine's universal and particular arguments for
+  propositions f_tem, and the sentence-position universal argument f_em.
 \<close>
 
 lemma C1_adm: assumes "C1"
@@ -28,8 +34,8 @@ section \<open>Kr\"amer 2013\<close>
 text \<open>P.KRAMER. The existential \<exists>p p is true and is its own instance. No classical
   clause for the connectives is used: the truth comes from CL.QUANT (Order.CL_QUANT_truth);
   Kr\"amer's premise is that \<exists>p p is a theorem of logic.\<close>
-theorem kramer_package:
-  assumes "C1" "BETA_ID" "CL_QUANT" "EX_PART" "IRR_F"
+theorem kramer_witness:
+  assumes "adm f_id" "BETA_ID" "CL_QUANT" "EX_PART" "IRR_F"
   shows False
 proof -
   obtain q where "T q" using CL_QUANT_truth[OF assms(3)] by blast
@@ -37,10 +43,15 @@ proof -
   hence "T (exq f_id)" using assms(3) unfolding CL_QUANT_def by blast
   hence "T (app f_id (exq f_id))" using BETA_apps(1)[OF assms(2)] by simp
   hence "PG (app f_id (exq f_id)) (exq f_id)"
-    using assms(4) C1_adm(1)[OF assms(1)] unfolding EX_PART_def by blast
+    using assms(4) assms(1) unfolding EX_PART_def by blast
   hence "PG (exq f_id) (exq f_id)" using BETA_apps(1)[OF assms(2)] by simp
   thus False using assms(5) unfolding IRR_F_def PG_def by blast
 qed
+
+theorem kramer_package:
+  assumes "C1" "BETA_ID" "CL_QUANT" "EX_PART" "IRR_F"
+  shows False
+  using kramer_witness[OF C1_adm(1)[OF assms(1)] assms(2-5)] .
 
 corollary kramer_package_full:
   assumes "C1" "BETA_ID" "CL_QUANT" "EX_FULL" "IRR_F"
@@ -51,8 +62,8 @@ section \<open>Fine 2010\<close>
 
 text \<open>P.FINE.UNIVERSAL: the Universal Argument for Propositions (pp. 102-103), steps
   (4), (6), (7), (8), from partial-ground premises.\<close>
-theorem fine_universal_package:
-  assumes c1: "C1" and beta: "BETA_ID" and cl: "CL_PROP" and clq: "CL_QUANT" and ts: "TS_FULL"
+theorem fine_universal_witness:
+  assumes ad: "adm f_tem" and beta: "BETA_ID" and cl: "CL_PROP" and clq: "CL_QUANT" and ts: "TS_FULL"
       and ug: "ALL_PART" and dg: "DISJ_PART" and pg: "TR_PART"
       and tra: "TRANS_P" and irr: "IRR_F"
   shows False
@@ -60,7 +71,6 @@ proof -
   let ?s = "allq f_tem"
   let ?d = "disj (tr ?s) (neg (tr ?s))"
   have app: "\<forall>p. app f_tem p = disj (tr p) (neg (tr p))" using BETA_apps(4)[OF beta] by simp
-  have ad: "adm f_tem" using C1_adm(4)[OF c1] .
   have cd: "T (disj p q) \<longleftrightarrow> T p \<or> T q" for p q using cl unfolding CL_PROP_def by blast
   have cn: "T (neg p) \<longleftrightarrow> \<not> T p" for p using cl unfolding CL_PROP_def by blast
   have em: "T (disj x (neg x))" for x using cd cn by blast
@@ -74,6 +84,12 @@ proof -
   have "PG ?s ?s" using tra s_tr tr_d d_s unfolding TRANS_P_def by blast
   thus False using irr unfolding IRR_F_def PG_def by blast
 qed
+
+theorem fine_universal_package:
+  assumes "C1" "BETA_ID" "CL_PROP" "CL_QUANT" "TS_FULL" "ALL_PART" "DISJ_PART" "TR_PART"
+          "TRANS_P" "IRR_F"
+  shows False
+  using fine_universal_witness[OF C1_adm(4)[OF assms(1)] assms(2-10)] .
 
 text \<open>The registry's two full universal entries both give the puzzle.\<close>
 corollary fine_universal_ALL_INST:
@@ -92,8 +108,8 @@ corollary fine_universal_ALL_TOT:
 
 text \<open>P.FINE.PARTICULAR.PROPS: the Particular Argument for Propositions. Fine gives
   no steps for it, only "similar versions" (p. 103); this proof is a reconstruction.\<close>
-theorem fine_particular_props_package:
-  assumes c1: "C1" and beta: "BETA_ID" and cl: "CL_PROP" and clq: "CL_QUANT" and ts: "TS_FULL"
+theorem fine_particular_props_witness:
+  assumes ad: "adm f_tem" and beta: "BETA_ID" and cl: "CL_PROP" and clq: "CL_QUANT" and ts: "TS_FULL"
       and eg: "EX_PART" and dg: "DISJ_PART" and pg: "TR_PART"
       and tra: "TRANS_P" and irr: "IRR_F"
   shows False
@@ -101,7 +117,6 @@ proof -
   let ?s = "exq f_tem"
   let ?d = "disj (tr ?s) (neg (tr ?s))"
   have app: "\<forall>p. app f_tem p = disj (tr p) (neg (tr p))" using BETA_apps(4)[OF beta] by simp
-  have ad: "adm f_tem" using C1_adm(4)[OF c1] .
   have cd: "T (disj p q) \<longleftrightarrow> T p \<or> T q" for p q using cl unfolding CL_PROP_def by blast
   have cn: "T (neg p) \<longleftrightarrow> \<not> T p" for p using cl unfolding CL_PROP_def by blast
   have em: "T (disj x (neg x))" for x using cd cn by blast
@@ -116,17 +131,22 @@ proof -
   thus False using irr unfolding IRR_F_def PG_def by blast
 qed
 
+theorem fine_particular_props_package:
+  assumes "C1" "BETA_ID" "CL_PROP" "CL_QUANT" "TS_FULL" "EX_PART" "DISJ_PART" "TR_PART"
+          "TRANS_P" "IRR_F"
+  shows False
+  using fine_particular_props_witness[OF C1_adm(4)[OF assms(1)] assms(2-10)] .
+
 text \<open>P.FINE.PARTICULAR, "something is true" (Fine p. 106 with Transitivity and
   Irreflexivity; Kr\"amer's Finean counterpart and Lovett p. 2544 with Asymmetry). The
   common core is a two-membered circle of partial ground.\<close>
-lemma something_true_circle:
-  assumes c1: "C1" and beta: "BETA_ID" and clq: "CL_QUANT" and ts: "TS_FULL"
+lemma something_true_circle_witness:
+  assumes ad: "adm f_tr" and beta: "BETA_ID" and clq: "CL_QUANT" and ts: "TS_FULL"
       and eg: "EX_PART" and pg: "TR_PART"
   shows "PG (tr (exq f_tr)) (exq f_tr) \<and> PG (exq f_tr) (tr (exq f_tr))"
 proof -
   let ?s = "exq f_tr"
   have app: "\<forall>p. app f_tr p = tr p" using BETA_apps(2)[OF beta] by simp
-  have ad: "adm f_tr" using C1_adm(2)[OF c1] .
   obtain q where "T q" using CL_QUANT_truth[OF clq] by blast
   hence "T (app f_tr q)" using app ts unfolding TS_FULL_def by simp
   hence Ts: "T ?s" using clq unfolding CL_QUANT_def by blast
@@ -136,6 +156,25 @@ proof -
   have b: "PG ?s (tr ?s)" using pg Ts unfolding TR_PART_def by blast
   show ?thesis using a b by blast
 qed
+
+lemma something_true_circle:
+  assumes "C1" "BETA_ID" "CL_QUANT" "TS_FULL" "EX_PART" "TR_PART"
+  shows "PG (tr (exq f_tr)) (exq f_tr) \<and> PG (exq f_tr) (tr (exq f_tr))"
+  using something_true_circle_witness[OF C1_adm(2)[OF assms(1)] assms(2-6)] .
+
+theorem something_true_trans_witness:
+  assumes "adm f_tr" "BETA_ID" "CL_QUANT" "TS_FULL" "EX_PART" "TR_PART" "TRANS_P" "IRR_F"
+  shows False
+proof -
+  have "PG (exq f_tr) (exq f_tr)"
+    using something_true_circle_witness[OF assms(1-6)] assms(7) unfolding TRANS_P_def by blast
+  thus False using assms(8) unfolding IRR_F_def PG_def by blast
+qed
+
+theorem something_true_asym_witness:
+  assumes "adm f_tr" "BETA_ID" "CL_QUANT" "TS_FULL" "EX_PART" "TR_PART" "ASYM_P"
+  shows False
+  using something_true_circle_witness[OF assms(1-6)] assms(7) unfolding ASYM_P_def by blast
 
 theorem something_true_trans_package:
   assumes "C1" "BETA_ID" "CL_QUANT" "TS_FULL" "EX_PART" "TR_PART" "TRANS_P" "IRR_F"
@@ -173,6 +212,84 @@ proof -
   have s_d: "PG ?s ?d" using dg Ts unfolding DISJ_PART_def by blast
   have "PG ?s ?s" using tra s_d d_s unfolding TRANS_P_def by blast
   thus False using irr unfolding IRR_F_def PG_def by blast
+qed
+
+text \<open>What the sentence-position argument uses of CL.PROP is only excluded middle,
+  T (p \<or> \<not>p) for every p. Without it the package has a model (model MS in
+  Separation_Models.thy), so some such premise is needed.\<close>
+theorem fine_universal_sp_witness:
+  assumes ad: "adm f_em" and beta: "BETA_ID" and em: "\<forall>x. T (disj x (neg x))" and clq: "CL_QUANT"
+      and ug: "ALL_PART" and dg: "DISJ_PART" and tra: "TRANS_P" and irr: "IRR_F"
+  shows False
+proof -
+  let ?s = "allq f_em"
+  let ?d = "disj ?s (neg ?s)"
+  have app: "\<forall>p. app f_em p = disj p (neg p)" using BETA_apps(3)[OF beta] by simp
+  have vals: "\<forall>b. T (app f_em b)" using app em by simp
+  hence Ts: "T ?s" using clq unfolding CL_QUANT_def by blast
+  have "PG (app f_em ?s) ?s" using ug ad vals unfolding ALL_PART_def by blast
+  hence d_s: "PG ?d ?s" using app by simp
+  have s_d: "PG ?s ?d" using dg Ts unfolding DISJ_PART_def by blast
+  have "PG ?s ?s" using tra s_d d_s unfolding TRANS_P_def by blast
+  thus False using irr unfolding IRR_F_def PG_def by blast
+qed
+
+theorem fine_universal_sp_em:
+  assumes "C1" "BETA_ID" "\<forall>x. T (disj x (neg x))" "CL_QUANT" "ALL_PART" "DISJ_PART" "TRANS_P" "IRR_F"
+  shows False
+  using fine_universal_sp_witness[OF C1_adm(3)[OF assms(1)] assms(2-8)] .
+
+text \<open>Typing the truth predicate does not help against Fine's universal puzzle under
+  C1. Fine's universal package with TS.TYPED and TR.TYPED in place of TS.FULL and
+  TR.PART contains the sentence-position package, which mentions no truth entry. The
+  same holds with no truth entry at all, and under any comprehension entry that admits
+  f_em with its beta-identity.\<close>
+corollary fine_universal_typed_refuted:
+  assumes "C1" "BETA_ID" "CL_PROP" "CL_QUANT" "TS_TYPED" "TR_TYPED"
+          "ALL_PART" "DISJ_PART" "TRANS_P" "IRR_F"
+  shows False
+  using fine_universal_sp_package[OF assms(1-4) assms(7-10)] .
+
+section \<open>The puzzles as registry packages with one witness entry each (decision D9)\<close>
+
+text \<open>Registry 0.3.2-draft. The targets of the registry list a witness entry (W.ID, W.TR,
+  W.TEM, W.EM) where they listed C1. These are the theorems the registry cites; each
+  is the corresponding *_witness theorem with the entry unfolded. The packages with C1,
+  C2, C3d or C3s in place of the witness entry follow by C1_W, C2_W, C3d_W, C3s_W.\<close>
+
+theorem kramer_W:
+  assumes "W_ID" "BETA_ID" "CL_QUANT" "EX_PART" "IRR_F" shows False
+  using kramer_witness[OF assms(1)[unfolded W_ID_def] assms(2-5)] .
+
+theorem something_true_trans_W:
+  assumes "W_TR" "BETA_ID" "CL_QUANT" "TS_FULL" "EX_PART" "TR_PART" "TRANS_P" "IRR_F"
+  shows False
+  using something_true_trans_witness[OF assms(1)[unfolded W_TR_def] assms(2-8)] .
+
+theorem something_true_asym_W:
+  assumes "W_TR" "BETA_ID" "CL_QUANT" "TS_FULL" "EX_PART" "TR_PART" "ASYM_P"
+  shows False
+  using something_true_asym_witness[OF assms(1)[unfolded W_TR_def] assms(2-7)] .
+
+theorem fine_universal_W:
+  assumes "W_TEM" "BETA_ID" "CL_PROP" "CL_QUANT" "TS_FULL" "ALL_PART" "DISJ_PART" "TR_PART"
+          "TRANS_P" "IRR_F"
+  shows False
+  using fine_universal_witness[OF assms(1)[unfolded W_TEM_def] assms(2-10)] .
+
+theorem fine_particular_props_W:
+  assumes "W_TEM" "BETA_ID" "CL_PROP" "CL_QUANT" "TS_FULL" "EX_PART" "DISJ_PART" "TR_PART"
+          "TRANS_P" "IRR_F"
+  shows False
+  using fine_particular_props_witness[OF assms(1)[unfolded W_TEM_def] assms(2-10)] .
+
+theorem fine_universal_sp_W:
+  assumes "W_EM" "BETA_ID" "CL_PROP" "CL_QUANT" "ALL_PART" "DISJ_PART" "TRANS_P" "IRR_F"
+  shows False
+proof -
+  have em: "\<forall>x. T (disj x (neg x))" using assms(3) unfolding CL_PROP_def by blast
+  show False
+    using fine_universal_sp_witness[OF assms(1)[unfolded W_EM_def] assms(2) em assms(4-8)] .
 qed
 
 section \<open>Search rows formerly classed trivial-only that are refuted outright\<close>

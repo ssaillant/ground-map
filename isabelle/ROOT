@@ -15,4 +15,5 @@ session Ground_Map_Checks = HOL +
     Models
     Puzzle_Packages
     Restricted_Models
+    Separation_Models
     Audit_Checks
