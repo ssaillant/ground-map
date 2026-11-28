@@ -4,7 +4,8 @@
 # of the audit of 2026-11-27 (decision D5; docs/audit-2026-11-27.md). Version
 # 0.3.1-draft changes no statement: it records results on the questions the
 # repair left open (findings F7, F8; section `implications`). Version
-# 0.3.2-draft adds the family WIT (decision D9; finding F9). Version
+# 0.3.2-draft adds the family WIT (decision D9; finding F9). Version 0.5.0-draft
+# records decisions D7 (certificate kinds) and D8 (N4 needs CL.PROP). Version
 # 0.6.0-draft adds the strong Kleene entries (decision D6; findings F10-F13)
 # and the section `proposed`. Reviewer
 # decisions are recorded in the section `decisions`; choices made while
@@ -76,6 +77,35 @@ decisions:
       - P.FINE.UNIVERSAL.SP now lists CL.PROP. The checked proof uses it. SETTLED 0.3.1 - the package without it is consistent (model MS, finding F7), so the premise was missing from the 0.2.x listing and adding it was required.
       - Puzzle targets are stated with the weakest entries the checked proofs use. The 0.2.x packages follow from them by the implications in Order.thy.
     checks: isabelle/Restricted_Models.thy (MG_package), isabelle/Puzzle_Packages.thy, isabelle/Order.thy; isabelle/Audit_Checks.thy keeps the proofs that the 0.2.x definitions collapsed
+  - id: D7
+    date: 2026-11-27
+    decided_by: Said Saillant (reviewer), in thread "Resolve the 12 unknown principles" ("Let's go with option A")
+    implemented_in: 0.5.0-draft
+    question: how to treat models that scripts/verify_models.py cannot re-check (formula layer, infinite carriers)
+    decision: >-
+      option (a). A model proved in Isabelle counts as a certificate on the
+      strength of Isabelle's proof kernel, and every model record carries a
+      field certificate - "nitpick+python" for a Nitpick model re-checked by
+      scripts/verify_models.py, "isabelle-kernel" for a model built and proved
+      in Isabelle. The classes finite-model and infinite-model are the same
+      for both kinds. The Python re-check exists because Nitpick's output is
+      not proof-checked; it cannot re-check formula-layer models because
+      Nitpick interprets only finitely many formulas. A re-proof in a second
+      proof assistant (Lean) is reserved for results reported as new.
+    checks: results/isabelle_models.jsonl (field certificate); docs/results.md section 4
+  - id: D8
+    date: 2026-11-27
+    decided_by: Said Saillant (reviewer), same message ("then we should fix that")
+    implemented_in: 0.5.0-draft
+    question: whether N4 counts in models where truth is not classical (for example every proposition true)
+    decision: >-
+      N4 counts only in models that satisfy CL.PROP. Its pairs are meant to be
+      classically equivalent; where CL.PROP fails (all-true models, the term
+      model ME) a distinct pair with different grounds does not show grain
+      among equivalent propositions. Because the levels are cumulative, such
+      a model is reported at N3 at most, with N4_pairs and N5_chain noted
+      separately when proved.
+    checks: N4_pairs in isabelle/Principles.thy; levels in results/isabelle_models.jsonl
   - id: D9
     date: 2026-11-28
     decided_by: Said Saillant (reviewer), decision card, option "Add four witness entries"
@@ -107,6 +137,13 @@ changelog:
       - New section `proposed` - non-classical families SK (SK.PROP, SK.QUANT), TS.KF, SR (SR.LIAR, SR.FINE15, DIAG.K), DISJ.GRD, FOUND.ATOM, and Wilhelm/Poggiolesi conditions WP; not enumerated by driver.py. Isabelle - isabelle/NonClassical.thy, isabelle/Kripke_Model.thy, isabelle/Poggiolesi_Checks.thy.
       - New candidates P.WILHELM.2021, P.POGGIOLESI.2022 (checked); P.KORBMACHER.2015 gains korbmacher_found.
       - New findings F10 (Poggiolesi's interpretation fails her condition (1); her theorem holds), F11 (strong Kleene model K1 of Fine's compromise package with BETA.ID), F12 (DISJ.ONE refuted under SK twice), F13 (Korbmacher's untyped repair plus foundation refuted). No existing entry changed.
+  - version: 0.5.0-draft
+    date: 2026-11-27
+    changes:
+      - Decisions D7 (certificate kinds) and D8 (N4 requires CL.PROP). Nontriviality N4 restated; no principle entry changed.
+      - Finding F2 extended with the classical model MF and the Fritz literature check.
+      - Section `implications` - new separation by MF - IMM.FRITZ7 does not imply IMM.CONJ given CL.PROP, CL.QUANT and TS.FULL (MF_separates_IMM). The question the 0.3.1 note on ME left open is settled for packages without C3s.
+      - Model records - MT and MU are at N5 (MT_N4s, MU_N4s; DISJ.ONE instance with distinct disjuncts MT_N3_disj), MS at N3 with N4 excluded by D8 (MS_N3_disj).
   - version: 0.3.2-draft
     date: 2026-11-28
     changes:
@@ -402,7 +439,12 @@ implications:
       fails: [IMM.CONJ]
       model: ME
       theorem: ME_separates_IMM (isabelle/Separation_Models.thy; ME is the model of finding F2)
-      note: Added 0.3.1. A weak separation - ME is not classical and its arbitrary conjunction is a false constant, so it does not bear on whether IMM.FRITZ7 implies IMM.CONJ given CL.PROP and CL.QUANT. That question is open.
+      note: Added 0.3.1. A weak separation - ME is not classical and its arbitrary conjunction is a false constant, so it does not bear on whether IMM.FRITZ7 implies IMM.CONJ given CL.PROP and CL.QUANT. That question is settled by MF (next entry).
+    - holds: [IMM.FRITZ7, CL.PROP, CL.QUANT, TS.FULL]
+      fails: [IMM.CONJ]
+      model: MF
+      theorem: MF_separates_IMM, MF_not_IMM_CONJ (isabelle/Separation_Models.thy; MF is in isabelle/Model_Certificates.thy)
+      note: Added 0.5.0. The classical separation. MF has one propositional function, so its arbitrary conjunction of that function's instances is the quantified proposition Qu 2, which MF leaves ungrounded although it is true; IMM.CONJ requires each true instance to partially ground it immediately. So IMM.FRITZ7 does not imply IMM.CONJ given CL.PROP and CL.QUANT. Whether it does given C3s as well is not settled here (MF fails C3s).
     - holds: [C1, BETA.ID, CL.QUANT, ALL.INST, DISJ.ONE, TRANS.P, IRR.F, ASYM.P]
       fails: [CL.PROP]
       model: MS
@@ -1885,9 +1927,10 @@ nontriviality:
         whose grounded proposition is not among its grounds
     - id: N4
       statement: |
-        N3 ∧ some pair from {(p, neg (neg p)), (conj p q, conj q p),
-        (p, conj p p), (disj p q, disj q p)} consists of distinct propositions
-        with different sets of full grounds {Γ. G Γ x}
+        N3 ∧ CL.PROP holds in the model (D8) ∧ some pair from
+        {(p, neg (neg p)), (conj p q, conj q p), (p, conj p p), (disj p q, disj q p)}
+        consists of distinct propositions with different sets of full grounds
+        {Γ. G Γ x} (the pair condition is N4_pairs in isabelle/Principles.thy)
     - id: N5
       statement: "N4 ∧ ∃ x0 … xd pairwise distinct with PG x0 x1, …, PG x(d-1) xd"
   readings:
@@ -2350,7 +2393,7 @@ findings:
     date: 2026-11-27
     claim: IMM.FRITZ7 (with FACT) has no finite model, though it has an infinite one; so no package containing it has a finite model.
     proof: isabelle/Model_Certificates.thy (imm_fritz7_no_finite_model, imm_fritz7_prp_infinite; infinite model ME). Only (∧1), (∧2) and (nt) are used. By (∧1) and (∧2) the immediate partial grounds of conj p q are exactly p and q whenever both are true, so the one- and two-element sets of truths inject into the truths; (nt) excludes a single truth.
-    consequence: Nitpick cannot find a model of any package containing IMM.FRITZ7. Such packages need infinite-model certificates. The model ME is not classical (negations and disjunctions are false), so it says nothing about IMM.FRITZ7 with CL.PROP, which is untested. INFERENCE - the counting step is the same cardinality pressure as Fritz's Cantorian arguments, restricted to binary conjunction; not checked whether fritz2022 states this finite case.
+    consequence: Nitpick cannot find a model of any package containing IMM.FRITZ7. Such packages need infinite-model certificates. The infinite model MF satisfies IMM.FRITZ7 with CL.PROP, CL.QUANT and TS.FULL (MF_classical) but has a single propositional function, so it fails C3s; with C3s the package is P.FRITZ.MAIN, refuted. Literature check (2026-11-27) - fritz2022 pp. 304-310 and 327-329 read; p. 308 derives 'at least two truths' from (nt) and (∧1) but no finite-model statement was found; p. 310 says the conjunct principle 'is consistent on its own' and defers to Fritz, Operands and instances (RSL 16, 2023), whose consistency model (Def. 17, Lemma 18, p. 199) is built on an infinite set, with no statement found that finite models are excluded (pp. 188-201 read verbatim, the rest not checked). INFERENCE - F2 is an elementary consequence that the literature appears to take for granted; it is not a candidate novel result.
     status: checked
   - id: F3
     date: 2026-11-27

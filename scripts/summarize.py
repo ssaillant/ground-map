@@ -53,6 +53,9 @@ def main():
              "checked in Isabelle (`isabelle/Model_Certificates.thy`, `isabelle/Restricted_Models.thy`, "
              "`isabelle/Separation_Models.thy`, section 4);\n"
              "- **infinite-model**: an infinite model built and checked in Isabelle (decision D4);\n"
+             "- every model has a certificate kind (decision D7): *nitpick+python* (found by Nitpick, re-checked "
+             "by `scripts/verify_models.py`) or *isabelle-kernel* (built and proved in Isabelle). The class does "
+             "not depend on the kind;\n"
              "- **unknown**: no proof and no model within the time limits. Unknown never means consistent.\n")
     L.append("A refutation of a package refutes every stronger package; a model of a package is a model "
              "of every weaker one. \"Stronger\" uses only the implications proved in "
@@ -131,11 +134,12 @@ def main():
              "models of finding F9: the puzzles that involve truth, with typed grounding of truth "
              "ascriptions, stated with the witness entries of decision D9.\n")
     if certs:
-        L.append("| Principle or package | Class | Non-triviality | Carriers | Isabelle |\n|---|---|---|---|---|")
+        L.append("Non-triviality levels are cumulative, and N4 counts only where CL.PROP holds (decision D8).\n")
+        L.append("| Principle or package | Class | Certificate | Non-triviality | Carriers | Isabelle |\n|---|---|---|---|---|---|")
         for k in sorted(certs, key=lambda k: ("," in k, k)):
             c = certs[k]
             name = fmt(pk(k)) + " (package)" if "," in k else f"`{k}`"
-            L.append(f"| {name} | {c['class']} | {c['nontriviality']} (N3: {c['n3']}) | {c['carriers']} | "
+            L.append(f"| {name} | {c['class']} | {c.get('certificate', '')} | {c['nontriviality']} (N3: {c['n3']}) | {c['carriers']} | "
                      f"`{c['model']}`: {c['theorems']}" + (f". {c['note']}" if c.get("note") else "") + " |")
     L.append("")
 
