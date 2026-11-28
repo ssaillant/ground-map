@@ -7,13 +7,22 @@ For each package P the driver asks, in one batch theory:
 
   refute:   P ==> False                      (Sledgehammer)
   model:    not (P and N1)                   (Nitpick; a genuine counterexample is a model)
-  refuteN1: P and N1 ==> False               (Sledgehammer; "trivial only")
+  refuteN1: P and N1 ==> False               (Sledgehammer)
+  modelN0:  not (P and not N1)               (Nitpick; a model in which nothing grounds anything)
 
 Classification of a single query:
   refuted        Sledgehammer proof of P ==> False (replayed later as a checked proof)
-  trivial-only   no model with N1 found and P and N1 refuted
   finite-model   Nitpick reports a genuine model of P and N1
+  refuted-at-N1  P and N1 ==> False proved, P ==> False not proved. This is NOT a
+                 consistency claim. The record's field n0_model holds a Nitpick model of
+                 P and not N1 if one was found; only then, and once verify_models.py has
+                 re-checked it, is P known to be consistent, at level N0 (no grounding
+                 fact). Without it, P on its own is unknown.
   unknown        anything else, including every timeout. Never "consistent".
+
+Until registry 0.3.0-draft the class refuted-at-N1 was called "trivial-only" and was
+glossed as "consistent only in models where nothing grounds anything", without a model
+(audit finding A3). Three of its five rows were in fact refuted outright.
 
 Propagation uses only the unconditional implications proved in isabelle/Order.thy:
 a refutation of P refutes every Q whose closure contains P's closure, and a model
@@ -37,13 +46,16 @@ ENTRIES = {
     "ID.AC": "ID_AC", "ID.DN": "ID_DN",
     "CONJ.BIN": "CONJ_BIN", "CONJ.INF": "CONJ_INF", "CONJ.GRAIN": "CONJ_GRAIN",
     "DISJ.ONE": "DISJ_ONE", "DISJ.BOTH": "DISJ_BOTH", "DISJ.WEAK": "DISJ_WEAK",
+    "DISJ.PART": "DISJ_PART",
     "NEG.DN": "NEG_DN", "NEG.DM": "NEG_DM",
     "EX.PRED": "EX_PRED", "EX.LEV": "EX_LEV", "EX.FULL": "EX_FULL", "EX.WEAK": "EX_WEAK",
-    "ALL.INST": "ALL_INST", "ALL.TOT": "ALL_TOT",
-    "TR.TYPED": "TR_TYPED", "TR.FULL": "TR_FULL", "TR.NEG": "TR_NEG",
+    "EX.PART": "EX_PART",
+    "ALL.PART": "ALL_PART", "ALL.INST": "ALL_INST", "ALL.TOT": "ALL_TOT",
+    "TR.TYPED": "TR_TYPED", "TR.FULL": "TR_FULL", "TR.NEG": "TR_NEG", "TR.PART": "TR_PART",
     "EMPTY.NONE": "EMPTY_NONE", "EMPTY.SOME": "EMPTY_SOME",
     "FIN.FIN": "FIN_FIN", "FIN.B3": "FIN_B3",
     "C1": "C1", "C2": "(C2 1)", "C3d": "C3d", "C3s": "C3s",
+    "W.ID": "W_ID", "W.TR": "W_TR", "W.EM": "W_EM", "W.TEM": "W_TEM",
     "BETA.ID": "BETA_ID", "BETA.GROUND": "BETA_GROUND",
     "IMM.CONJ": "IMM_CONJ", "IMM.FRITZ7": "IMM_FRITZ7",
 }
@@ -51,12 +63,17 @@ ENTRIES = {
 PROVED = [("IRR.F", "IRR.W"), ("IRR.F", "IRR.MEM"), ("ASYM.P", "ASYM.ANTI"),
           ("TRANS.CUT", "TRANS.P"), ("AMALG.INF", "AMALG.FIN"),
           ("TS.ID", "TS.FULL"), ("TS.FULL", "TS.TYPED"), ("TR.FULL", "TR.TYPED"),
-          ("EX.FULL", "EX.LEV"), ("EX.FULL", "EX.PRED"), ("FIN.B3", "FIN.FIN")]
+          ("EX.FULL", "EX.LEV"), ("EX.FULL", "EX.PRED"), ("FIN.B3", "FIN.FIN"),
+          ("DISJ.ONE", "DISJ.PART"), ("EX.FULL", "EX.PART"), ("TR.FULL", "TR.PART"),
+          ("ALL.INST", "ALL.PART"), ("ALL.TOT", "ALL.PART")]
+# decision D9: every comprehension level implies every witness entry (C1_W, C2_W, C3d_W,
+# C3s_W). The witness entries mention lam, so IMPL below does not propagate along these.
+PROVED += [(c, w) for c in ("C1", "C2", "C3d", "C3s") for w in ("W.ID", "W.TR", "W.EM", "W.TEM")]
 # at most one entry from each group (exact characterisations of adm, or contradictory)
 EXCL = [{"C1", "C2", "C3d", "C3s"}, {"EMPTY.NONE", "EMPTY.SOME"}, {"BETA.ID", "BETA.GROUND"}]
 # entries that mention lam/den: the core clause LAM_CORE is added when one is present
 LAMB = {"IRR.W", "TS.TYPED", "TR.TYPED", "EX.PRED", "EX.LEV", "C1", "C2", "C3d",
-        "BETA.ID", "BETA.GROUND"}
+        "BETA.ID", "BETA.GROUND", "W.ID", "W.TR", "W.EM", "W.TEM"}
 # Propagation uses only implications whose weaker side is outside the formula layer.
 # A package means: its entries + FACT, + LAM_CORE iff it explicitly contains a LAMB
 # entry. An implication into a LAMB entry would silently add LAM_CORE, so it is not
@@ -142,6 +159,8 @@ def run_batch(pkgs, t_sh=20, t_np=20):
         lines.append("  " + NP.format(t=t_np)); where[len(lines)] = (i, "model"); lines.append("  oops")
         lines.append(f'lemma n{i}: "{tm} \\<and> N1 \\<Longrightarrow> False"')
         lines.append("  " + SH.format(t=t_sh)); where[len(lines)] = (i, "refuteN1"); lines.append("  oops")
+        lines.append(f'lemma z{i}: "\\<not> ({tm} \\<and> \\<not> N1)"')
+        lines.append("  " + NP.format(t=t_np)); where[len(lines)] = (i, "modelN0"); lines.append("  oops")
     lines.append("end")
     path = os.path.join(WORK, name + ".thy")
     open(path, "w").write("\n".join(lines) + "\n")
@@ -149,7 +168,7 @@ def run_batch(pkgs, t_sh=20, t_np=20):
     try:
         out = subprocess.run([ISABELLE, "process_theories", "-O", "-U", "-d", os.path.join(ROOT, "isabelle"),
                               "-l", "Ground_Map_Checks", "-f", path, name],
-                             capture_output=True, text=True, timeout=120 + 3 * (t_sh + t_np) * max(1, len(pkgs) // 4)).stdout
+                             capture_output=True, text=True, timeout=120 + 4 * (t_sh + t_np) * max(1, len(pkgs) // 4)).stdout
     except subprocess.TimeoutExpired as e:
         out = (e.stdout or b"").decode() if isinstance(e.stdout, bytes) else (e.stdout or "")
         subprocess.run(["pkill", "-f", "poly -q"], capture_output=True)  # only after a timeout
@@ -160,7 +179,8 @@ def run_batch(pkgs, t_sh=20, t_np=20):
         msgs.setdefault(int(m.group(1)), []).append(m.group(2))
     results = []
     for i, p in enumerate(pkgs):
-        info = {"refute": None, "model": None, "refuteN1": None, "model_text": None}
+        info = {"refute": None, "model": None, "refuteN1": None, "model_text": None,
+                "modelN0": None, "n0_text": None}
         for ln, (j, kind) in where.items():
             if j != i: continue
             for body in msgs.get(ln, []):
@@ -173,17 +193,23 @@ def run_batch(pkgs, t_sh=20, t_np=20):
                         info["model"] = "genuine"; info["model_text"] = body.strip()
                     elif "potentially spurious" in body and info["model"] is None:
                         info["model"] = "spurious?"
+                elif kind == "modelN0":
+                    if re.search(r"Nitpick found a counterexample", body) and "potentially spurious" not in body:
+                        info["modelN0"] = "genuine"; info["n0_text"] = body.strip()
         if info["refute"]:
             cls = "refuted"
         elif info["model"] == "genuine":
             cls = "finite-model"
         elif info["refuteN1"]:
-            cls = "trivial-only"
+            cls = "refuted-at-N1"
         else:
             cls = "unknown"
-        results.append({"key": key(p), "semantics": "v2", "class": cls, "proof": info["refute"] or info["refuteN1"],
-                        "model": info["model_text"], "nitpick": info["model"], "batch": name,
-                        "t_sh": t_sh, "t_np": t_np, "date": time.strftime("%Y-%m-%d")})
+        rec = {"key": key(p), "semantics": "v3", "class": cls, "proof": info["refute"] or info["refuteN1"],
+               "model": info["model_text"], "nitpick": info["model"], "batch": name,
+               "t_sh": t_sh, "t_np": t_np, "date": time.strftime("%Y-%m-%d")}
+        if cls == "refuted-at-N1":
+            rec["n0_model"] = info["n0_text"]
+        results.append(rec)
     return results, elapsed
 
 
