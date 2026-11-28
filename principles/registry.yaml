@@ -3623,9 +3623,24 @@ findings:
       reports him, is a holder of the identification that the weak-first form puts under
       pressure. NOT ACCESSIBLE 2026-11-28 - the body of Correia 2017 "An impure logic of
       representational grounding" (Springer paywall; abstract, footnotes and references only -
-      fn. 17 says his propositional equivalence is finer than necessary equivalence); deRosset
-      2013 "What is weak ground?" (login). NOT READ - correia2014; Krämer 2020 "Puzzles"
-      (Routledge Handbook); deRosset 2013 "Grounding explanations"; Correia 2025 "The Logic of
+      fn. 17 says his propositional equivalence is finer than necessary equivalence); SUPPLIED
+      BY THE REVIEWER 2026-11-28 - derosset2013b ("What is weak ground?", read in full) - on
+      the identity characterizations "merely weak ground would be symmetric" (p. 13), which he
+      counts against them as readings of Fine; a verification-set model in which one sentence
+      is a partial weak ground of another and so the second is not a strict ground of the
+      first (fn. 5, p. 12); the three-fact model that Lovett reports (p. 16), in which a is a
+      full weak ground of a.b on the vacuously satisfied definition (he does not say that the
+      two ground each other); and a modal reason against an identification - a disjunction
+      "may obtain when" its true disjunct does not (p. 11). No antisymmetry, no quantifier, no
+      case derived from the introduction rules. derosset2013a ("Grounding explanations",
+      searched by keyword, the two notes read) - "because" is "an anti-symmetric connective",
+      said in order to leave room for facts that explain themselves (fn. 15, draft p. 5), and
+      "the standard view" is that grounding explanation is anti-symmetric and transitive
+      (fn. 16, draft p. 6). So antisymmetry with self-explanation left open is asserted in
+      print before woods2018 and called standard; the paper does not discuss the logical
+      introduction rules or the puzzles. This widens the target of the corollary beyond
+      Woods's footnote. NOT READ - correia2014; Krämer 2020 "Puzzles"
+      (Routledge Handbook); Correia 2025 "The Logic of
       Grounding" (CUP); Rodriguez-Pereyra 2015; Jenkins 2011; Barnes 2018; Bliss 2018; Thompson
       2016; the rest of Kovacs 2018. WHAT WOULD FALSIFY A NOVELTY CLAIM - the E, E ∧ q circle, or any mutual
       partial ground between a necessary and a contingent truth derived from the logical
@@ -3784,10 +3799,16 @@ bibliography:
     read: published, pp. 188–201 verbatim
   fine_derosset2024a:
     cite: "Fine, K. and deRosset, L. Approaches to the Impure Logic of Ground (draft of 2024-05-09)."
-    read: supplied by reviewer; not yet mined
+    read: 'supplied by reviewer (again 2026-11-28, the same file); searched by keyword for F27, not read in full'  
   fine_derosset2024b:
     cite: "Fine, K. and deRosset, L. Truthmaker Semantics, Ground, and Generality (draft of 2024-05-09)."
     read: supplied by reviewer; not yet mined
+  derosset2013a:
+    cite: "deRosset, L. (2013). Grounding Explanations. Philosophers' Imprint 13(7)."
+    read: 'draft of 2013-01-04 supplied by the reviewer 2026-11-28 (35 pp., own pagination; journal pagination not checked); searched by keyword for F27, fns 15-16 read'
+  derosset2013b:
+    cite: "deRosset, L. (2013). What is Weak Ground? Essays in Philosophy 14(1): 7-18."
+    read: 'published version supplied by the reviewer 2026-11-28, read in full for F27'
   derosset2015:
     cite: "deRosset, L. Better Semantics for the Pure Logic of Ground. Analytic Philosophy (forthcoming as of 2015 draft)."
     read: supplied by reviewer; not yet mined
