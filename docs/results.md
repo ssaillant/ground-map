@@ -39,47 +39,76 @@ Caveat from the registry: Russell_Checks and Fine_Checks use the pre-D3 encoding
 
 ## 2. Search: minimal refuted packages found so far
 
-502 packages queried. Minimal refuted packages (every proper weakening tested is not refuted, or was not tested):
+1380 packages queried. Minimal refuted packages (every proper weakening tested is not refuted, or was not tested):
 
 | Package | Class | Replayed in Isabelle |
 |---|---|---|
 | `ASYM.P`, `CL.PROP`, `ID.DN`, `NEG.DN` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `CL.PROP`, `ID.DN`, `IRR.F`, `NEG.DN` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `CL.QUANT`, `DISJ.WEAK`, `ID.AC`, `IRR.F` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `EMPTY.SOME`, `ID.DN`, `NEG.DN` | refuted at N1; without N1 unknown | no |
+| `EMPTY.SOME`, `IRR.F`, `TR.PART`, `TS.ID` | refuted | no |
+| `CL.QUANT`, `ID.DN`, `IRR.F`, `NEG.DN` | refuted at N1; without N1 unknown | no |
+| `ASYM.P`, `CL.QUANT`, `TR.FULL`, `TS.ID` | refuted | no |
+| `ASYM.P`, `EMPTY.SOME`, `TR.PART`, `TS.ID` | refuted | no |
+| `ASYM.P`, `ID.DN`, `NEG.DN`, `TS.ID` | refuted at N1; without N1 unknown | no |
 | `CL.PROP`, `IRR.F`, `TR.NEG`, `TRANS.CUT`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `CL.QUANT`, `IRR.F`, `NEG.DN`, `TR.NEG`, `TS.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `BETA.ID`, `C1`, `CL.QUANT`, `EX.PART`, `IRR.F` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `ASYM.P`, `EMPTY.NONE`, `ID.DN`, `NEG.DN`, `TRANS.CUT` | refuted at N1; model at N0 verified | yes (`isabelle/Results_Refutations.thy`) |
 | `BETA.ID`, `CL.QUANT`, `EX.PART`, `IRR.F`, `W.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `ASYM.P`, `EMPTY.SOME`, `ID.DN`, `NEG.DN`, `TS.ID` | refuted | no |
+| `CL.QUANT`, `ID.DN`, `IRR.F`, `TR.NEG`, `TS.ID` | refuted | no |
+| `CL.QUANT`, `ID.DN`, `IRR.F`, `NEG.DN`, `TS.ID` | refuted | no |
+| `CL.PROP`, `EX.FULL`, `IRR.F`, `TR.NEG`, `TS.ID` | refuted at N1; without N1 unknown | no |
+| `CL.PROP`, `EMPTY.NONE`, `IRR.F`, `TR.NEG`, `TS.ID` | refuted | no |
 | `ASYM.P`, `BETA.ID`, `CL.QUANT`, `EX.PART`, `IRR.W`, `W.ID` | refuted | yes (`isabelle/Results_Refutations.thy`) |
+| `CL.QUANT`, `DISJ.ONE`, `ID.DN`, `IRR.F`, `NEG.DN`, `TR.NEG` | refuted | no |
+| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TR.PART`, `TRANS.CUT` | refuted at N1; without N1 unknown | no |
+| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TRANS.CUT`, `TS.FULL` | refuted at N1; without N1 unknown | no |
+| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TR.PART`, `TS.FULL` | refuted at N1; without N1 unknown | no |
+| `ID.AC`, `ID.DN`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.PART`, `TS.ID` | refuted at N1; without N1 unknown | no |
 | `BETA.ID`, `C2`, `CL.PROP`, `CL.QUANT`, `DISJ.PART`, `EX.PART`, `IRR.F`, `TRANS.P` | refuted | no |
+| `C3s`, `DISJ.WEAK`, `EMPTY.SOME`, `EX.PART`, `EX.WEAK`, `IRR.F`, `TR.PART`, `TRANS.CUT` | refuted | no |
+| `ASYM.P`, `CL.QUANT`, `DISJ.WEAK`, `ID.DN`, `NEG.DN`, `TR.PART`, `TRANS.CUT`, `TS.FULL` | refuted | no |
 | `ASYM.P`, `BETA.ID`, `C2`, `CL.PROP`, `CL.QUANT`, `DISJ.PART`, `EX.PART`, `IRR.W`, `TRANS.P` | refuted | yes (`isabelle/Results_Refutations.thy`) |
 | `CONJ.GRAIN`, `DISJ.BOTH`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `ID.DN`, `IRR.F`, `NEG.DN`, `TR.FULL`, `TRANS.CUT` | refuted at N1; model at N0 verified | yes (`isabelle/Results_Refutations.thy`) |
+| `CONJ.GRAIN`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `FIN.FIN`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `TR.NEG`, `TRANS.CUT`, `TS.ID` | refuted at N1; model at N0 verified | no |
+| `CONJ.GRAIN`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `FIN.FIN`, `ID.AC`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `TRANS.CUT`, `TS.ID` | refuted at N1; model at N0 verified | no |
+| `CONJ.GRAIN`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `NEG.DN`, `TRANS.CUT`, `TS.ID` | refuted at N1; model at N0 verified | no |
+| `C3s`, `DISJ.WEAK`, `EX.PART`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.NEG`, `TR.PART`, `TRANS.CUT`, `TS.FULL` | refuted at N1; without N1 unknown | no |
+| `C3s`, `DISJ.WEAK`, `EMPTY.SOME`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IRR.F`, `NEG.DM`, `NEG.DN`, `TR.NEG`, `TR.PART`, `TRANS.CUT`, `TS.FULL` | refuted at N1; without N1 unknown | no |
+| `ASYM.P`, `DISJ.BOTH`, `DISJ.PART`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `ID.AC`, `IMM.CONJ`, `IRR.MEM`, `NEG.DM`, `NEG.DN`, `TR.FULL`, `TR.NEG`, `TRANS.P`, `TS.ID` | refuted at N1; without N1 unknown | no |
 
 ## 3. Search: largest packages with verified finite models
 
-112 verified finite models; 2 Nitpick models not (yet) re-verified. Maximal ones (no verified model of a strictly stronger package). Non-triviality: N1 only; levels N2-N5 not yet tested.
+477 verified finite models; 5 Nitpick models not (yet) re-verified. Maximal ones (no verified model of a strictly stronger package). Non-triviality: N1 only; levels N2-N5 not yet tested.
 
-- `AMALG.FIN`, `CL.PROP`, `CONJ.GRAIN`, `DISJ.BOTH`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `ID.DN`, `NEG.DN`, `TR.FULL`, `TRANS.CUT`
+- `ALL.INST`, `ALL.TOT`, `AMALG.INF`, `ASYM.ANTI`, `C3s`, `CL.QUANT`, `CONJ.BIN`, `CONJ.GRAIN`, `CONJ.INF`, `DISJ.BOTH`, `DISJ.ONE`, `DISJ.WEAK`, `EMPTY.SOME`, `EX.FULL`, `EX.WEAK`, `FIN.FIN`, `ID.AC`, `ID.DN`, `IMM.CONJ`, `IRR.MEM`, `NEG.DM`, `NEG.DN`, `SK.QUANT`, `TR.FULL`, `TR.NEG`, `TRANS.CUT`, `TS.ID`
+- `ALL.INST`, `ALL.TOT`, `AMALG.INF`, `ASYM.ANTI`, `CL.PROP`, `CL.QUANT`, `CONJ.BIN`, `CONJ.GRAIN`, `CONJ.INF`, `DISJ.BOTH`, `DISJ.ONE`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `EX.WEAK`, `FIN.FIN`, `ID.AC`, `ID.DN`, `IMM.CONJ`, `IRR.MEM`, `NEG.DM`, `NEG.DN`, `SK.QUANT`, `TR.FULL`, `TR.NEG`, `TRANS.CUT`, `TS.ID`
+- `ALL.INST`, `ALL.TOT`, `AMALG.INF`, `ASYM.ANTI`, `CL.PROP`, `CL.QUANT`, `CONJ.BIN`, `CONJ.GRAIN`, `CONJ.INF`, `DISJ.BOTH`, `DISJ.ONE`, `DISJ.WEAK`, `EMPTY.SOME`, `EX.FULL`, `EX.WEAK`, `FIN.FIN`, `ID.AC`, `ID.DN`, `IMM.CONJ`, `IRR.MEM`, `NEG.DM`, `NEG.DN`, `SK.QUANT`, `TR.FULL`, `TR.NEG`, `TRANS.CUT`, `TS.ID`
+- `ALL.INST`, `ALL.TOT`, `AMALG.INF`, `ASYM.P`, `CL.QUANT`, `CONJ.GRAIN`, `CONJ.INF`, `DISJ.WEAK`, `EMPTY.NONE`, `EX.FULL`, `EX.WEAK`, `FIN.FIN`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `SK.QUANT`, `TRANS.CUT`, `TS.ID`
+- `CL.QUANT`, `EMPTY.NONE`, `EX.FULL`, `EX.WEAK`, `FIN.FIN`, `ID.AC`, `ID.DN`, `IMM.CONJ`, `IRR.F`, `TRANS.CUT`, `TS.ID`
 - `ASYM.ANTI`, `CL.QUANT`, `DISJ.WEAK`, `IRR.F`, `TR.NEG`, `TRANS.CUT`, `TS.ID`
 - `ASYM.ANTI`, `CONJ.GRAIN`, `DISJ.WEAK`, `IRR.F`, `TR.NEG`, `TRANS.CUT`, `TS.ID`
 - `ASYM.ANTI`, `DISJ.WEAK`, `EX.WEAK`, `IRR.F`, `TR.NEG`, `TRANS.CUT`, `TS.ID`
-- `ALL.TOT`, `CL.PROP`, `IRR.MEM`, `TR.NEG`, `TRANS.P`, `TS.FULL`
-- `CL.PROP`, `DISJ.BOTH`, `IRR.MEM`, `TR.NEG`, `TRANS.P`, `TS.FULL`
-- `CL.PROP`, `ID.DN`, `IRR.MEM`, `TR.NEG`, `TRANS.P`, `TS.FULL`
-- `CL.PROP`, `IRR.MEM`, `NEG.DM`, `TR.NEG`, `TRANS.P`, `TS.FULL`
+- `AMALG.INF`, `ASYM.P`, `CONJ.INF`, `EMPTY.SOME`, `SK.PROP`, `TS.ID`
+- `CL.QUANT`, `IMM.CONJ`, `IRR.F`, `TR.NEG`, `TRANS.CUT`, `TS.ID`
+- `EMPTY.NONE`, `EX.FULL`, `IRR.F`, `NEG.DM`, `TR.NEG`, `TS.ID`
+- `ALL.INST`, `ASYM.P`, `EMPTY.NONE`, `ID.DN`, `TR.PART`
+- `ASYM.P`, `CL.QUANT`, `TR.NEG`, `TRANS.P`, `TS.ID`
+- `ASYM.P`, `EMPTY.SOME`, `ID.DN`, `SK.PROP`, `TS.ID`
+- `ASYM.P`, `EMPTY.SOME`, `NEG.DN`, `SK.PROP`, `TS.ID`
+- `ASYM.P`, `EMPTY.SOME`, `TR.NEG`, `TRANS.CUT`, `TS.ID`
 - `ASYM.P`, `CL.PROP`, `EMPTY.NONE`, `NEG.DN`
 - `ASYM.P`, `CL.PROP`, `ID.DN`, `TRANS.CUT`
-- `ALL.INST`
-- `AMALG.INF`
-- `C3s`
-- `CONJ.INF`
-- `DISJ.ONE`
-- `EMPTY.SOME`
-- `FIN.FIN`
-- `ID.AC`
-- `IMM.CONJ`
-- `SK.QUANT`
+- `CL.PROP`, `EMPTY.NONE`, `IRR.F`, `TR.NEG`
+- `CL.PROP`, `EMPTY.NONE`, `IRR.F`, `TS.ID`
+- `CL.QUANT`, `ID.DN`, `IRR.F`, `TR.NEG`
+- `ASYM.P`, `CL.QUANT`, `TR.FULL`
+- `ASYM.P`, `EMPTY.SOME`, `TR.FULL`
+- `EMPTY.SOME`, `IRR.F`, `TR.PART`
+- `EMPTY.SOME`, `IRR.F`, `TS.ID`
 
 ## 4. Models built in Isabelle
 
@@ -130,7 +159,7 @@ Non-triviality levels are cumulative, and N4 counts only where CL.PROP holds (de
 
 ## 5. Unknown
 
-350 queried packages are unknown (0 further packages that the search left unknown contain a package refuted in section 2 and are therefore refuted). Principles that are unknown even on their own (with FACT and N1): `W.EM`, `W.ID`, `W.TEM`, `W.TR`. Section 4 resolves the principles that were unknown on their own; unknown packages that combine several principles remain.
+593 queried packages are unknown (0 further packages that the search left unknown contain a package refuted in section 2 and are therefore refuted). Principles that are unknown even on their own (with FACT and N1): `W.EM`, `W.ID`, `W.TEM`, `W.TR`. Section 4 resolves the principles that were unknown on their own; unknown packages that combine several principles remain.
 
 ## 6. Findings
 
