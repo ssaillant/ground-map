@@ -64,4 +64,31 @@ proof -
   thus False using irr unfolding IRR_F_def PG_def by blast
 qed
 
+text \<open>
+  The premise "something is true" is not needed in this encoding: CL_QUANT includes
+  the clause for arbitrary conjunction, T (bigconj f) iff every member of sat f is
+  true, and if nothing were true then sat f would be empty, so bigconj f would be
+  true. So the listed package is refuted outright. (The same lemma is
+  Order.CL_QUANT_truth on the audit branch; it is restated here under its own name.)
+\<close>
+
+lemma fritz2020_CL_QUANT_truth: assumes "CL_QUANT" shows "\<exists>p. T p"
+proof (rule ccontr)
+  assume n: "\<not> (\<exists>p. T p)"
+  have "T (bigconj f) \<longleftrightarrow> (\<forall>q\<in>sat f. T q)" for f using assms unfolding CL_QUANT_def by blast
+  moreover have "sat f = {}" for f unfolding sat_def using n by blast
+  ultimately have "T (bigconj f)" for f by simp
+  thus False using n by blast
+qed
+
+corollary fritz2020_betaG_asym_package:
+  assumes "C1" "LAM_CORE" "BETA_GROUND" "EX_FULL" "CL_QUANT" "ASYM_P"
+  shows False
+  using fritz2020_betaG_asym[OF assms fritz2020_CL_QUANT_truth[OF assms(5)]] .
+
+corollary fritz2020_betaG_trans_irr_package:
+  assumes "C1" "LAM_CORE" "BETA_GROUND" "EX_FULL" "CL_QUANT" "TRANS_P" "IRR_F"
+  shows False
+  using fritz2020_betaG_trans_irr[OF assms fritz2020_CL_QUANT_truth[OF assms(5)]] .
+
 end

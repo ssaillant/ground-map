@@ -26,8 +26,13 @@ A refutation of a package refutes every stronger package; a model of a package i
 | P.FRITZ.CANTOR (fritz2022 pp. 306–307 (sect. 2.3, arbitrary conjunction)) | `C3s`, `CL.PROP`, `CL.QUANT`, `IMM.CONJ` | refuted, without irreflexivity | refuted (checked) - `fritz_cantor_imm (uses grain_from_conj_imm)` |
 | P.FRITZ.MAIN (fritz2022 §2.4, pp. 308–310) | `C3s`, `CL.PROP`, `CL.QUANT`, `IMM.FRITZ7` | refuted (Fritz), without irreflexivity | refuted (checked) - `fritz_main_imm (isabelle/Fritz_Main.thy; generic form fritz_main_generic)` |
 | P.WOODS.CHECK (woods2018 (no model given in the paper)) | `BETA.ID`, `C1`, `CL.QUANT`, `EX.FULL`, `IRR.W`, `TRANS.P` | unknown | open |
-| P.KORBMACHER.2015 (korbmacher2015 slides 8-9) | `DIAG.K`, `DISJ.ONE (left half)`, `FACT.L` | refuted | checked - with disjunction grounding restricted to grounded disjuncts, d is ungrounded) |
-| P.FRITZ2020.BETAG (fritz2020 sect. 4) | `ASYM.P`, `BETA.GROUND`, `C1`, `CL.QUANT`, `EX.FULL` | refuted | checked - fritz2020_betaG_asym, fritz2020_betaG_trans_irr |
+| P.KORBMACHER.2015 (korbmacher2015 slides 8-9) | `DIAG.K`, `DISJ.ONE (left half)`, `FACT.L` | refuted | refuted (checked) - `korbmacher_disj; korbmacher_dn for the variant with NEG.DN in place of DISJ.ONE, whose diagonal witness is d with T d iff not PG d (neg (neg d))` (isabelle/Korbmacher_Checks.thy) |
+| P.FRITZ2020.BETAG (fritz2020 sect. 4) | `ASYM.P`, `BETA.GROUND`, `C1`, `CL.QUANT`, `EX.FULL` | refuted | refuted (checked) - `fritz2020_betaG_asym_package; fritz2020_betaG_trans_irr_package for the version with TRANS.P and IRR.F in place of ASYM.P` (isabelle/Fritz2020_Checks.thy) |
+
+Notes on the rows above:
+
+- P.KORBMACHER.2015: korbmacher_untyped_ungrounded is not a refutation. Its hypotheses are FACT.L, DIAG.K and the restricted rule DISJ_ONE_GROUNDED (if p has some partial ground, then {p} grounds disj p q; no truth premise), and its conclusion is that d has no partial ground, not False. It checks Korbmacher's slide-12 observation that the restriction blocks the derivation; it does not show that the restricted package is consistent (no model is given). FACT.L, DISJ_ONE_L and DISJ_ONE_GROUNDED are defined locally in Korbmacher_Checks.thy, not as registry constants.
+- P.FRITZ2020.BETAG: fritz2020_betaG_asym and fritz2020_betaG_trans_irr assume that something is true, as Fritz does ("there is surely some truth"). The _package corollaries discharge that premise: the registry's CL.QUANT includes the clause for arbitrary conjunction, and if nothing were true, bigconj f would be vacuously true (fritz2020_CL_QUANT_truth). The truth used is therefore an artefact of the bigconj clause, not Fritz's premise; without that clause the result would be a refutation at N1 only.
 
 Caveat from the registry: Russell_Checks and Fine_Checks use the pre-D3 encoding (identities stated directly); only P.KRAMER is re-checked in the v0.2 encoding (kramer_v2). Re-stating the Fine proofs over the formula layer is mechanical and is scheduled with step 4.
 
