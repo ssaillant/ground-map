@@ -583,6 +583,22 @@ AI-use disclosure. One entry per working session.
 - Checks: registry parses; scripts/verify_models.py; scripts/summarize.py. No Isabelle change.
 - Human review: pending.
 
+## 2026-11-28 — Wilhelm 2021 read against the registry (registry 0.9.0-draft)
+
+- Tool and model as in the non-classical families entry above (Claude Code, cloud session;
+  Isabelle2026).
+- Prompt: the reviewer supplied wilhelm2021; the coordinator asked for it to be read against
+  the registry with a report before any change, then (after PR #10 merged) for the proposed
+  edits to be made with the two readings of ≈ left to the reviewer.
+- What the model did: read the two pages; compared Wilhelm's conditions (1)-(8) with
+  Poggiolesi's restatement (same content); restated P.WILHELM.2021 from Wilhelm's text (two
+  theorems); added wilhelm_thm1 (Wilhelm's route) and wilhelm_thm2 (Theorem 2, whose proof
+  Wilhelm gives only as "analogous") to isabelle/Poggiolesi_Checks.thy with Leibniz's law in
+  the grounded place only; added Wilhelm as a source of proposed.WP and two FLAGGED readings
+  (what ≈ expresses, left open; the form of Leibniz's law).
+- Checks: session Ground_Map_Checks builds in Isabelle2026; scripts/check_no_sorry.sh;
+  docs/results.md regenerated (version line only).
+
 ## 2026-11-28 — Finding F25: inconsistency among Korbmacher 2018b's printed results
 
 - Tool: Claude Code (cloud session), same thread. Model: to be filled in by the reviewer.
@@ -591,7 +607,7 @@ AI-use disclosure. One entry per working session.
 - What the model did: re-read Lemma 3, T1, T3, G3a, APD_F, RP11-RP13, fn. 24 and the standard
   model (pp. 203-214) in the PDF; wrote isabelle/Korbmacher_Lemma3.thy (two inconsistency
   lemmas over an abstract code type, two toy repair models); added finding F25 and registry
-  0.8.1-draft; updated the TS.TYPED caveat and sect. 4 of docs/korbmacher-2018b.md.
+  0.9.1-draft (renumbered from 0.8.1 after PR #12 merged); updated the TS.TYPED caveat and sect. 4 of docs/korbmacher-2018b.md.
 - Checks: isabelle build (Ground_Map_Checks) passes; scripts/check_no_sorry.sh; registry
   parses; scripts/verify_models.py; scripts/summarize.py.
 - Human review: pending.
