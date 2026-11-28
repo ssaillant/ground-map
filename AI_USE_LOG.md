@@ -516,3 +516,15 @@ AI-use disclosure. One entry per working session.
 - Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py;
   scripts/summarize.py.
 - Human review: pending.
+
+## 2026-11-28 — Skiles attribution marked secondhand; Skiles chapter and SEP entry checked
+
+- Tool: Claude Code (cloud session), same thread. Model: to be filled in by the reviewer.
+- Prompt: the reviewer asked that the attribution to Skiles (Krämer fn. 6) be recorded as
+  secondhand; the coordinator relayed two sources (Skiles, "Identity and the Epistemology of
+  Grounding"; SEP "Metaphysical Explanation") to check for the manuscript and the puzzles.
+- What the model did: edited F9's NOVELTY text and the bibliography; searched the Skiles
+  chapter (PDF) and had a fetch subagent read the SEP entry (sects. 1-7.2 verbatim,
+  bibliography only as a summary); added addendum A6 to docs/korbmacher-2018b.md.
+- Checks: registry parses; scripts/verify_models.py; scripts/summarize.py. No Isabelle change.
+- Human review: pending.
