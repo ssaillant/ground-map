@@ -3,12 +3,13 @@
 # registry_version. DRAFT for review. Version 0.3.0-draft applies the repairs
 # of the audit of 2026-11-27 (decision D5; docs/audit-2026-11-27.md). Version
 # 0.3.1-draft changes no statement: it records results on the questions the
-# repair left open (findings F7, F8; section `implications`). Reviewer
+# repair left open (findings F7, F8; section `implications`). Version
+# 0.3.2-draft adds the family WIT (decision D9; finding F9). Reviewer
 # decisions are recorded in the section `decisions`; choices made while
 # applying a decision are listed under `choices_made_in_applying_it`.
 
-registry_version: 0.3.1-draft
-date: 2026-11-27
+registry_version: 0.3.2-draft
+date: 2026-11-28
 status: draft-for-review
 decisions:
   # Reviewer decisions, recorded with the version that implements them.
@@ -73,7 +74,30 @@ decisions:
       - P.FINE.UNIVERSAL.SP now lists CL.PROP. The checked proof uses it. SETTLED 0.3.1 - the package without it is consistent (model MS, finding F7), so the premise was missing from the 0.2.x listing and adding it was required.
       - Puzzle targets are stated with the weakest entries the checked proofs use. The 0.2.x packages follow from them by the implications in Order.thy.
     checks: isabelle/Restricted_Models.thy (MG_package), isabelle/Puzzle_Packages.thy, isabelle/Order.thy; isabelle/Audit_Checks.thy keeps the proofs that the 0.2.x definitions collapsed
+  - id: D9
+    date: 2026-11-28
+    decided_by: Said Saillant (reviewer), decision card, option "Add four witness entries"
+    implemented_in: 0.3.2-draft
+    question: whether to add comprehension entries weaker than C1, one per witness, so that the map can say what one puzzle needs beyond another (finding F8)
+    decision: >-
+      add four entries, each asserting that one named witness is admissible.
+      C1 stays and implies them. The puzzles are restated with them.
+    numbering: D9 because PR #5 records D7 and D8 and skips D6. INFERENCE - D6 is left for PR #3, whose own decision is numbered D5 on its branch and collides with D5 here.
+    choices_made_in_applying_it:
+      # Made by the assistant while applying D9, not by the reviewer.
+      - The entries form a family of their own, WIT, and are not added to COMP. A COMP entry fixes adm exactly and a package takes at most one; a witness entry is a lower bound and any number can be combined, with one another and with a COMP entry.
+      - The entries are W.ID, W.TR, W.EM and W.TEM, one per C1 witness. No entry denies admissibility. That a witness is not admissible is a fact about a model (MT, MU), not a principle one can select.
+      - Each puzzle target lists its witness entry in place of C1. The packages with C1 are still refuted, by the implication from C1.
+      - The automatic search was not rerun for packages with witness entries. They mention lam, so Nitpick's models for them are not genuine; the new classifications rest on theorems and on the models MT and MU.
+    checks: isabelle/Principles.thy (W_ID, W_TR, W_EM, W_TEM), isabelle/Order.thy (C1_W, C2_W, C3d_W, C3s_W), isabelle/Puzzle_Packages.thy (theorems named *_W), isabelle/Separation_Models.thy (MT_W, MU_package)
 changelog:
+  - version: 0.3.2-draft
+    date: 2026-11-28
+    changes:
+      - Decision D9. New family WIT with entries W.ID, W.TR, W.EM, W.TEM. No existing statement changed.
+      - Section `implications` - C1, C2, C3d and C3s each imply the four witness entries.
+      - Puzzle targets P.KRAMER, P.FINE.PARTICULAR, P.FINE.UNIVERSAL, P.FINE.PARTICULAR.PROPS and P.FINE.UNIVERSAL.SP list a witness entry in place of C1 (theorems named *_W). With that change no target contains another.
+      - New model MU (isabelle/Separation_Models.thy) and model MT restated with the witness entries. New finding F9 - the three targets that involve truth are consistent with TR.TYPED in place of TR.PART; finding F8 updated.
   - version: 0.3.1-draft
     date: 2026-11-27
     changes:
@@ -297,6 +321,13 @@ implications:
     - {from: ALL.INST, to: ALL.PART, theorem: ALL_INST_PART}
     - {from: ALL.TOT, to: ALL.PART, theorem: ALL_TOT_PART}
     - {from: FIN.B3, to: FIN.FIN, theorem: FIN_B3_FIN}
+  comprehension_to_witnesses:
+    # D9 (0.3.2). Each comprehension level implies each witness entry. Not used
+    # by the search for propagation (the weaker side mentions lam).
+    - {from: C1, to: [W.ID, W.TR, W.EM, W.TEM], theorem: C1_W}
+    - {from: C2, to: [W.ID, W.TR, W.EM, W.TEM], theorem: 'C2_W (for every level bound; the four bodies have level 0)'}
+    - {from: C3d, to: [W.ID, W.TR, W.EM, W.TEM], theorem: C3d_W}
+    - {from: C3s, to: [W.ID, W.TR, W.EM, W.TEM], theorem: C3s_W}
   conditional:
     - {from: EX.LEV, to: EX.PRED, given: 'every admissible function is a lam-term (so under C1, C2 or C3d; not under C3s)', theorem: 'EX_LEV_PRED with C1_lamb, C2_lamb, C3d_lamb'}
     - {from: DISJ.ONE, to: DISJ.WEAK, given: CL.PROP, theorem: DISJ_ONE_WEAK}
@@ -358,6 +389,16 @@ implications:
       model: MS
       theorem: MS_package (isabelle/Separation_Models.thy)
       note: Added 0.3.1. Finding F7.
+    - holds: [W.ID, W.TR, W.TEM]
+      fails: [W.EM, TR.PART]
+      model: MT
+      theorem: MT_W, MT_package (isabelle/Separation_Models.thy)
+      note: Added 0.3.2. Finding F9.
+    - holds: [W.TR, W.TEM]
+      fails: [W.ID, W.EM, TR.PART]
+      model: MU
+      theorem: MU_package (isabelle/Separation_Models.thy)
+      note: Added 0.3.2. Finding F9. Together with MT - no witness entry among W.ID, W.TR, W.TEM implies W.EM, and neither W.TR nor W.TEM implies W.ID. The other non-implications among the four are not established by a model.
   separations_by_search:
     # Added 0.3.1. Non-implications established by a finite model that Nitpick
     # found for FACT, the first entry, N1 and the negation of the second
@@ -1477,7 +1518,7 @@ families:
           - point: FLAGGED 0.3.1 - the four witnesses are admitted together
             chosen: one entry admitting f_id, f_tr, f_em and f_tem and nothing else
             alternatives: ['one entry per witness, each asserting only that the witness is admissible (a lower bound on adm, combinable, and implied by C1)']
-            why: the design fixed comprehension levels C0–C3. Each puzzle uses one witness (theorems *_witness, isabelle/Puzzle_Packages.thy), and no source assumes the four together. With the four bundled, a package cannot contain the witness of one puzzle without those of the others, so the puzzles cannot be separated from one another (finding F8). Put to the reviewer as a decision; not changed here.
+            why: the design fixed comprehension levels C0–C3. Each puzzle uses one witness (theorems *_witness, isabelle/Puzzle_Packages.thy), and no source assumes the four together. With the four bundled, a package cannot contain the witness of one puzzle without those of the others, so the puzzles cannot be separated from one another (finding F8). DECIDED (D9, 2026-11-28) - C1 is kept as it is, and the family WIT adds one entry per witness.
           - point: identity of the witnesses with their values
             chosen: not part of C1; it comes from BETA.ID
             alternatives: ['state the identities in C1, as in v0.1.x']
@@ -1522,6 +1563,90 @@ families:
             chosen: the HOL default made explicit; matches arbitrary plural comprehension as Kment and Fritz use it
             alternatives: []
             why: needed for the Cantor-style results and for X.UNIVERSAL.TRUTHS, whose witness is defined by cases on truth (not C3d-definable; to be confirmed by a model in step 3).
+
+  # 16a ----------------------------------------------------------------------
+  - id: WIT
+    name: Admissible witnesses - lower bounds on comprehension (D9)
+    order: independent
+    added: 0.3.2-draft (D9)
+    note: >-
+      Each entry says that one named propositional function is admissible and
+      nothing about any other function. Entries can be combined freely, with one
+      another and with a COMP entry. Each COMP entry implies all four (section
+      `implications`). They exist so that a package can contain the witness of
+      one puzzle without those of the others (finding F8). INFERENCE - no source
+      states an admissibility assumption in this form; each source simply uses
+      its sentence. The entries make that use explicit.
+    entries:
+      - id: W.ID
+        rank: 0
+        name: The witness p is admissible
+        statement: |
+          adm f_id                    (* f_id ≡ lam 0 (Var 0) e0 *)
+        sources:
+          - work: kramer2013
+            locator: (1)–(2)
+            check: manuscript
+            quote: null
+            note: '"∃p p", the sentence of Krämer''s puzzle. Same source and check as on C1.'
+        readings:
+          - point: what the entry asserts
+            chosen: admissibility of this one function only
+            alternatives: ['adm f ⟷ f = f_id (an exact characterisation, like the COMP entries)']
+            why: an exact characterisation could not be combined with another witness entry or with a COMP entry.
+      - id: W.TR
+        rank: 0
+        name: The witness T(p) is admissible
+        statement: |
+          adm f_tr                    (* f_tr ≡ lam 0 (Tr (Var 0)) e0 *)
+        sources:
+          - work: kramer2013
+            locator: (F1)
+            check: manuscript
+            quote: null
+            note: '"∃x x is true". Same source and check as on C1.'
+          - work: fine2010
+            locator: p. 106
+            check: published-page
+            quote: null
+            note: the argument from "something is true", with facts read as true propositions (see P.FINE.PARTICULAR).
+        readings:
+          - point: what the entry asserts
+            chosen: admissibility of this one function only
+            alternatives: []
+            why: as for W.ID.
+      - id: W.EM
+        rank: 0
+        name: The witness p ∨ ¬p is admissible
+        statement: |
+          adm f_em                    (* f_em ≡ lam 0 (Disj (Var 0) (Neg (Var 0))) e0 *)
+        sources:
+          - work: woods2018
+            locator: p. 645
+            check: published-page
+            quote: null
+            note: '"∀p p ∨ ¬p". Same source and check as on C1.'
+        readings:
+          - point: what the entry asserts
+            chosen: admissibility of this one function only
+            alternatives: []
+            why: as for W.ID.
+      - id: W.TEM
+        rank: 0
+        name: The witness T(p) ∨ ¬T(p) is admissible
+        statement: |
+          adm f_tem                   (* f_tem ≡ lam 0 (Disj (Tr (Var 0)) (Neg (Tr (Var 0)))) e0 *)
+        sources:
+          - work: fine2010
+            locator: pp. 99, 102–103 (Universal and Particular Middle)
+            check: published-page
+            quote: "∀x(T (x) ∨¬T (x))"
+            note: Fine's universal and particular arguments for propositions. Same source and check as on C1.
+        readings:
+          - point: what the entry asserts
+            chosen: admissibility of this one function only
+            alternatives: []
+            why: as for W.ID.
 
   # 17 -----------------------------------------------------------------------
   - id: BETA
@@ -1689,11 +1814,14 @@ puzzles:
   # formula layer, in isabelle/Puzzle_Packages.thy. The 0.2.x packages (with
   # EX.FULL, DISJ.ONE, TR.FULL, ALL.INST) follow by the implications in the
   # section `implications`.
+  # D9 (0.3.2). Each of the five Krämer and Fine targets lists the witness entry
+  # its argument uses, in place of C1. The 0.3.1 packages with C1 follow by C1_W.
+  # No target now contains another target's package.
   - id: P.KRAMER
     source: kramer2013 (1)–(2)
-    package: [C1, BETA.ID, CL.QUANT, EX.PART, IRR.F]
+    package: [W.ID, BETA.ID, CL.QUANT, EX.PART, IRR.F]
     expected: refuted
-    theorem: kramer_package; kramer_package_full for the 0.2.x package with EX.FULL (isabelle/Puzzle_Packages.thy)
+    theorem: kramer_W; kramer_package with C1 in place of W.ID, and kramer_package_full for the 0.2.x package with EX.FULL (isabelle/Puzzle_Packages.thy)
     status: refuted (checked)
     derivation: |
       CL.QUANT gives a truth (CL_QUANT_truth), so T (ex f_id); ex f_id is a true
@@ -1703,10 +1831,11 @@ puzzles:
     witness: f_id (kramer_witness assumes adm f_id in place of C1)
   - id: P.FINE.PARTICULAR
     source: fine2010 p. 106 ("something is true", facts read as true propositions), which uses Transitivity and Irreflexivity; kramer2013 (F1)–(F4) and lovett2020 pp. 2541, 2544 for the version from Asymmetry (factive version, Lovett fn. 21 p. 2550)
-    package: [C1, BETA.ID, CL.QUANT, TS.FULL, TR.PART, EX.PART, TRANS.P, IRR.F]
+    package: [W.TR, BETA.ID, CL.QUANT, TS.FULL, TR.PART, EX.PART, TRANS.P, IRR.F]
     also_refuted_with: [ASYM.P]   # in place of TRANS.P and IRR.F - Krämer's and Lovett's version
     expected: refuted
-    theorem: something_true_trans_package, something_true_asym_package; the circle itself is something_true_circle (isabelle/Puzzle_Packages.thy)
+    theorem: something_true_trans_W, something_true_asym_W; with C1, something_true_trans_package and something_true_asym_package; the circle itself is something_true_circle (isabelle/Puzzle_Packages.thy)
+    consistent_variant: TR.TYPED in place of TR.PART - model MU, finding F9
     status: refuted (checked)
     note: >-
       CORRECTED 0.3.0 (audit) - the 0.2.x target listed the asymmetry package
@@ -1722,13 +1851,17 @@ puzzles:
       it; no entry provides that. 0.3.1 - the checked proofs assume only that
       f_tr is admissible (something_true_trans_witness,
       something_true_asym_witness), so the limit lies in C1, which admits f_id
-      along with f_tr, and not in the argument (finding F8).
+      along with f_tr, and not in the argument (finding F8). RESOLVED 0.3.2
+      (D9) - with W.TR in place of C1 the package no longer contains Krämer's,
+      and it has a consistent variant (finding F9). Adding W.ID to that variant
+      refutes it again, by Krämer's argument.
     witness: f_tr
   - id: P.FINE.UNIVERSAL
     source: fine2010 pp. 102–103, Universal Argument for Propositions, steps (1)–(9)
-    package: [C1, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, ALL.PART, DISJ.PART, TR.PART, TRANS.P, IRR.F]
+    package: [W.TEM, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, ALL.PART, DISJ.PART, TR.PART, TRANS.P, IRR.F]
     expected: refuted
-    theorem: fine_universal_package; fine_universal_ALL_INST and fine_universal_ALL_TOT for the packages with a full-ground universal entry (isabelle/Puzzle_Packages.thy)
+    theorem: fine_universal_W; with C1, fine_universal_package, and fine_universal_ALL_INST and fine_universal_ALL_TOT for the packages with a full-ground universal entry (isabelle/Puzzle_Packages.thy)
+    consistent_variant: TR.TYPED in place of TR.PART - models MT and MU, finding F9
     status: refuted (checked)
     derivation: |
       s = all f_tem is true; d = disj (tr s) (neg (tr s)) is an instance, so PG d s
@@ -1748,14 +1881,17 @@ puzzles:
       predicate. The checked proof of Fine's own route assumes only that f_tem
       is admissible (fine_universal_witness). Typing the grounding of truth
       (TR.TYPED for TR.PART) blocks that route when f_em is not admissible -
-      model MT, finding F8. That is not a registry package, since no COMP entry
-      leaves out f_em.
+      model MT, finding F8. RESOLVED 0.3.2 (D9) - the LIMIT held of the package
+      with C1. With W.TEM in place of C1 the package does not contain the
+      sentence-position package, and its variant with TR.TYPED is a registry
+      package with a model (finding F9).
     witness: f_tem
   - id: P.FINE.PARTICULAR.PROPS
     source: fine2010 p. 103, Particular Argument for Propositions
-    package: [C1, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, EX.PART, DISJ.PART, TR.PART, TRANS.P, IRR.F]
+    package: [W.TEM, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, EX.PART, DISJ.PART, TR.PART, TRANS.P, IRR.F]
     expected: refuted
-    theorem: fine_particular_props_package (isabelle/Puzzle_Packages.thy)
+    theorem: fine_particular_props_W; with C1, fine_particular_props_package (isabelle/Puzzle_Packages.thy)
+    consistent_variant: TR.TYPED in place of TR.PART - model MU, finding F9
     status: refuted (checked)
     note: >-
       FLAGGED 0.3.0 (audit) - a reconstruction. Fine gives no steps for this
@@ -1765,12 +1901,14 @@ puzzles:
       disjunctive rules with EX.WEAK and DISJ.WEAK. LIMIT - the package contains
       Krämer's package and is not minimal (see P.FINE.PARTICULAR). The proof
       assumes only that f_tem is admissible (fine_particular_props_witness).
+      RESOLVED 0.3.2 (D9) - the LIMIT held of the package with C1; with W.TEM it
+      does not contain Krämer's package.
     witness: f_tem
   - id: P.FINE.UNIVERSAL.SP
     source: sentence-position variant of fine2010 p. 102, instance from woods2018 p. 645
-    package: [C1, BETA.ID, CL.PROP, CL.QUANT, ALL.PART, DISJ.PART, TRANS.P, IRR.F]
+    package: [W.EM, BETA.ID, CL.PROP, CL.QUANT, ALL.PART, DISJ.PART, TRANS.P, IRR.F]
     expected: refuted
-    theorem: fine_universal_sp_package; fine_universal_sp_em and fine_universal_sp_witness for the weaker hypotheses (isabelle/Puzzle_Packages.thy)
+    theorem: fine_universal_sp_W; with C1, fine_universal_sp_package; fine_universal_sp_em and fine_universal_sp_witness for the weaker hypotheses (isabelle/Puzzle_Packages.thy)
     status: refuted (checked)
     derivation: |
       s = all f_em is true; s is a true disjunct of app f_em s = disj s (neg s),
@@ -1972,7 +2110,13 @@ findings:
     date: 2026-11-27
     claim: "Each published puzzle among the targets uses exactly one of the four C1 witnesses - Krämer's f_id, 'something is true' f_tr, Fine's universal and particular arguments for propositions f_tem, the sentence-position universal argument f_em. C1 admits the four together. So, as packages, both particular puzzles contain Krämer's package, and Fine's universal package contains the sentence-position package and is refuted whatever truth entries it lists, TS.TYPED and TR.TYPED included."
     proof: "isabelle/Puzzle_Packages.thy - kramer_witness, something_true_trans_witness, something_true_asym_witness, fine_universal_witness, fine_particular_props_witness, fine_universal_sp_witness (each assumes adm of one witness, not C1); fine_universal_typed_refuted. The containments are read off the package lists."
-    consequence: "Under the present COMP entries the map classifies the puzzle packages correctly and cannot say what one puzzle needs beyond another: which principles Fine's particular arguments need that Krämer's does not, or whether typing truth blocks Fine's universal argument once f_em is not admissible. Both questions need comprehension entries weaker than C1, for example one per witness. SETTLED by a model, not yet as a registry package - model MT (isabelle/Separation_Models.thy; MT_package, MT_N3, MT_N4, MT_not_TR_PART). In MT the admissible functions are f_id, f_tr and f_tem, and f_em is not admissible. BETA.ID, CL.PROP, CL.QUANT, TS.FULL, TS.TYPED, TR.TYPED, ALL.INST, ALL.PART, DISJ.ONE, DISJ.PART, TRANS.P, IRR.F and ASYM.P hold together, with N1, N2, N3 instances for the DISJ, ALL and TR entries, an N4 pair and a four-step chain. TR.PART fails at the universal closure of f_tem, which is true and does not ground its own truth ascription. So typing the grounding of truth ascriptions blocks Fine's own route once f_em is not admissible, and the truth schema can stay unrestricted. MT's comprehension clause (C1 without f_em) is not a registry entry, so the result is not a classified package. LIMITS - one model; its propositional functions are closures (a variable, a formula and an environment), not functions on propositions; the rank of a quantified proposition is fixed by whether its body is truth-free, which is a stipulation of the model; ranks have two tiers (ω + n); no EX, CONJ or NEG entry was checked."
+    consequence: "Under the present COMP entries the map classifies the puzzle packages correctly and cannot say what one puzzle needs beyond another: which principles Fine's particular arguments need that Krämer's does not, or whether typing truth blocks Fine's universal argument once f_em is not admissible. Both questions need comprehension entries weaker than C1, for example one per witness. SETTLED by a model - model MT (isabelle/Separation_Models.thy; MT_package, MT_N3, MT_N4, MT_not_TR_PART). In MT the admissible functions are f_id, f_tr and f_tem, and f_em is not admissible. BETA.ID, CL.PROP, CL.QUANT, TS.FULL, TS.TYPED, TR.TYPED, ALL.INST, ALL.PART, DISJ.ONE, DISJ.PART, TRANS.P, IRR.F and ASYM.P hold together, with N1, N2, N3 instances for the DISJ, ALL and TR entries, an N4 pair and a four-step chain. TR.PART fails at the universal closure of f_tem, which is true and does not ground its own truth ascription. So typing the grounding of truth ascriptions blocks Fine's own route once f_em is not admissible, and the truth schema can stay unrestricted. In 0.3.1 MT's comprehension clause (C1 without f_em) was not a registry entry. Since 0.3.2 (D9) the result is a registry package with the witness entries W.ID, W.TR and W.TEM (finding F9). LIMITS - one model; its propositional functions are closures (a variable, a formula and an environment), not functions on propositions; the rank of a quantified proposition is fixed by whether its body is truth-free, which is a stipulation of the model; ranks have two tiers (ω + n); no EX, CONJ or NEG entry was checked."
+    status: checked
+  - id: F9
+    date: 2026-11-28
+    claim: "With TR.TYPED in place of TR.PART, each of the three targets that involve truth is consistent: 'something is true' (P.FINE.PARTICULAR, in both versions), Fine's universal argument for propositions (P.FINE.UNIVERSAL) and his particular argument for propositions (P.FINE.PARTICULAR.PROPS). The truth schema stays unrestricted (TS.FULL), and so do the existential and universal entries (EX.FULL, ALL.INST). Two packages have models - [W.ID, W.TR, W.TEM, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, TS.TYPED, TR.TYPED, ALL.INST, ALL.PART, DISJ.ONE, DISJ.PART, TRANS.P, IRR.F, ASYM.P] (model MT) and [W.TR, W.TEM, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, TS.TYPED, TR.TYPED, EX.FULL, EX.PART, ALL.INST, ALL.PART, DISJ.ONE, DISJ.PART, TRANS.P, IRR.F, ASYM.P] (model MU). The three variants are sub-packages of the second."
+    proof: "isabelle/Separation_Models.thy - MT_package, MT_W, MT_N3, MT_N4, MT_not_TR_PART; MU_package, MU_N3, MU_N4, MU_not_TR_PART. Both models have N1, N2, N3 instances for their DISJ, ALL, TR and (in MU) EX entries, an N4 pair and a four-step chain. A proposition is a truth value with a rank in one of two tiers; a truth ascription has the lowest rank of the upper tier; an existential or universal proposition has upper-tier rank exactly when its body is not truth-free; a truth grounds every truth of higher rank. In MU 'something is true' is grounded in its own truth ascription, which is one of its instances, and does not ground that ascription (MU_not_TR_PART)."
+    consequence: "What Fine's arguments need beyond Krämer's is the untyped grounding of truth ascriptions: TR.PART applied to a quantified truth whose body contains the truth predicate. Typing that one principle blocks the three arguments, and typing the truth schema is not needed. Krämer's puzzle and the sentence-position universal puzzle mention no truth entry and are untouched: adding W.ID to the second package refutes it (kramer_W), and adding W.EM refutes both (fine_universal_sp_W). So W.ID is compatible with the typed packages only in the absence of an unrestricted existential entry, and W.EM only in the absence of ALL.PART or DISJ.PART. LIMITS - two models of one construction; their propositional functions are closures (a variable, a formula and an environment), not functions on propositions; the rank of a quantified proposition is fixed by the syntax of its body, a stipulation of the models; no CONJ or NEG grounding entry was checked. NOVELTY - not assessed. Typing the truth predicate in the grounding of truth ascriptions is the approach of the registry's source for TR.TYPED (korbmacher2018b, read in fragments); that work's own consistency results were not compared with these models."
     status: checked
 
 # ---------------------------------------------------------------------------

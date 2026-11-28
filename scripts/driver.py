@@ -55,6 +55,7 @@ ENTRIES = {
     "EMPTY.NONE": "EMPTY_NONE", "EMPTY.SOME": "EMPTY_SOME",
     "FIN.FIN": "FIN_FIN", "FIN.B3": "FIN_B3",
     "C1": "C1", "C2": "(C2 1)", "C3d": "C3d", "C3s": "C3s",
+    "W.ID": "W_ID", "W.TR": "W_TR", "W.EM": "W_EM", "W.TEM": "W_TEM",
     "BETA.ID": "BETA_ID", "BETA.GROUND": "BETA_GROUND",
     "IMM.CONJ": "IMM_CONJ", "IMM.FRITZ7": "IMM_FRITZ7",
 }
@@ -65,11 +66,14 @@ PROVED = [("IRR.F", "IRR.W"), ("IRR.F", "IRR.MEM"), ("ASYM.P", "ASYM.ANTI"),
           ("EX.FULL", "EX.LEV"), ("EX.FULL", "EX.PRED"), ("FIN.B3", "FIN.FIN"),
           ("DISJ.ONE", "DISJ.PART"), ("EX.FULL", "EX.PART"), ("TR.FULL", "TR.PART"),
           ("ALL.INST", "ALL.PART"), ("ALL.TOT", "ALL.PART")]
+# decision D9: every comprehension level implies every witness entry (C1_W, C2_W, C3d_W,
+# C3s_W). The witness entries mention lam, so IMPL below does not propagate along these.
+PROVED += [(c, w) for c in ("C1", "C2", "C3d", "C3s") for w in ("W.ID", "W.TR", "W.EM", "W.TEM")]
 # at most one entry from each group (exact characterisations of adm, or contradictory)
 EXCL = [{"C1", "C2", "C3d", "C3s"}, {"EMPTY.NONE", "EMPTY.SOME"}, {"BETA.ID", "BETA.GROUND"}]
 # entries that mention lam/den: the core clause LAM_CORE is added when one is present
 LAMB = {"IRR.W", "TS.TYPED", "TR.TYPED", "EX.PRED", "EX.LEV", "C1", "C2", "C3d",
-        "BETA.ID", "BETA.GROUND"}
+        "BETA.ID", "BETA.GROUND", "W.ID", "W.TR", "W.EM", "W.TEM"}
 # Propagation uses only implications whose weaker side is outside the formula layer.
 # A package means: its entries + FACT, + LAM_CORE iff it explicitly contains a LAMB
 # entry. An implication into a LAMB entry would silently add LAM_CORE, so it is not

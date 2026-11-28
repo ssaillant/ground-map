@@ -277,3 +277,27 @@ AI-use disclosure. One entry per working session.
 - Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py (113 of
   113); the seven separating models re-checked by the independent evaluator.
 - Human review: pending.
+
+## 2026-11-28 — Witness entries (registry 0.3.2-draft, decision D9)
+
+- Tool: Claude Code (cloud session), the same project thread as the audit; Isabelle2026
+  pinned. No source was read or re-fetched.
+- Model: the same model as the audit entry above; identifier to be entered by the
+  reviewer.
+- Prompt: the reviewer chose the option "Add four witness entries" on a decision card
+  asking "Add comprehension entries weaker than C1, one per witness?". The card's text
+  for that option: "Each asserts that one witness is admissible; C1 stays and implies
+  them. I restate the puzzles with them and try to build the typed-truth model."
+- What the model did: defined W_ID, W_TR, W_EM and W_TEM (isabelle/Principles.thy) and
+  proved that C1, C2, C3d and C3s imply them (isabelle/Order.thy); proved each puzzle
+  with its witness entry (isabelle/Puzzle_Packages.thy); built model MU and restated
+  model MT with the entries (isabelle/Separation_Models.thy); added the family WIT,
+  decision D9 and finding F9 to the registry and restated five puzzle targets; added the
+  entries to the search tables (scripts/driver.py); added section 12 to the audit report.
+- Decisions the model took itself, listed in the registry under D9
+  (`choices_made_in_applying_it`): a family of its own for the entries; no entry denying
+  admissibility; targets restated with the witness entries; the automatic search not
+  rerun.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py (113 of
+  113); scripts/summarize.py reproduces docs/results.md.
+- Human review: pending.

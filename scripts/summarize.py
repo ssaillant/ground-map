@@ -127,7 +127,9 @@ def main():
              "`K_faithful` proves that the locale's definitions are the registry's. The infinite term model M1 "
              "(`isabelle/Models.thy`) uses the same method with a record of operations in place of the locale; "
              "its lemma `fidelity` plays the role of `K_faithful`. Each package includes "
-             "FACT, and LAM_CORE when it mentions the formula layer.\n")
+             "FACT, and LAM_CORE when it mentions the formula layer. The models MT and MU are the "
+             "models of finding F9: the puzzles that involve truth, with typed grounding of truth "
+             "ascriptions, stated with the witness entries of decision D9.\n")
     if certs:
         L.append("| Principle or package | Class | Non-triviality | Carriers | Isabelle |\n|---|---|---|---|---|")
         for k in sorted(certs, key=lambda k: ("," in k, k)):

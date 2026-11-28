@@ -250,6 +250,48 @@ corollary fine_universal_typed_refuted:
   shows False
   using fine_universal_sp_package[OF assms(1-4) assms(7-10)] .
 
+section \<open>The puzzles as registry packages with one witness entry each (decision D9)\<close>
+
+text \<open>Registry 0.3.2-draft. The targets of the registry list a witness entry (W.ID, W.TR,
+  W.TEM, W.EM) where they listed C1. These are the theorems the registry cites; each
+  is the corresponding *_witness theorem with the entry unfolded. The packages with C1,
+  C2, C3d or C3s in place of the witness entry follow by C1_W, C2_W, C3d_W, C3s_W.\<close>
+
+theorem kramer_W:
+  assumes "W_ID" "BETA_ID" "CL_QUANT" "EX_PART" "IRR_F" shows False
+  using kramer_witness[OF assms(1)[unfolded W_ID_def] assms(2-5)] .
+
+theorem something_true_trans_W:
+  assumes "W_TR" "BETA_ID" "CL_QUANT" "TS_FULL" "EX_PART" "TR_PART" "TRANS_P" "IRR_F"
+  shows False
+  using something_true_trans_witness[OF assms(1)[unfolded W_TR_def] assms(2-8)] .
+
+theorem something_true_asym_W:
+  assumes "W_TR" "BETA_ID" "CL_QUANT" "TS_FULL" "EX_PART" "TR_PART" "ASYM_P"
+  shows False
+  using something_true_asym_witness[OF assms(1)[unfolded W_TR_def] assms(2-7)] .
+
+theorem fine_universal_W:
+  assumes "W_TEM" "BETA_ID" "CL_PROP" "CL_QUANT" "TS_FULL" "ALL_PART" "DISJ_PART" "TR_PART"
+          "TRANS_P" "IRR_F"
+  shows False
+  using fine_universal_witness[OF assms(1)[unfolded W_TEM_def] assms(2-10)] .
+
+theorem fine_particular_props_W:
+  assumes "W_TEM" "BETA_ID" "CL_PROP" "CL_QUANT" "TS_FULL" "EX_PART" "DISJ_PART" "TR_PART"
+          "TRANS_P" "IRR_F"
+  shows False
+  using fine_particular_props_witness[OF assms(1)[unfolded W_TEM_def] assms(2-10)] .
+
+theorem fine_universal_sp_W:
+  assumes "W_EM" "BETA_ID" "CL_PROP" "CL_QUANT" "ALL_PART" "DISJ_PART" "TRANS_P" "IRR_F"
+  shows False
+proof -
+  have em: "\<forall>x. T (disj x (neg x))" using assms(3) unfolding CL_PROP_def by blast
+  show False
+    using fine_universal_sp_witness[OF assms(1)[unfolded W_EM_def] assms(2) em assms(4-8)] .
+qed
+
 section \<open>Search rows formerly classed trivial-only that are refuted outright\<close>
 
 text \<open>Both use the truth that CL.QUANT supplies (registry finding F6). The search had

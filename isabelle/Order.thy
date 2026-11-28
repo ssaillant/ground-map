@@ -217,4 +217,31 @@ proof -
   from a b show ?thesis by auto
 qed
 
+section \<open>Every comprehension level implies the four witness entries\<close>
+
+lemma C1_W: assumes "C1" shows "W_ID" "W_TR" "W_EM" "W_TEM"
+  using assms unfolding C1_def W_ID_def W_TR_def W_EM_def W_TEM_def by blast+
+
+text \<open>The four witnesses are lambda terms whose bodies have level 0.\<close>
+lemma C2_W: assumes "C2 k" shows "W_ID" "W_TR" "W_EM" "W_TEM"
+proof -
+  have a: "\<And>b. lvl b = 0 \<Longrightarrow> adm (lam 0 b e0)"
+  proof -
+    fix b :: fm assume "lvl b = 0"
+    hence "\<exists>x a v. lvl a \<le> k \<and> lam 0 b e0 = lam x a v" by (intro exI[of _ 0] exI[of _ b] exI[of _ e0]) simp
+    thus "adm (lam 0 b e0)" using assms unfolding C2_def by blast
+  qed
+  show "W_ID" unfolding W_ID_def f_id_def by (rule a) simp
+  show "W_TR" unfolding W_TR_def f_tr_def by (rule a) simp
+  show "W_EM" unfolding W_EM_def f_em_def by (rule a) simp
+  show "W_TEM" unfolding W_TEM_def f_tem_def by (rule a) simp
+qed
+
+lemma C3d_W: assumes "C3d" shows "W_ID" "W_TR" "W_EM" "W_TEM"
+  using assms unfolding C3d_def W_ID_def W_TR_def W_EM_def W_TEM_def
+    f_id_def f_tr_def f_em_def f_tem_def by blast+
+
+lemma C3s_W: assumes "C3s" shows "W_ID" "W_TR" "W_EM" "W_TEM"
+  using assms unfolding C3s_def W_ID_def W_TR_def W_EM_def W_TEM_def by blast+
+
 end
