@@ -381,3 +381,21 @@ AI-use disclosure. One entry per working session.
 - Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py;
   scripts/summarize.py regenerates docs/results.md.
 - Human review: pending.
+
+## 2026-11-28 — Search results open their own pull request
+
+- Tool: Claude Code (cloud session), project thread "Automate search results PRs". Model:
+  claude-opus-5-5 (configured id; serving model not independently confirmed).
+- Prompt: the coordinator's brief, relaying that the reviewer created a fine-grained token
+  saved as the Actions secret RESULTS_PR_TOKEN: when the search workflow finishes it should
+  commit its results to a branch and open a pull request against main with that token, so
+  that the required isabelle check runs; fail loudly if the secret is missing or expired;
+  leave the run in progress (46120076428) alone.
+- What the model did: added scripts/publish_results.sh (token check, choice of base, merge,
+  re-verification, regeneration of docs/results.md, push, pull request), a token job that
+  gates the search, a token_check_only input, and a local test against a stand-in remote and
+  API (scripts/tests/). Ranked refuted-at-N1 above unknown in scripts/merge_results.py (the
+  same one-line change as on the Woods branch).
+- Checks: scripts/tests/publish_results_test.sh (six cases pass); token check run on GitHub
+  (see the pull request).
+- Human review: pending.
