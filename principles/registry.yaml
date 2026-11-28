@@ -14,11 +14,14 @@
 # 2018b (decision D10; findings F20-F23). Version 0.9.0-draft records the
 # reading of Wilhelm 2021 (no decision, no finding; proposed.WP). Version 0.9.1-draft records an
 # inconsistency among Korbmacher 2018b's printed results (finding F25). Version
-# 0.9.2-draft adds finding F26 (Poggiolesi's repair under full identity). Reviewer
+# 0.9.2-draft adds finding F26 (Poggiolesi's repair under full identity). Version
+# 0.9.3-draft changes no entry: it records that the conjunction and existential entries
+# give mutual partial ground across a modal difference, and that with antisymmetry they
+# leave no contingent truth (finding F27). Reviewer
 # decisions are recorded in the section `decisions`; choices made while
 # applying a decision are listed under `choices_made_in_applying_it`.
 
-registry_version: 0.9.2-draft
+registry_version: 0.9.3-draft
 date: 2026-11-28
 status: draft-for-review
 decisions:
@@ -163,6 +166,12 @@ decisions:
       - P.DONALDSON.SP uses BETA.GROUND as the registry's predication-grounding rule; the circle goes through the instance app f_em s rather than through a λ-abstract applied to an individual, which the signature lacks. FLAGGED as a reconstruction.
       - TR.PART.A is added to driver.py ENTRIES (not LAMB); the search was not rerun.
 changelog:
+  - version: 0.9.3-draft
+    date: 2026-11-28
+    changes:
+      - No entry, statement, target or decision changed. Requested by the reviewer 2026-11-28 (assessment of two candidate short papers) - the argument that antisymmetry (ASYM.ANTI), the conjunction entry and the unrestricted existential entry make every truth necessary is checked in a new theory, isabelle/Antisymmetry_Collapse.thy, with a minimal extension by worlds (a valuation giving truth at a world; propositions and ground stay the registry's). Recorded as finding F27. The number 0.9.2-draft is finding F26 (pull request 14, merged first; main was merged into this branch afterwards).
+      - Second pass, same day, after the reviewer's note that the structural theorem should come first and should name the existential rule among its assumptions - F27 restated with the structural form first (mutual_ground, mutual_ground_modal, no order entry), the collapse as a corollary, a weak-first form (weak_first_mutual), a model showing that the existential rule is needed at the instance E ∧ q (LD_model), a flagged reading on which partial ground is meant (Fine's partial strict ground, not his strict partial ground), and a correction to the literature note (Lovett 2020 sect. 7.2, pp. 2556-2559).
+      - Finding F11 reworded - K1's record proves N1, N2 and the chain condition of N5 (K1_package). Under the cumulative levels and decision D8 (N4 needs CL.PROP, which K1 lacks) its highest level is N2; the claim said "N1, N2 and N5". No theorem changed.
   - version: 0.9.2-draft
     date: 2026-11-28
     changes:
@@ -2887,8 +2896,10 @@ findings:
     date: 2026-11-27
     status: checked; pending review (proposed 0.6.0-draft)
     claim: >-
-      Fine's strong Kleene "compromise" package with beta identity is consistent at N1, N2 and
-      N5 - FACT, LAM_CORE, C3d, BETA.ID, SK.PROP, SK.QUANT, TS.KF, TS.FULL, SK.GAP, IRR.F, ASYM.P,
+      Fine's strong Kleene "compromise" package with beta identity is consistent at N2, with a
+      chain of three steps of partial ground among four distinct truths (the chain condition of
+      N5; N3 is not checked, and N4 and so N5 are out of reach because they need CL.PROP, decision
+      D8; corrected 0.9.3-draft, the claim had said "N1, N2 and N5") - FACT, LAM_CORE, C3d, BETA.ID, SK.PROP, SK.QUANT, TS.KF, TS.FULL, SK.GAP, IRR.F, ASYM.P,
       TRANS.P, TRANS.CUT, AMALG.INF, EMPTY.NONE, CONJ.BIN, DISJ.WEAK, NEG.DN, EX.WEAK, ALL.INST,
       TR.FULL, TR.NEG. The same package with CL.PROP + CL.QUANT in place of SK is refuted.
     proof: >-
@@ -3503,6 +3514,176 @@ findings:
       wilhelm2021; litland2022 at summary level only, and it predates Poggiolesi); the
       literature check of 2026-11-27 found no reply to Poggiolesi. A fuller search is open.
 
+  - id: F27
+    date: 2026-11-28
+    status: checked (the theorems); the readings and the literature check are by hand; pending review (0.9.3-draft)
+    claim: >-
+      STRUCTURAL FORM (stated first since the reviewer's note of 2026-11-28). With the
+      conjunction entry and the unrestricted existential entry, "something is the case" and its
+      conjunction with any truth help ground each other. Let E be exq f_id and q any truth. E
+      helps ground E ∧ q (CONJ.BIN); E ∧ q is a true instance of E, so it helps ground E
+      (EX.PART at f_id, BETA.ID). Entries used - W.ID, BETA.ID, FACT, CONJ.BIN, EX.PART. Not
+      used - any order entry (irreflexivity, asymmetry, antisymmetry, transitivity), CL.PROP,
+      CL.QUANT. E is true at every world, so when q is contingent the two propositions differ
+      in modal status and are distinct. The existential entry is an essential premise, and it
+      is used at the instance E ∧ q - that E helps ground itself, with the conjunction entry,
+      does not give the direction from E ∧ q to E (model LD). COROLLARY (the form in which the
+      finding was first recorded). With antisymmetry (ASYM.ANTI) in place of irreflexivity,
+      E ∧ q = E, so q is true at every world and no truth is contingent; with CL.PROP and
+      consistency of truth at each world, every world agrees with the actual one on every
+      proposition. Contrapositively, given a contingent truth, partial ground is not
+      antisymmetric. WEAK-FIRST FORM. For any relation of weak partial ground that satisfies
+      the weak forms of the two rules, E and E ∧ q weakly partially ground each other; so E is
+      not a strict partial ground of E ∧ q in Fine's defined sense (weak and not reversed),
+      for any truth q, and weak partial ground is not antisymmetric given a contingent truth.
+    proof: >-
+      isabelle/Antisymmetry_Collapse.thy. Structural form - mutual_ground (the two directions,
+      no order entry), mutual_ground_modal (with a truth that is not necessary - the two differ
+      in modal status and are distinct), mutual_ground_exists, not_antisymmetric. Weak-first
+      form - weak_first_mutual, weak_first_not_antisymmetric (an arbitrary relation WP with the
+      weak conjunction and existential rules as hypotheses; CL.PROP for the truth of E ∧ q).
+      One world - anti_ex_conj (the identity, now a corollary of mutual_ground), anti_ex_disj
+      (E ∨ r = E for every r), anti_ex_conj_all_one. Worlds - NEC_E (E is necessary, from M_EX and
+      M_SOME), anti_necessitation, anti_no_contingent_truth, anti_modal_collapse;
+      constant_valuation (the modal premises hold of the constant valuation in any model of
+      CL.PROP and CL.QUANT, so the premises are jointly consistent if the one-world package is,
+      and that package has the model MY of F16 at N5). Identity - anti_necessitation_rel. Other
+      routes - anti_all_conj and anti_necessitation_all (through ∀p(p ∨ ¬p), with ALL.PART,
+      DISJ.PART and TRANS.P, no existential entry); anti_ex_conj_beta_ground (BETA.GROUND for
+      BETA.ID, with TRANS.P). Non-factive rules - anti_nonfactive_refuted (False, no worlds).
+      Lean two-world models - LA_model (all premises but antisymmetry, a contingent truth,
+      transitive, reflexive ground only where vacuous), LB_model (all but the unrestricted
+      existential rule, ground asymmetric), LC_model (all but the conjunction rule), LD_model
+      (E helps ground itself, the conjunction rule, antisymmetry, transitivity and a contingent
+      truth, with the existential rule failing at the instance E ∧ q - so E ∧ q does not help
+      ground E); lean_mutual (the structural form in the lean signature).
+    modal_extension: >-
+      The registry has one world. The theory adds a valuation V :: 'w ⇒ prp ⇒ bool (truth of a
+      proposition at a world) as a parameter of the theorems, with named clauses - M_CONJ (a true
+      conjunction has a true second conjunct, at every world), M_EX (an existential with a true
+      instance is true, at every world), M_SOME (at every world something is the case), M_NEG (no
+      world makes a proposition and its negation true), ACT (the registry's T is truth at one of
+      the worlds). Ground, admissibility and T remain the registry's one-world constants. NOT
+      ASSUMED - that grounds necessitate what they ground, that ground holds at other worlds,
+      that identity or distinctness is necessary. Not a registry entry and not in the driver;
+      whether worlds should enter the registry (option 3 of the Woods thread, deferred) is open.
+    readings:
+      - point: FLAGGED - Krämer's rule
+        chosen: EX.PART at f_id with BETA.ID
+        why: 'kramer2013 (eprint, p. 4 of the PDF) - "(EG-S) From ϕ(α), infer ϕ(α) ≺ ∃p ϕ(p)", with "the null context, i.e. nothing, for ϕ". The instance of ∃p p at α is α itself. In the registry the instance at p is app f_id p, and BETA.ID makes it p. With the sentential rule no β-step is needed; step (2) is (EG-S) with α := ∃p p ∧ q. Krämer''s predicative restriction (α free of sentential quantifiers, same page) blocks the step, as it blocks his own puzzle.'
+      - point: FLAGGED - which partial ground
+        chosen: the registry's PG (p belongs to a strict full ground of q)
+        alternatives: ['Fine''s strict partial ground - a weak partial ground of q of which q is not a weak partial ground']
+        why: 'fine2012a (CUP p. 53) separates partial strict ground (p, alone or with other truths, strictly fully grounds q; his ≺*) from strict partial ground (p weakly partially grounds q and not conversely; his ≺), and fine2012b (p. 4) takes the second as the notion best suited to a system of rules. derosset_fine2023 (preprint p. 2) - "a strict partial ground is a weak partial ground which cannot be reversed". PG is the first notion. Krämer does not say which he means (kramer2013 fn. 4 - his claims are meant for partial and complete ground alike, with a binary operator for simplicity); the registry reads his partial ground as PG. On the second notion mutual strict partial ground is excluded by definition and antisymmetry for it is empty; the circle then appears as mutual weak partial ground, and as the failure of the strict conjunction rule at E (weak_first_mutual). lovett2020 defines strict from weak ground in this way (p. 2556, citing Fine) and restricts the strict conjunction rule accordingly (p. 2559). So "partial ground is not a partial order" is the right gloss only for PG; for a weak-first theory the gloss is "weak partial ground is not antisymmetric, and the strict conjunction rule fails at E".'
+      - point: FLAGGED - antisymmetry
+        chosen: ASYM.ANTI for the registry's partial ground (strict and factive, defined from strict full ground), with no irreflexivity entry
+        alternatives: ['antisymmetry of weak partial ground (correia 2017, p. 525, as reported by lovett2020 fn. 33; not read)', 'an antisymmetry restricted to non-vacuous ground, on the pattern of Woods''s SUBSTANTIVE IRREFLEXIVITY (not in Woods)']
+        why: 'woods2018 fn. 4 (p. 632) - "Obviously, if there are cases of reflexive grounding, then these very cases are also recherché cases of symmetric ground. So ASYMMETRY will have to be weakened to ANTISYMMETRY." He does not write the principle out or restrict it (text read through a fetch of the CC-BY PDF, fragments).'
+      - point: FLAGGED - identity
+        chosen: HOL identity on prp; V w is a function of the proposition
+        why: 'So identical propositions are true at the same worlds. anti_necessitation_rel shows what the argument needs when antisymmetry is stated with a relation I in place of identity - only that if I p r and p is necessary then r is necessary (SUBST). For identity this is one application of Leibniz''s law, inside "necessarily", to an identity that holds actually. The necessity of identity is not used. A view on which "necessarily" is opaque escapes; none is known to the registry.'
+      - point: FLAGGED - necessity of E
+        chosen: derived from M_EX and M_SOME (NEC_E)
+        why: 'Krämer calls (1) ∃p p "a theorem of any standard logic with sentential quantification". Without M_SOME the conclusion is weaker - q is true at every world where something is the case (the proof of anti_necessitation with that hypothesis; not stated as a separate theorem).'
+    consequence: >-
+      F16 gave an identity between necessarily equivalent propositions, which a coarse view of
+      propositions can accept (models MY, MX). The identity E ∧ q = E is between propositions
+      that differ in truth value at some world whenever q is contingent, so no view of grain on
+      which identicals are necessarily equivalent can accept it. A view that keeps the
+      unrestricted entries and allows reflexive ground therefore has mutual partial ground
+      between distinct propositions that are not necessarily equivalent; partial ground is then
+      not a partial order. WAYS OUT, each checked only as far as stated - (1) deny β-identity
+      and β-grounding together (fritz2020; goodman2023 sects. 2-3); with either one and TRANS.P
+      the identity returns (anti_ex_conj, anti_ex_conj_beta_ground). (2) Restrict the existential
+      rule predicatively (LB_model); but that already removes Krämer's puzzle and the motive
+      for giving up irreflexivity, and the universal route (anti_all_conj) must be blocked as
+      well. (3) Restrict antisymmetry to non-vacuous ground, as Woods restricts irreflexivity;
+      LA_model satisfies such a restriction (L_ANTI_VAC) with a contingent truth. JUDGMENT -
+      (3) is the reply a defender of woods2018 would give, and it concedes that plain
+      antisymmetry fails. INFERENCE, not checked - in the rule-generated model MR (F19) the
+      circle through ∀p(p ∨ ¬p) and its conjunction with a truth is not vacuous, so (3) would
+      not cover the universal case there. LIMITS - the lean models are not models of the
+      registry's packages; a two-world model of a full package without ASYM.ANTI is not built
+      (MV with a second truth value per proposition is the candidate).
+    literature: >-
+      NOVELTY - not claimed. Read in full or in the relevant part, from the project's files -
+      kramer2013; lovett2020; goodman2023; correia2026; litland2015 sect. 6.8; genco2021 (which
+      uses "antisymmetry" for asymmetry, p. 1418). Read through fetches, fragments only -
+      woods2018 (whole paper), Kovacs 2018 (to mid sect. 3), McSweeney 2020, Lovett 2020 "The
+      logic of ground" (in full, second pass), Krämer's Habilitationsschrift (the public file
+      holds the introduction, pp. 1-24, and the start of the first essay; "Puzzles" is listed
+      but not in it), korbmacher2015.
+      The argument was not found in any of them. CLOSEST - (a) lovett2020 fn. 33 (p. 2558), on
+      Correia's claim that weak partial ground is antisymmetric - on Lovett's characterizations
+      mutual weak partial ground "doesn't even guarantee that A and B are materially
+      equivalent", so, he concludes, it cannot guarantee their identity. This is
+      the same thought for weak partial ground, argued from a characterization of weak ground
+      and not from the introduction rules, with no modal conclusion. The footnote is about
+      Correia and Lovett's own solution, not about Woods. CORRECTION 2026-11-28, second pass - lovett2020 sect. 7.2 comes closer than fn. 33 alone.
+      His weak rules are the weak counterparts of all the strict rules, and he notes that
+      symmetric cases of weak ground are derivable from them (p. 2556); strict ground is defined
+      as weak ground not reversed, and the strict conjunction rule is restricted - it is enough
+      for the conjunction not to weakly partially ground a conjunct that neither conjunct
+      weakly partially grounds the other (p. 2559). The mutual weak partial ground of E and
+      E ∧ q is an instance of his weak conjunction and existential rules. He does not give
+      that instance (his examples are "something is true" with its truth ascription, and the
+      knowledge case), does not remark on the modal difference, and gives no case in which a
+      conjunct fails to strictly ground its conjunction. So the weak-first form is in
+      substance within Lovett's system plus fn. 33; what was not found is the pair, the modal
+      difference, the form for PG under unrestricted strict rules, and the collapse.
+      (b) goodman2023 sect. 5.2 - the
+      existential generalization of disjunction and its disjunction with any proposition ground
+      each other; used against asymmetry. (c) woods2018 Objection 6 (p. 645) and lovett2020
+      p. 2558 - "someone knows something" and "a knows that someone knows something" help
+      ground each other, given a principle about knowledge; these are distinct and not
+      necessarily equivalent, so plain antisymmetry is already in tension with a case Woods
+      discusses. (d) Lovett 2020 "The logic of ground" (JPL 49, 13-49; read in full through a
+      fetch, second pass, no page numbers in the text), fn. 5, on deRosset's doubts about
+      weak ground - in a model with only the propositions A, B and A ∧ B, the two propositions
+      A and A ∧ B strictly ground nothing, so on the explanatory-subsumption characterization
+      they weakly ground one another; Lovett calls this implausible and avoidable. That is an
+      artefact of a characterization in a three-proposition model, not a derivation from the
+      rules, and it is not connected with identity or modality. The same paper holds that
+      mutual weak FULL ground is identification (sect. 5 - ground-theoretic equivalence is
+      mutual weak grounding, and holds if and only if A "just is" B), in an argument that uses
+      irreflexivity; it does not discuss the puzzles. For weak full ground the circle of F27
+      gives only E with E ∨ r (anti_ex_disj), so that thesis is not touched. READ 2026-11-28,
+      second pass - fine2012a p. 53 and derosset_fine2023 p. 2 (definitions, see readings);
+      fine_derosset2024a and fine_derosset2024b searched for mutual, reversible or symmetric
+      ground and for quantifiers (not read in full) - only the irreversibility definitions,
+      truth-functional systems, nothing on the puzzle cases; deRosset 2014 "On weak ground"
+      (PhilArchive draft through a fetch, fragments, draft pp. 1-40, the file ends inside the
+      last proof) - weak ground is glossed as identity or strict ground, and a set with weak
+      partial claims in both directions between two sentences is consistent on his
+      interpretation only if the two are identified (draft pp. 17-21); no antisymmetry by
+      name, no existential case, no modal remark. So deRosset 2014, like Correia as Lovett
+      reports him, is a holder of the identification that the weak-first form puts under
+      pressure. NOT ACCESSIBLE 2026-11-28 - the body of Correia 2017 "An impure logic of
+      representational grounding" (Springer paywall; abstract, footnotes and references only -
+      fn. 17 says his propositional equivalence is finer than necessary equivalence); SUPPLIED
+      BY THE REVIEWER 2026-11-28 - derosset2013b ("What is weak ground?", read in full) - on
+      the identity characterizations "merely weak ground would be symmetric" (p. 13), which he
+      counts against them as readings of Fine; a verification-set model in which one sentence
+      is a partial weak ground of another and so the second is not a strict ground of the
+      first (fn. 5, p. 12); the three-fact model that Lovett reports (p. 16), in which a is a
+      full weak ground of a.b on the vacuously satisfied definition (he does not say that the
+      two ground each other); and a modal reason against an identification - a disjunction
+      "may obtain when" its true disjunct does not (p. 11). No antisymmetry, no quantifier, no
+      case derived from the introduction rules. derosset2013a ("Grounding explanations",
+      searched by keyword, the two notes read) - "because" is "an anti-symmetric connective",
+      said in order to leave room for facts that explain themselves (fn. 15, draft p. 5), and
+      "the standard view" is that grounding explanation is anti-symmetric and transitive
+      (fn. 16, draft p. 6). So antisymmetry with self-explanation left open is asserted in
+      print before woods2018 and called standard; the paper does not discuss the logical
+      introduction rules or the puzzles. This widens the target of the corollary beyond
+      Woods's footnote. NOT READ - correia2014; Krämer 2020 "Puzzles"
+      (Routledge Handbook); Correia 2025 "The Logic of
+      Grounding" (CUP); Rodriguez-Pereyra 2015; Jenkins 2011; Barnes 2018; Bliss 2018; Thompson
+      2016; the rest of Kovacs 2018. WHAT WOULD FALSIFY A NOVELTY CLAIM - the E, E ∧ q circle, or any mutual
+      partial ground between a necessary and a contingent truth derived from the logical
+      introduction rules, with the remark that antisymmetry or identification then fails, in
+      any of the works not read.
+
 # ---------------------------------------------------------------------------
 # Bibliography and access status
 # ---------------------------------------------------------------------------
@@ -3655,10 +3836,16 @@ bibliography:
     read: published, pp. 188–201 verbatim
   fine_derosset2024a:
     cite: "Fine, K. and deRosset, L. Approaches to the Impure Logic of Ground (draft of 2024-05-09)."
-    read: supplied by reviewer; not yet mined
+    read: 'supplied by reviewer (again 2026-11-28, the same file); searched by keyword for F27, not read in full'  
   fine_derosset2024b:
     cite: "Fine, K. and deRosset, L. Truthmaker Semantics, Ground, and Generality (draft of 2024-05-09)."
     read: supplied by reviewer; not yet mined
+  derosset2013a:
+    cite: "deRosset, L. (2013). Grounding Explanations. Philosophers' Imprint 13(7)."
+    read: 'draft of 2013-01-04 supplied by the reviewer 2026-11-28 (35 pp., own pagination; journal pagination not checked); searched by keyword for F27, fns 15-16 read'
+  derosset2013b:
+    cite: "deRosset, L. (2013). What is Weak Ground? Essays in Philosophy 14(1): 7-18."
+    read: 'published version supplied by the reviewer 2026-11-28, read in full for F27'
   derosset2015:
     cite: "deRosset, L. Better Semantics for the Pure Logic of Ground. Analytic Philosophy (forthcoming as of 2015 draft)."
     read: supplied by reviewer; not yet mined
