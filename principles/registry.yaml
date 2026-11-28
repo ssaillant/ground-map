@@ -1981,9 +1981,11 @@ puzzles:
     expected: refuted (Fritz), without irreflexivity
     note: FLAGGED 0.3.0 (audit) - the refutation uses the core clause FACT. Fritz does not list factivity among the seven principles (see the reading on IMM.FRITZ7).
   - id: P.WOODS.CHECK
-    source: woods2018 (no model given in the paper)
+    source: woods2018 (Krämer's package with substantive irreflexivity, which Woods states as no package and gives no model for)
     package: [C1, BETA.ID, CL.QUANT, EX.FULL, IRR.W, TRANS.P]
-    expected: unknown; a model here would be a finding (Woods proposes, "not prove", p. 639)
+    expected: unknown; Woods neither claims nor argues consistency, so a model would be a result about his proposal, not a confirmation of a claim of his
+    corrected: 2026-11-28, after re-reading woods2018 pp. 631-641. The earlier text read "Woods proposes, 'not prove', p. 639" as a remark about consistency. It is not. The passage ("Note, 'propose', not 'prove'", p. 639) qualifies his verdict that the plausible reflexive cases are vacuous; he adds that he does not show there are no other counterexamples to irreflexivity (p. 639) and gives no conclusive arguments (p. 632).
+    package_attribution: 'Assembled by the registry, not taken from Woods. EX.FULL is his Existential Grounding, kept "in full generality" (p. 636). IRR.W is his substantive irreflexivity (p. 641), with the one-world approximation of his modal vacuity test (fn. 27, p. 640). TRANS.P - he calls ground a strict partial order (p. 632), weakening asymmetry to antisymmetry (fn. 4), and uses transitivity in Objections 2 and 6. BETA.ID is not his - fn. 6 (p. 633) sets lambda-abstraction aside. It is in the package because the encoding needs it to pose Krämer''s case: the instance of the existential "something is true" at p must be p itself (app f_id p = p).'
   checked:
     # Machine-checked 2026-11-26 in Isabelle2026, isabelle/Russell_Checks.thy (no sorry, oops or axioms; principles are hypotheses).
     # Encoding note (D3): Russell_Checks and Fine_Checks predate the formula layer. Their hypotheses
@@ -2091,6 +2093,9 @@ puzzles:
       registry_mapping: 'INFERENCE: with propositions as a base type there is no diagonal lemma, so the diagonal sentence becomes a witness hypothesis DIAG.K: some d with T d iff not PG d (disj d d). This is a comprehension principle for propositions whose truth condition mentions ground; no existing COMP entry (C1-C3s) supplies it, since C3s gives propositional functions, not propositions with arbitrary truth conditions. The refutation itself is short; the philosophical weight sits on DIAG.K.'
       checked: 'isabelle/Korbmacher_Checks.thy: korbmacher_disj, korbmacher_dn; korbmacher_untyped_ungrounded (slide 12: with disjunction grounding restricted to grounded disjuncts, d is ungrounded)'
       status: checked
+      result: refuted
+      theorem: 'korbmacher_disj; korbmacher_dn for the variant with NEG.DN in place of DISJ.ONE, whose diagonal witness is d with T d iff not PG d (neg (neg d))'
+      note: 'korbmacher_untyped_ungrounded is not a refutation. Its hypotheses are FACT.L, DIAG.K and the restricted rule DISJ_ONE_GROUNDED (if p has some partial ground, then {p} grounds disj p q; no truth premise), and its conclusion is that d has no partial ground, not False. It checks Korbmacher''s slide-12 observation that the restriction blocks the derivation; it does not show that the restricted package is consistent (no model is given). FACT.L, DISJ_ONE_L and DISJ_ONE_GROUNDED are defined locally in Korbmacher_Checks.thy, not as registry constants.'
     - id: P.FRITZ2020.BETAG
       source: 'fritz2020 sect. 4 (final draft pp. 4-5)'
       claim_in_source: 'with the non-schematic existential principle (EQ), T(ET) grounds ET; beta-grounding adds that ET grounds T(ET), so the two ground each other, against asymmetry, and with transitivity against irreflexivity. Beta-conversion instead gives T(ET) = ET, against irreflexivity.'
@@ -2098,6 +2103,9 @@ puzzles:
       registry_mapping: '(EQ) = EX.FULL over pfun; truth property = f_id; betaC = BETA.ID, betaG = BETA.GROUND (D3). "Some truth" assumed directly, as Fritz does. The betaC case is kramer_v2.'
       checked: 'isabelle/Fritz2020_Checks.thy: fritz2020_betaG_asym, fritz2020_betaG_trans_irr'
       status: checked
+      result: refuted
+      theorem: 'fritz2020_betaG_asym_package; fritz2020_betaG_trans_irr_package for the version with TRANS.P and IRR.F in place of ASYM.P'
+      note: 'fritz2020_betaG_asym and fritz2020_betaG_trans_irr assume that something is true, as Fritz does ("there is surely some truth"). The _package corollaries discharge that premise: the registry''s CL.QUANT includes the clause for arbitrary conjunction, and if nothing were true, bigconj f would be vacuously true (fritz2020_CL_QUANT_truth). The truth used is therefore an artefact of the bigconj clause, not Fritz''s premise; without that clause the result would be a refutation at N1 only.'
       open: 'Fritz''s positive claim, that (EQ) without beta-conversion or beta-grounding is not inconsistent "without more substantial additional assumptions", is a consistency target for step 4 ([C3s, CL.QUANT, EX.FULL, IRR.F] plus N1); his (T1)/(T2) and recovery principles (FR) have no registry entries yet.'
     - id: P.ELGIN.IDENTITY
       source: elgin2026 (a = b partially grounds itself)
@@ -2237,7 +2245,7 @@ bibliography:
     needed_from_reviewer: journal pages for the quotes above; sects. 5–7 (truth predicate, sect. 7.3)
   woods2018:
     cite: "Woods, J. (2018). Emptying a Paradox of Ground. Journal of Philosophical Logic 47(4): 631–648. doi:10.1007/s10992-017-9442-1"
-    read: published version (eprints.whiterose.ac.uk/113935, CC-BY), full text with running heads
+    read: published version (eprints.whiterose.ac.uk/113935, CC-BY), full text with running heads. Re-read 2026-11-28 by a fetch of the same PDF, pp. 631-641 verbatim; Objections 1-7 (pp. 642-648) only from the Springer HTML, without page numbers. Not in the project's sources folder.
     needed_from_reviewer: false
   korbmacher2018a:
     cite: "Korbmacher, J. (2018). Axiomatic Theories of Partial Ground I: The Base Theory. Journal of Philosophical Logic 47: 161–191. doi:10.1007/s10992-016-9423-9"

@@ -73,10 +73,19 @@ def main():
         L.append(f"| {t['id']} ({t['source'].split(';')[0]}) | {fmt(t['package'])} | {t['expected'].split(';')[0]} | "
                  f"{c.get('status', REG['puzzles']['validation'].get('status', '')[:6] if t['id'] in REG['puzzles']['validation'].get('reproduced', []) else 'open')}"
                  f"{' - `' + c['theorem'] + '`' if c.get('theorem') else ''} |")
+    notes = []
     for c in REG["puzzles"]["candidates"]:
-        if c.get("status") == "checked":
+        if c.get("result") and c.get("theorem"):
             L.append(f"| {c['id']} ({c['source'].split('(')[0].strip()}) | {fmt(c.get('package', []))} | refuted | "
-                     f"checked - {c.get('checked', '').split(':')[-1].strip()} |")
+                     f"{c['result']} (checked) - `{c['theorem']}` ({c.get('checked', '').split(':')[0].strip()}) |")
+            if c.get("note"):
+                notes.append(f"- {c['id']}: {c['note']}")
+        elif c.get("status") == "checked":
+            L.append(f"| {c['id']} ({c['source'].split('(')[0].strip()}) | {fmt(c.get('package', []))} | refuted | "
+                     f"checked - {c.get('checked', '')} |")
+    if notes:
+        L.append("\nNotes on the rows above:\n")
+        L.extend(notes)
     L.append("\nCaveat from the registry: " + REG["puzzles"]["validation"].get("caveat", "") + "\n")
 
     # 2. search: minimal refuted packages
