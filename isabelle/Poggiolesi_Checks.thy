@@ -17,7 +17,10 @@ text \<open>
   (A) Wilhelm's derivation, as Poggiolesi reconstructs it (p. 2), refutes conditions
       (1), (4), (5), (6), (7) for every R and Q such that Q is reflexive and symmetric and
       R respects Q in both places. A prp-level version for the defined immediate partial
-      ground IPG, with identity of propositions as Q, follows.
+      ground IPG, with identity of propositions as Q, follows. Wilhelm's own two theorems
+      (wilhelm2021 p. 2; conditions p. 1, the same as Poggiolesi's) are then checked with
+      Leibniz's law only in the grounded place: Theorem 1 by his route, and Theorem 2,
+      (2), (3), (5), (6), (8), whose proof he gives only as "analogous".
   (B) The interpretation Poggiolesi gives (p. 5) violates condition (1). The
       counterexample needs only that her relation \<doteq> contains \<cong> (p. 4), so it holds
       on every reading of "the closure of \<cong> under (7') and (8')".
@@ -124,6 +127,54 @@ proof -
   hence "neg (neg p) = p" using W1p by blast
   moreover have "IPG p (neg (neg p))" using W5p p(1) by blast
   ultimately show False using p(2) by simp
+qed
+
+text \<open>Wilhelm's own theorems (wilhelm2021 p. 2). He says only that identity "conforms to a
+  version of Leibniz's law" (p. 1); both derivations substitute into the grounded place
+  alone, so that is all RESP_R grants. Reflexivity and symmetry are assumed; that symmetry
+  is needed is not shown.\<close>
+
+definition "RESP_R R Q \<longleftrightarrow> (\<forall>a b b'. Q b b' \<longrightarrow> R a b \<longrightarrow> R a b')"
+
+lemma RESP_Q_RESP_R: "RESP_Q R Q \<Longrightarrow> REFLSYM_Q Q \<Longrightarrow> RESP_R R Q"
+  unfolding RESP_Q_def RESP_R_def REFLSYM_Q_def by blast
+
+text \<open>Theorem 1, by Wilhelm's route: p grounds p \<and> p by (1); by (7), p grounds
+  \<not>(\<not>p \<or> \<not>p); by (4), p \<approx> \<not>\<not>p; with (5), p grounds p.\<close>
+
+theorem wilhelm_thm1:
+  assumes "W1 e R Q" "W4 e R Q" "W5 e R Q" "W6 e R" "W7 Q" "RESP_R R Q" "REFLSYM_Q Q"
+  shows False
+proof -
+  obtain n where n: "e n" "\<not> R (LV n) (LV n)" using assms(4) unfolding W6_def by blast
+  let ?p = "LV n"
+  have refl: "\<forall>a. Q a a" and sym: "\<forall>a b. Q a b \<longrightarrow> Q b a"
+    using assms(7) unfolding REFLSYM_Q_def by blast+
+  have "R ?p (LC ?p ?p)" using assms(1) n(1) refl unfolding W1_def by simp
+  hence "R ?p (LN (LD (LN ?p) (LN ?p)))" using assms(5,6) unfolding W7_def RESP_R_def by blast
+  hence "Q ?p (LN (LN ?p))" using assms(2) unfolding W4_def by blast
+  moreover have "R ?p (LN (LN ?p))" using assms(3) n(1) refl unfolding W5_def by simp
+  ultimately have "R ?p ?p" using assms(6) sym unfolding RESP_R_def by blast
+  with n(2) show False by blast
+qed
+
+text \<open>Theorem 2: p grounds p \<or> p by (3); by (8), p grounds \<not>(\<not>p \<and> \<not>p); by (2),
+  p \<approx> \<not>\<not>p; with (5), p grounds p.\<close>
+
+theorem wilhelm_thm2:
+  assumes "W2 e R Q" "W3 e R Q" "W5 e R Q" "W6 e R" "W8 Q" "RESP_R R Q" "REFLSYM_Q Q"
+  shows False
+proof -
+  obtain n where n: "e n" "\<not> R (LV n) (LV n)" using assms(4) unfolding W6_def by blast
+  let ?p = "LV n"
+  have refl: "\<forall>a. Q a a" and sym: "\<forall>a b. Q a b \<longrightarrow> Q b a"
+    using assms(7) unfolding REFLSYM_Q_def by blast+
+  have "R ?p (LD ?p ?p)" using assms(2) n(1) refl unfolding W3_def by simp
+  hence "R ?p (LN (LC (LN ?p) (LN ?p)))" using assms(5,6) unfolding W8_def RESP_R_def by blast
+  hence "Q ?p (LN (LN ?p))" using assms(1) unfolding W2_def by blast
+  moreover have "R ?p (LN (LN ?p))" using assms(3) n(1) refl unfolding W5_def by simp
+  ultimately have "R ?p ?p" using assms(6) sym unfolding RESP_R_def by blast
+  with n(2) show False by blast
 qed
 
 section \<open>(B) Poggiolesi's interpretation violates condition (1)\<close>

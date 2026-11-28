@@ -582,3 +582,20 @@ AI-use disclosure. One entry per working session.
   added addendum A8 of docs/korbmacher-2018b.md. Status unchanged.
 - Checks: registry parses; scripts/verify_models.py; scripts/summarize.py. No Isabelle change.
 - Human review: pending.
+
+## 2026-11-28 — Wilhelm 2021 read against the registry (registry 0.9.0-draft)
+
+- Tool and model as in the non-classical families entry above (Claude Code, cloud session;
+  Isabelle2026).
+- Prompt: the reviewer supplied wilhelm2021; the coordinator asked for it to be read against
+  the registry with a report before any change, then (after PR #10 merged) for the proposed
+  edits to be made with the two readings of ≈ left to the reviewer.
+- What the model did: read the two pages; compared Wilhelm's conditions (1)-(8) with
+  Poggiolesi's restatement (same content); restated P.WILHELM.2021 from Wilhelm's text (two
+  theorems); added wilhelm_thm1 (Wilhelm's route) and wilhelm_thm2 (Theorem 2, whose proof
+  Wilhelm gives only as "analogous") to isabelle/Poggiolesi_Checks.thy with Leibniz's law in
+  the grounded place only; added Wilhelm as a source of proposed.WP and two FLAGGED readings
+  (what ≈ expresses, left open; the form of Leibniz's law).
+- Checks: session Ground_Map_Checks builds in Isabelle2026; scripts/check_no_sorry.sh;
+  docs/results.md regenerated (version line only).
+- Human review: pending.
