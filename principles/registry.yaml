@@ -127,6 +127,7 @@ changelog:
       - Decisions D7 (certificate kinds) and D8 (N4 requires CL.PROP). Nontriviality N4 restated; no principle entry changed.
       - Finding F2 extended with the classical model MF and the Fritz literature check.
       - Section `implications` - new separation by MF - IMM.FRITZ7 does not imply IMM.CONJ given CL.PROP, CL.QUANT and TS.FULL (MF_separates_IMM). The question the 0.3.1 note on ME left open is settled for packages without C3s.
+      - Model records - MT and MU are at N5 (MT_N4s, MU_N4s; DISJ.ONE instance with distinct disjuncts MT_N3_disj), MS at N3 with N4 excluded by D8 (MS_N3_disj).
   - version: 0.3.2-draft
     date: 2026-11-28
     changes:
