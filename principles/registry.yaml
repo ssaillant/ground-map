@@ -3573,7 +3573,9 @@ findings:
       kramer2013; lovett2020; goodman2023; correia2026; litland2015 sect. 6.8; genco2021 (which
       uses "antisymmetry" for asymmetry, p. 1418). Read through fetches, fragments only -
       woods2018 (whole paper), Kovacs 2018 (to mid sect. 3), McSweeney 2020, Lovett 2020 "The
-      logic of ground" (to sect. 5), Krämer's Habilitationsschrift (to p. 13), korbmacher2015.
+      logic of ground" (in full, second pass), Krämer's Habilitationsschrift (the public file
+      holds the introduction, pp. 1-24, and the start of the first essay; "Puzzles" is listed
+      but not in it), korbmacher2015.
       The argument was not found in any of them. CLOSEST - (a) lovett2020 fn. 33 (p. 2558), on
       Correia's claim that weak partial ground is antisymmetric - on Lovett's characterizations
       mutual weak partial ground "doesn't even guarantee that A and B are materially
@@ -3598,8 +3600,17 @@ findings:
       p. 2558 - "someone knows something" and "a knows that someone knows something" help
       ground each other, given a principle about knowledge; these are distinct and not
       necessarily equivalent, so plain antisymmetry is already in tension with a case Woods
-      discusses. (d) Lovett 2020 "The logic of ground", fn. 5, reporting deRosset - on one
-      characterization A and A ∧ B weakly ground one another. READ 2026-11-28,
+      discusses. (d) Lovett 2020 "The logic of ground" (JPL 49, 13-49; read in full through a
+      fetch, second pass, no page numbers in the text), fn. 5, on deRosset's doubts about
+      weak ground - in a model with only the propositions A, B and A ∧ B, the two propositions
+      A and A ∧ B strictly ground nothing, so on the explanatory-subsumption characterization
+      they weakly ground one another; Lovett calls this implausible and avoidable. That is an
+      artefact of a characterization in a three-proposition model, not a derivation from the
+      rules, and it is not connected with identity or modality. The same paper holds that
+      mutual weak FULL ground is identification (sect. 5 - ground-theoretic equivalence is
+      mutual weak grounding, and holds if and only if A "just is" B), in an argument that uses
+      irreflexivity; it does not discuss the puzzles. For weak full ground the circle of F27
+      gives only E with E ∨ r (anti_ex_disj), so that thesis is not touched. READ 2026-11-28,
       second pass - fine2012a p. 53 and derosset_fine2023 p. 2 (definitions, see readings);
       fine_derosset2024a and fine_derosset2024b searched for mutual, reversible or symmetric
       ground and for quantifiers (not read in full) - only the irreversibility definitions,
