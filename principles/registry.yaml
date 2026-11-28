@@ -7,11 +7,13 @@
 # 0.3.2-draft adds the family WIT (decision D9; finding F9). Version 0.5.0-draft
 # records decisions D7 (certificate kinds) and D8 (N4 needs CL.PROP). Version
 # 0.6.0-draft adds the strong Kleene entries (decision D6; findings F10-F13)
-# and the section `proposed`. Reviewer
+# and the section `proposed`. Version 0.7.0-draft changes no entry: it adds the
+# tests of Woods's substantive irreflexivity against the Krämer and Fine
+# targets (puzzles.irr_w_tests; findings F14-F17). Reviewer
 # decisions are recorded in the section `decisions`; choices made while
 # applying a decision are listed under `choices_made_in_applying_it`.
 
-registry_version: 0.6.0-draft
+registry_version: 0.7.0-draft
 date: 2026-11-28
 status: draft-for-review
 decisions:
@@ -130,6 +132,16 @@ decisions:
     decision: SK.PROP, SK.QUANT (new family SK) and TS.KF (TS chain, rank 3, below TS.ID) enter the enumeration; SR.LIAR, SR.FINE15, DIAG.K, DISJ.GRD, FOUND.ATOM and the WP conditions stay in section `proposed` until their flagged readings are reviewed.
     checks: cl_sk, ts_kf_full, ts_id_kf in isabelle/NonClassical.thy (used by driver.py for propagation); K1_package (finding F11)
 changelog:
+  - version: 0.7.0-draft
+    date: 2026-11-28
+    changes:
+      - No entry, statement or decision changed. Requested by the reviewer 2026-11-28 - build the model of P.WOODS.CHECK, then test Fine's packages with IRR.W in place of IRR.F (Woods's Objections 3 and 5), by a search on GitHub and by hand-built models for what survives. This brings forward the deferred item "hand-built models for the unknown cases" for these packages only.
+      - P.WOODS.CHECK is settled - finite model MW at N5 (isabelle/Woods_Models.thy, MW_package).
+      - New section puzzles.irr_w_tests - seven packages with IRR.W (the five Krämer and Fine targets with IRR.W for IRR.F, Woods's Objection 3, and their union), each with its status and model. The search set built on them is results/targets/woods-fine.json (scripts/woods_targets.py); its classification is results/woods_search.jsonl (scripts/woods_report.py).
+      - New models in isabelle/Woods_Models.thy - MW (finite), MV (infinite; all seven packages at full strength, C3s), MV1, MV2, MV3 (MV at C1, C2, C3d), MY and MY2 (with ASYM.ANTI), MZ and MZ2 (one-membered grounds, for FIN.B3 and FIN.FIN), MQ and MQ2 (a zero-grounded truth, for EMPTY.SOME), MX and MX2 (flat, for TS.ID, ID.AC and ID.DN). TS.KF is proved in every one of them, and ALL.TOT in MV and its three readings (MV_ALL_TOT; the constant tot is read as a constant function). Records in results/isabelle_models.jsonl.
+      - Search run 46125372163 on GitHub (229 packages) and its classification - 201 modelled, 14 refuted (the controls), 14 unknown (finding F17).
+      - New findings F14 (what IRR.W demands under classical truth), F15 (the packages are consistent with IRR.W at N5, and what the models cost), F16 (antisymmetry forces the circles to collapse), F17 (outcome of the search).
+      - scripts/driver.py has a mode `targets` for a fixed list of packages, and .github/workflows/search.yml an input `targets` that selects it. scripts/merge_results.py now ranks the class refuted-at-N1 (it was treated as unknown when merging).
   - version: 0.6.0-draft
     date: 2026-11-27
     changes:
@@ -2082,6 +2094,94 @@ puzzles:
     expected: unknown; Woods neither claims nor argues consistency, so a model would be a result about his proposal, not a confirmation of a claim of his
     corrected: 2026-11-28, after re-reading woods2018 pp. 631-641. The earlier text read "Woods proposes, 'not prove', p. 639" as a remark about consistency. It is not. The passage ("Note, 'propose', not 'prove'", p. 639) qualifies his verdict that the plausible reflexive cases are vacuous; he adds that he does not show there are no other counterexamples to irreflexivity (p. 639) and gives no conclusive arguments (p. 632).
     package_attribution: 'Assembled by the registry, not taken from Woods. EX.FULL is his Existential Grounding, kept "in full generality" (p. 636). IRR.W is his substantive irreflexivity (p. 641), with the one-world approximation of his modal vacuity test (fn. 27, p. 640). TRANS.P - he calls ground a strict partial order (p. 632), weakening asymmetry to antisymmetry (fn. 4), and uses transitivity in Objections 2 and 6. BETA.ID is not his - fn. 6 (p. 633) sets lambda-abstraction aside. It is in the package because the encoding needs it to pose Krämer''s case: the instance of the existential "something is true" at p must be p itself (app f_id p = p).'
+    status: finite-model at N5 (checked); one-world vacuity test
+    theorem: MW_package (isabelle/Woods_Models.thy), with MW_N3 and MW_N4s for the levels
+    model: >-
+      MW, registry 0.7.0-draft. Ten propositions (a truth value with one of five ranks);
+      existential propositions have the top rank, and a true proposition of top rank is
+      fully grounded by every truth on its own. The only reflexive grounding fact is
+      that the one true existential proposition grounds itself, which is vacuous in the
+      sense of vacW because every truth grounds it. CL.PROP, TS.FULL and ASYM.ANTI hold
+      as well; IRR.F and ASYM.P fail (MW_reflexive). The infinite model MV1 satisfies the
+      same target together with the introduction entries for the connectives, the
+      universal quantifier and the truth predicate.
+    limits: >-
+      The result is about the registry's package and its one-world reading of vacuity
+      (D2). Woods's test quantifies over worlds (fn. 27, p. 640), so the model does not
+      show that his own principle is satisfied. In MW all true existential propositions
+      are one proposition, and every truth grounds it, not only its instances.
+  irr_w_tests:
+    # Requested by the reviewer 2026-11-28. Each package is a registry target with
+    # IRR.W in place of IRR.F, or Woods's own case. `status` follows the three
+    # statuses of the project; every model is reported with its level. All models
+    # are in isabelle/Woods_Models.thy and use the one-world vacuity test (D2).
+    source_reading: >-
+      woods2018 pp. 640-645, re-read 2026-11-28 from the open-access PDF by an extraction
+      that gives page numbers but only short verbatim fragments; everything else here
+      is paraphrase. Definition of vacuous occurrence, p. 640 ("A proposition A occurs
+      vacuously in a grounding fact", substitution in the grounds only, at any world
+      where the modified grounds are true). SUBSTANTIVE IRREFLEXIVITY, p. 641.
+      PARTIAL SUBSTANTIVE IRREFLEXIVITY, p. 644. Objection 3 and reply, pp. 643-644 -
+      the existential of p ∨ A helps ground itself and "occurs vacuously in ∃p(p ∨ A) <
+      ∃p(p ∨ A)" because every B grounds it. Objection 5 and reply, p. 645 - the
+      universal case with a totality fact among the grounds; substituting B for one of
+      the grounds must also be done inside the totality fact ("uniformly"), and the
+      modified grounds then ground the universal truth whenever they are true; fn. 37
+      says the solution assumes the totality fact is among the grounds.
+    readings:
+      - point: which packages test Woods's proposal against Fine
+        chosen: the registry's Krämer and Fine targets with IRR.W substituted for IRR.F and nothing else changed, plus the package of Objection 3
+        alternatives: ['packages with ALL.TOT, which is how Woods states the universal case (p. 645)']
+        why: the reviewer's request names Fine's packages. ALL.TOT uses an opaque totality constant that cannot be rewritten under substitution (flag on ALL.TOT, audit), so a package with ALL.TOT does not test his reply to Objection 5. The seven packages here use ALL.PART or ALL.INST, without a totality fact. The search set does add ALL.TOT to each of them, and those packages are modelled (MV_ALL_TOT), but only because in MV a true universal proposition is grounded by every non-empty set of truths; the formula language has no constructor for totality facts, so vacW cannot mark an occurrence inside one. This is a gap between the test and Woods's own treatment of the universal case, FLAGGED for the reviewer - closing it needs a formula constructor for totality and a decision on its truth and grounding clauses.
+      - point: Objection 3 needs a propositional function outside the four witnesses
+        chosen: C2 (formulas of quantifier level at most 1), which admits p ∨ A for an atom A
+        alternatives: ['C3d', 'a new witness entry for p ∨ A']
+        why: the weakest comprehension entry of the registry that admits the function. Woods's A is any proposition; the theorem woods_obj3 is stated for an atom and any environment.
+    packages:
+      - id: P.KRAMER/W
+        source: kramer2013 (1)-(2); woods2018 p. 640 (the self-ground of ∃p p is vacuous)
+        package: [W.ID, BETA.ID, CL.QUANT, EX.PART, IRR.W]
+        status: infinite-model at N5 (checked); finite model MW at N5 for the target P.WOODS.CHECK
+        model: MV (also MV1, MV2, MV3, MY, MW)
+      - id: P.FINE.PARTICULAR/W
+        source: fine2010 p. 106 ("something is true")
+        package: [W.TR, BETA.ID, CL.QUANT, TS.FULL, TR.PART, EX.PART, TRANS.P, IRR.W]
+        status: infinite-model at N5 (checked)
+        model: MV
+      - id: P.FINE.UNIVERSAL/W
+        source: fine2010 pp. 102-103
+        package: [W.TEM, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, ALL.PART, DISJ.PART, TR.PART, TRANS.P, IRR.W]
+        status: infinite-model at N5 (checked)
+        model: MV
+      - id: P.FINE.PARTICULAR.PROPS/W
+        source: fine2010 p. 103
+        package: [W.TEM, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, EX.PART, DISJ.PART, TR.PART, TRANS.P, IRR.W]
+        status: infinite-model at N5 (checked)
+        model: MV
+      - id: P.FINE.UNIVERSAL.SP/W
+        source: woods2018 p. 645 (Objection 5), the sentence-position variant of fine2010 p. 102
+        package: [W.EM, BETA.ID, CL.PROP, CL.QUANT, ALL.PART, DISJ.PART, TRANS.P, IRR.W]
+        status: infinite-model at N5 (checked)
+        model: MV
+        note: fine_sp_circle, fine_sp_every_truth - the universal truth and its own instance help ground each other, and every truth helps ground the universal truth, without any irreflexivity entry.
+      - id: P.WOODS.OBJ3
+        source: woods2018 pp. 643-644 (Objection 3)
+        package: [C2, BETA.ID, CL.PROP, CL.QUANT, EX.PART, DISJ.PART, TRANS.P, IRR.W]
+        status: infinite-model at N5 (checked)
+        model: MV2
+        with_IRR_F: refuted (checked) - woods_obj3_refuted
+        note: woods_obj3 reproduces the objection and the fact Woods's reply uses - every truth helps ground the existential of p ∨ A. At C2 the package contains Krämer's.
+      - id: P.UNION/W
+        source: the union of the five targets above
+        package: [W.ID, W.TR, W.EM, W.TEM, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, EX.PART, ALL.PART, DISJ.PART, TR.PART, TRANS.P, IRR.W]
+        status: infinite-model at N5 (checked)
+        model: MV
+        at_full_strength: with EX.FULL, ALL.INST, DISJ.ONE, TR.FULL and TRANS.CUT in place of the partial entries and TRANS.P, and with C3s - model MV (MV_package)
+    search:
+      set: results/targets/woods-fine.json (scripts/woods_targets.py), 229 packages - the seven above; controls with IRR.F or IRR.MEM in place of IRR.W and with ASYM.P added; each of the seven with one further entry from a list of 29; two packages that restate what MV satisfies
+      run: GitHub workflow search.yml, run 46125372163, 2026-11-28, 8 jobs, Sledgehammer 45 s and Nitpick 15 s per query
+      classification: results/woods_search.jsonl (scripts/woods_report.py); printed in docs/results.md section 9
+      outcome: 201 modelled (180 at N5, 9 at N3, 12 at N2), 14 refuted (checked), 14 unknown - finding F17
   checked:
     # Machine-checked 2026-11-26 in Isabelle2026, isabelle/Russell_Checks.thy (no sorry, oops or axioms; principles are hypotheses).
     # Encoding note (D3): Russell_Checks and Fine_Checks predate the formula layer. Their hypotheses
@@ -2560,6 +2660,177 @@ findings:
       interesting, consistent, untyped predicational theory of ground can be developed in this
       way". FLAGGED - F13 needs Fund fixed independently of ground (proposed.FOUND readings); under
       his 2018a definition of Fund it does not arise.
+  - id: F14
+    date: 2026-11-28
+    status: checked; pending review (0.7.0-draft)
+    claim: >-
+      Under classical truth, IRR.W lets a truth help ground itself only if any truth can
+      take its place. Precisely - assume FACT, LAM_CORE, CL.PROP, CL.QUANT, TS.FULL and
+      IRR.W, and let c be a member of a full ground Γ of c. Then Γ has a presentation by
+      formulas in which some formula φ, with the marked variable free, denotes c, and for
+      EVERY truth B the set obtained by putting B for c is a full ground of c; in
+      particular what φ denotes with B for c helps ground c. If no formula that properly
+      contains the marked variable denotes c, every truth helps ground c.
+    proof: >-
+      isabelle/Woods_Models.thy - woods_classical, woods_classical_every_truth, with
+      classical_truth_env (under those entries the truth value of what a formula denotes
+      depends only on the truth values of what its variables denote, so the side condition
+      of vacW, "the modified grounds are true", is met by every truth).
+    consequence: >-
+      (1) For partial ground the demand is already met by the packages themselves. In each
+      Krämer and Fine target, and in Woods's Objection 3, every truth helps ground the
+      self-grounding truth by the package's own entries, with no irreflexivity entry -
+      kramer_cluster (every truth helps ground whatever ∃p p helps ground), woods_obj3 (the
+      fact Woods's reply to Objection 3 uses, pp. 643-644), fine_sp_every_truth (every truth
+      B is a disjunct of the instance B ∨ ¬B of ∀p(p ∨ ¬p); compare his reply to Objection
+      5, p. 645). What IRR.W adds is the same for full grounds - the set with B in place
+      of c must itself be a full ground. (2) INFERENCE, not checked - whether the entries
+      for full ground (EX.FULL, ALL.INST, DISJ.ONE, TR.FULL with TRANS.CUT) deliver that by
+      themselves differs by case. For the existential cases they seem to (from {T B}
+      grounding ∃p T p and {B} grounding T B, TRANS.CUT gives {B} grounding ∃p T p, for
+      every truth B). For the universal cases they seem not to (putting B for ∀p(p ∨ ¬p)
+      removes the instance at ∀p(p ∨ ¬p) from the grounds), which is where Woods brings
+      in the totality fact (p. 645, fn. 37). Settling this needs a model of the full-ground
+      package in which a reflexive fact is not vacuous, with propositions as fine as
+      formulas; the models of F15 are too coarse for it. (3) INFERENCE, not checked -
+      without CL.PROP or TS.FULL the side condition of vacW can do the work. If the truth
+      value of a negation, a disjunction or a truth ascription may depend on which
+      proposition it applies to, a ground can be added that is true for c and false for
+      every other B, and vacW then holds trivially. Woods's modal clause is his defence
+      against a related worry (fn. 27, p. 640, on there being too few facts to substitute);
+      the one-world test has none outside classical packages, so IRR.W results for
+      non-classical packages should be read with this in mind. (4) The reading "some
+      presentation" flagged on IRR.W matters in models that identify propositions. There a
+      formula that properly contains the marked variable can denote c (for instance a
+      vacuous quantification over it). The models of F15 do not use such presentations;
+      woods_classical does not exclude them, which is why its last clause is conditional.
+  - id: F15
+    date: 2026-11-28
+    status: checked; pending review (0.7.0-draft)
+    claim: >-
+      Each of the five Krämer and Fine targets is consistent with IRR.W in place of IRR.F,
+      with classical truth, at level N5; so is the package of Woods's Objection 3 and the
+      union of all of them. One infinite model, MV, satisfies them together at full
+      strength - C3s, BETA.ID, CL.PROP, CL.QUANT, TS.FULL, EX.FULL, ALL.INST, CONJ.BIN,
+      CONJ.INF, DISJ.ONE, DISJ.BOTH, TR.FULL, TR.NEG, NEG.DN, NEG.DM, TRANS.CUT, AMALG.INF,
+      EMPTY.NONE, IRR.W (and IRR.MEM). The same model satisfies C1, C2 or C3d in place of
+      C3s when the admissibility predicate is changed (MV1, MV2, MV3). The registry target
+      P.WOODS.CHECK also has a finite model, MW. In all of them the vacuity test is the
+      one-world test of decision D2.
+    proof: >-
+      isabelle/Woods_Models.thy - MV_package with MV_N3, MV_N4s, MV_circles; MV1_package,
+      MV2_package, MV3_package, MV2_obj3; MW_package with MW_N3, MW_N4s. In MV a
+      proposition is a truth value with a level; levels form an ordinary tier L n and a
+      top tier Top n; connectives and the truth ascription raise the level by one and stay
+      in the top tier once an argument is there; every quantified proposition has level
+      Top 0. A non-empty set of truths fully grounds a truth q when q is in the top tier,
+      or when every member has an ordinary level below that of q. The propositions on each
+      puzzle's circle are distinct (MV_circles) - ∀p(p ∨ ¬p) is (True, Top 0) and its own
+      instance is (True, Top 2).
+    consequence: >-
+      Woods's substitution of substantive for strict irreflexivity removes every one of
+      these puzzles at once, on the one-world reading, and it does so without restricting
+      comprehension, the truth schema or any introduction entry. WHAT THE MODELS COST - in
+      MV every true quantified proposition, and every truth built from one, is fully
+      grounded by every non-empty set of truths (MV_top_universal). For partial ground
+      much of this is forced by the packages (F14 (1)); for full ground it is a
+      stipulation of the model, and it is the simplest way to satisfy the demand of F14.
+      The levels N1-N5 do not register it - the model reaches N5 through the ordinary
+      tier. INFERENCE, not separately checked - the relation on which every non-empty set
+      of truths grounds every truth also satisfies IRR.W (the proof of MV_IRR_W uses only
+      that the conclusion is in the top tier), so consistency with IRR.W is never the
+      informative question; the level and the cost are. LIMITS - (a) one-world vacuity;
+      Woods's test is modal (fn. 27), so the models do not show that his own principle is
+      satisfied. (b) The seven packages contain no totality fact, and where ALL.TOT is
+      added (F17) the totality fact cannot be rewritten under substitution, so nothing
+      here tests his own reply to Objection 5 (reading flagged in puzzles.irr_w_tests). (c) Propositions are
+      truth values with a level. All true quantified propositions with the same history
+      of connectives are one proposition; for instance ∃p p and ∀p(p ∨ ¬p) are both
+      (True, Top 0). (d) No model here separates IRR.W from the control IRR.MEM. NOVELTY -
+      not claimed. That these packages are acceptable with substantive irreflexivity is
+      Woods's proposal (woods2018); he gives no model. What is added is a machine-checked
+      certificate for this registry's reading and the statement of its cost. Literature
+      check - limited to the project's sources. lovett2020 p. 2552 objects to Woods's
+      solution on cases outside this signature (truth of self-referential sentences;
+      conjunction and disjunction cases). Whether a model of Woods's proposal has been
+      published elsewhere was not checked beyond that.
+  - id: F16
+    date: 2026-11-28
+    status: checked; pending review (0.7.0-draft)
+    claim: >-
+      With antisymmetry (ASYM.ANTI), which Woods adopts in place of asymmetry (fn. 4),
+      the sentence-position package forces ∀p(p ∨ ¬p) to be the same proposition as its own
+      instance, (∀p(p ∨ ¬p)) ∨ ¬∀p(p ∨ ¬p). The seven packages of puzzles.irr_w_tests remain
+      consistent at N5 with ASYM.ANTI added, in a model where each puzzle's circle is a
+      single proposition.
+    proof: >-
+      isabelle/Woods_Models.thy - fine_sp_anti_collapse (from W.EM, BETA.ID, CL.PROP,
+      CL.QUANT, ALL.PART, DISJ.PART and ASYM.ANTI; no irreflexivity entry, no TRANS.P);
+      MY_package, MY2_package, MY_collapse, MY_ASYM_ANTI. MY is MV with a single top level;
+      its one true top proposition is the only proposition that helps ground itself.
+    consequence: >-
+      Antisymmetry is a commitment about grain when it is combined with the grounding
+      entries of the puzzles. MV keeps the propositions on a circle apart and fails
+      ASYM.ANTI (MV_fails); MY satisfies ASYM.ANTI and identifies them. A view that wants
+      Woods's antisymmetry, the unrestricted entries and distinct propositions on the
+      circle is refuted (the theorem). INFERENCE - the same holds in the other four
+      targets by the same reasoning (any two propositions that help ground each other
+      are identified); only the sentence-position case is stated as a theorem. LIMIT -
+      the N3 instance for ALL.INST in MY is a vacuous quantification (MY_N3), because the
+      universal closure of p ∨ ¬p is one of its own instances there.
+
+  - id: F17
+    date: 2026-11-28
+    status: checked where a theorem or model is named; pending review (0.7.0-draft)
+    claim: >-
+      Outcome for the search set of puzzles.irr_w_tests (229 packages). 201 have a model
+      built in Isabelle, 14 are refuted, 14 are unknown. The refuted packages are exactly
+      the controls that bring strict irreflexivity back - each of the seven packages with
+      IRR.F in place of IRR.W, and each with ASYM.P added. No single added entry among the
+      29 tried is known to refute any of the seven packages. For 27 of the 29 added
+      entries all seven packages are modelled; for IMM.CONJ and IMM.FRITZ7 all seven are
+      unknown.
+    proof: >-
+      results/woods_search.jsonl, written by scripts/woods_report.py from the model
+      records, the hand theorems and the replayed search proofs; the script stops if a
+      package comes out both modelled and refuted, and none did. Refutations -
+      kramer_W, something_true_trans_W, fine_universal_W, fine_particular_props_W,
+      fine_universal_sp_W (Puzzle_Packages.thy), woods_obj3_refuted and the controls
+      *_W_asym, woods_obj3_asym (Woods_Models.thy). Models by level - N5, 180 packages (MV
+      116, MV2 24, MZ 12, MY 6, MV1 6, MV3 6, MQ 6, MZ2 2, MY2 1, MQ2 1); N3, 9 (MX 6,
+      MX2 3); N2, 12 (MX). The level is that of the model named, not the best possible.
+    search: >-
+      Run 46125372163. Sledgehammer found 6 refutations, all among the 14 controls and all
+      covered by the hand theorems; 5 replay in isabelle/Results_Refutations.thy, and the
+      sixth (P.WOODS.OBJ3 with IRR.F) does not, because its recorded proof cites lemmas of
+      NonClassical.thy that the replay theory does not import. Nitpick found no model for
+      any of the 229 packages - IRR.W quantifies over formulas and environments, which a
+      finite model search does not enumerate - so every model here is hand-built. For the
+      other 223 packages the search by itself returned unknown.
+    consequence: >-
+      (1) Finiteness - MZ has one-membered grounds only, so the packages (which use the
+      partial entries) are consistent with FIN.B3 and FIN.FIN at N5; they do not need
+      large or infinite grounds. (2) Zero-grounding - MQ adds a zero-grounded truth to MV
+      at N5. (3) Identity entries - with ID.AC and DISJ.PART, or TS.ID and TR.PART, every
+      truth helps ground itself (id_ac_all_reflexive, ts_id_all_reflexive), so IRR.F is
+      refuted outright and IRR.W must be met at every truth. The model MX meets it by
+      letting every non-empty set of truths ground every truth; it satisfies TS.ID, ID.AC
+      and ID.DN together. Its level is N3 for the packages without a truth entry and N2
+      for the others; N4 fails in every model of ID.AC with ID.DN (ids_no_N4,
+      id_ac_dn_no_N4). NOT ATTEMPTED - a model at a higher level for one identity entry at
+      a time. INFERENCE, not checked - ID.DN alone should have one at N5 (MV with a
+      negation that keeps the level). (4) ALL.TOT - modelled in MV, but this is not a test
+      of Woods's reply to Objection 5 (reading flagged in puzzles.irr_w_tests). (5)
+      Unknown - IMM.CONJ and IMM.FRITZ7 state exactly which propositions immediately
+      ground a conjunction (and, for IMM.FRITZ7, a disjunction and a universal truth). No
+      model was attempted. INFERENCE, not checked - they fail in MV, where a true
+      quantified proposition is immediately grounded by every truth of the top tier.
+      These 14 packages are unknown, not consistent.
+    limits: >-
+      One-world vacuity test throughout (decision D2). The 29 added entries were tried
+      one at a time; combinations of two or more were not searched, apart from those the
+      models happen to satisfy together.
+
 
 # ---------------------------------------------------------------------------
 # Bibliography and access status
@@ -2635,7 +2906,7 @@ bibliography:
     needed_from_reviewer: journal pages for the quotes above; sects. 5–7 (truth predicate, sect. 7.3)
   woods2018:
     cite: "Woods, J. (2018). Emptying a Paradox of Ground. Journal of Philosophical Logic 47(4): 631–648. doi:10.1007/s10992-017-9442-1"
-    read: published version (eprints.whiterose.ac.uk/113935, CC-BY), full text with running heads. Re-read 2026-11-28 by a fetch of the same PDF, pp. 631-641 verbatim; Objections 1-7 (pp. 642-648) only from the Springer HTML, without page numbers. Not in the project's sources folder.
+    read: published version (eprints.whiterose.ac.uk/113935, CC-BY), full text with running heads. Re-read 2026-11-28 by a fetch of the same PDF, pp. 631-641 verbatim; Objections 1-7 (pp. 642-648) only from the Springer HTML, without page numbers. Not in the project's sources folder. Re-read again 2026-11-28 (thread on IRR.W tests) from the same PDF by an extraction that reports page numbers - definitions pp. 640, 641, 644, Objection 3 pp. 643-644, Objection 5 p. 645, fnn. 27, 35-37 - with verbatim fragments of at most 125 characters; the rest of those passages is known here only in paraphrase.
     needed_from_reviewer: false
   korbmacher2018a:
     cite: "Korbmacher, J. (2018). Axiomatic Theories of Partial Ground I: The Base Theory. Journal of Philosophical Logic 47: 161–191. doi:10.1007/s10992-016-9423-9"

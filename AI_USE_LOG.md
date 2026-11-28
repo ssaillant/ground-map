@@ -381,3 +381,35 @@ AI-use disclosure. One entry per working session.
 - Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py;
   scripts/summarize.py regenerates docs/results.md.
 - Human review: pending.
+
+## 2026-11-28 — Woods's substantive irreflexivity against the Krämer and Fine targets (registry 0.7.0-draft)
+
+- Tool and model as above (Claude Code, cloud session; Isabelle2026 pinned; the search ran on
+  GitHub Actions, workflow search.yml, run 46125372163).
+- Prompt: reviewer, 2026-11-28: "First, build that model in Isabelle with the existing method
+  [...]. Then define the real test: Fine's packages with IRR.W in place of IRR.F (Woods's
+  objections 3 and 5, disjunction and ∀p(p ∨ ¬p)). Run those as a search on GitHub, then
+  hand-build models for whatever survives."
+- Sources: Woods 2018 pp. 640-645 was read through a web extraction of the open-access PDF
+  (page numbers given, only short fragments verbatim); the file is not in the project's
+  sources. Paraphrases in the registry are marked as such.
+- What the model did: wrote isabelle/Woods_Models.thy (theorems on what IRR.W demands under
+  classical truth, Woods's Objection 3, controls with ASYM.P; models MW, MV, MV1-MV3, MY,
+  MY2, MZ, MZ2, MQ, MQ2, MX, MX2; ALL.TOT in MV); chose the seven test packages and the
+  search set of 229 packages (scripts/woods_targets.py); added a `targets` mode to
+  scripts/driver.py and to the search workflow; ran the search and replayed its
+  refutations; wrote scripts/woods_report.py and section 9 of the results page; registry
+  0.7.0-draft with puzzles.irr_w_tests and findings F14-F17. No entry, statement or decision
+  of the registry was changed.
+- Reading choices made by the model and flagged for review: which packages count as the
+  test (IRR.W for IRR.F and nothing else changed); C2 as the comprehension level for
+  Objection 3; ALL.TOT read with tot as a constant function, which does not test Woods's
+  reply to Objection 5; the one-world vacuity test (decision D2) throughout.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/replay.py (25 of 26
+  recorded refutations replay; the one that does not is covered by woods_obj3_refuted);
+  scripts/verify_models.py; scripts/summarize.py regenerates docs/results.md;
+  scripts/woods_report.py finds no package both modelled and refuted.
+- Not done: models for the packages with IMM.CONJ or IMM.FRITZ7 (14 packages, unknown);
+  higher-level models for single identity entries; a literature check on novelty beyond the
+  project's sources.
+- Human review: pending.

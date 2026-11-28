@@ -1,5 +1,5 @@
 theory Woods_Models
-  imports Separation_Models Puzzle_Packages
+  imports Separation_Models Puzzle_Packages NonClassical
 begin
 
 text \<open>
@@ -7,14 +7,19 @@ text \<open>
 
   Part 1 proves, from the registry's own constants, what IRR.W demands of a package
   with classical truth: a truth that helps ground itself has, for every truth B, a full
-  ground in which B takes its place (woods_classical). Part 2 is a finite model MW of the
-  registry target P.WOODS.CHECK. Part 3 is an infinite model MV of all five Kr\"amer and
-  Fine targets with IRR.W in place of IRR.F, in their full-ground versions and with
-  every propositional function admissible.
+  ground in which B takes its place (woods_classical). It also reproduces Woods's
+  Objection 3 and the controls. Part 2 is a finite model MW of the registry target
+  P.WOODS.CHECK. Part 3 is an infinite model MV of all five Kr\"amer and Fine targets
+  with IRR.W in place of IRR.F, in their full-ground versions and with every
+  propositional function admissible. Part 4 reads MV at the comprehension levels C1,
+  C2 and C3d. Part 5 is the model MY of the same packages with antisymmetry. Parts 6
+  to 10 cover single further entries: MZ (one-membered grounds; FIN.B3), TS.KF in every
+  model, ALL.TOT in MV, MQ (a zero-grounded truth; EMPTY.SOME), and the flat model MX
+  (TS.ID, ID.AC, ID.DN).
 
   Method as in Model_Certificates.thy: a model is an interpretation of the locale gsig,
   whose definitions are proved identical to the registry's (K_faithful, K_faithful_more,
-  K_faithful_sep, K_faithful_woods). No axioms and no unfinished proofs.
+  K_faithful_sep, K_faithful_woods, K_faithful_ts_kf, K_faithful_ids, ALL_TOT_faithful). No axioms and no unfinished proofs.
 
   Limit that applies to every result here (registry decision D2): vacW is a one-world
   approximation of Woods's test, which quantifies over worlds (Woods 2018 fn. 27,
@@ -53,7 +58,87 @@ definition NEG_DM :: bool where
 definition TR_NEG :: bool where
   "TR_NEG \<longleftrightarrow> (\<forall>p. T (neg p) \<longrightarrow> G {neg p} (neg (tr p)))"
 definition EMPTY_NONE :: bool where "EMPTY_NONE \<longleftrightarrow> (\<forall>p. \<not> G {} p)"
+definition TS_KF :: bool where
+  "TS_KF \<longleftrightarrow> (\<forall>p. (T (tr p) \<longleftrightarrow> T p) \<and> (T (neg (tr p)) \<longleftrightarrow> T (neg p)))"
+
+definition TS_ID :: bool where "TS_ID \<longleftrightarrow> (\<forall>p. tr p = p)"
+definition ID_AC :: bool where
+  "ID_AC \<longleftrightarrow> (\<forall>p q r. conj p q = conj q p \<and> disj p q = disj q p
+     \<and> conj p (conj q r) = conj (conj p q) r \<and> disj p (disj q r) = disj (disj p q) r
+     \<and> conj p p = p \<and> disj p p = p)"
+definition ID_DN :: bool where "ID_DN \<longleftrightarrow> (\<forall>p. neg (neg p) = p)"
+definition EMPTY_SOME :: bool where "EMPTY_SOME \<longleftrightarrow> (\<exists>p. G {} p)"
+
+text \<open>A way to prove IRR.W in a model whose propositions can be numbered. Present the
+  grounds \<Gamma> of a reflexive fact by the variables Var (idx p), p in \<Gamma>, under the
+  environment dec, and let Var (idx c) mark c. Then IRR.W holds if, for every reflexive
+  fact, the set \<Gamma> with B in place of c grounds c whenever its members are true.\<close>
+lemma IRR_W_coded:
+  fixes idx :: "'p \<Rightarrow> nat" and dec :: "nat \<Rightarrow> 'p"
+  assumes di: "\<And>p. dec (idx p) = p"
+    and sub: "\<And>\<Gamma> c B. G \<Gamma> c \<Longrightarrow> c \<in> \<Gamma> \<Longrightarrow> \<forall>q\<in>(\<lambda>p. if p = c then B else p) ` \<Gamma>. T q
+                 \<Longrightarrow> G ((\<lambda>p. if p = c then B else p) ` \<Gamma>) c"
+  shows IRR_W
+  unfolding IRR_W_def
+proof (intro allI impI)
+  fix \<Gamma> c assume A: "G \<Gamma> c \<and> c \<in> \<Gamma>"
+  have inj: "idx p = idx q \<Longrightarrow> p = q" for p q using di by metis
+  let ?\<Phi> = "Var ` idx ` \<Gamma>"
+  let ?z = "idx c"
+  have val: "den (dec(?z:=B)) (Var (idx p)) = (if p = c then B else p)" for B p
+    using inj di by auto
+  have img: "(\<lambda>\<phi>. den (dec(?z:=B)) \<phi>) ` ?\<Phi> = (\<lambda>p. if p = c then B else p) ` \<Gamma>" for B
+    unfolding image_image using val by simp
+  have c1: "\<Gamma> = (\<lambda>\<phi>. den (dec(?z:=c)) \<phi>) ` ?\<Phi>" unfolding img by auto
+  have c2: "\<exists>\<phi>\<in>?\<Phi>. ?z \<in> fv \<phi>" using A by auto
+  have c3: "\<forall>\<phi>\<in>?\<Phi>. \<forall>\<psi>\<in>subf \<phi>. ?z \<notin> fv \<psi> \<longrightarrow> den (dec(?z:=c)) \<psi> \<noteq> c"
+  proof (intro ballI impI)
+    fix \<phi> \<psi> assume "\<phi> \<in> ?\<Phi>" "\<psi> \<in> subf \<phi>" "?z \<notin> fv \<psi>"
+    then obtain p where p: "\<psi> = Var (idx p)" "idx c \<noteq> idx p" by auto
+    hence "p \<noteq> c" by blast
+    thus "den (dec(?z:=c)) \<psi> \<noteq> c" unfolding p(1) val by simp
+  qed
+  have c4: "\<forall>B. (\<forall>\<phi>\<in>?\<Phi>. T (den (dec(?z:=B)) \<phi>))
+              \<longrightarrow> G ((\<lambda>\<phi>. den (dec(?z:=B)) \<phi>) ` ?\<Phi>) c"
+  proof (intro allI impI)
+    fix B assume T: "\<forall>\<phi>\<in>?\<Phi>. T (den (dec(?z:=B)) \<phi>)"
+    have "\<forall>q\<in>(\<lambda>\<phi>. den (dec(?z:=B)) \<phi>) ` ?\<Phi>. T q" using T by blast
+    hence "\<forall>q\<in>(\<lambda>p. if p = c then B else p) ` \<Gamma>. T q" unfolding img .
+    thus "G ((\<lambda>\<phi>. den (dec(?z:=B)) \<phi>) ` ?\<Phi>) c" unfolding img using sub A by blast
+  qed
+  show "vacW c \<Gamma> c" unfolding vacW_def using c1 c2 c3 c4 by blast
+qed
+
+text \<open>With ID.AC and ID.DN together, each of the four pairs of N4 is a pair of identical
+  propositions, so no model of both reaches N4.\<close>
+lemma ids_no_N4: "ID_AC \<Longrightarrow> ID_DN \<Longrightarrow> \<not> N4_pairs"
+  unfolding ID_AC_def ID_DN_def N4_pairs_def by metis
+
+text \<open>The counterpart of NonClassical.cl_ts_kf in the locale: with classical negation,
+  TS.FULL gives the Kripke-Feferman truth clauses.\<close>
+lemma cl_ts_kf: "CL_PROP \<Longrightarrow> TS_FULL \<Longrightarrow> TS_KF"
+  unfolding CL_PROP_def TS_FULL_def TS_KF_def by simp
 end
+
+lemma K_faithful_ts_kf: "K.TS_KF = TS_KF"
+  by (simp add: K_aux K.TS_KF_def TS_KF_def)
+
+lemma K_faithful_ids:
+  "K.TS_ID = TS_ID" "K.ID_AC = ID_AC" "K.ID_DN = ID_DN" "K.EMPTY_SOME = EMPTY_SOME"
+  by (simp_all add: K_aux K.TS_ID_def TS_ID_def K.ID_AC_def ID_AC_def K.ID_DN_def ID_DN_def
+        K.EMPTY_SOME_def EMPTY_SOME_def)
+
+text \<open>ALL.TOT mentions the constant tot, which is not a parameter of the locale gsig and
+  occurs in no other entry. ALL_TOT_at states the entry for given interpretations of the
+  constants it mentions; at the registry's constants it is ALL.TOT.\<close>
+definition ALL_TOT_at ::
+  "('p \<Rightarrow> bool) \<Rightarrow> ('f \<Rightarrow> 'p \<Rightarrow> 'p) \<Rightarrow> ('f \<Rightarrow> 'p) \<Rightarrow> ('f \<Rightarrow> bool) \<Rightarrow> ('p set \<Rightarrow> 'p \<Rightarrow> bool)
+     \<Rightarrow> ('f \<Rightarrow> 'p) \<Rightarrow> bool" where
+  "ALL_TOT_at T' app' allq' adm' G' tot' \<longleftrightarrow>
+     (\<forall>f. adm' f \<and> (\<forall>a. T' (app' f a)) \<longrightarrow> T' (tot' f) \<and> G' (insert (tot' f) (range (app' f))) (allq' f))"
+
+lemma ALL_TOT_faithful: "ALL_TOT_at T app allq adm G tot = ALL_TOT"
+  unfolding ALL_TOT_at_def ALL_TOT_def inst_def by simp
 
 lemma K_faithful_woods:
   "K.C3s = C3s" "K.TRANS_CUT = TRANS_CUT" "K.AMALG_INF = AMALG_INF" "K.ASYM_ANTI = ASYM_ANTI"
@@ -208,22 +293,112 @@ proof -
   thus "PG (disj ?s (neg ?s)) ?s" using app by simp
 qed
 
-text \<open>So in every model of that package with TRANS.P, the universal truth helps ground
-  itself; with IRR.W, TS.FULL and the fineness hypothesis, every truth helps ground it.
-  Woods accepts the conclusion: in his reply to Objection 5 the modified grounds, with
-  any true B in place of the universal truth, still ground it (p. 645).\<close>
-theorem fine_sp_woods_every_truth:
-  assumes "FACT" "LAM_CORE" "W_EM" "BETA_ID" "CL_PROP" "CL_QUANT" "TS_FULL" "ALL_PART"
-          "DISJ_PART" "TRANS_P" "IRR_W"
-      and wf: "\<forall>\<phi> v z. z \<in> fv \<phi> \<and> den (v(z:=allq f_em)) \<phi> = allq f_em \<longrightarrow> \<phi> = Var z"
-  shows "\<forall>B. T B \<longrightarrow> PG B (allq f_em)"
+text \<open>Every truth B helps ground \<forall>p(p \<or> \<not>p): B is a true disjunct of the instance
+  B \<or> \<not>B. This needs no irreflexivity principle. So at the level of partial ground
+  the universal truth is replaceable by any truth among its own partial grounds, as
+  Woods's reply to Objection 5 says (p. 645). What IRR.W adds is the same for FULL grounds
+  (woods_classical): the set got by the replacement must itself be a full ground.\<close>
+theorem fine_sp_every_truth:
+  assumes ad: "adm f_em" and beta: "BETA_ID" and cl: "CL_PROP" and clq: "CL_QUANT"
+      and ug: "ALL_PART" and dg: "DISJ_PART" and tra: "TRANS_P" and B: "T B"
+  shows "PG B (allq f_em)"
 proof -
-  have ad: "adm f_em" using assms(3) unfolding W_EM_def .
-  have "PG (allq f_em) (allq f_em)"
-    using fine_sp_circle(2,3)[OF ad assms(4,5,6,8,9)] assms(10) unfolding TRANS_P_def by blast
-  thus ?thesis
-    using woods_classical_every_truth[OF assms(1,2,5,6,7,11) _ wf] by blast
+  have app: "\<forall>p. app f_em p = disj p (neg p)" using BETA_apps(3)[OF beta] by simp
+  have em: "T (disj x (neg x))" for x using cl unfolding CL_PROP_def by blast
+  have vals: "\<forall>b. T (app f_em b)" using app em by simp
+  have "PG (app f_em B) (allq f_em)" using ug ad vals unfolding ALL_PART_def by blast
+  hence "PG (disj B (neg B)) (allq f_em)" using app by simp
+  moreover have "PG B (disj B (neg B))" using dg B unfolding DISJ_PART_def by blast
+  ultimately show ?thesis using tra unfolding TRANS_P_def by blast
 qed
+
+text \<open>Woods's Objection 3 (p. 643) and his reply, from the registry's entries. Let g be
+  the propositional function p \<or> A, for an atom A. Then \<exists>p(p \<or> A) is true, helps ground
+  itself, and every truth B helps ground it, which is the fact Woods's reply rests on
+  ("B < \<exists>p(p \<or> A)" for every B; here for every true B, since ground is factive).\<close>
+theorem woods_obj3:
+  assumes ad: "adm (lam 0 (Disj (Var 0) (Cst n)) v)" and beta: "BETA_ID" and cl: "CL_PROP"
+      and clq: "CL_QUANT" and ex: "EX_PART" and dg: "DISJ_PART" and tra: "TRANS_P"
+  shows "T (exq (lam 0 (Disj (Var 0) (Cst n)) v))"
+    and "\<forall>B. T B \<longrightarrow> PG B (exq (lam 0 (Disj (Var 0) (Cst n)) v))"
+    and "PG (exq (lam 0 (Disj (Var 0) (Cst n)) v)) (exq (lam 0 (Disj (Var 0) (Cst n)) v))"
+proof -
+  let ?g = "lam 0 (Disj (Var 0) (Cst n)) v"
+  have app: "app ?g p = disj p (atom n)" for p using beta unfolding BETA_ID_def by simp
+  have dj: "T p \<Longrightarrow> T (disj p (atom n))" for p using cl unfolding CL_PROP_def by blast
+  obtain t where t: "T t" using CL_QUANT_truth[OF clq] by blast
+  have "T (app ?g t)" using app dj t by simp
+  thus Te: "T (exq ?g)" using clq unfolding CL_QUANT_def by blast
+  show all: "\<forall>B. T B \<longrightarrow> PG B (exq ?g)"
+  proof (intro allI impI)
+    fix B assume B: "T B"
+    have "T (app ?g B)" using app dj B by simp
+    hence "PG (app ?g B) (exq ?g)" using ex ad unfolding EX_PART_def by blast
+    hence "PG (disj B (atom n)) (exq ?g)" using app by simp
+    moreover have "PG B (disj B (atom n))" using dg B unfolding DISJ_PART_def by blast
+    ultimately show "PG B (exq ?g)" using tra unfolding TRANS_P_def by blast
+  qed
+  show "PG (exq ?g) (exq ?g)" using all Te by blast
+qed
+
+text \<open>Objection 3 as a puzzle: with strict irreflexivity the package is refuted. (At C2
+  it also contains Kr\"amer's package; this proof does not use f_id.)\<close>
+theorem woods_obj3_refuted:
+  assumes "C2 1" "BETA_ID" "CL_PROP" "CL_QUANT" "EX_PART" "DISJ_PART" "TRANS_P" "IRR_F"
+  shows False
+proof -
+  have "lvl (Disj (Var 0) (Cst 0)) \<le> 1" by simp
+  hence ad: "adm (lam 0 (Disj (Var 0) (Cst 0)) e0)" using assms(1) unfolding C2_def by blast
+  have "PG (exq (lam 0 (Disj (Var 0) (Cst 0)) e0)) (exq (lam 0 (Disj (Var 0) (Cst 0)) e0))"
+    using woods_obj3(3)[OF ad assms(2-7)] .
+  thus False using assms(8) unfolding IRR_F_def PG_def by blast
+qed
+
+subsection \<open>Entries that make every truth help ground itself\<close>
+
+text \<open>With the identities ID.AC every truth p is p \<or> p, and with TS.ID it is its own
+  truth ascription. The disjunction or truth entry then makes every truth help ground
+  itself, so IRR.W must be met at every truth, not only on the circles of the puzzles
+  (and IRR.F is refuted outright).\<close>
+lemma id_ac_all_reflexive: "ID_AC \<Longrightarrow> DISJ_PART \<Longrightarrow> T p \<Longrightarrow> PG p p"
+  unfolding ID_AC_def DISJ_PART_def by metis
+lemma ts_id_all_reflexive: "TS_ID \<Longrightarrow> TR_PART \<Longrightarrow> T p \<Longrightarrow> PG p p"
+  unfolding TS_ID_def TR_PART_def by metis
+
+text \<open>With ID.AC and ID.DN together, each of the four pairs of N4 is a pair of identical
+  propositions, so no model of both reaches N4.\<close>
+lemma id_ac_dn_no_N4: "ID_AC \<Longrightarrow> ID_DN \<Longrightarrow> \<not> N4_pairs"
+  unfolding ID_AC_def ID_DN_def N4_pairs_def by metis
+
+subsection \<open>Controls: asymmetry still refutes each package\<close>
+
+text \<open>IRR.W replaces IRR.F only. ASYM.P implies IRR.F (Order.ASYM_P_IRR_F), so adding it
+  to a package with IRR.W brings the puzzle back.\<close>
+theorem kramer_W_asym:
+  assumes "W_ID" "BETA_ID" "CL_QUANT" "EX_PART" "ASYM_P" shows False
+  using kramer_W[OF assms(1-4) ASYM_P_IRR_F[OF assms(5)]] .
+
+theorem fine_universal_W_asym:
+  assumes "W_TEM" "BETA_ID" "CL_PROP" "CL_QUANT" "TS_FULL" "ALL_PART" "DISJ_PART" "TR_PART"
+          "TRANS_P" "ASYM_P"
+  shows False
+  using fine_universal_W[OF assms(1-9) ASYM_P_IRR_F[OF assms(10)]] .
+
+theorem fine_particular_props_W_asym:
+  assumes "W_TEM" "BETA_ID" "CL_PROP" "CL_QUANT" "TS_FULL" "EX_PART" "DISJ_PART" "TR_PART"
+          "TRANS_P" "ASYM_P"
+  shows False
+  using fine_particular_props_W[OF assms(1-9) ASYM_P_IRR_F[OF assms(10)]] .
+
+theorem fine_universal_sp_W_asym:
+  assumes "W_EM" "BETA_ID" "CL_PROP" "CL_QUANT" "ALL_PART" "DISJ_PART" "TRANS_P" "ASYM_P"
+  shows False
+  using fine_universal_sp_W[OF assms(1-7) ASYM_P_IRR_F[OF assms(8)]] .
+
+theorem woods_obj3_asym:
+  assumes "C2 1" "BETA_ID" "CL_PROP" "CL_QUANT" "EX_PART" "DISJ_PART" "TRANS_P" "ASYM_P"
+  shows False
+  using woods_obj3_refuted[OF assms(1-7) ASYM_P_IRR_F[OF assms(8)]] .
 
 text \<open>With ASYM.ANTI in place of ASYM.P (Woods's weakening of asymmetry), the package
   forces the universal truth and its own instance to be one proposition.\<close>
@@ -932,6 +1107,12 @@ lemma MV2_intro: "MV2.EX_FULL" "MV2.ALL_INST"
 lemma MV3_intro: "MV3.EX_FULL" "MV3.ALL_INST"
   unfolding MV3.EX_FULL_def MV3.ALL_INST_def MV3.inst_def using GV_exq GV_allq by blast+
 
+text \<open>CONJ.INF mentions admissibility only as a hypothesis, and in MV every function is
+  admissible, so the entry of MV gives the entry of each variant.\<close>
+lemma MV_variants_CONJ_INF: "MV1.CONJ_INF" "MV2.CONJ_INF" "MV3.CONJ_INF"
+  using MV_CONJ_INF unfolding MV.CONJ_INF_def MV1.CONJ_INF_def MV2.CONJ_INF_def MV3.CONJ_INF_def
+  by blast+
+
 text \<open>Woods's Objection 3 (p. 643): the existential of p \<or> A helps ground itself. Its
   propositional function is admissible at C2 and C3d, and the reflexive fact is in the
   model.\<close>
@@ -951,27 +1132,27 @@ qed
 text \<open>The certificates. The entries without admissibility are those of MV_package.\<close>
 theorem MV1_package:
   "MV1.FACT \<and> MV1.LAM_CORE \<and> MV1.C1 \<and> MV1.W_ID \<and> MV1.W_TR \<and> MV1.W_EM \<and> MV1.W_TEM \<and> MV1.BETA_ID
-   \<and> MV1.CL_PROP \<and> MV1.CL_QUANT \<and> MV1.TS_FULL \<and> MV1.EX_FULL \<and> MV1.ALL_INST \<and> MV1.CONJ_BIN
+   \<and> MV1.CL_PROP \<and> MV1.CL_QUANT \<and> MV1.TS_FULL \<and> MV1.EX_FULL \<and> MV1.ALL_INST \<and> MV1.CONJ_INF \<and> MV1.CONJ_BIN
    \<and> MV1.DISJ_ONE \<and> MV1.DISJ_BOTH \<and> MV1.TR_FULL \<and> MV1.TR_NEG \<and> MV1.NEG_DN \<and> MV1.NEG_DM
    \<and> MV1.TRANS_P \<and> MV1.TRANS_CUT \<and> MV1.AMALG_INF \<and> MV1.EMPTY_NONE \<and> MV1.IRR_W \<and> MV1.IRR_MEM
    \<and> MV1.N1 \<and> MV1.N2 \<and> MV1.N4_pairs \<and> MV1.N5_chain"
-  using MV_package MV1_C1 MV1_W MV1_intro by blast
+  using MV_package MV1_C1 MV1_W MV1_intro MV_variants_CONJ_INF by blast
 
 theorem MV2_package:
   "MV2.FACT \<and> MV2.LAM_CORE \<and> MV2.C2 1 \<and> MV2.W_ID \<and> MV2.W_TR \<and> MV2.W_EM \<and> MV2.W_TEM \<and> MV2.BETA_ID
-   \<and> MV2.CL_PROP \<and> MV2.CL_QUANT \<and> MV2.TS_FULL \<and> MV2.EX_FULL \<and> MV2.ALL_INST \<and> MV2.CONJ_BIN
+   \<and> MV2.CL_PROP \<and> MV2.CL_QUANT \<and> MV2.TS_FULL \<and> MV2.EX_FULL \<and> MV2.ALL_INST \<and> MV2.CONJ_INF \<and> MV2.CONJ_BIN
    \<and> MV2.DISJ_ONE \<and> MV2.DISJ_BOTH \<and> MV2.TR_FULL \<and> MV2.TR_NEG \<and> MV2.NEG_DN \<and> MV2.NEG_DM
    \<and> MV2.TRANS_P \<and> MV2.TRANS_CUT \<and> MV2.AMALG_INF \<and> MV2.EMPTY_NONE \<and> MV2.IRR_W \<and> MV2.IRR_MEM
    \<and> MV2.N1 \<and> MV2.N2 \<and> MV2.N4_pairs \<and> MV2.N5_chain"
-  using MV_package MV2_C2 MV2_W MV2_intro by blast
+  using MV_package MV2_C2 MV2_W MV2_intro MV_variants_CONJ_INF by blast
 
 theorem MV3_package:
   "MV3.FACT \<and> MV3.LAM_CORE \<and> MV3.C3d \<and> MV3.W_ID \<and> MV3.W_TR \<and> MV3.W_EM \<and> MV3.W_TEM \<and> MV3.BETA_ID
-   \<and> MV3.CL_PROP \<and> MV3.CL_QUANT \<and> MV3.TS_FULL \<and> MV3.EX_FULL \<and> MV3.ALL_INST \<and> MV3.CONJ_BIN
+   \<and> MV3.CL_PROP \<and> MV3.CL_QUANT \<and> MV3.TS_FULL \<and> MV3.EX_FULL \<and> MV3.ALL_INST \<and> MV3.CONJ_INF \<and> MV3.CONJ_BIN
    \<and> MV3.DISJ_ONE \<and> MV3.DISJ_BOTH \<and> MV3.TR_FULL \<and> MV3.TR_NEG \<and> MV3.NEG_DN \<and> MV3.NEG_DM
    \<and> MV3.TRANS_P \<and> MV3.TRANS_CUT \<and> MV3.AMALG_INF \<and> MV3.EMPTY_NONE \<and> MV3.IRR_W \<and> MV3.IRR_MEM
    \<and> MV3.N1 \<and> MV3.N2 \<and> MV3.N4_pairs \<and> MV3.N5_chain"
-  using MV_package MV3_C3d MV3_W MV3_intro by blast
+  using MV_package MV3_C3d MV3_W MV3_intro MV_variants_CONJ_INF by blast
 
 section \<open>Part 5. Model MY: the same packages with antisymmetry (ASYM.ANTI)\<close>
 
@@ -1320,5 +1501,494 @@ theorem MY2_package:
    \<and> MY2.TRANS_P \<and> MY2.TRANS_CUT \<and> MY2.AMALG_INF \<and> MY2.EMPTY_NONE \<and> MY2.IRR_W \<and> MY2.ASYM_ANTI
    \<and> MY2.N1 \<and> MY2.N2 \<and> MY2.N4_pairs \<and> MY2.N5_chain"
   using MY_package MY2_C2 MY2_W MY2_intro by blast
+
+section \<open>Part 6. Model MZ: the packages with bounded finite grounds (FIN.B3)\<close>
+
+text \<open>
+  MV has infinite grounds (ALL.INST). The targets themselves use the partial entries,
+  for which one-membered grounds suffice. MZ has the propositions and operations of MV
+  and keeps only its one-membered grounds: {p} grounds q when both are true and q is in
+  the top tier or the level of p is below that of q. Partial ground is the same
+  relation as in MV. ALL.INST, CONJ.BIN and the other entries that need grounds with
+  several members are not claimed.
+\<close>
+
+definition GZ :: "pv set \<Rightarrow> pv \<Rightarrow> bool" where
+  "GZ \<Gamma> q \<longleftrightarrow> (\<exists>p. \<Gamma> = {p} \<and> fst p \<and> fst q \<and> blw (snd p) (snd q))"
+
+interpretation MZ: gsig "fst :: pv \<Rightarrow> bool" "\<lambda>_. (True, L 0)" ngV cjV djV trV
+  "\<lambda>(f :: pv \<Rightarrow> pv) p. f p" exqV allqV bigV lamV "\<lambda>_. True" GZ "\<lambda>_. (True, L 0)" "(True, L 0)" .
+interpretation MZ2: gsig "fst :: pv \<Rightarrow> bool" "\<lambda>_. (True, L 0)" ngV cjV djV trV
+  "\<lambda>(f :: pv \<Rightarrow> pv) p. f p" exqV allqV bigV lamV admV2 GZ "\<lambda>_. (True, L 0)" "(True, L 0)" .
+
+lemma GZ_single: "GZ {p} q \<longleftrightarrow> fst p \<and> fst q \<and> blw (snd p) (snd q)"
+  unfolding GZ_def by auto
+
+lemma MZ_PG: "MZ.PG p q \<longleftrightarrow> fst p \<and> fst q \<and> blw (snd p) (snd q)"
+proof
+  assume "MZ.PG p q"
+  thus "fst p \<and> fst q \<and> blw (snd p) (snd q)" unfolding MZ.PG_def GZ_def by auto
+next
+  assume A: "fst p \<and> fst q \<and> blw (snd p) (snd q)"
+  have "p \<in> {p} \<and> GZ {p} q" using A by (simp add: GZ_single)
+  thus "MZ.PG p q" unfolding MZ.PG_def by (rule exI)
+qed
+
+lemma MZ_core: "MZ.FACT" "MZ.N1" "MZ.N2" "MZ.N5_chain"
+  and MZ_N4: "MZ.N4_pair (True, L 0) (ngV (ngV (True, L 0)))"
+proof -
+  show "MZ.FACT" by (auto simp: MZ.FACT_def GZ_def)
+  have g: "GZ {(True, L 0)} (True, L 1)" by (simp add: GZ_single)
+  show "MZ.N1" unfolding MZ.N1_def using g by blast
+  thus "MZ.N2" unfolding MZ.N2_def
+    by (intro conjI exI[of _ "(True, L 0)"] exI[of _ "(True, L 1)"] exI[of _ "(True, L 2)"]) simp_all
+  show "MZ.N5_chain" unfolding MZ.N5_chain_def
+    by (intro exI[of _ "(True, L 0)"] exI[of _ "(True, L 1)"] exI[of _ "(True, L 2)"]
+          exI[of _ "(True, L 3)"]) (simp add: MZ_PG)
+  have "{(True, L 1)} \<in> {\<Gamma>. GZ \<Gamma> (True, L 2)}" "{(True, L 1)} \<notin> {\<Gamma>. GZ \<Gamma> (True, L 0)}"
+    by (auto simp: GZ_single)
+  thus "MZ.N4_pair (True, L 0) (ngV (ngV (True, L 0)))"
+    unfolding MZ.N4_pair_def by (auto simp: ngV_def numeral_2_eq_2)
+qed
+
+lemma MZ_N4s: "MZ.N4_pairs" using MZ.N4_dn[OF MZ_N4] .
+
+lemma GZ_exq: "fst (f a) \<Longrightarrow> GZ {f a} (exqV f)"
+proof -
+  assume A: "fst (f a)"
+  hence "\<exists>p. fst (f p)" by blast
+  hence e: "exqV f = (True, Top 0)" unfolding exqV_def by simp
+  show "GZ {f a} (exqV f)" unfolding e using A by (simp add: GZ_single)
+qed
+
+lemma MZ_allq: "\<forall>b. fst (f b) \<Longrightarrow> MZ.PG (f a) (allqV f)"
+proof -
+  assume A: "\<forall>b. fst (f b)"
+  hence e: "allqV f = (True, Top 0)" unfolding allqV_def by simp
+  have "fst (f a)" using A by blast
+  thus "MZ.PG (f a) (allqV f)" unfolding e MZ_PG by simp
+qed
+
+lemma MZ_intro: "MZ.EX_FULL" "MZ.ALL_PART"
+  unfolding MZ.EX_FULL_def MZ.ALL_PART_def using GZ_exq MZ_allq by blast+
+lemma MZ2_intro: "MZ2.EX_FULL" "MZ2.ALL_PART"
+  unfolding MZ2.EX_FULL_def MZ2.ALL_PART_def using GZ_exq MZ_allq by blast+
+
+lemma MZ_rules: "MZ.DISJ_ONE" "MZ.TR_FULL" "MZ.TR_NEG" "MZ.NEG_DN"
+  by (auto simp: MZ.DISJ_ONE_def MZ.TR_FULL_def MZ.TR_NEG_def MZ.NEG_DN_def GZ_single
+        djV_def trV_def ngV_def blw_mx1 blw_mx2 blw_up blw_up2)
+
+lemma MZ_TRANS_P: "MZ.TRANS_P"
+  unfolding MZ.TRANS_P_def MZ_PG using blw_trans by blast
+
+lemma MZ_FIN_B3: "MZ.FIN_B3" by (auto simp: MZ.FIN_B3_def GZ_def)
+lemma MZ_EMPTY_NONE: "MZ.EMPTY_NONE" by (simp add: MZ.EMPTY_NONE_def GZ_def)
+
+lemma MZ_IRR_W: "MZ.IRR_W"
+  unfolding MZ.IRR_W_def
+proof (intro allI impI)
+  fix \<Gamma> c assume A: "GZ \<Gamma> c \<and> c \<in> \<Gamma>"
+  hence g: "\<Gamma> = {c}" "fst c" "blw (snd c) (snd c)" unfolding GZ_def by auto
+  obtain k where top: "snd c = Top k" using g(3) blw_refl by blast
+  have all: "GZ {B} c" if "fst B" for B using that g(2) top by (simp add: GZ_single)
+  have "\<Gamma> = (\<lambda>\<phi>. MZ.den ((\<lambda>_. c)(0:=c)) \<phi>) ` {Var 0}
+      \<and> (\<exists>\<phi>\<in>{Var 0}. (0::nat) \<in> fv \<phi>)
+      \<and> (\<forall>\<phi>\<in>{Var 0}. \<forall>\<psi>\<in>subf \<phi>. (0::nat) \<notin> fv \<psi> \<longrightarrow> MZ.den ((\<lambda>_. c)(0:=c)) \<psi> \<noteq> c)
+      \<and> (\<forall>B. (\<forall>\<phi>\<in>{Var 0}. fst (MZ.den ((\<lambda>_. c)(0:=B)) \<phi>))
+            \<longrightarrow> GZ ((\<lambda>\<phi>. MZ.den ((\<lambda>_. c)(0:=B)) \<phi>) ` {Var 0}) c)"
+    using g(1) all by simp
+  thus "MZ.vacW c \<Gamma> c" unfolding MZ.vacW_def by blast
+qed
+
+text \<open>The entries that mention neither ground nor admissibility are those of MV; the
+  witness entries at C2 are those of MV2.\<close>
+theorem MZ_package:
+  "MZ.FACT \<and> MZ.LAM_CORE \<and> MZ.C3s \<and> MZ.W_ID \<and> MZ.W_TR \<and> MZ.W_EM \<and> MZ.W_TEM \<and> MZ.BETA_ID
+   \<and> MZ.CL_PROP \<and> MZ.CL_QUANT \<and> MZ.TS_FULL \<and> MZ.EX_FULL \<and> MZ.ALL_PART \<and> MZ.DISJ_ONE
+   \<and> MZ.TR_FULL \<and> MZ.TR_NEG \<and> MZ.NEG_DN \<and> MZ.TRANS_P \<and> MZ.FIN_B3 \<and> MZ.EMPTY_NONE \<and> MZ.IRR_W
+   \<and> MZ.N1 \<and> MZ.N2 \<and> MZ.N4_pairs \<and> MZ.N5_chain"
+  using MV_package MZ_core MZ_N4s MZ_intro MZ_rules MZ_TRANS_P MZ_FIN_B3 MZ_EMPTY_NONE MZ_IRR_W
+  by blast
+
+theorem MZ2_package:
+  "MZ2.FACT \<and> MZ2.LAM_CORE \<and> MZ2.C2 1 \<and> MZ2.W_ID \<and> MZ2.W_TR \<and> MZ2.W_EM \<and> MZ2.W_TEM \<and> MZ2.BETA_ID
+   \<and> MZ2.CL_PROP \<and> MZ2.CL_QUANT \<and> MZ2.TS_FULL \<and> MZ2.EX_FULL \<and> MZ2.ALL_PART \<and> MZ2.DISJ_ONE
+   \<and> MZ2.TR_FULL \<and> MZ2.TR_NEG \<and> MZ2.NEG_DN \<and> MZ2.TRANS_P \<and> MZ2.FIN_B3 \<and> MZ2.EMPTY_NONE \<and> MZ2.IRR_W
+   \<and> MZ2.N1 \<and> MZ2.N2 \<and> MZ2.N4_pairs \<and> MZ2.N5_chain"
+  using MZ_package MV2_package MZ2_intro by blast
+
+text \<open>N3 for the entries of MZ: the instances of MV_N3 with one-membered grounds, and for
+  ALL.PART the instance (True, L 2) of p \<or> \<not>p at (True, L 0).\<close>
+lemma MZ_N3:
+  "GZ {(True, L 0)} (exqV (\<lambda>p. p)) \<and> exqV (\<lambda>p. p) \<noteq> (True, L 0)"
+  "MZ.PG (djV (True, L 0) (ngV (True, L 0))) (allqV (\<lambda>p. djV p (ngV p)))
+     \<and> djV (True, L 0) (ngV (True, L 0)) = (True, L 2) \<and> allqV (\<lambda>p. djV p (ngV p)) = (True, Top 0)"
+  "GZ {(True, L 0)} (djV (True, L 0) (False, L 1)) \<and> djV (True, L 0) (False, L 1) = (True, L 2)"
+  "GZ {(True, L 0)} (trV (True, L 0)) \<and> trV (True, L 0) = (True, L 1)"
+proof -
+  have e: "exqV (\<lambda>p. p) = (True, Top 0)" unfolding exqV_def by auto
+  show "GZ {(True, L 0)} (exqV (\<lambda>p. p)) \<and> exqV (\<lambda>p. p) \<noteq> (True, L 0)"
+    unfolding e by (simp add: GZ_single)
+  have a: "allqV (\<lambda>p. djV p (ngV p)) = (True, Top 0)"
+    unfolding allqV_def by (simp add: djV_def ngV_def)
+  have d: "djV (True, L 0) (ngV (True, L 0)) = (True, L 2)"
+    by (simp add: djV_def ngV_def numeral_2_eq_2)
+  show "MZ.PG (djV (True, L 0) (ngV (True, L 0))) (allqV (\<lambda>p. djV p (ngV p)))
+     \<and> djV (True, L 0) (ngV (True, L 0)) = (True, L 2) \<and> allqV (\<lambda>p. djV p (ngV p)) = (True, Top 0)"
+    unfolding a d by (simp add: MZ_PG)
+  show "GZ {(True, L 0)} (djV (True, L 0) (False, L 1)) \<and> djV (True, L 0) (False, L 1) = (True, L 2)"
+    by (simp add: GZ_single djV_def numeral_2_eq_2)
+  show "GZ {(True, L 0)} (trV (True, L 0)) \<and> trV (True, L 0) = (True, L 1)"
+    by (simp add: GZ_single trV_def)
+qed
+
+section \<open>Part 7. TS.KF in the models\<close>
+
+text \<open>Every model of this theory has CL.PROP and TS.FULL, hence TS.KF (gsig.cl_ts_kf).\<close>
+theorem woods_models_TS_KF:
+  "MW.TS_KF" "MV.TS_KF" "MV1.TS_KF" "MV2.TS_KF" "MV3.TS_KF" "MY.TS_KF" "MY2.TS_KF"
+  "MZ.TS_KF" "MZ2.TS_KF"
+  using MW_package MW.cl_ts_kf apply blast
+  using MV_package MV.cl_ts_kf apply blast
+  using MV1_package MV1.cl_ts_kf apply blast
+  using MV2_package MV2.cl_ts_kf apply blast
+  using MV3_package MV3.cl_ts_kf apply blast
+  using MY_package MY.cl_ts_kf apply blast
+  using MY2_package MY2.cl_ts_kf apply blast
+  using MZ_package MZ.cl_ts_kf apply blast
+  using MZ2_package MZ2.cl_ts_kf by blast
+
+section \<open>Part 8. ALL.TOT in MV\<close>
+
+text \<open>Interpret tot by a constant function whose value is a truth of the lowest level.
+  In MV a true universal proposition is grounded by every non-empty set of truths, so
+  the instances together with the totality fact ground it, whatever functions are
+  admissible. Since tot occurs in no other entry, the packages of MV, MV1, MV2 and MV3
+  hold together with ALL.TOT.
+
+  This settles the registry entry only. It does not test Woods's reply to Objection 5
+  (p. 645), where the totality fact is itself rewritten when a ground is replaced: the
+  formula language has no constructor for totality facts, so vacW cannot mark an
+  occurrence inside one.\<close>
+theorem MV_ALL_TOT:
+  "ALL_TOT_at (fst :: pv \<Rightarrow> bool) (\<lambda>(f :: pv \<Rightarrow> pv) p. f p) allqV adm' GV (\<lambda>_. (True, L 0))"
+  unfolding ALL_TOT_at_def
+proof (intro allI impI conjI)
+  fix f :: "pv \<Rightarrow> pv" assume A: "adm' f \<and> (\<forall>a. fst (f a))"
+  show "fst (True, L 0)" by simp
+  have e: "allqV f = (True, Top 0)" unfolding allqV_def using A by simp
+  have "\<forall>p\<in>insert (True, L 0) (range f). fst p" using A by auto
+  thus "GV (insert (True, L 0) (range f)) (allqV f)" unfolding e GV_def by simp
+qed
+
+section \<open>Part 9. Model MQ: a zero-grounded truth (EMPTY.SOME)\<close>
+
+text \<open>MV with one more grounding fact: the empty set grounds the atom (True, L 0). Partial
+  ground is unchanged, because the new fact has no members; so are the reflexive facts.\<close>
+definition GQ :: "pv set \<Rightarrow> pv \<Rightarrow> bool" where
+  "GQ \<Gamma> q \<longleftrightarrow> GV \<Gamma> q \<or> (\<Gamma> = {} \<and> q = (True, L 0))"
+
+interpretation MQ: gsig "fst :: pv \<Rightarrow> bool" "\<lambda>_. (True, L 0)" ngV cjV djV trV
+  "\<lambda>(f :: pv \<Rightarrow> pv) p. f p" exqV allqV bigV lamV "\<lambda>_. True" GQ "\<lambda>_. (True, L 0)" "(True, L 0)" .
+interpretation MQ2: gsig "fst :: pv \<Rightarrow> bool" "\<lambda>_. (True, L 0)" ngV cjV djV trV
+  "\<lambda>(f :: pv \<Rightarrow> pv) p. f p" exqV allqV bigV lamV admV2 GQ "\<lambda>_. (True, L 0)" "(True, L 0)" .
+
+lemma GQ_mono: "GV \<Gamma> q \<Longrightarrow> GQ \<Gamma> q" unfolding GQ_def by blast
+lemma GQ_mem: "GQ \<Gamma> q \<Longrightarrow> p \<in> \<Gamma> \<Longrightarrow> GV \<Gamma> q" unfolding GQ_def by blast
+
+lemma MQ_PG: "MQ.PG p q \<longleftrightarrow> MV.PG p q"
+  unfolding MQ.PG_def MV.PG_def using GQ_mono GQ_mem by blast
+
+lemma MQ_core: "MQ.FACT" "MQ.N1" "MQ.N2" "MQ.N5_chain" "MQ.EMPTY_SOME"
+  and MQ_N4: "MQ.N4_pair (True, L 0) (ngV (ngV (True, L 0)))"
+proof -
+  show "MQ.FACT" by (auto simp: MQ.FACT_def GQ_def GV_def)
+  have g: "GQ {(True, L 0)} (True, L 1)" by (simp add: GQ_def GV_single)
+  show "MQ.N1" unfolding MQ.N1_def using g by blast
+  thus "MQ.N2" unfolding MQ.N2_def
+    by (intro conjI exI[of _ "(True, L 0)"] exI[of _ "(True, L 1)"] exI[of _ "(True, L 2)"]) simp_all
+  show "MQ.N5_chain" unfolding MQ.N5_chain_def
+    by (intro exI[of _ "(True, L 0)"] exI[of _ "(True, L 1)"] exI[of _ "(True, L 2)"]
+          exI[of _ "(True, L 3)"]) (simp add: MQ_PG MV_PG)
+  show "MQ.EMPTY_SOME" unfolding MQ.EMPTY_SOME_def GQ_def by blast
+  have "{(True, L 1)} \<in> {\<Gamma>. GQ \<Gamma> (True, L 2)}" "{(True, L 1)} \<notin> {\<Gamma>. GQ \<Gamma> (True, L 0)}"
+    by (auto simp: GQ_def GV_single)
+  thus "MQ.N4_pair (True, L 0) (ngV (ngV (True, L 0)))"
+    unfolding MQ.N4_pair_def by (auto simp: ngV_def numeral_2_eq_2)
+qed
+
+lemma MQ_N4s: "MQ.N4_pairs" using MQ.N4_dn[OF MQ_N4] .
+
+lemma MQ_intro: "MQ.EX_FULL" "MQ.ALL_INST"
+  unfolding MQ.EX_FULL_def MQ.ALL_INST_def MQ.inst_def using GV_exq GV_allq GQ_mono by blast+
+lemma MQ2_intro: "MQ2.EX_FULL" "MQ2.ALL_INST"
+  unfolding MQ2.EX_FULL_def MQ2.ALL_INST_def MQ2.inst_def using GV_exq GV_allq GQ_mono by blast+
+
+lemma MQ_rules: "MQ.DISJ_ONE" "MQ.TR_FULL"
+proof -
+  have "MV.DISJ_ONE" "MV.TR_FULL" using MV_package by blast+
+  thus "MQ.DISJ_ONE" "MQ.TR_FULL"
+    unfolding MV.DISJ_ONE_def MV.TR_FULL_def MQ.DISJ_ONE_def MQ.TR_FULL_def
+    using GQ_mono by blast+
+qed
+
+lemma MQ_TRANS_P: "MQ.TRANS_P"
+proof -
+  have "MV.TRANS_P" using MV_package by blast
+  thus ?thesis unfolding MV.TRANS_P_def MQ.TRANS_P_def MQ_PG .
+qed
+
+text \<open>A reflexive fact of MQ is one of MV, so its conclusion is in the tier Top, and
+  the grounds with a truth put for the conclusion ground it (IRR_W_coded).\<close>
+lemma MQ_IRR_W: "MQ.IRR_W"
+proof (rule MQ.IRR_W_coded[of dec idx])
+  show "dec (idx p) = p" for p by (rule dec_idx)
+next
+  fix \<Gamma> :: "pv set" and c B
+  assume g: "GQ \<Gamma> c" and m: "c \<in> \<Gamma>" and t: "\<forall>q\<in>(\<lambda>p. if p = c then B else p) ` \<Gamma>. fst q"
+  have gv: "GV \<Gamma> c" using g m GQ_mem by blast
+  hence "blw (snd c) (snd c)" using m unfolding GV_def by blast
+  then obtain k where top: "snd c = Top k" using blw_refl by blast
+  have ne: "(\<lambda>p. if p = c then B else p) ` \<Gamma> \<noteq> {}" using m by blast
+  have "fst c" using gv unfolding GV_def by blast
+  hence "GV ((\<lambda>p. if p = c then B else p) ` \<Gamma>) c" unfolding GV_def using ne t top by simp
+  thus "GQ ((\<lambda>p. if p = c then B else p) ` \<Gamma>) c" by (rule GQ_mono)
+qed
+
+theorem MQ_package:
+  "MQ.FACT \<and> MQ.LAM_CORE \<and> MQ.C3s \<and> MQ.W_ID \<and> MQ.W_TR \<and> MQ.W_EM \<and> MQ.W_TEM \<and> MQ.BETA_ID
+   \<and> MQ.CL_PROP \<and> MQ.CL_QUANT \<and> MQ.TS_FULL \<and> MQ.TS_KF \<and> MQ.EX_FULL \<and> MQ.ALL_INST \<and> MQ.DISJ_ONE
+   \<and> MQ.TR_FULL \<and> MQ.TRANS_P \<and> MQ.EMPTY_SOME \<and> MQ.IRR_W
+   \<and> MQ.N1 \<and> MQ.N2 \<and> MQ.N4_pairs \<and> MQ.N5_chain"
+  using MV_package woods_models_TS_KF(2) MQ_core MQ_N4s MQ_intro MQ_rules MQ_TRANS_P MQ_IRR_W
+  by blast
+
+theorem MQ2_package:
+  "MQ2.FACT \<and> MQ2.LAM_CORE \<and> MQ2.C2 1 \<and> MQ2.W_ID \<and> MQ2.W_TR \<and> MQ2.W_EM \<and> MQ2.W_TEM \<and> MQ2.BETA_ID
+   \<and> MQ2.CL_PROP \<and> MQ2.CL_QUANT \<and> MQ2.TS_FULL \<and> MQ2.TS_KF \<and> MQ2.EX_FULL \<and> MQ2.ALL_INST \<and> MQ2.DISJ_ONE
+   \<and> MQ2.TR_FULL \<and> MQ2.TRANS_P \<and> MQ2.EMPTY_SOME \<and> MQ2.IRR_W
+   \<and> MQ2.N1 \<and> MQ2.N2 \<and> MQ2.N4_pairs \<and> MQ2.N5_chain"
+  using MQ_package MV2_package MQ2_intro by blast
+
+section \<open>Part 10. Model MX: the identity entries TS.ID, ID.AC and ID.DN\<close>
+
+text \<open>A flat model. Propositions are a truth value with a number; negation flips the
+  truth value and keeps the number, conjunction and disjunction take the maximum, the
+  truth operator is the identity, and quantified propositions have number 0. Every
+  non-empty set of truths grounds every truth. All three identity entries hold.
+
+  Level: N4 fails, and must fail in any model of ID.AC with ID.DN (id_ac_dn_no_N4). In
+  MX it fails more simply, since all truths have the same full grounds. N3 holds for the
+  quantifier and disjunction entries (MX_N3) and fails for the truth entry, whose
+  instances have the form: p grounds p.\<close>
+type_synonym px = "bool \<times> nat"
+definition ngX :: "px \<Rightarrow> px" where "ngX p = (\<not> fst p, snd p)"
+definition cjX :: "px \<Rightarrow> px \<Rightarrow> px" where "cjX p q = (fst p \<and> fst q, max (snd p) (snd q))"
+definition djX :: "px \<Rightarrow> px \<Rightarrow> px" where "djX p q = (fst p \<or> fst q, max (snd p) (snd q))"
+
+primrec dX :: "(nat \<Rightarrow> px) \<Rightarrow> fm \<Rightarrow> px" where
+  "dX v (Var n) = v n"
+| "dX v (Cst n) = (True, 0)"
+| "dX v (Neg a) = ngX (dX v a)"
+| "dX v (Conj a b) = cjX (dX v a) (dX v b)"
+| "dX v (Disj a b) = djX (dX v a) (dX v b)"
+| "dX v (Tr a) = dX v a"
+| "dX v (Ex x a) = ((\<exists>p. fst (dX (v(x:=p)) a)), 0)"
+| "dX v (All x a) = ((\<forall>p. fst (dX (v(x:=p)) a)), 0)"
+| "dX v (BigC x a) = ((\<forall>p. fst (dX (v(x:=p)) a) \<longrightarrow> fst p), 0)"
+
+definition lamX :: "nat \<Rightarrow> fm \<Rightarrow> (nat \<Rightarrow> px) \<Rightarrow> px \<Rightarrow> px" where
+  "lamX x a v = (\<lambda>p. dX (v(x:=p)) a)"
+definition exqX :: "(px \<Rightarrow> px) \<Rightarrow> px" where "exqX f = ((\<exists>p. fst (f p)), 0)"
+definition allqX :: "(px \<Rightarrow> px) \<Rightarrow> px" where "allqX f = ((\<forall>p. fst (f p)), 0)"
+definition bigX :: "(px \<Rightarrow> px) \<Rightarrow> px" where "bigX f = ((\<forall>p. fst (f p) \<longrightarrow> fst p), 0)"
+definition GX :: "px set \<Rightarrow> px \<Rightarrow> bool" where
+  "GX \<Gamma> q \<longleftrightarrow> \<Gamma> \<noteq> {} \<and> fst q \<and> (\<forall>p\<in>\<Gamma>. fst p)"
+definition admX2 :: "(px \<Rightarrow> px) \<Rightarrow> bool" where
+  "admX2 f \<longleftrightarrow> (\<exists>x a v. lvl a \<le> 1 \<and> f = lamX x a v)"
+
+interpretation MX: gsig "fst :: px \<Rightarrow> bool" "\<lambda>_. (True, 0)" ngX cjX djX "\<lambda>p. p"
+  "\<lambda>(f :: px \<Rightarrow> px) p. f p" exqX allqX bigX lamX "\<lambda>_. True" GX "\<lambda>_. (True, 0)" "(True, 0)" .
+interpretation MX2: gsig "fst :: px \<Rightarrow> bool" "\<lambda>_. (True, 0)" ngX cjX djX "\<lambda>p. p"
+  "\<lambda>(f :: px \<Rightarrow> px) p. f p" exqX allqX bigX lamX admX2 GX "\<lambda>_. (True, 0)" "(True, 0)" .
+
+lemma quantX:
+  "exqX (lamX x a v) = ((\<exists>p. fst (dX (v(x:=p)) a)), 0)"
+  "allqX (lamX x a v) = ((\<forall>p. fst (dX (v(x:=p)) a)), 0)"
+  "bigX (lamX x a v) = ((\<forall>p. fst (dX (v(x:=p)) a) \<longrightarrow> fst p), 0)"
+  by (simp_all add: lamX_def exqX_def allqX_def bigX_def)
+
+lemma MX_den: "MX.den = dX"
+proof (intro ext)
+  fix v a show "MX.den v a = dX v a"
+    by (induction a) (simp_all add: quantX)
+qed
+
+lemma dX_fv: "(\<forall>y\<in>fv a. v y = w y) \<Longrightarrow> dX v a = dX w a"
+proof (induct a arbitrary: v w)
+  case (Ex x a)
+  have "\<And>p. dX (v(x:=p)) a = dX (w(x:=p)) a"
+    by (rule Ex.hyps) (use Ex.prems in auto)
+  then show ?case by simp
+next
+  case (All x a)
+  have "\<And>p. dX (v(x:=p)) a = dX (w(x:=p)) a"
+    by (rule All.hyps) (use All.prems in auto)
+  then show ?case by simp
+next
+  case (BigC x a)
+  have "\<And>p. dX (v(x:=p)) a = dX (w(x:=p)) a"
+    by (rule BigC.hyps) (use BigC.prems in auto)
+  then show ?case by simp
+next
+  case (Neg a)
+  have "dX v a = dX w a" by (rule Neg.hyps) (use Neg.prems in auto)
+  then show ?case by simp
+next
+  case (Tr a)
+  have "dX v a = dX w a" by (rule Tr.hyps) (use Tr.prems in auto)
+  then show ?case by simp
+next
+  case (Conj a b)
+  have "dX v a = dX w a" by (rule Conj.hyps(1)) (use Conj.prems in auto)
+  moreover have "dX v b = dX w b" by (rule Conj.hyps(2)) (use Conj.prems in auto)
+  ultimately show ?case by simp
+next
+  case (Disj a b)
+  have "dX v a = dX w a" by (rule Disj.hyps(1)) (use Disj.prems in auto)
+  moreover have "dX v b = dX w b" by (rule Disj.hyps(2)) (use Disj.prems in auto)
+  ultimately show ?case by simp
+qed simp_all
+
+lemma lamX_fv: "\<forall>y\<in>fv a - {x}. v y = w y \<Longrightarrow> lamX x a v = lamX x a w"
+  unfolding lamX_def by (intro ext dX_fv) auto
+
+lemma GX_single: "GX {p} q \<longleftrightarrow> fst p \<and> fst q" unfolding GX_def by auto
+
+lemma MX_PG: "MX.PG p q \<longleftrightarrow> fst p \<and> fst q"
+proof
+  assume "MX.PG p q"
+  thus "fst p \<and> fst q" unfolding MX.PG_def GX_def by auto
+next
+  assume A: "fst p \<and> fst q"
+  have "p \<in> {p} \<and> GX {p} q" using A by (simp add: GX_single)
+  thus "MX.PG p q" unfolding MX.PG_def by (rule exI)
+qed
+
+lemma MX_core: "MX.FACT" "MX.LAM_CORE" "MX.N1" "MX.N2" "MX.N5_chain"
+proof -
+  show "MX.FACT" by (auto simp: MX.FACT_def GX_def)
+  show "MX.LAM_CORE" unfolding MX.LAM_CORE_def MX_den using lamX_fv by (simp add: lamX_def)
+  have g: "GX {(True, 0)} (True, 1)" by (simp add: GX_single)
+  show "MX.N1" unfolding MX.N1_def using g by blast
+  thus "MX.N2" unfolding MX.N2_def
+    by (intro conjI exI[of _ "(True, 0)"] exI[of _ "(True, 1)"] exI[of _ "(True, 2)"]) simp_all
+  show "MX.N5_chain" unfolding MX.N5_chain_def
+    by (intro exI[of _ "(True, 0)"] exI[of _ "(True, 1)"] exI[of _ "(True, 2)"]
+          exI[of _ "(True, 3)"]) (simp add: MX_PG)
+qed
+
+lemma MX_C3s: "MX.C3s" unfolding MX.C3s_def by auto
+lemma MX_W: "MX.W_ID" "MX.W_TR" "MX.W_EM" "MX.W_TEM"
+  by (simp_all add: MX.W_ID_def MX.W_TR_def MX.W_EM_def MX.W_TEM_def)
+lemma MX_BETA_ID: "MX.BETA_ID" by (simp add: MX.BETA_ID_def MX_den lamX_def)
+lemma MX_classical: "MX.CL_PROP" "MX.CL_QUANT" "MX.TS_FULL"
+  by (simp_all add: MX.CL_PROP_def MX.CL_QUANT_def MX.TS_FULL_def ngX_def cjX_def djX_def
+        exqX_def allqX_def bigX_def MX.sat_def)
+
+lemma MX_ids: "MX.TS_ID" "MX.ID_AC" "MX.ID_DN"
+  by (auto simp: MX.TS_ID_def MX.ID_AC_def MX.ID_DN_def ngX_def cjX_def djX_def)
+
+lemma GX_exq: "fst (f a) \<Longrightarrow> GX {f a} (exqX f)"
+proof -
+  assume A: "fst (f a)"
+  hence "\<exists>p. fst (f p)" by blast
+  hence e: "exqX f = (True, 0)" unfolding exqX_def by simp
+  show "GX {f a} (exqX f)" unfolding e using A by (simp add: GX_single)
+qed
+
+lemma GX_allq: "\<forall>a. fst (f a) \<Longrightarrow> GX (range f) (allqX f)"
+proof -
+  assume A: "\<forall>a. fst (f a)"
+  hence e: "allqX f = (True, 0)" unfolding allqX_def by simp
+  show "GX (range f) (allqX f)" unfolding e GX_def using A by auto
+qed
+
+lemma MX_intro: "MX.EX_FULL" "MX.ALL_INST"
+  unfolding MX.EX_FULL_def MX.ALL_INST_def MX.inst_def using GX_exq GX_allq by blast+
+lemma MX2_intro: "MX2.EX_FULL" "MX2.ALL_INST"
+  unfolding MX2.EX_FULL_def MX2.ALL_INST_def MX2.inst_def using GX_exq GX_allq by blast+
+
+lemma MX_rules: "MX.DISJ_ONE" "MX.DISJ_BOTH" "MX.CONJ_BIN" "MX.TR_FULL" "MX.NEG_DN"
+  by (auto simp: MX.DISJ_ONE_def MX.DISJ_BOTH_def MX.CONJ_BIN_def MX.TR_FULL_def MX.NEG_DN_def
+        GX_def djX_def cjX_def ngX_def)
+
+lemma MX_TRANS_P: "MX.TRANS_P" unfolding MX.TRANS_P_def MX_PG by blast
+
+definition idxX :: "px \<Rightarrow> nat" where "idxX p = 2 * snd p + (if fst p then 1 else 0)"
+definition decX :: "nat \<Rightarrow> px" where "decX k = (odd k, k div 2)"
+lemma decX_idxX: "decX (idxX p) = p" by (cases p) (simp add: decX_def idxX_def)
+
+lemma MX_IRR_W: "MX.IRR_W"
+proof (rule MX.IRR_W_coded[of decX idxX])
+  show "decX (idxX p) = p" for p by (rule decX_idxX)
+next
+  fix \<Gamma> :: "px set" and c B
+  assume g: "GX \<Gamma> c" and "c \<in> \<Gamma>" and t: "\<forall>q\<in>(\<lambda>p. if p = c then B else p) ` \<Gamma>. fst q"
+  have "(\<lambda>p. if p = c then B else p) ` \<Gamma> \<noteq> {}" using g unfolding GX_def by blast
+  thus "GX ((\<lambda>p. if p = c then B else p) ` \<Gamma>) c" using g t unfolding GX_def by blast
+qed
+
+lemma MX_N4_fails: "\<not> MX.N4_pairs" using MX.ids_no_N4 MX_ids by blast
+
+theorem MX_package:
+  "MX.FACT \<and> MX.LAM_CORE \<and> MX.C3s \<and> MX.W_ID \<and> MX.W_TR \<and> MX.W_EM \<and> MX.W_TEM \<and> MX.BETA_ID
+   \<and> MX.CL_PROP \<and> MX.CL_QUANT \<and> MX.TS_FULL \<and> MX.TS_ID \<and> MX.ID_AC \<and> MX.ID_DN
+   \<and> MX.EX_FULL \<and> MX.ALL_INST \<and> MX.DISJ_ONE \<and> MX.DISJ_BOTH \<and> MX.CONJ_BIN \<and> MX.TR_FULL \<and> MX.NEG_DN
+   \<and> MX.TRANS_P \<and> MX.IRR_W \<and> MX.N1 \<and> MX.N2 \<and> MX.N5_chain \<and> \<not> MX.N4_pairs"
+  using MX_core MX_C3s MX_W MX_BETA_ID MX_classical MX_ids MX_intro MX_rules MX_TRANS_P MX_IRR_W
+    MX_N4_fails by blast
+
+lemma MX2_C2: "MX2.C2 1" by (simp add: MX2.C2_def admX2_def)
+lemma MX2_W: "MX2.W_ID" "MX2.W_TR" "MX2.W_EM" "MX2.W_TEM"
+proof -
+  have "admX2 (lamX x a v)" if "lvl a \<le> 1" for x a v unfolding admX2_def using that by blast
+  thus "MX2.W_ID" "MX2.W_TR" "MX2.W_EM" "MX2.W_TEM"
+    unfolding MX2.W_ID_def MX2.W_TR_def MX2.W_EM_def MX2.W_TEM_def
+              MX2.f_id_def MX2.f_tr_def MX2.f_em_def MX2.f_tem_def by simp_all
+qed
+
+theorem MX2_package:
+  "MX2.FACT \<and> MX2.LAM_CORE \<and> MX2.C2 1 \<and> MX2.W_ID \<and> MX2.W_TR \<and> MX2.W_EM \<and> MX2.W_TEM \<and> MX2.BETA_ID
+   \<and> MX2.CL_PROP \<and> MX2.CL_QUANT \<and> MX2.TS_FULL \<and> MX2.TS_ID \<and> MX2.ID_AC \<and> MX2.ID_DN
+   \<and> MX2.EX_FULL \<and> MX2.ALL_INST \<and> MX2.DISJ_ONE \<and> MX2.DISJ_BOTH \<and> MX2.CONJ_BIN \<and> MX2.TR_FULL \<and> MX2.NEG_DN
+   \<and> MX2.TRANS_P \<and> MX2.IRR_W \<and> MX2.N1 \<and> MX2.N2 \<and> MX2.N5_chain \<and> \<not> MX2.N4_pairs"
+  using MX_package MX2_C2 MX2_W MX2_intro by blast
+
+text \<open>N3 for the quantifier entries and DISJ.ONE: instances whose grounded proposition
+  is not among its grounds. For ALL.INST the function is a constant one, which a formula
+  of level 0 presents under a suitable environment, so it is admissible in MX2 as well.
+  No such instance exists for TR.FULL (tr p = p), NEG.DN (\<not>\<not>p = p), CONJ.BIN or DISJ.BOTH
+  (the compound of two truths is one of them).\<close>
+lemma MX_N3:
+  "GX {(True, 1)} (exqX (\<lambda>p. p)) \<and> exqX (\<lambda>p. p) \<noteq> (True, 1)"
+  "GX (range (\<lambda>p :: px. (True, 1 :: nat))) (allqX (\<lambda>p. (True, 1)))
+     \<and> allqX (\<lambda>p. (True, 1)) \<notin> range (\<lambda>p :: px. (True, 1 :: nat))"
+  "admX2 (\<lambda>p. (True, 1))"
+  "GX {(True, 0)} (djX (True, 0) (False, 1)) \<and> djX (True, 0) (False, 1) = (True, 1)"
+proof -
+  have e: "exqX (\<lambda>p. p) = (True, 0)" unfolding exqX_def by auto
+  show "GX {(True, 1)} (exqX (\<lambda>p. p)) \<and> exqX (\<lambda>p. p) \<noteq> (True, 1)"
+    unfolding e by (simp add: GX_single)
+  have a: "allqX (\<lambda>p. (True, 1)) = (True, 0)" unfolding allqX_def by simp
+  show "GX (range (\<lambda>p :: px. (True, 1 :: nat))) (allqX (\<lambda>p. (True, 1)))
+     \<and> allqX (\<lambda>p. (True, 1)) \<notin> range (\<lambda>p :: px. (True, 1 :: nat))"
+    unfolding a GX_def by auto
+  have "lamX 0 (Var 1) (\<lambda>_. (True, 1)) = (\<lambda>p. (True, 1))" by (simp add: lamX_def)
+  moreover have "lvl (Var 1) \<le> 1" by simp
+  ultimately show "admX2 (\<lambda>p. (True, 1))" unfolding admX2_def by metis
+  show "GX {(True, 0)} (djX (True, 0) (False, 1)) \<and> djX (True, 0) (False, 1) = (True, 1)"
+    by (simp add: GX_single djX_def)
+qed
 
 end

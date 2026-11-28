@@ -18,3 +18,9 @@
 {"key": "BETA.ID,C1,CL.QUANT,EX.PART,IRR.F", "class": "refuted", "replayed": true, "checked_key": "BETA.ID,C1,CL.QUANT,EX.PART,IRR.F"}
 {"key": "ASYM.P,EMPTY.NONE,ID.DN,NEG.DN,TRANS.CUT", "class": "refuted-at-N1", "replayed": true, "checked_key": "ASYM.P,EMPTY.NONE,ID.DN,NEG.DN,TRANS.CUT"}
 {"key": "CONJ.GRAIN,DISJ.BOTH,DISJ.WEAK,EMPTY.NONE,EX.FULL,ID.DN,IRR.F,NEG.DN,TR.FULL,TRANS.CUT", "class": "refuted-at-N1", "replayed": true, "checked_key": "CONJ.GRAIN,DISJ.BOTH,DISJ.WEAK,EMPTY.NONE,EX.FULL,ID.DN,IRR.F,NEG.DN,TR.FULL,TRANS.CUT"}
+{"key": "BETA.ID,C2,CL.PROP,CL.QUANT,DISJ.PART,EX.PART,IRR.F,TRANS.P", "class": "refuted", "replayed": false, "checked_key": null}
+{"key": "BETA.ID,CL.QUANT,EX.PART,IRR.F,W.ID", "class": "refuted", "replayed": true, "checked_key": "BETA.ID,CL.QUANT,EX.PART,IRR.F,W.ID"}
+{"key": "ALL.PART,ASYM.P,BETA.ID,CL.PROP,CL.QUANT,DISJ.PART,EX.PART,IRR.W,TR.PART,TRANS.P,TS.FULL,W.EM,W.ID,W.TEM,W.TR", "class": "refuted", "replayed": true, "checked_key": "ALL.PART,ASYM.P,BETA.ID,CL.PROP,CL.QUANT,DISJ.PART,EX.PART,IRR.W,TR.PART,TRANS.P,TS.FULL,W.EM,W.ID,W.TEM,W.TR"}
+{"key": "ASYM.P,BETA.ID,CL.QUANT,EX.PART,IRR.W,W.ID", "class": "refuted", "replayed": true, "checked_key": "ASYM.P,BETA.ID,CL.QUANT,EX.PART,IRR.W,W.ID"}
+{"key": "ALL.PART,BETA.ID,CL.PROP,CL.QUANT,DISJ.PART,EX.PART,IRR.F,TR.PART,TRANS.P,TS.FULL,W.EM,W.ID,W.TEM,W.TR", "class": "refuted", "replayed": true, "checked_key": "ALL.PART,BETA.ID,CL.PROP,CL.QUANT,DISJ.PART,EX.PART,IRR.F,TR.PART,TRANS.P,TS.FULL,W.EM,W.ID,W.TEM,W.TR"}
+{"key": "ASYM.P,BETA.ID,C2,CL.PROP,CL.QUANT,DISJ.PART,EX.PART,IRR.W,TRANS.P", "class": "refuted", "replayed": true, "checked_key": "ASYM.P,BETA.ID,C2,CL.PROP,CL.QUANT,DISJ.PART,EX.PART,IRR.W,TRANS.P"}
