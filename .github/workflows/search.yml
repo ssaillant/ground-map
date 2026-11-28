@@ -7,8 +7,11 @@ on:
   workflow_dispatch:
     inputs:
       seeds:
-        description: 'JSON list of grow seeds'
+        description: 'JSON list of grow seeds (targets mode: one job per element, the list is only counted)'
         default: '[11, 12, 13, 14]'
+      targets:
+        description: 'Targets mode: path of a package list (results/targets/<name>.json). Empty = grow.'
+        default: ''
 permissions:
   contents: write
 jobs:
@@ -36,11 +39,18 @@ jobs:
           echo "ISABELLE=$RUNNER_TEMP/Isabelle2026/bin/isabelle" >> "$GITHUB_ENV"
       - name: Build heap
         run: '"$ISABELLE" build -b -o threads=4 -D isabelle'
-      - name: Grow (seed ${{ matrix.seed }})
+      - name: Grow (seed ${{ matrix.seed }}), or query a fixed list of targets
+        env:
+          TARGETS: ${{ github.event.inputs.targets }}
         run: |
           export GM_WORK="$RUNNER_TEMP/gm"
           cp results/queries.jsonl results/queries.base.jsonl 2>/dev/null || true
-          timeout 300m python3 scripts/driver.py grow ${{ matrix.seed }} || echo "stopped (timeout or error): partial results kept"
+          if [ -n "$TARGETS" ]; then
+            case "$TARGETS" in results/targets/*.json) ;; *) echo "targets must be results/targets/<name>.json"; exit 1;; esac
+            timeout 300m python3 scripts/driver.py targets "$TARGETS" ${{ strategy.job-index }} ${{ strategy.job-total }} || echo "stopped (timeout or error): partial results kept"
+          else
+            timeout 300m python3 scripts/driver.py grow ${{ matrix.seed }} || echo "stopped (timeout or error): partial results kept"
+          fi
           mkdir -p out && cp results/queries.jsonl out/queries.jsonl && cp results/grow.jsonl out/grow.jsonl 2>/dev/null || true
       - uses: actions/upload-artifact@v4
         with:

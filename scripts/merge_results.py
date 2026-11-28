@@ -3,7 +3,7 @@
 keeping one record per package key (a definite class beats unknown)."""
 import glob, json, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-RANK = {"refuted": 3, "finite-model": 3, "trivial-only": 2, "unknown": 0}
+RANK = {"refuted": 3, "finite-model": 3, "refuted-at-N1": 2, "trivial-only": 2, "unknown": 0}
 parts = sys.argv[1] if len(sys.argv) > 1 else "parts"
 best = {}
 for f in [os.path.join(ROOT, "results", "queries.jsonl")] + glob.glob(os.path.join(parts, "*", "queries.jsonl")):

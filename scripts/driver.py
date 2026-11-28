@@ -274,6 +274,13 @@ if __name__ == "__main__":
         evaluate(store, [list(c) for c in itertools.combinations(ENTRIES, 2)])
     elif mode == "pkg":
         evaluate(store, [sys.argv[2].split(",")])
+    elif mode == "targets":
+        # A fixed list of packages (results/targets/<name>.json, written by a generator
+        # script). Optional shard i of n, so that a matrix of jobs can split the list.
+        spec = json.load(open(sys.argv[2]))
+        i, n = (int(sys.argv[3]), int(sys.argv[4])) if len(sys.argv) > 4 else (0, 1)
+        pkgs = [t["package"] for t in spec["targets"]][i::n]
+        evaluate(store, pkgs, batch=5, t_sh=spec.get("t_sh", 20), t_np=spec.get("t_np", 20))
     elif mode == "grow":
         seed = int(sys.argv[2]) if len(sys.argv) > 2 else 0
         order = list(ENTRIES); random.Random(seed).shuffle(order)

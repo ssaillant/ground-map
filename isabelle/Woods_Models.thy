@@ -864,4 +864,461 @@ theorem MV_package:
         MV_CONJ_BIN MV_DISJ MV_TR MV_NEG MV_TRANS_P MV_TRANS_CUT MV_AMALG_INF MV_EMPTY_NONE
         MV_IRR_W MV_IRR_MEM MV_fails by blast
 
+
+section \<open>Part 4. The same model at the comprehension levels C1, C2 and C3d\<close>
+
+text \<open>
+  The entries C1, C2 and C3d say exactly which propositional functions are admissible,
+  so MV, where all are, does not satisfy them. The introduction entries of MV hold for
+  every function whatever is admissible, so the model can be read at each level by
+  changing the admissibility predicate only. Every other constant is that of MV, and
+  the entries that do not mention admissibility are literally the same statements.
+\<close>
+
+lemma GV_exq: "fst (f a) \<Longrightarrow> GV {f a} (exqV f)"
+proof -
+  assume A: "fst (f a)"
+  hence "\<exists>p. fst (f p)" by blast
+  hence e: "exqV f = (True, Top 0)" unfolding exqV_def by simp
+  show "GV {f a} (exqV f)" unfolding e using A by (simp add: GV_single)
+qed
+
+lemma GV_allq: "\<forall>a. fst (f a) \<Longrightarrow> GV (range f) (allqV f)"
+proof -
+  assume A: "\<forall>a. fst (f a)"
+  hence e: "allqV f = (True, Top 0)" unfolding allqV_def by simp
+  show "GV (range f) (allqV f)" unfolding e GV_def using A by auto
+qed
+
+definition admV1 :: "(pv \<Rightarrow> pv) \<Rightarrow> bool" where
+  "admV1 f \<longleftrightarrow> f \<in> {(\<lambda>p. p), trV, (\<lambda>p. djV p (ngV p)), (\<lambda>p. djV (trV p) (ngV (trV p)))}"
+definition admV2 :: "(pv \<Rightarrow> pv) \<Rightarrow> bool" where
+  "admV2 f \<longleftrightarrow> (\<exists>x a v. lvl a \<le> 1 \<and> f = lamV x a v)"
+definition admV3 :: "(pv \<Rightarrow> pv) \<Rightarrow> bool" where
+  "admV3 f \<longleftrightarrow> (\<exists>x a v. f = lamV x a v)"
+
+interpretation MV1: gsig "fst :: pv \<Rightarrow> bool" "\<lambda>_. (True, L 0)" ngV cjV djV trV
+  "\<lambda>(f :: pv \<Rightarrow> pv) p. f p" exqV allqV bigV lamV admV1 GV "\<lambda>_. (True, L 0)" "(True, L 0)" .
+interpretation MV2: gsig "fst :: pv \<Rightarrow> bool" "\<lambda>_. (True, L 0)" ngV cjV djV trV
+  "\<lambda>(f :: pv \<Rightarrow> pv) p. f p" exqV allqV bigV lamV admV2 GV "\<lambda>_. (True, L 0)" "(True, L 0)" .
+interpretation MV3: gsig "fst :: pv \<Rightarrow> bool" "\<lambda>_. (True, L 0)" ngV cjV djV trV
+  "\<lambda>(f :: pv \<Rightarrow> pv) p. f p" exqV allqV bigV lamV admV3 GV "\<lambda>_. (True, L 0)" "(True, L 0)" .
+
+lemma MV1_C1: "MV1.C1"
+  by (simp add: MV1.C1_def admV1_def MV1.f_id_def MV1.f_tr_def MV1.f_em_def MV1.f_tem_def
+        lamV_def MV_den)
+lemma MV2_C2: "MV2.C2 1" by (simp add: MV2.C2_def admV2_def)
+lemma MV3_C3d: "MV3.C3d" by (simp add: MV3.C3d_def admV3_def)
+
+lemma MV1_W: "MV1.W_ID" "MV1.W_TR" "MV1.W_EM" "MV1.W_TEM"
+  using MV1_C1 unfolding MV1.C1_def MV1.W_ID_def MV1.W_TR_def MV1.W_EM_def MV1.W_TEM_def by blast+
+
+lemma MV2_W: "MV2.W_ID" "MV2.W_TR" "MV2.W_EM" "MV2.W_TEM"
+proof -
+  have "admV2 (lamV x a v)" if "lvl a \<le> 1" for x a v unfolding admV2_def using that by blast
+  thus "MV2.W_ID" "MV2.W_TR" "MV2.W_EM" "MV2.W_TEM"
+    unfolding MV2.W_ID_def MV2.W_TR_def MV2.W_EM_def MV2.W_TEM_def
+              MV2.f_id_def MV2.f_tr_def MV2.f_em_def MV2.f_tem_def by simp_all
+qed
+
+lemma MV3_W: "MV3.W_ID" "MV3.W_TR" "MV3.W_EM" "MV3.W_TEM"
+  unfolding MV3.W_ID_def MV3.W_TR_def MV3.W_EM_def MV3.W_TEM_def admV3_def
+            MV3.f_id_def MV3.f_tr_def MV3.f_em_def MV3.f_tem_def by blast+
+
+lemma MV1_intro: "MV1.EX_FULL" "MV1.ALL_INST"
+  unfolding MV1.EX_FULL_def MV1.ALL_INST_def MV1.inst_def using GV_exq GV_allq by blast+
+lemma MV2_intro: "MV2.EX_FULL" "MV2.ALL_INST"
+  unfolding MV2.EX_FULL_def MV2.ALL_INST_def MV2.inst_def using GV_exq GV_allq by blast+
+lemma MV3_intro: "MV3.EX_FULL" "MV3.ALL_INST"
+  unfolding MV3.EX_FULL_def MV3.ALL_INST_def MV3.inst_def using GV_exq GV_allq by blast+
+
+text \<open>Woods's Objection 3 (p. 643): the existential of p \<or> A helps ground itself. Its
+  propositional function is admissible at C2 and C3d, and the reflexive fact is in the
+  model.\<close>
+lemma MV2_obj3:
+  "admV2 (lamV 0 (Disj (Var 0) (Cst 0)) v)"
+  "lamV 0 (Disj (Var 0) (Cst 0)) v = (\<lambda>p. djV p (True, L 0))"
+  "MV.PG (exqV (\<lambda>p. djV p (True, L 0))) (exqV (\<lambda>p. djV p (True, L 0)))"
+proof -
+  show "admV2 (lamV 0 (Disj (Var 0) (Cst 0)) v)" unfolding admV2_def
+    by (intro exI[of _ 0] exI[of _ "Disj (Var 0) (Cst 0)"] exI[of _ v]) simp
+  show "lamV 0 (Disj (Var 0) (Cst 0)) v = (\<lambda>p. djV p (True, L 0))" by (simp add: lamV_def)
+  have "exqV (\<lambda>p. djV p (True, L 0)) = (True, Top 0)" unfolding exqV_def by (simp add: djV_def)
+  thus "MV.PG (exqV (\<lambda>p. djV p (True, L 0))) (exqV (\<lambda>p. djV p (True, L 0)))"
+    by (simp add: MV_PG)
+qed
+
+text \<open>The certificates. The entries without admissibility are those of MV_package.\<close>
+theorem MV1_package:
+  "MV1.FACT \<and> MV1.LAM_CORE \<and> MV1.C1 \<and> MV1.W_ID \<and> MV1.W_TR \<and> MV1.W_EM \<and> MV1.W_TEM \<and> MV1.BETA_ID
+   \<and> MV1.CL_PROP \<and> MV1.CL_QUANT \<and> MV1.TS_FULL \<and> MV1.EX_FULL \<and> MV1.ALL_INST \<and> MV1.CONJ_BIN
+   \<and> MV1.DISJ_ONE \<and> MV1.DISJ_BOTH \<and> MV1.TR_FULL \<and> MV1.TR_NEG \<and> MV1.NEG_DN \<and> MV1.NEG_DM
+   \<and> MV1.TRANS_P \<and> MV1.TRANS_CUT \<and> MV1.AMALG_INF \<and> MV1.EMPTY_NONE \<and> MV1.IRR_W \<and> MV1.IRR_MEM
+   \<and> MV1.N1 \<and> MV1.N2 \<and> MV1.N4_pairs \<and> MV1.N5_chain"
+  using MV_package MV1_C1 MV1_W MV1_intro by blast
+
+theorem MV2_package:
+  "MV2.FACT \<and> MV2.LAM_CORE \<and> MV2.C2 1 \<and> MV2.W_ID \<and> MV2.W_TR \<and> MV2.W_EM \<and> MV2.W_TEM \<and> MV2.BETA_ID
+   \<and> MV2.CL_PROP \<and> MV2.CL_QUANT \<and> MV2.TS_FULL \<and> MV2.EX_FULL \<and> MV2.ALL_INST \<and> MV2.CONJ_BIN
+   \<and> MV2.DISJ_ONE \<and> MV2.DISJ_BOTH \<and> MV2.TR_FULL \<and> MV2.TR_NEG \<and> MV2.NEG_DN \<and> MV2.NEG_DM
+   \<and> MV2.TRANS_P \<and> MV2.TRANS_CUT \<and> MV2.AMALG_INF \<and> MV2.EMPTY_NONE \<and> MV2.IRR_W \<and> MV2.IRR_MEM
+   \<and> MV2.N1 \<and> MV2.N2 \<and> MV2.N4_pairs \<and> MV2.N5_chain"
+  using MV_package MV2_C2 MV2_W MV2_intro by blast
+
+theorem MV3_package:
+  "MV3.FACT \<and> MV3.LAM_CORE \<and> MV3.C3d \<and> MV3.W_ID \<and> MV3.W_TR \<and> MV3.W_EM \<and> MV3.W_TEM \<and> MV3.BETA_ID
+   \<and> MV3.CL_PROP \<and> MV3.CL_QUANT \<and> MV3.TS_FULL \<and> MV3.EX_FULL \<and> MV3.ALL_INST \<and> MV3.CONJ_BIN
+   \<and> MV3.DISJ_ONE \<and> MV3.DISJ_BOTH \<and> MV3.TR_FULL \<and> MV3.TR_NEG \<and> MV3.NEG_DN \<and> MV3.NEG_DM
+   \<and> MV3.TRANS_P \<and> MV3.TRANS_CUT \<and> MV3.AMALG_INF \<and> MV3.EMPTY_NONE \<and> MV3.IRR_W \<and> MV3.IRR_MEM
+   \<and> MV3.N1 \<and> MV3.N2 \<and> MV3.N4_pairs \<and> MV3.N5_chain"
+  using MV_package MV3_C3d MV3_W MV3_intro by blast
+
+section \<open>Part 5. Model MY: the same packages with antisymmetry (ASYM.ANTI)\<close>
+
+text \<open>
+  Woods weakens asymmetry to antisymmetry (fn. 4). With ASYM.ANTI the packages force the
+  propositions on each circle to be one proposition (fine_sp_anti_collapse), so MV,
+  which keeps them apart, fails ASYM.ANTI. MY is MV with a single top level Om in place
+  of the tier Top n: there is exactly one true proposition at the top, (True, Om), and
+  every circle collapses into it. Mutual partial ground then holds only between
+  (True, Om) and itself.
+\<close>
+
+datatype lw = Lw nat | Om
+
+fun upY :: "lw \<Rightarrow> lw" where
+  "upY (Lw n) = Lw (Suc n)" | "upY Om = Om"
+fun mxY :: "lw \<Rightarrow> lw \<Rightarrow> lw" where
+  "mxY (Lw m) (Lw n) = Lw (max m n)"
+| "mxY Om b = Om"
+| "mxY (Lw m) Om = Om"
+fun blY :: "lw \<Rightarrow> lw \<Rightarrow> bool" where
+  "blY a Om = True"
+| "blY (Lw m) (Lw n) = (m < n)"
+| "blY Om (Lw n) = False"
+
+lemma blY_up: "blY a (upY a)" by (cases a) simp_all
+lemma blY_mx1: "blY a (upY (mxY a b))" by (cases a; cases b) simp_all
+lemma blY_mx2: "blY b (upY (mxY a b))" by (cases a; cases b) simp_all
+lemma blY_trans: "blY a b \<Longrightarrow> blY b c \<Longrightarrow> blY a c" by (cases a; cases b; cases c) simp_all
+lemma blY_refl: "blY a a \<Longrightarrow> a = Om" by (cases a) simp_all
+lemma blY_anti: "blY a b \<Longrightarrow> blY b a \<Longrightarrow> a = Om \<and> b = Om" by (cases a; cases b) simp_all
+
+type_synonym py = "bool \<times> lw"
+
+definition ngY :: "py \<Rightarrow> py" where "ngY p = (\<not> fst p, upY (snd p))"
+definition cjY :: "py \<Rightarrow> py \<Rightarrow> py" where "cjY p q = (fst p \<and> fst q, upY (mxY (snd p) (snd q)))"
+definition djY :: "py \<Rightarrow> py \<Rightarrow> py" where "djY p q = (fst p \<or> fst q, upY (mxY (snd p) (snd q)))"
+definition trY :: "py \<Rightarrow> py" where "trY p = (fst p, upY (snd p))"
+
+primrec dY :: "(nat \<Rightarrow> py) \<Rightarrow> fm \<Rightarrow> py" where
+  "dY v (Var n) = v n"
+| "dY v (Cst n) = (True, Lw 0)"
+| "dY v (Neg a) = ngY (dY v a)"
+| "dY v (Conj a b) = cjY (dY v a) (dY v b)"
+| "dY v (Disj a b) = djY (dY v a) (dY v b)"
+| "dY v (Tr a) = trY (dY v a)"
+| "dY v (Ex x a) = ((\<exists>p. fst (dY (v(x:=p)) a)), Om)"
+| "dY v (All x a) = ((\<forall>p. fst (dY (v(x:=p)) a)), Om)"
+| "dY v (BigC x a) = ((\<forall>p. fst (dY (v(x:=p)) a) \<longrightarrow> fst p), Om)"
+
+definition lamY :: "nat \<Rightarrow> fm \<Rightarrow> (nat \<Rightarrow> py) \<Rightarrow> py \<Rightarrow> py" where
+  "lamY x a v = (\<lambda>p. dY (v(x:=p)) a)"
+definition exqY :: "(py \<Rightarrow> py) \<Rightarrow> py" where "exqY f = ((\<exists>p. fst (f p)), Om)"
+definition allqY :: "(py \<Rightarrow> py) \<Rightarrow> py" where "allqY f = ((\<forall>p. fst (f p)), Om)"
+definition bigY :: "(py \<Rightarrow> py) \<Rightarrow> py" where "bigY f = ((\<forall>p. fst (f p) \<longrightarrow> fst p), Om)"
+
+definition GY :: "py set \<Rightarrow> py \<Rightarrow> bool" where
+  "GY \<Gamma> q \<longleftrightarrow> \<Gamma> \<noteq> {} \<and> fst q \<and> (\<forall>p\<in>\<Gamma>. fst p \<and> blY (snd p) (snd q))"
+
+definition admY2 :: "(py \<Rightarrow> py) \<Rightarrow> bool" where
+  "admY2 f \<longleftrightarrow> (\<exists>x a v. lvl a \<le> 1 \<and> f = lamY x a v)"
+
+interpretation MY: gsig "fst :: py \<Rightarrow> bool" "\<lambda>_. (True, Lw 0)" ngY cjY djY trY
+  "\<lambda>(f :: py \<Rightarrow> py) p. f p" exqY allqY bigY lamY "\<lambda>_. True" GY "\<lambda>_. (True, Lw 0)" "(True, Lw 0)" .
+interpretation MY2: gsig "fst :: py \<Rightarrow> bool" "\<lambda>_. (True, Lw 0)" ngY cjY djY trY
+  "\<lambda>(f :: py \<Rightarrow> py) p. f p" exqY allqY bigY lamY admY2 GY "\<lambda>_. (True, Lw 0)" "(True, Lw 0)" .
+
+lemma quantY:
+  "exqY (lamY x a v) = ((\<exists>p. fst (dY (v(x:=p)) a)), Om)"
+  "allqY (lamY x a v) = ((\<forall>p. fst (dY (v(x:=p)) a)), Om)"
+  "bigY (lamY x a v) = ((\<forall>p. fst (dY (v(x:=p)) a) \<longrightarrow> fst p), Om)"
+  by (simp_all add: lamY_def exqY_def allqY_def bigY_def)
+
+lemma MY_den: "MY.den = dY"
+proof (intro ext)
+  fix v a show "MY.den v a = dY v a"
+    by (induction a) (simp_all add: quantY)
+qed
+
+lemma dY_fv: "(\<forall>y\<in>fv a. v y = w y) \<Longrightarrow> dY v a = dY w a"
+proof (induct a arbitrary: v w)
+  case (Ex x a)
+  have "\<And>p. dY (v(x:=p)) a = dY (w(x:=p)) a"
+    by (rule Ex.hyps) (use Ex.prems in auto)
+  then show ?case by simp
+next
+  case (All x a)
+  have "\<And>p. dY (v(x:=p)) a = dY (w(x:=p)) a"
+    by (rule All.hyps) (use All.prems in auto)
+  then show ?case by simp
+next
+  case (BigC x a)
+  have "\<And>p. dY (v(x:=p)) a = dY (w(x:=p)) a"
+    by (rule BigC.hyps) (use BigC.prems in auto)
+  then show ?case by simp
+next
+  case (Neg a)
+  have "dY v a = dY w a" by (rule Neg.hyps) (use Neg.prems in auto)
+  then show ?case by simp
+next
+  case (Tr a)
+  have "dY v a = dY w a" by (rule Tr.hyps) (use Tr.prems in auto)
+  then show ?case by simp
+next
+  case (Conj a b)
+  have "dY v a = dY w a" by (rule Conj.hyps(1)) (use Conj.prems in auto)
+  moreover have "dY v b = dY w b" by (rule Conj.hyps(2)) (use Conj.prems in auto)
+  ultimately show ?case by simp
+next
+  case (Disj a b)
+  have "dY v a = dY w a" by (rule Disj.hyps(1)) (use Disj.prems in auto)
+  moreover have "dY v b = dY w b" by (rule Disj.hyps(2)) (use Disj.prems in auto)
+  ultimately show ?case by simp
+qed simp_all
+
+lemma lamY_fv: "\<forall>y\<in>fv a - {x}. v y = w y \<Longrightarrow> lamY x a v = lamY x a w"
+  unfolding lamY_def by (intro ext dY_fv) auto
+
+lemma GY_single: "GY {p} q \<longleftrightarrow> fst p \<and> fst q \<and> blY (snd p) (snd q)"
+  unfolding GY_def by auto
+
+lemma MY_PG: "MY.PG p q \<longleftrightarrow> fst p \<and> fst q \<and> blY (snd p) (snd q)"
+proof
+  assume "MY.PG p q"
+  thus "fst p \<and> fst q \<and> blY (snd p) (snd q)" unfolding MY.PG_def GY_def by auto
+next
+  assume A: "fst p \<and> fst q \<and> blY (snd p) (snd q)"
+  have "p \<in> {p} \<and> GY {p} q" using A by (simp add: GY_single)
+  thus "MY.PG p q" unfolding MY.PG_def by (rule exI)
+qed
+
+lemma MY_core: "MY.FACT" "MY.LAM_CORE" "MY.N1" "MY.N2" "MY.N5_chain"
+  and MY_N4: "MY.N4_pair (True, Lw 0) (ngY (ngY (True, Lw 0)))"
+proof -
+  show "MY.FACT" by (auto simp: MY.FACT_def GY_def)
+  show "MY.LAM_CORE" unfolding MY.LAM_CORE_def MY_den using lamY_fv by (simp add: lamY_def)
+  have g: "GY {(True, Lw 0)} (True, Lw 1)" by (simp add: GY_single)
+  show "MY.N1" unfolding MY.N1_def using g by blast
+  thus "MY.N2" unfolding MY.N2_def
+    by (intro conjI exI[of _ "(True, Lw 0)"] exI[of _ "(True, Lw 1)"] exI[of _ "(True, Lw 2)"]) simp_all
+  show "MY.N5_chain" unfolding MY.N5_chain_def
+    by (intro exI[of _ "(True, Lw 0)"] exI[of _ "(True, Lw 1)"] exI[of _ "(True, Lw 2)"]
+          exI[of _ "(True, Lw 3)"]) (simp add: MY_PG)
+  have "{(True, Lw 1)} \<in> {\<Gamma>. GY \<Gamma> (True, Lw 2)}" "{(True, Lw 1)} \<notin> {\<Gamma>. GY \<Gamma> (True, Lw 0)}"
+    by (auto simp: GY_single)
+  thus "MY.N4_pair (True, Lw 0) (ngY (ngY (True, Lw 0)))"
+    unfolding MY.N4_pair_def by (auto simp: ngY_def numeral_2_eq_2)
+qed
+
+lemma MY_N4s: "MY.N4_pairs" using MY.N4_dn[OF MY_N4] .
+
+lemma MY_C3s: "MY.C3s" unfolding MY.C3s_def by auto
+lemma MY2_C2: "MY2.C2 1" by (simp add: MY2.C2_def admY2_def)
+
+lemma MY_W: "MY.W_ID" "MY.W_TR" "MY.W_EM" "MY.W_TEM"
+  by (simp_all add: MY.W_ID_def MY.W_TR_def MY.W_EM_def MY.W_TEM_def)
+
+lemma MY2_W: "MY2.W_ID" "MY2.W_TR" "MY2.W_EM" "MY2.W_TEM"
+proof -
+  have "admY2 (lamY x a v)" if "lvl a \<le> 1" for x a v unfolding admY2_def using that by blast
+  thus "MY2.W_ID" "MY2.W_TR" "MY2.W_EM" "MY2.W_TEM"
+    unfolding MY2.W_ID_def MY2.W_TR_def MY2.W_EM_def MY2.W_TEM_def
+              MY2.f_id_def MY2.f_tr_def MY2.f_em_def MY2.f_tem_def by simp_all
+qed
+
+lemma MY_BETA_ID: "MY.BETA_ID"
+  by (simp add: MY.BETA_ID_def MY_den lamY_def)
+
+lemma MY_classical: "MY.CL_PROP" "MY.CL_QUANT" "MY.TS_FULL"
+  by (simp_all add: MY.CL_PROP_def MY.CL_QUANT_def MY.TS_FULL_def ngY_def cjY_def djY_def
+        trY_def exqY_def allqY_def bigY_def MY.sat_def)
+
+lemma GY_exq: "fst (f a) \<Longrightarrow> GY {f a} (exqY f)"
+proof -
+  assume A: "fst (f a)"
+  hence "\<exists>p. fst (f p)" by blast
+  hence e: "exqY f = (True, Om)" unfolding exqY_def by simp
+  show "GY {f a} (exqY f)" unfolding e using A by (simp add: GY_single)
+qed
+
+lemma GY_allq: "\<forall>a. fst (f a) \<Longrightarrow> GY (range f) (allqY f)"
+proof -
+  assume A: "\<forall>a. fst (f a)"
+  hence e: "allqY f = (True, Om)" unfolding allqY_def by simp
+  show "GY (range f) (allqY f)" unfolding e GY_def using A by auto
+qed
+
+lemma MY_intro: "MY.EX_FULL" "MY.ALL_INST"
+  unfolding MY.EX_FULL_def MY.ALL_INST_def MY.inst_def using GY_exq GY_allq by blast+
+lemma MY2_intro: "MY2.EX_FULL" "MY2.ALL_INST"
+  unfolding MY2.EX_FULL_def MY2.ALL_INST_def MY2.inst_def using GY_exq GY_allq by blast+
+
+lemma MY_DISJ: "MY.DISJ_ONE" "MY.DISJ_BOTH"
+  by (auto simp: MY.DISJ_ONE_def MY.DISJ_BOTH_def GY_def djY_def blY_mx1 blY_mx2)
+
+lemma MY_CONJ_BIN: "MY.CONJ_BIN"
+  by (auto simp: MY.CONJ_BIN_def GY_def cjY_def blY_mx1 blY_mx2)
+
+lemma MY_TR_FULL: "MY.TR_FULL"
+  by (auto simp: MY.TR_FULL_def GY_single trY_def blY_up)
+
+lemma MY_TRANS_P: "MY.TRANS_P"
+  unfolding MY.TRANS_P_def MY_PG using blY_trans by blast
+
+lemma MY_TRANS_CUT: "MY.TRANS_CUT"
+  unfolding MY.TRANS_CUT_def
+proof (intro allI impI)
+  fix \<Gamma> \<Delta> :: "py set" and H :: "py \<Rightarrow> py set" and q
+  assume A: "GY \<Gamma> q \<and> \<Delta> \<subseteq> \<Gamma> \<and> (\<forall>p\<in>\<Delta>. GY (H p) p)"
+  let ?N = "(\<Gamma> - \<Delta>) \<union> (\<Union>p\<in>\<Delta>. H p)"
+  have ne: "?N \<noteq> {}"
+  proof (cases "\<Gamma> - \<Delta> = {}")
+    case False thus ?thesis by blast
+  next
+    case True
+    obtain p where p: "p \<in> \<Gamma>" using A unfolding GY_def by blast
+    hence "p \<in> \<Delta>" using True by blast
+    moreover have "H p \<noteq> {}" using A \<open>p \<in> \<Delta>\<close> unfolding GY_def by blast
+    ultimately show ?thesis by blast
+  qed
+  have mem: "fst r \<and> blY (snd r) (snd q)" if rN: "r \<in> ?N" for r
+  proof (cases "r \<in> \<Gamma> - \<Delta>")
+    case True thus ?thesis using A unfolding GY_def by blast
+  next
+    case False
+    with rN obtain p where p: "p \<in> \<Delta>" "r \<in> H p" by blast
+    have "fst r \<and> blY (snd r) (snd p)" using A p unfolding GY_def by blast
+    moreover have "blY (snd p) (snd q)" using A p(1) unfolding GY_def by blast
+    ultimately show ?thesis using blY_trans by blast
+  qed
+  have "fst q" using A unfolding GY_def by blast
+  thus "GY ?N q" unfolding GY_def using ne mem by blast
+qed
+
+lemma MY_AMALG_INF: "MY.AMALG_INF"
+  unfolding MY.AMALG_INF_def GY_def by blast
+
+lemma MY_EMPTY_NONE: "MY.EMPTY_NONE"
+  by (simp add: MY.EMPTY_NONE_def GY_def)
+
+lemma MY_ASYM_ANTI: "MY.ASYM_ANTI"
+  unfolding MY.ASYM_ANTI_def MY_PG
+proof (intro allI impI)
+  fix p q :: py
+  assume A: "(fst p \<and> fst q \<and> blY (snd p) (snd q)) \<and> (fst q \<and> fst p \<and> blY (snd q) (snd p))"
+  hence "snd p = Om \<and> snd q = Om" using blY_anti by blast
+  thus "p = q" using A by (simp add: prod_eq_iff)
+qed
+
+fun cdY :: "lw \<Rightarrow> nat" where "cdY (Lw n) = Suc n" | "cdY Om = 0"
+definition idxY :: "py \<Rightarrow> nat" where "idxY p = 2 * cdY (snd p) + (if fst p then 1 else 0)"
+definition dclY :: "nat \<Rightarrow> lw" where "dclY m = (case m of 0 \<Rightarrow> Om | Suc n \<Rightarrow> Lw n)"
+definition decY :: "nat \<Rightarrow> py" where "decY k = (odd k, dclY (k div 2))"
+
+lemma dclY_cdY: "dclY (cdY l) = l" by (cases l) (simp_all add: dclY_def)
+lemma decY_idxY: "decY (idxY p) = p"
+  by (cases p) (simp add: decY_def idxY_def dclY_cdY)
+lemma idxY_inj: "idxY p = idxY q \<Longrightarrow> p = q" by (metis decY_idxY)
+
+lemma MY_IRR_W: "MY.IRR_W"
+  unfolding MY.IRR_W_def
+proof (intro allI impI)
+  fix \<Gamma> c assume A: "GY \<Gamma> c \<and> c \<in> \<Gamma>"
+  hence tc: "fst c" and ne: "\<Gamma> \<noteq> {}" unfolding GY_def by blast+
+  have "blY (snd c) (snd c)" using A unfolding GY_def by blast
+  hence top: "snd c = Om" using blY_refl by blast
+  let ?\<Phi> = "Var ` idxY ` \<Gamma>"
+  let ?z = "idxY c"
+  have val: "MY.den (decY(?z:=B)) (Var (idxY p)) = (if p = c then B else p)" for B p
+    using idxY_inj decY_idxY by auto
+  have img: "(\<lambda>\<phi>. MY.den (decY(?z:=B)) \<phi>) ` ?\<Phi> = (\<lambda>p. if p = c then B else p) ` \<Gamma>" for B
+    unfolding image_image using val by simp
+  have c1: "\<Gamma> = (\<lambda>\<phi>. MY.den (decY(?z:=c)) \<phi>) ` ?\<Phi>" unfolding img by auto
+  have c2: "\<exists>\<phi>\<in>?\<Phi>. ?z \<in> fv \<phi>" using A by auto
+  have c3: "\<forall>\<phi>\<in>?\<Phi>. \<forall>\<psi>\<in>subf \<phi>. ?z \<notin> fv \<psi> \<longrightarrow> MY.den (decY(?z:=c)) \<psi> \<noteq> c"
+  proof (intro ballI impI)
+    fix \<phi> \<psi> assume "\<phi> \<in> ?\<Phi>" "\<psi> \<in> subf \<phi>" "?z \<notin> fv \<psi>"
+    then obtain p where p: "\<psi> = Var (idxY p)" "idxY c \<noteq> idxY p" by auto
+    hence "p \<noteq> c" by blast
+    thus "MY.den (decY(?z:=c)) \<psi> \<noteq> c" unfolding p(1) val by simp
+  qed
+  have c4: "\<forall>B. (\<forall>\<phi>\<in>?\<Phi>. fst (MY.den (decY(?z:=B)) \<phi>))
+              \<longrightarrow> GY ((\<lambda>\<phi>. MY.den (decY(?z:=B)) \<phi>) ` ?\<Phi>) c"
+  proof (intro allI impI)
+    fix B assume T: "\<forall>\<phi>\<in>?\<Phi>. fst (MY.den (decY(?z:=B)) \<phi>)"
+    have "\<forall>q\<in>(\<lambda>\<phi>. MY.den (decY(?z:=B)) \<phi>) ` ?\<Phi>. fst q" using T by blast
+    moreover have "(\<lambda>\<phi>. MY.den (decY(?z:=B)) \<phi>) ` ?\<Phi> \<noteq> {}" using ne by blast
+    ultimately show "GY ((\<lambda>\<phi>. MY.den (decY(?z:=B)) \<phi>) ` ?\<Phi>) c"
+      unfolding GY_def using tc top by simp
+  qed
+  show "MY.vacW c \<Gamma> c" unfolding MY.vacW_def using c1 c2 c3 c4 by blast
+qed
+
+text \<open>The collapse: the universal truth of the sentence-position puzzle is its own
+  instance, and the same proposition as \<exists>p p. N3 for ALL.INST therefore uses another
+  function, the constant one (vacuous quantification), whose only instance (True, Lw 0)
+  differs from its universal closure.\<close>
+lemma MY_collapse:
+  "allqY (\<lambda>p. djY p (ngY p)) = (True, Om)"
+  "djY (allqY (\<lambda>p. djY p (ngY p))) (ngY (allqY (\<lambda>p. djY p (ngY p)))) = allqY (\<lambda>p. djY p (ngY p))"
+  "exqY (\<lambda>p. p) = (True, Om)" "GY {(True, Om)} (True, Om)" "\<not> MY.IRR_F"
+proof -
+  show a: "allqY (\<lambda>p. djY p (ngY p)) = (True, Om)" unfolding allqY_def by (simp add: djY_def ngY_def)
+  show "djY (allqY (\<lambda>p. djY p (ngY p))) (ngY (allqY (\<lambda>p. djY p (ngY p)))) = allqY (\<lambda>p. djY p (ngY p))"
+    unfolding a by (simp add: djY_def ngY_def)
+  show "exqY (\<lambda>p. p) = (True, Om)" unfolding exqY_def by auto
+  show g: "GY {(True, Om)} (True, Om)" by (simp add: GY_single)
+  show "\<not> MY.IRR_F" unfolding MY.IRR_F_def using g by blast
+qed
+
+lemma MY_N3:
+  "GY {(True, Lw 0)} (exqY (\<lambda>p. p)) \<and> exqY (\<lambda>p. p) \<notin> {(True, Lw 0) :: py}"
+  "GY (MY.inst (\<lambda>p. (True, Lw 0))) (allqY (\<lambda>p. (True, Lw 0)))
+     \<and> allqY (\<lambda>p. (True, Lw 0)) \<notin> MY.inst (\<lambda>p. (True, Lw 0))
+     \<and> lamY 0 (Cst 0) v = (\<lambda>p. (True, Lw 0))"
+  "GY {(True, Lw 0)} (djY (True, Lw 0) (False, Lw 1)) \<and> djY (True, Lw 0) (False, Lw 1) = (True, Lw 2)"
+  "GY {(True, Lw 0)} (trY (True, Lw 0)) \<and> trY (True, Lw 0) = (True, Lw 1)"
+proof -
+  have e: "exqY (\<lambda>p. p) = (True, Om)" unfolding exqY_def by auto
+  show "GY {(True, Lw 0)} (exqY (\<lambda>p. p)) \<and> exqY (\<lambda>p. p) \<notin> {(True, Lw 0) :: py}"
+    unfolding e by (simp add: GY_single)
+  show "GY (MY.inst (\<lambda>p. (True, Lw 0))) (allqY (\<lambda>p. (True, Lw 0)))
+     \<and> allqY (\<lambda>p. (True, Lw 0)) \<notin> MY.inst (\<lambda>p. (True, Lw 0))
+     \<and> lamY 0 (Cst 0) v = (\<lambda>p. (True, Lw 0))"
+    by (auto simp: GY_def MY.inst_def allqY_def lamY_def)
+  show "GY {(True, Lw 0)} (djY (True, Lw 0) (False, Lw 1)) \<and> djY (True, Lw 0) (False, Lw 1) = (True, Lw 2)"
+    by (simp add: GY_single djY_def numeral_2_eq_2)
+  show "GY {(True, Lw 0)} (trY (True, Lw 0)) \<and> trY (True, Lw 0) = (True, Lw 1)"
+    by (simp add: GY_single trY_def)
+qed
+
+theorem MY_package:
+  "MY.FACT \<and> MY.LAM_CORE \<and> MY.C3s \<and> MY.W_ID \<and> MY.W_TR \<and> MY.W_EM \<and> MY.W_TEM \<and> MY.BETA_ID
+   \<and> MY.CL_PROP \<and> MY.CL_QUANT \<and> MY.TS_FULL \<and> MY.EX_FULL \<and> MY.ALL_INST \<and> MY.CONJ_BIN
+   \<and> MY.DISJ_ONE \<and> MY.DISJ_BOTH \<and> MY.TR_FULL
+   \<and> MY.TRANS_P \<and> MY.TRANS_CUT \<and> MY.AMALG_INF \<and> MY.EMPTY_NONE \<and> MY.IRR_W \<and> MY.ASYM_ANTI
+   \<and> MY.N1 \<and> MY.N2 \<and> MY.N4_pairs \<and> MY.N5_chain \<and> \<not> MY.IRR_F"
+  using MY_core MY_N4s MY_C3s MY_W MY_BETA_ID MY_classical MY_intro MY_CONJ_BIN MY_DISJ
+        MY_TR_FULL MY_TRANS_P MY_TRANS_CUT MY_AMALG_INF MY_EMPTY_NONE MY_IRR_W MY_ASYM_ANTI
+        MY_collapse(5) by blast
+
+theorem MY2_package:
+  "MY2.FACT \<and> MY2.LAM_CORE \<and> MY2.C2 1 \<and> MY2.W_ID \<and> MY2.W_TR \<and> MY2.W_EM \<and> MY2.W_TEM \<and> MY2.BETA_ID
+   \<and> MY2.CL_PROP \<and> MY2.CL_QUANT \<and> MY2.TS_FULL \<and> MY2.EX_FULL \<and> MY2.ALL_INST \<and> MY2.CONJ_BIN
+   \<and> MY2.DISJ_ONE \<and> MY2.DISJ_BOTH \<and> MY2.TR_FULL
+   \<and> MY2.TRANS_P \<and> MY2.TRANS_CUT \<and> MY2.AMALG_INF \<and> MY2.EMPTY_NONE \<and> MY2.IRR_W \<and> MY2.ASYM_ANTI
+   \<and> MY2.N1 \<and> MY2.N2 \<and> MY2.N4_pairs \<and> MY2.N5_chain"
+  using MY_package MY2_C2 MY2_W MY2_intro by blast
+
 end
