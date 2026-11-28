@@ -3402,7 +3402,15 @@ findings:
       ¬Tr_1(⌜0=0⌝), against T1^1. Without ground, Lemma 3, T3 and RP11 (p. 208, '∀x(Trβ(¬Trγ ẋ) ↔
       Trγ(¬x))') are already inconsistent at c. Each of two repairs restores consistency of the
       instances used - dropping Lemma 3 (the positive reading), or restricting APD_F and RP11 to
-      Sent<γ(x) (the classical reading).
+      Sent<γ(x) (the classical reading). SAFE FORM - either PGA_2 as printed is inconsistent, or
+      Lemma 3 is not a theorem of it; given Cor. 3 (p. 213), the second. Rechecked on the page images
+      2026-11-28 - Lemma 3's statement (p. 210), the ranges 0 < β < α of Def. 1 (p. 205) with PG_α
+      = PG_<α+1 (p. 205), so G3a^2, T1^1 and T3^1 are axioms of PGA_2, and γ < β ≤ α for APD_F
+      (Def. 2, p. 207). The Lemma 3 instances used are closed sentences (φ = ¬Tr_1(c) and
+      φ = ¬Tr_1(⌜0=0⌝)), so no reading of its free variables is needed. INFERENCE - the gap is the
+      case ¬Tr_γ(t) of the induction behind Lemma 3, which needs Tr_γ(¬t) ↔ ¬Tr_γ(t) and so holds
+      only for t in L_<γ. No published correction found (one web search, 2026-11-28; not
+      conclusive).
     proof: >-
       isabelle/Korbmacher_Lemma3.thy - korbmacher_lemma3_APDF and korbmacher_lemma3_RP11 (the
       instances as premises over an abstract type of codes, with the facts about Sent that PA
