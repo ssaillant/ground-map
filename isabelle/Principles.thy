@@ -169,4 +169,14 @@ definition N4_pairs :: bool where
 definition N5_chain :: bool where
   "N5_chain \<longleftrightarrow> (\<exists>x0 x1 x2 x3. distinct [x0, x1, x2, x3] \<and> PG x0 x1 \<and> PG x1 x2 \<and> PG x2 x3)"
 
+section \<open>Witness entries: lower bounds on comprehension (decision D9)\<close>
+
+text \<open>Each entry says that one named propositional function is admissible and nothing
+  about any other. They can be combined with one another, and each follows from every
+  comprehension level C1 to C3s (Order.thy).\<close>
+definition W_ID :: bool where "W_ID \<longleftrightarrow> adm f_id"
+definition W_TR :: bool where "W_TR \<longleftrightarrow> adm f_tr"
+definition W_EM :: bool where "W_EM \<longleftrightarrow> adm f_em"
+definition W_TEM :: bool where "W_TEM \<longleftrightarrow> adm f_tem"
+
 end

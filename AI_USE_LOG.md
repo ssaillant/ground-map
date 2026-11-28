@@ -250,7 +250,57 @@ AI-use disclosure. One entry per working session.
   refutations replayed); scripts/verify_models.py (113 of 113 models, two at level N0).
 - Human review: pending.
 
+## 2026-11-27 — Open questions of the repair (registry 0.3.1-draft)
 
+- Tool: Claude Code (cloud session), the same project thread as the audit; Isabelle2026
+  pinned. No source was read or re-fetched.
+- Model: the same model as the audit entry above; identifier to be entered by the
+  reviewer.
+- Prompt: "What are we missing here? The choices you made, nice. You see that it doesn't
+  change, it's bound still, does not. Makes sense to me. So let's try to establish what
+  we haven't established, with the exception of the page numbers. If it's not already in
+  the information, I don't think I have it." (reviewer). Read as: the choices made in
+  applying D5 are accepted; settle the items the report lists as not established, page
+  numbers excepted; say what is missing.
+- What the model did: built the models MH, MS and MT (the last after reporting, to turn an
+  inference in finding F8 into a checked model) and proved that the sentence-position
+  package without CL.PROP has no finite model (isabelle/Separation_Models.thy); proved
+  each puzzle from the admissibility of the one witness it uses, and Fine's universal
+  package refuted with typed truth entries (isabelle/Puzzle_Packages.thy); proved two
+  earlier inferences (isabelle/Order.thy); wrote scripts/separations.py and stored seven
+  separating models; added findings F7 and F8, the `reviewed` field of D5 and the
+  restructured `implications` section to the registry; added section 8 to the generated
+  results page and section 11 to the audit report.
+- Decisions the model took itself: none that changes a statement. The three COMP pairs
+  were moved from the rank pairs to a list of their own. A change to comprehension (one
+  entry per witness) is proposed to the reviewer and not made.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py (113 of
+  113); the seven separating models re-checked by the independent evaluator.
+- Human review: pending.
+
+## 2026-11-28 — Witness entries (registry 0.3.2-draft, decision D9)
+
+- Tool: Claude Code (cloud session), the same project thread as the audit; Isabelle2026
+  pinned. No source was read or re-fetched.
+- Model: the same model as the audit entry above; identifier to be entered by the
+  reviewer.
+- Prompt: the reviewer chose the option "Add four witness entries" on a decision card
+  asking "Add comprehension entries weaker than C1, one per witness?". The card's text
+  for that option: "Each asserts that one witness is admissible; C1 stays and implies
+  them. I restate the puzzles with them and try to build the typed-truth model."
+- What the model did: defined W_ID, W_TR, W_EM and W_TEM (isabelle/Principles.thy) and
+  proved that C1, C2, C3d and C3s imply them (isabelle/Order.thy); proved each puzzle
+  with its witness entry (isabelle/Puzzle_Packages.thy); built model MU and restated
+  model MT with the entries (isabelle/Separation_Models.thy); added the family WIT,
+  decision D9 and finding F9 to the registry and restated five puzzle targets; added the
+  entries to the search tables (scripts/driver.py); added section 12 to the audit report.
+- Decisions the model took itself, listed in the registry under D9
+  (`choices_made_in_applying_it`): a family of its own for the entries; no entry denying
+  admissibility; targets restated with the witness entries; the automatic search not
+  rerun.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py (113 of
+  113); scripts/summarize.py reproduces docs/results.md.
+- Human review: pending.
 
 ## 2026-11-27 — Follow-ups on the model-certificate review questions
 
@@ -286,3 +336,16 @@ AI-use disclosure. One entry per working session.
   M1 record, finding F3 and the changelog.
 - Human review: pending.
 
+## 2026-11-28 — Merge of main (PR #4) into this branch; lemma MF_not_IMM_CONJ
+
+- Tool and model as above.
+- Prompt: none new from the reviewer; the audit thread noted that PR #4 had merged and
+  suggested that model MF separates IMM.FRITZ7 from IMM.CONJ with classical truth.
+- What the model did: merged main (registry 0.3.2-draft) into this branch, keeping both
+  changelogs under 0.5.0-draft; proved MF_not_IMM_CONJ and MF_separates_IMM
+  (isabelle/Separation_Models.thy); proved MG_N4s; relabelled the records M1, MS, MT, MU
+  to N2 under the cumulative reading of the levels and D8, keeping the issued value in
+  `nontriviality_as_issued`.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py;
+  scripts/summarize.py regenerates docs/results.md.
+- Human review: pending.
