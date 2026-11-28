@@ -11,6 +11,9 @@ text \<open>
     (2) E \<and> q helps ground E                     EX.PART at f_id, with BETA.ID
     (3) so E \<and> q = E                             ASYM.ANTI
     (4) E is true at every world, so E \<and> q is, so q is.
+  The structural form of the finding stops short of (3): by (1) and (2) alone, E and
+  E \<and> q help ground each other (mutual_ground), and by (4) they differ in modal status
+  when q is contingent (mutual_ground_modal). No order entry is used for that.
   Steps (1)-(3) are about the one world of the registry and use registry entries only
   (Part 1). Step (4) needs worlds, which the registry does not have. Part 2 adds the
   least that is needed: a valuation V :: 'w \<Rightarrow> prp \<Rightarrow> bool giving truth at a world. The
@@ -44,12 +47,17 @@ lemma PG_fact:
   shows "T p" "T q"
   using assms unfolding FACT_def PG_def by blast+
 
-text \<open>Steps (1)-(3). Entries used: W.ID, BETA.ID, FACT, CONJ.BIN, EX.PART, ASYM.ANTI.
-  Not used: any irreflexivity entry, TRANS.P, TRANS.CUT, CL.PROP, CL.QUANT.\<close>
-theorem anti_ex_conj:
+text \<open>Steps (1)-(2), the structural form of the finding: E and E \<and> q help ground each
+  other, for every truth q. Entries used: W.ID, BETA.ID, FACT, CONJ.BIN, EX.PART. Not
+  used: ASYM.ANTI or any other order entry, any irreflexivity entry, TRANS.P, TRANS.CUT,
+  CL.PROP, CL.QUANT. The existential entry is used twice: for the truth of E (from q)
+  and, essentially, for step (2), where its instance is the conjunction E \<and> q, a
+  proposition that has E as a part. That E helps ground itself (the instance E) is not
+  enough for step (2): see the model LD of Part 6.\<close>
+theorem mutual_ground:
   assumes wid: "W_ID" and beta: "BETA_ID" and fact: "FACT"
-      and cj: "CONJ_BIN" and ex: "EX_PART" and anti: "ASYM_ANTI" and q: "T q"
-  shows "conj (exq f_id) q = exq f_id"
+      and cj: "CONJ_BIN" and ex: "EX_PART" and q: "T q"
+  shows "PG (exq f_id) (conj (exq f_id) q)" "PG (conj (exq f_id) q) (exq f_id)"
 proof -
   let ?E = "exq f_id"
   have ad: "adm f_id" using wid unfolding W_ID_def .
@@ -62,12 +70,17 @@ proof -
   qed
   have TE: "T ?E" using PG_fact(2)[OF fact inst[OF q]] .
   have "G {?E, q} (conj ?E q)" using cj TE q unfolding CONJ_BIN_def by blast
-  hence up: "PG ?E (conj ?E q)" unfolding PG_def by blast
+  thus up: "PG ?E (conj ?E q)" unfolding PG_def by blast
   have "T (conj ?E q)" using PG_fact(2)[OF fact up] .
-  hence down: "PG (conj ?E q) ?E" using inst by blast
-  have "?E = conj ?E q" using anti up down unfolding ASYM_ANTI_def by blast
-  thus ?thesis by simp
+  thus "PG (conj ?E q) ?E" using inst by blast
 qed
+
+text \<open>Step (3). Antisymmetry (ASYM.ANTI) turns the mutual ground into an identity.\<close>
+theorem anti_ex_conj:
+  assumes wid: "W_ID" and beta: "BETA_ID" and fact: "FACT"
+      and cj: "CONJ_BIN" and ex: "EX_PART" and anti: "ASYM_ANTI" and q: "T q"
+  shows "conj (exq f_id) q = exq f_id"
+  using anti mutual_ground[OF wid beta fact cj ex q] unfolding ASYM_ANTI_def by blast
 
 text \<open>The same with disjunction, for every r, true or not (q only witnesses that
   something is true). Goodman 2023 sect. 5.2 uses this circle, with the existential
@@ -139,6 +152,47 @@ proof -
   thus ?thesis unfolding NEC_def by blast
 qed
 
+text \<open>The structural theorem. With a truth q that is not necessary, E and E \<and> q are two
+  propositions that help ground each other and differ in modal status: E is necessary
+  and E \<and> q is not. No order entry is assumed, so the theorem holds whether or not
+  ground is irreflexive, asymmetric, antisymmetric or transitive. The two propositions
+  are distinct because they differ in a property (being true at every world of V); this
+  is the only use of identity.\<close>
+theorem mutual_ground_modal:
+  assumes "W_ID" "BETA_ID" "FACT" "CONJ_BIN" "EX_PART"
+      and nec: "NEC V (exq f_id)" and mc: "M_CONJ V" and q: "T q" and nq: "\<not> NEC V q"
+  shows "PG (exq f_id) (conj (exq f_id) q) \<and> PG (conj (exq f_id) q) (exq f_id)
+         \<and> NEC V (exq f_id) \<and> \<not> NEC V (conj (exq f_id) q) \<and> conj (exq f_id) q \<noteq> exq f_id"
+proof -
+  have nn: "\<not> NEC V (conj (exq f_id) q)" using mc nq unfolding NEC_def M_CONJ_def by blast
+  hence "conj (exq f_id) q \<noteq> exq f_id" using nec by auto
+  thus ?thesis using mutual_ground[OF assms(1-5) q] nec nn by blast
+qed
+
+text \<open>So, given a contingent truth, partial ground is not antisymmetric: it is not a
+  partial order, and no coarsening of propositional identity that respects necessity
+  can make it one (anti_necessitation_rel, Part 3).\<close>
+corollary mutual_ground_exists:
+  assumes "W_ID" "BETA_ID" "FACT" "CONJ_BIN" "EX_PART"
+      and "M_EX V" "M_SOME V" "M_CONJ V" "ACT V a" and ct: "\<exists>q w. V a q \<and> \<not> V w q"
+  shows "\<exists>p r. PG p r \<and> PG r p \<and> NEC V p \<and> \<not> NEC V r"
+proof -
+  obtain q w where "V a q" "\<not> V w q" using ct by blast
+  hence q: "T q" and nq: "\<not> NEC V q" using assms(9) unfolding ACT_def NEC_def by blast+
+  have nec: "NEC V (exq f_id)" using NEC_E[OF assms(2,6,7)] .
+  show ?thesis using mutual_ground_modal[OF assms(1-5) nec assms(8) q nq] by blast
+qed
+
+corollary not_antisymmetric:
+  assumes "W_ID" "BETA_ID" "FACT" "CONJ_BIN" "EX_PART"
+      and "M_EX V" "M_SOME V" "M_CONJ V" "ACT V a" and ct: "\<exists>q w. V a q \<and> \<not> V w q"
+  shows "\<not> ASYM_ANTI"
+proof -
+  obtain p r where "PG p r" "PG r p" "NEC V p" "\<not> NEC V r"
+    using mutual_ground_exists[OF assms] by blast
+  thus ?thesis unfolding ASYM_ANTI_def by blast
+qed
+
 text \<open>Step (4). Every truth is true at every world. Beyond Part 1 the theorem uses the
   necessity of E and M_CONJ, and nothing else about worlds: not ACT, no principle that
   grounds necessitate what they ground, no principle that ground or identity is
@@ -203,6 +257,58 @@ proof -
   show "M_EX (\<lambda>w. T)" using clq unfolding M_EX_def CL_QUANT_def by blast
   show "M_SOME (\<lambda>w. T)" using CL_QUANT_truth[OF clq] unfolding M_SOME_def by blast
   show "M_NEG (\<lambda>w. T)" using cl unfolding M_NEG_def CL_PROP_def by blast
+qed
+
+section \<open>Part 2a. Weak-first readings: the strict conjunction rule fails at E\<close>
+
+text \<open>
+  READING FLAGGED. The registry's partial ground PG is Fine's "partial strict ground"
+  (\<prec>*): p, on its own or with other truths, is a strict full ground of q (Fine 2012a,
+  p. 53). Fine's official strict partial ground (\<prec>) is another notion: p is a weak
+  partial ground of q and q is not a weak partial ground of p (ibid.). On that
+  definition strict partial ground is asymmetric by definition, so there is no mutual
+  strict partial ground and antisymmetry for it is empty. The circle then shows up
+  elsewhere. Let WP be any relation (weak partial ground) that satisfies the weak forms
+  of the two rules, as in Lovett 2020 sect. 7.2 (p. 2556): a truth weakly partially
+  grounds its conjunctions with truths, and a true instance weakly partially grounds its
+  existential generalization. Then E and E \<and> q weakly partially ground each other, so E
+  is not a strict partial ground of E \<and> q in Fine's defined sense, for any truth q: the
+  conjunction rule for strict ground fails at every conjunction of E with a truth. And
+  if q is contingent the two differ in modal status, so WP is not antisymmetric.
+  Nothing is assumed about WP beyond the two rules; T (conj E q) comes from CL.PROP.
+\<close>
+theorem weak_first_mutual:
+  fixes WP :: "prp \<Rightarrow> prp \<Rightarrow> bool"
+  assumes wid: "W_ID" and beta: "BETA_ID" and cl: "CL_PROP"
+      and wconj: "\<And>p r. T p \<Longrightarrow> T r \<Longrightarrow> WP p (conj p r)"
+      and wex: "\<And>f p. adm f \<Longrightarrow> T (app f p) \<Longrightarrow> WP (app f p) (exq f)"
+      and TE: "T (exq f_id)" and q: "T q"
+  shows "WP (exq f_id) (conj (exq f_id) q)" "WP (conj (exq f_id) q) (exq f_id)"
+        "\<not> (WP (exq f_id) (conj (exq f_id) q) \<and> \<not> WP (conj (exq f_id) q) (exq f_id))"
+proof -
+  let ?E = "exq f_id"
+  have ad: "adm f_id" using wid unfolding W_ID_def .
+  have app: "app f_id p = p" for p using BETA_apps(1)[OF beta] .
+  show up: "WP ?E (conj ?E q)" using wconj[OF TE q] .
+  have Tc: "T (conj ?E q)" using cl TE q unfolding CL_PROP_def by blast
+  hence "T (app f_id (conj ?E q))" using app by simp
+  hence "WP (app f_id (conj ?E q)) ?E" using wex[OF ad] by blast
+  thus down: "WP (conj ?E q) ?E" using app by simp
+  show "\<not> (WP ?E (conj ?E q) \<and> \<not> WP (conj ?E q) ?E)" using down by blast
+qed
+
+corollary weak_first_not_antisymmetric:
+  fixes WP :: "prp \<Rightarrow> prp \<Rightarrow> bool"
+  assumes "W_ID" "BETA_ID" "CL_PROP"
+      and "\<And>p r. T p \<Longrightarrow> T r \<Longrightarrow> WP p (conj p r)"
+      and "\<And>f p. adm f \<Longrightarrow> T (app f p) \<Longrightarrow> WP (app f p) (exq f)"
+      and TE: "T (exq f_id)" and q: "T q"
+      and nec: "NEC V (exq f_id)" and mc: "M_CONJ V" and nq: "\<not> NEC V q"
+  shows "\<not> (\<forall>p r. WP p r \<and> WP r p \<longrightarrow> p = r)"
+proof -
+  have nn: "\<not> NEC V (conj (exq f_id) q)" using mc nq unfolding NEC_def M_CONJ_def by blast
+  hence ne: "exq f_id \<noteq> conj (exq f_id) q" using nec by auto
+  show ?thesis using weak_first_mutual(1,2)[OF assms(1-5) TE q] ne by blast
 qed
 
 section \<open>Part 3. The premise about identity\<close>
@@ -395,6 +501,23 @@ text \<open>Antisymmetry restricted in the same spirit: two propositions that he
 definition L_ANTI_VAC :: bool where
   "L_ANTI_VAC \<longleftrightarrow> (\<forall>p q. PGr p q \<and> PGr q p \<longrightarrow>
        p = q \<or> (\<forall>b. V a b \<longrightarrow> Gr {b} p \<and> Gr {b} q))"
+
+text \<open>The structural theorem in the lean signature: no antisymmetry among the premises.\<close>
+theorem lean_mutual:
+  assumes "L_FACT" "L_CONJ" "L_EX" "L_CL" "CONTINGENT"
+  shows "\<exists>p r. PGr p r \<and> PGr r p \<and> (\<forall>w. V w p) \<and> (\<exists>w. \<not> V w r)"
+proof -
+  obtain q w where q: "V a q" and nq: "\<not> V w q" using assms(5) unfolding CONTINGENT_def by blast
+  have TE: "V a E" using assms(4) q unfolding L_CL_def by blast
+  have "Gr {E, q} (cj E q)" using assms(2) TE q unfolding L_CONJ_def by blast
+  hence up: "PGr E (cj E q)" unfolding PGr_def by blast
+  have "V a (cj E q)" using assms(4) TE q unfolding L_CL_def by blast
+  hence "Gr {cj E q} E" using assms(3) unfolding L_EX_def by blast
+  hence down: "PGr (cj E q) E" unfolding PGr_def by blast
+  have allE: "\<forall>w. V w E" using assms(4) q unfolding L_CL_def by blast
+  have "\<not> V w (cj E q)" using assms(4) nq unfolding L_CL_def by blast
+  thus ?thesis using up down allE by blast
+qed
 
 text \<open>The argument in the lean signature.\<close>
 theorem lean_collapse:
@@ -620,6 +743,56 @@ proof -
   have "VB True EB" "\<not> GC {EB, EB} (cjB EB EB)" unfolding VB_def GC_def EB_def cjB_def by simp_all
   hence nc: "\<not> LC.L_CONJ" unfolding LC.L_CONJ_def by blast
   show ?thesis using f e an t cl ct nc by blast
+qed
+
+subsection \<open>Model LD: self-grounding and the conjunction rule without the reverse direction\<close>
+
+text \<open>The ground of LB with one fact added: E grounds E. So E helps ground itself, the
+  conjunction rule holds, E helps ground E \<and> q, ground is antisymmetric and transitive,
+  and there is a contingent truth; but E \<and> q does not help ground E. The existential
+  rule holds for the instances of tier 0 and for the instance E, and fails for the
+  instance E \<and> q. So the mutual ground of lean_mutual needs the existential rule at
+  that instance: self-grounding and the conjunction rule do not give it.\<close>
+
+definition GD :: "pb set \<Rightarrow> pb \<Rightarrow> bool" where
+  "GD \<Gamma> c \<longleftrightarrow> \<Gamma> \<noteq> {} \<and> (\<forall>p\<in>\<Gamma>. actb p) \<and> actb c
+     \<and> ((\<forall>p\<in>\<Gamma>. lev p < lev c) \<or> (c = EB \<and> \<Gamma> = {EB}))"
+
+interpretation LD: lean VB True cjB ngB EB GD .
+
+lemma LD_PG: "LD.PGr p q \<longleftrightarrow> actb p \<and> actb q \<and> (lev p < lev q \<or> (p = EB \<and> q = EB))"
+proof
+  assume "LD.PGr p q"
+  then obtain \<Gamma> where "p \<in> \<Gamma>" "GD \<Gamma> q" unfolding LD.PGr_def by blast
+  thus "actb p \<and> actb q \<and> (lev p < lev q \<or> (p = EB \<and> q = EB))" unfolding GD_def by auto
+next
+  assume h: "actb p \<and> actb q \<and> (lev p < lev q \<or> (p = EB \<and> q = EB))"
+  hence "GD {p} q" unfolding GD_def by auto
+  thus "LD.PGr p q" unfolding LD.PGr_def by blast
+qed
+
+theorem LD_model:
+  "LD.L_FACT \<and> LD.L_CONJ \<and> LD.L_ANTI \<and> LD.L_TRANS \<and> LD.L_CL \<and> LD.CONTINGENT
+   \<and> LD.PGr EB EB \<and> LD.PGr EB (cjB EB qB) \<and> \<not> LD.PGr (cjB EB qB) EB \<and> \<not> LD.L_EX
+   \<and> (\<forall>p. VB True p \<and> lev p = 0 \<longrightarrow> GD {p} EB)"
+proof -
+  have f: "LD.L_FACT" unfolding LD.L_FACT_def unfolding GD_def VB_def by auto
+  have c: "LD.L_CONJ" unfolding LD.L_CONJ_def unfolding GD_def VB_def cjB_def by auto
+  have an: "LD.L_ANTI" unfolding LD.L_ANTI_def LD_PG by auto
+  have t: "LD.L_TRANS" unfolding LD.L_TRANS_def LD_PG by auto
+  have "\<exists>p. VB w p" for w by (rule exI[of _ EB]) (simp add: VB_def EB_def)
+  hence cl: "LD.L_CL" unfolding LD.L_CL_def unfolding VB_def cjB_def ngB_def EB_def by auto
+  have ct: "LD.CONTINGENT" unfolding LD.CONTINGENT_def
+    by (rule exI[of _ qB], rule exI[of _ False]) (simp add: VB_def qB_def)
+  have self: "LD.PGr EB EB" unfolding LD_PG by (simp add: EB_def)
+  have up: "LD.PGr EB (cjB EB qB)" unfolding LD_PG by (simp add: EB_def qB_def cjB_def)
+  have ne: "cjB EB qB \<noteq> EB" by (simp add: EB_def qB_def cjB_def)
+  have down: "\<not> LD.PGr (cjB EB qB) EB" unfolding LD_PG using ne by (simp add: EB_def qB_def cjB_def)
+  have tc: "VB True (cjB EB qB)" by (simp add: VB_def EB_def qB_def cjB_def)
+  have "\<not> GD {cjB EB qB} EB" using down unfolding LD.PGr_def by blast
+  hence nex: "\<not> LD.L_EX" using tc unfolding LD.L_EX_def by blast
+  have pr: "\<forall>p. VB True p \<and> lev p = 0 \<longrightarrow> GD {p} EB" unfolding VB_def GD_def EB_def by simp
+  show ?thesis using f c an t cl ct self up down nex pr by blast
 qed
 
 end

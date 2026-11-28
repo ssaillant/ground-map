@@ -632,3 +632,27 @@ AI-use disclosure. One entry per working session.
   scripts/verify_models.py (no change); scripts/summarize.py.
 - Human review: pending. The readings flagged in F27 and the literature check are the reviewer's
   to judge; novelty is not claimed.
+
+## 2026-11-28 — Finding F27, second pass: structural form first (registry 0.9.3-draft)
+
+- Tool: Claude Code (cloud session), same thread. Model: to be filled in by the reviewer.
+  Isabelle2026.
+- Prompt: the reviewer agreed that the structural theorem should take precedence over the
+  modal-collapse corollary, required that it name the existential grounding rule among its
+  assumptions (self-grounding and the conjunction rule do not give the reverse direction), and
+  listed papers for the priority check.
+- What the model did: added to isabelle/Antisymmetry_Collapse.thy the theorems mutual_ground,
+  mutual_ground_modal, mutual_ground_exists and not_antisymmetric (no order entry among the
+  hypotheses), weak_first_mutual and weak_first_not_antisymmetric (an arbitrary weak partial
+  ground with the weak rules as hypotheses), lean_mutual, and the model LD (the reviewer's
+  qualification: self-grounding of E, the conjunction rule and antisymmetry hold, the direction
+  from E ∧ q to E fails); anti_ex_conj is now a corollary of mutual_ground. Restated F27 with
+  the structural form first; added a flagged reading (the registry's partial ground is Fine's
+  partial strict ground, not his strict partial ground); corrected the literature note
+  (Lovett 2020 sect. 7.2 had been under-reported). Read fine2012a p. 53, fine2012b p. 4,
+  derosset_fine2023 p. 2 and lovett2020 pp. 2553-2560 from the project's files; searched
+  fine_derosset2024a/b by keyword; read deRosset 2014 through a page fetch (fragments). The body
+  of Correia 2017 and deRosset 2013 "What is weak ground?" could not be obtained.
+- Checks: isabelle build (Ground_Map_Checks) passes; scripts/check_no_sorry.sh; registry parses;
+  scripts/summarize.py.
+- Human review: pending. Novelty is not claimed.
