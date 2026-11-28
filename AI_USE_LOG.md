@@ -611,3 +611,24 @@ AI-use disclosure. One entry per working session.
 - Checks: isabelle build (Ground_Map_Checks) passes; scripts/check_no_sorry.sh; registry
   parses; scripts/verify_models.py; scripts/summarize.py.
 - Human review: pending.
+
+## 2026-11-28 — Finding F27: antisymmetry and contingent truths (registry 0.9.3-draft)
+
+- Tool: Claude Code (cloud session), thread "Assess antisymmetry-necessitation short paper".
+  Model: to be filled in by the reviewer. Isabelle2026.
+- Prompt: the reviewer asked for an assessment of two candidate short papers - the argument of
+  finding F16, and his own argument that antisymmetry, unrestricted existential grounding and
+  conjunction grounding make every truth necessary - with the second to be machine-checked. The
+  reviewer's messages included assessments he had obtained from another AI system; their claims
+  were checked against the sources and the repository before use.
+- What the model did: wrote isabelle/Antisymmetry_Collapse.thy (the identity from registry
+  entries; a valuation over worlds as a theorem parameter; the necessity and collapse theorems;
+  the premise about identity; routes through the universal and through β-grounding; the
+  non-factive refutation; three lean two-world models); added finding F27 and registry
+  0.9.3-draft; reworded finding F11 (K1's level is N2 with the chain condition, not N5). Read
+  kramer2013, lovett2020, goodman2023, correia2026 and litland2015 sect. 6.8 from the project's
+  files; read woods2018 and five further works through page fetches that return fragments.
+- Checks: isabelle build (Ground_Map_Checks) passes; scripts/check_no_sorry.sh; registry parses;
+  scripts/verify_models.py (no change); scripts/summarize.py.
+- Human review: pending. The readings flagged in F27 and the literature check are the reviewer's
+  to judge; novelty is not claimed.
