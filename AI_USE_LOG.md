@@ -301,3 +301,45 @@ AI-use disclosure. One entry per working session.
 - Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py (113 of
   113); scripts/summarize.py reproduces docs/results.md.
 - Human review: pending.
+
+## 2026-11-27 — Follow-ups on the model-certificate review questions
+
+- Tool and model as above.
+- Prompt: reviewer's questions on the four choices (re-checking, N3, N4, classicality) and
+  "If you haven't checked whether [Fritz 2022] already states the finite case, then check."
+- What the model did: read fritz2022 pp. 304-310 and 327-329 (page images) and, through a
+  fetch subagent, Fritz "Operands and instances" (RSL 2023) pp. 188-201; added N4_pairs to
+  Principles.thy and the locale (the registry's four shapes), proved for every model;
+  built model MF (IMM.FRITZ7 with CL.PROP, CL.QUANT, TS.FULL); updated F2 with the
+  literature check and MF. Session builds, no sorry/oops/axioms.
+- Human review: pending.
+
+## 2026-11-27 — Decisions D7 and D8 applied
+
+- Tool and model as above.
+- Prompt: reviewer, "Let's go with option A" (re-checking) and "then we should fix that" (N4 in
+  all-true models); housekeeping and encoding gap noted (the latter is repaired in PR #4).
+- What the model did: merged the audit branch (registry 0.3.0-draft) into this branch;
+  registry 0.5.0-draft with decisions D7 (certificate kinds nitpick+python / isabelle-kernel)
+  and D8 (N4 only where CL.PROP holds); model records relabelled (MA-ME at N3, MF and MG at
+  N5); lemma MG_N4s; results page column "Certificate". Build passes, no sorry/oops/axioms.
+- Human review: pending.
+
+## 2026-11-28 — Merge of main (PR #4) into this branch; lemma MF_not_IMM_CONJ
+
+- Tool and model as above.
+- Prompt: none new from the reviewer; the audit thread noted that PR #4 had merged and
+  suggested that model MF separates IMM.FRITZ7 from IMM.CONJ with classical truth.
+- What the model did: merged main (registry 0.3.2-draft) into this branch, keeping both
+  changelogs under 0.5.0-draft; proved MF_not_IMM_CONJ and MF_separates_IMM
+  (isabelle/Separation_Models.thy); proved MG_N4s; relabelled the records M1, MS, MT, MU
+  to N2 under the cumulative reading of the levels and D8, keeping the issued value in
+  `nontriviality_as_issued`.
+- Correction after the audit thread pointed out existing N3 lemmas: added MT_N4s, MU_N4s,
+  MT_N3_disj and MS_N3_disj (DISJ.ONE instances with distinct disjuncts) and set MT and
+  MU to N5, MS to N3 (N4 excluded by D8). M1 is left to PR #6, which proves its N3 and N4.
+  Dated notes added to docs/audit-2026-11-27.md where it calls the classical IMM question
+  open.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py;
+  scripts/summarize.py regenerates docs/results.md.
+- Human review: pending.
