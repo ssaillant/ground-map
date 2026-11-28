@@ -399,3 +399,24 @@ AI-use disclosure. One entry per working session.
 - Checks: scripts/tests/publish_results_test.sh (six cases pass); token check run on GitHub
   (see the pull request).
 - Human review: pending.
+
+## 2026-11-28 — Korbmacher 2018b: registry 0.8.0-draft (decision D10)
+
+- Tool: Claude Code (cloud session), project thread on Korbmacher 2018b. Model: to be
+  filled in by the reviewer.
+- Prompt: the coordinator relayed the reviewer's upload of Korbmacher 2018b (JPL 47) with
+  the request to compare finding F9 with Korbmacher's results, check the registry's
+  Korbmacher entries, and propose entries and targets; after the report, the reviewer's
+  instruction "lets do 1-4 and revisit 5 afterwards".
+- What the model did: read the paper in full from page images (the text layer drops ◁);
+  wrote the report (docs/korbmacher-2018b.md); added entries TS.T3 and NEG.ALL
+  (isabelle/Principles.thy); proved the three truth targets without TS.FULL and the
+  falsity version P.KORBMACHER.APF (isabelle/Puzzle_Packages.thy); built model MK of the
+  typed target and proved TS_T3_not_FULL and TS_T3_grain (isabelle/Korbmacher_Typed.thy);
+  edited the registry (D10, targets, findings F20-F23, F9 and F11 text, sources with
+  pages), driver.py ENTRIES and LAMB, and the MK, MT and MU model records.
+- Not done: item 5 of the report (the apparent inconsistency of Korbmacher's Lemma 3 with
+  APD_F), deferred by the reviewer; no search rerun with the new entries.
+- Checks: full session build with the pinned Isabelle2026; scripts/check_no_sorry.sh;
+  scripts/verify_models.py; scripts/summarize.py regenerates docs/results.md.
+- Human review: pending.

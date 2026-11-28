@@ -320,4 +320,136 @@ proof -
   thus False using assms(6) unfolding IRR_F_def by blast
 qed
 
+section \<open>Registry 0.8.0-draft: the truth targets without TS.FULL (finding F20)\<close>
+
+text \<open>Korbmacher 2018b, Lemma 1 (pp. 198-199), gets the truth of a truth ascription from
+  factivity (his G3) and the Aristotelian principle, not from a truth schema. The same
+  holds here: FACT, a core clause of every package, and TR.PART give T (tr p) from T p.
+  So each of the three targets that involve truth is refuted without TS.FULL.\<close>
+
+lemma tr_true_FACT:
+  assumes fact: "FACT" and pg: "TR_PART" and t: "T p" shows "T (tr p)"
+proof -
+  have "PG p (tr p)" using pg t unfolding TR_PART_def by blast
+  then obtain \<Gamma> where "p \<in> \<Gamma>" "G \<Gamma> (tr p)" unfolding PG_def by blast
+  thus ?thesis using fact unfolding FACT_def by blast
+qed
+
+theorem something_true_trans_noTS:
+  assumes "W_TR" and beta: "BETA_ID" and clq: "CL_QUANT" and fact: "FACT"
+      and eg: "EX_PART" and pg: "TR_PART" and tra: "TRANS_P" and irr: "IRR_F"
+  shows False
+proof -
+  have ad: "adm f_tr" using assms(1) unfolding W_TR_def .
+  let ?s = "exq f_tr"
+  have app: "\<forall>p. app f_tr p = tr p" using BETA_apps(2)[OF beta] by simp
+  obtain q where "T q" using CL_QUANT_truth[OF clq] by blast
+  hence "T (app f_tr q)" using app tr_true_FACT[OF fact pg] by simp
+  hence Ts: "T ?s" using clq unfolding CL_QUANT_def by blast
+  hence Ttr: "T (app f_tr ?s)" using app tr_true_FACT[OF fact pg] by simp
+  have "PG (app f_tr ?s) ?s" using eg ad Ttr unfolding EX_PART_def by blast
+  hence a: "PG (tr ?s) ?s" using app by simp
+  have b: "PG ?s (tr ?s)" using pg Ts unfolding TR_PART_def by blast
+  have "PG ?s ?s" using tra a b unfolding TRANS_P_def by blast
+  thus False using irr unfolding IRR_F_def PG_def by blast
+qed
+
+theorem something_true_asym_noTS:
+  assumes "W_TR" and beta: "BETA_ID" and clq: "CL_QUANT" and fact: "FACT"
+      and eg: "EX_PART" and pg: "TR_PART" and asy: "ASYM_P"
+  shows False
+proof -
+  have ad: "adm f_tr" using assms(1) unfolding W_TR_def .
+  let ?s = "exq f_tr"
+  have app: "\<forall>p. app f_tr p = tr p" using BETA_apps(2)[OF beta] by simp
+  obtain q where "T q" using CL_QUANT_truth[OF clq] by blast
+  hence "T (app f_tr q)" using app tr_true_FACT[OF fact pg] by simp
+  hence Ts: "T ?s" using clq unfolding CL_QUANT_def by blast
+  hence Ttr: "T (app f_tr ?s)" using app tr_true_FACT[OF fact pg] by simp
+  have "PG (app f_tr ?s) ?s" using eg ad Ttr unfolding EX_PART_def by blast
+  hence a: "PG (tr ?s) ?s" using app by simp
+  have b: "PG ?s (tr ?s)" using pg Ts unfolding TR_PART_def by blast
+  show False using asy a b unfolding ASYM_P_def by blast
+qed
+
+theorem fine_universal_noTS:
+  assumes "W_TEM" and beta: "BETA_ID" and cl: "CL_PROP" and clq: "CL_QUANT" and fact: "FACT"
+      and ug: "ALL_PART" and dg: "DISJ_PART" and pg: "TR_PART"
+      and tra: "TRANS_P" and irr: "IRR_F"
+  shows False
+proof -
+  have ad: "adm f_tem" using assms(1) unfolding W_TEM_def .
+  let ?s = "allq f_tem"
+  let ?d = "disj (tr ?s) (neg (tr ?s))"
+  have app: "\<forall>p. app f_tem p = disj (tr p) (neg (tr p))" using BETA_apps(4)[OF beta] by simp
+  have cd: "T (disj p q) \<longleftrightarrow> T p \<or> T q" for p q using cl unfolding CL_PROP_def by blast
+  have cn: "T (neg p) \<longleftrightarrow> \<not> T p" for p using cl unfolding CL_PROP_def by blast
+  have em: "T (disj x (neg x))" for x using cd cn by blast
+  have vals: "\<forall>b. T (app f_tem b)" using app em by simp
+  hence Ts: "T ?s" using clq unfolding CL_QUANT_def by blast
+  have "PG (app f_tem ?s) ?s" using ug ad vals unfolding ALL_PART_def by blast
+  hence d_s: "PG ?d ?s" using app by simp
+  have "T (tr ?s)" using tr_true_FACT[OF fact pg Ts] .
+  hence tr_d: "PG (tr ?s) ?d" using dg unfolding DISJ_PART_def by blast
+  have s_tr: "PG ?s (tr ?s)" using pg Ts unfolding TR_PART_def by blast
+  have "PG ?s ?s" using tra s_tr tr_d d_s unfolding TRANS_P_def by blast
+  thus False using irr unfolding IRR_F_def PG_def by blast
+qed
+
+theorem fine_particular_props_noTS:
+  assumes "W_TEM" and beta: "BETA_ID" and cl: "CL_PROP" and clq: "CL_QUANT" and fact: "FACT"
+      and eg: "EX_PART" and dg: "DISJ_PART" and pg: "TR_PART"
+      and tra: "TRANS_P" and irr: "IRR_F"
+  shows False
+proof -
+  have ad: "adm f_tem" using assms(1) unfolding W_TEM_def .
+  let ?s = "exq f_tem"
+  let ?d = "disj (tr ?s) (neg (tr ?s))"
+  have app: "\<forall>p. app f_tem p = disj (tr p) (neg (tr p))" using BETA_apps(4)[OF beta] by simp
+  have cd: "T (disj p q) \<longleftrightarrow> T p \<or> T q" for p q using cl unfolding CL_PROP_def by blast
+  have cn: "T (neg p) \<longleftrightarrow> \<not> T p" for p using cl unfolding CL_PROP_def by blast
+  have em: "T (disj x (neg x))" for x using cd cn by blast
+  have Td: "T (app f_tem ?s)" using app em by simp
+  hence Ts: "T ?s" using clq unfolding CL_QUANT_def by blast
+  have "PG (app f_tem ?s) ?s" using eg ad Td unfolding EX_PART_def by blast
+  hence d_s: "PG ?d ?s" using app by simp
+  have "T (tr ?s)" using tr_true_FACT[OF fact pg Ts] .
+  hence tr_d: "PG (tr ?s) ?d" using dg unfolding DISJ_PART_def by blast
+  have s_tr: "PG ?s (tr ?s)" using pg Ts unfolding TR_PART_def by blast
+  have "PG ?s ?s" using tra s_tr tr_d d_s unfolding TRANS_P_def by blast
+  thus False using irr unfolding IRR_F_def PG_def by blast
+qed
+
+section \<open>Registry 0.8.0-draft: the falsity version of "something is true" (P.KORBMACHER.APF)\<close>
+
+text \<open>Korbmacher 2018b p. 199 leaves the derivation from his falsity principle APF "to the
+  interested reader". This is a reconstruction of it, "not everything is true", stated
+  with the registry's entries. Let s be the universal closure of f_tr. Some proposition
+  is untrue (the negation of a truth), so its truth ascription is untrue, and s is
+  untrue. By TR.NEG, neg s grounds neg (tr s). The latter is a true negated instance of
+  s, so by NEG.ALL it grounds neg s. FACT is not used.\<close>
+theorem korbmacher_apf_W:
+  assumes "W_TR" and beta: "BETA_ID" and cl: "CL_PROP" and clq: "CL_QUANT" and ts: "TS_FULL"
+      and tn: "TR_NEG" and na: "NEG_ALL" and tra: "TRANS_P" and irr: "IRR_F"
+  shows False
+proof -
+  have ad: "adm f_tr" using assms(1) unfolding W_TR_def .
+  let ?s = "allq f_tr"
+  have app: "\<forall>p. app f_tr p = tr p" using BETA_apps(2)[OF beta] by simp
+  have cn: "T (neg p) \<longleftrightarrow> \<not> T p" for p using cl unfolding CL_PROP_def by blast
+  obtain q where q: "T q" using CL_QUANT_truth[OF clq] by blast
+  have "\<not> T (tr (neg q))" using ts cn q unfolding TS_FULL_def by blast
+  hence "\<not> T (app f_tr (neg q))" using app by simp
+  hence "\<not> T ?s" using clq unfolding CL_QUANT_def by blast
+  hence Tn: "T (neg ?s)" using cn by blast
+  have "G {neg ?s} (neg (tr ?s))" using tn Tn unfolding TR_NEG_def by blast
+  hence a: "PG (neg ?s) (neg (tr ?s))" unfolding PG_def by blast
+  have "\<not> T (tr ?s)" using ts \<open>\<not> T ?s\<close> unfolding TS_FULL_def by blast
+  hence "T (neg (app f_tr ?s))" using cn app by simp
+  hence "G {neg (app f_tr ?s)} (neg ?s)" using na ad unfolding NEG_ALL_def by blast
+  hence b: "PG (neg (tr ?s)) (neg ?s)" using app unfolding PG_def by auto
+  have "PG (neg ?s) (neg ?s)" using tra a b unfolding TRANS_P_def by blast
+  thus False using irr unfolding IRR_F_def PG_def by blast
+qed
+
 end

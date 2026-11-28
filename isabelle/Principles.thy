@@ -66,6 +66,11 @@ definition TS_TYPED :: bool where
   "TS_TYPED \<longleftrightarrow> (\<forall>a v. tfree a \<and> fv a = {} \<longrightarrow> (T (tr (den v a)) \<longleftrightarrow> T (den v a)))"
 definition TS_FULL :: bool where
   "TS_FULL \<longleftrightarrow> (\<forall>p. T (tr p) \<longleftrightarrow> T p)"
+text \<open>Korbmacher 2018b's T3 at two levels (registry 0.8.0-draft): the truth ascription to a
+  proposition presented by a closed formula that mentions truth is untrue. Standalone; it
+  contradicts TS.FULL (Korbmacher_Typed.thy, TS_T3_not_FULL).\<close>
+definition TS_T3 :: bool where
+  "TS_T3 \<longleftrightarrow> (\<forall>a v. \<not> tfree a \<and> fv a = {} \<longrightarrow> \<not> T (tr (den v a)))"
 definition TS_ID :: bool where
   "TS_ID \<longleftrightarrow> (\<forall>p. tr p = p)"
 
@@ -102,6 +107,11 @@ definition NEG_DM :: bool where
   "NEG_DM \<longleftrightarrow> (\<forall>p q. (T (neg p) \<longrightarrow> G {neg p} (neg (conj p q)))
      \<and> (T (neg q) \<longrightarrow> G {neg q} (neg (conj p q)))
      \<and> (T (neg p) \<and> T (neg q) \<longrightarrow> G {neg p, neg q} (neg (disj p q))))"
+
+text \<open>Negated universal (registry 0.8.0-draft): Korbmacher's U9, Fine's \<not>\<forall>I without the
+  existence premise.\<close>
+definition NEG_ALL :: bool where
+  "NEG_ALL \<longleftrightarrow> (\<forall>f a. adm f \<and> T (neg (app f a)) \<longrightarrow> G {neg (app f a)} (neg (allq f)))"
 
 definition EX_PRED :: bool where
   "EX_PRED \<longleftrightarrow> (\<forall>f a w. adm f \<and> lvl a = 0 \<and> fv a = {} \<and> T (app f (den w a))

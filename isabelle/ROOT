@@ -17,6 +17,7 @@ session Ground_Map_Checks = HOL +
     Puzzle_Packages
     Restricted_Models
     Separation_Models
+    Korbmacher_Typed
     Audit_Checks
     Poggiolesi_Checks
     NonClassical
