@@ -44,7 +44,7 @@ ENTRIES = {
     "CL.PROP": "CL_PROP", "CL.QUANT": "CL_QUANT",
     "TS.TYPED": "TS_TYPED", "TS.FULL": "TS_FULL", "TS.ID": "TS_ID",
     # D10 (2026-11-28): Korbmacher 2018b entries, defined in isabelle/Principles.thy
-    "TS.T3": "TS_T3", "NEG.ALL": "NEG_ALL",
+    "TS.T3": "TS_T3", "NEG.ALL": "NEG_ALL", "TR.PART.A": "TR_PART_A",  # D11
     "ID.AC": "ID_AC", "ID.DN": "ID_DN",
     "CONJ.BIN": "CONJ_BIN", "CONJ.INF": "CONJ_INF", "CONJ.GRAIN": "CONJ_GRAIN",
     "DISJ.ONE": "DISJ_ONE", "DISJ.BOTH": "DISJ_BOTH", "DISJ.WEAK": "DISJ_WEAK",

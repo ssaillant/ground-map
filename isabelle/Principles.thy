@@ -138,6 +138,11 @@ definition TR_TYPED :: bool where
   "TR_TYPED \<longleftrightarrow> (\<forall>a v. tfree a \<and> fv a = {} \<and> T (den v a) \<longrightarrow> G {den v a} (tr (den v a)))"
 definition TR_PART :: bool where
   "TR_PART \<longleftrightarrow> (\<forall>p. T p \<longrightarrow> PG p (tr p))"
+text \<open>TR.PART.A (decision D11): the Aristotelian principle with the antecedent of the
+  sources - the truth of the truth ascription (fine2010 p. 101; Kr\"amer's (A); Korbmacher's
+  APT, korbmacher2018b p. 198).\<close>
+definition TR_PART_A :: bool where
+  "TR_PART_A \<longleftrightarrow> (\<forall>p. T (tr p) \<longrightarrow> PG p (tr p))"
 definition TR_FULL :: bool where
   "TR_FULL \<longleftrightarrow> (\<forall>p. T p \<longrightarrow> G {p} (tr p))"
 definition TR_NEG :: bool where

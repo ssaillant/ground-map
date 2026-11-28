@@ -452,4 +452,61 @@ proof -
   thus False using irr unfolding IRR_F_def PG_def by blast
 qed
 
+
+section \<open>The truth targets with the sources' Aristotelian principle (decision D11)\<close>
+
+text \<open>With TR.PART.A (antecedent T (tr p)) the three truth targets need TS.FULL: with it,
+  TR.PART.A and TR.PART coincide and the targets are refuted; without it they have the model
+  MK (MK_truth_targets_source_form, isabelle/Korbmacher_Typed.thy).\<close>
+lemma TR_PART_A_TS_FULL: "TS_FULL \<Longrightarrow> TR_PART_A \<longleftrightarrow> TR_PART"
+  unfolding TS_FULL_def TR_PART_A_def TR_PART_def by blast
+
+theorem something_true_trans_A:
+  assumes "W_TR" "BETA_ID" "CL_QUANT" "FACT" "EX_PART" "TR_PART_A" "TS_FULL" "TRANS_P" "IRR_F"
+  shows False
+  using something_true_trans_noTS[OF assms(1-5) _ assms(8,9)] assms(6,7) TR_PART_A_TS_FULL by blast
+
+theorem something_true_asym_A:
+  assumes "W_TR" "BETA_ID" "CL_QUANT" "FACT" "EX_PART" "TR_PART_A" "TS_FULL" "ASYM_P"
+  shows False
+  using something_true_asym_noTS[OF assms(1-5) _ assms(8)] assms(6,7) TR_PART_A_TS_FULL by blast
+
+theorem fine_universal_A:
+  assumes "W_TEM" "BETA_ID" "CL_PROP" "CL_QUANT" "FACT" "ALL_PART" "DISJ_PART" "TR_PART_A"
+    "TS_FULL" "TRANS_P" "IRR_F"
+  shows False
+  using fine_universal_noTS[OF assms(1-7) _ assms(10,11)] assms(8,9) TR_PART_A_TS_FULL by blast
+
+theorem fine_particular_props_A:
+  assumes "W_TEM" "BETA_ID" "CL_PROP" "CL_QUANT" "FACT" "EX_PART" "DISJ_PART" "TR_PART_A"
+    "TS_FULL" "TRANS_P" "IRR_F"
+  shows False
+  using fine_particular_props_noTS[OF assms(1-7) _ assms(10,11)] assms(8,9) TR_PART_A_TS_FULL by blast
+
+section \<open>Donaldson's puzzle of property grounding, transcribed (decision D11)\<close>
+
+text \<open>Donaldson (draft, appendix pp. 25-26) - with lambda-conversion grounding, the
+  universal argument closes without a truth predicate. Transcription: the sentence-position
+  universal argument with BETA.GROUND in place of BETA.ID. s = all f_em; its instance
+  app f_em s is fully grounded in disj s (neg s) (BETA.GROUND), which s helps ground
+  (DISJ.PART), and the instance helps ground s (ALL.PART). FACT makes every instance true.\<close>
+theorem donaldson_sp_W:
+  assumes "FACT" "W_EM" "BETA_GROUND" "CL_PROP" "CL_QUANT" "ALL_PART" "DISJ_PART" "TRANS_P" "IRR_F"
+  shows False
+proof -
+  define s where "s = allq f_em"
+  have em: "\<And>x. T (disj x (neg x))" using assms(4) unfolding CL_PROP_def by blast
+  have dn: "\<And>p. den (e0(0:=p)) (Disj (Var 0) (Neg (Var 0))) = disj p (neg p)" by simp
+  have gb: "\<And>p. G {disj p (neg p)} (app f_em p)"
+    using assms(3) em dn unfolding BETA_GROUND_def f_em_def by metis
+  have ti: "\<And>p. T (app f_em p)" using assms(1) gb unfolding FACT_def by blast
+  have ts: "T s" using assms(5) ti unfolding CL_QUANT_def s_def by blast
+  have a: "PG (app f_em s) s"
+    using assms(2,6) ti unfolding W_EM_def ALL_PART_def s_def by blast
+  have b: "PG (disj s (neg s)) (app f_em s)" using gb unfolding PG_def by blast
+  have c: "PG s (disj s (neg s))" using assms(7) ts unfolding DISJ_PART_def by blast
+  have "PG s s" using assms(8) a b c unfolding TRANS_P_def by blast
+  thus False using assms(9) unfolding IRR_F_def PG_def by blast
+qed
+
 end

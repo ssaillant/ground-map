@@ -501,3 +501,18 @@ AI-use disclosure. One entry per working session.
 - Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py;
   scripts/summarize.py; scripts/woods_report.py after the merge.
 - Human review: pending.
+
+## 2026-11-28 — Decision D11: TR.PART.A and P.DONALDSON.SP
+
+- Tool: Claude Code (cloud session), same thread. Model: to be filled in by the reviewer.
+- Prompt: the reviewer's reply accepting proposals 1 and 2 of the addendum ("I would add
+  target P, Donaldson, SP. Add the sources form of the Aristotelian principle as an entry,
+  yes.").
+- What the model did: added TR_PART_A to isabelle/Principles.thy; proved donaldson_sp_W,
+  TR_PART_A_TS_FULL and the *_A refutations (isabelle/Puzzle_Packages.thy); extended
+  MK_package with TR.PART.A and the faithfulness lemma; edited the registry (D11, entry
+  TR.PART.A, target P.DONALDSON.SP, source_form_variant on the truth targets, finding F24),
+  driver.py ENTRIES and the MK record.
+- Checks: full session build; scripts/check_no_sorry.sh; scripts/verify_models.py;
+  scripts/summarize.py.
+- Human review: pending.

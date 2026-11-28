@@ -147,6 +147,18 @@ decisions:
       - The three truth targets keep their ids; their packages lose TS.FULL and cite the new theorems. The old theorems with TS.FULL remain and still hold.
       - The consistency target lists ASYM.P, which Korbmacher does not state but which follows from his G1 and G2 (p. 205).
       - The novelty fields of the MT and MU records in results/isabelle_models.jsonl are restated to match F9 and F23; their certificates are unchanged.
+  - id: D11
+    date: 2026-11-28
+    decided_by: Said Saillant (reviewer), project thread ("I would add target P, Donaldson, SP. Add the sources form of the Aristotelian principle as an entry, yes.")
+    implemented_in: 0.8.0-draft
+    question: proposals 1 and 2 of the addendum to docs/korbmacher-2018b.md, after reading Krämer 2013, Donaldson (draft) and Litland 2015
+    decision: (1) add the target P.DONALDSON.SP, a propositional transcription of Donaldson's puzzle of property grounding; (2) add the Aristotelian principle with the sources' antecedent as an entry (TR.PART.A). Proposal 3, Skiles (ms.), is with the reviewer.
+    choices_made_in_applying_it:
+      - TR.PART.A is partial, like Fine's, Krämer's and Korbmacher's principles, and standalone in the TR family - it neither implies nor is implied by TR.PART; under TS.FULL the two are equivalent (TR_PART_A_TS_FULL).
+      - The three truth targets keep TR.PART; each gains a field source_form_variant recording the package with TR.PART.A (refuted with TS.FULL, theorems *_A; modelled without it, MK_truth_targets_source_form).
+      - TR.PART.A is added to P.KORBMACHER.2018B.TYPED, since Korbmacher's APU_T^1 has the antecedent Tr_1(x) (p. 207); MK satisfies it for every proposition, so the model and its record are extended rather than replaced.
+      - P.DONALDSON.SP uses BETA.GROUND as the registry's predication-grounding rule; the circle goes through the instance app f_em s rather than through a λ-abstract applied to an individual, which the signature lacks. FLAGGED as a reconstruction.
+      - TR.PART.A is added to driver.py ENTRIES (not LAMB); the search was not rerun.
 changelog:
   - version: 0.8.0-draft
     date: 2026-11-28
@@ -158,6 +170,7 @@ changelog:
       - Finding F9 restated - novelty and limits, after the comparison with Korbmacher's theory (finding F23). F11's literature note updated.
       - P.KORBMACHER.2015 gains the published source, korbmacher2018b Theorem 3 (p. 221).
       - Model record MK added to results/isabelle_models.jsonl; docs/results.md regenerated. Report docs/korbmacher-2018b.md.
+      - Decision D11 - new entry TR.PART.A (TR family, standalone; isabelle/Principles.thy) and target P.DONALDSON.SP (refuted, donaldson_sp_W; finding F24). The truth targets gain source_form_variant (theorems something_true_trans_A, something_true_asym_A, fine_universal_A, fine_particular_props_A; model MK). P.KORBMACHER.2018B.TYPED and the MK record gain TR.PART.A.
       - Merged onto 0.7.0-draft (PR #9) - puzzles.irr_w_tests gains packages_as_of (its packages are the 0.6.0-draft targets, with TS.FULL).
       - Sources supplied by the reviewer 2026-11-28 and read - kramer2013 (re-read; P.KRAMER checked against it), Donaldson's draft (appendix), litland2015. F9's NOVELTY text records them (Krämer fn. 6 names rejecting (A), after Skiles ms.; Litland sect. 6.3 considers typed Truth-grounding). F20 gains a CAVEAT - TS.FULL is redundant only because TR.PART has antecedent T p; with the sources' antecedent the truth targets are modelled without TS.FULL (MK_truth_targets_source_form, MK_TR_A). F11 records Litland's Kripkean models of strict full ground. litland2015 is a new source for TR.PART; P.LITLAND.INTERNALITY gains its reading of litland2015 (modal, out of the v1 signature).
   - version: 0.7.0-draft
@@ -1664,9 +1677,40 @@ families:
         readings:
           - point: antecedent
             chosen: T p, as in TR.FULL
-            alternatives: ['T (tr p), as in Fine and Krämer']
+            alternatives: ['T (tr p), as in Fine and Krämer - now the separate entry TR.PART.A (D11)']
             why: keeps TR independent of TS; under TS.FULL the two coincide. Implied by TR.FULL (TR_FULL_PART).
-            note_0_8_0: 'The choice matters once TS.FULL is dropped - with FACT, the T p antecedent entails truth introduction (TR_PART_TI), and the truth targets without TS.FULL are refuted with it but modelled with the sources'' antecedent (MK_truth_targets_source_form; finding F20). Litland''s Truth-grounding (litland2015 p. 488, Figure 1, "φ / φ ≺ T⌜φ⌝", partial strict ground) has the registry''s antecedent; Fine, Krämer and Korbmacher have the other. The sources'' form is defined as TR_PART_A in isabelle/Korbmacher_Typed.thy, not as a registry entry.'
+            note_0_8_0: 'The choice matters once TS.FULL is dropped - with FACT, the T p antecedent entails truth introduction (TR_PART_TI), and the truth targets without TS.FULL are refuted with it but modelled with the sources'' antecedent (MK_truth_targets_source_form; finding F20). Litland''s Truth-grounding (litland2015 p. 488, Figure 1, "φ / φ ≺ T⌜φ⌝", partial strict ground) has the registry''s antecedent; Fine, Krämer and Korbmacher have the other. The sources'' form is the entry TR.PART.A since D11.'
+      - id: TR.PART.A
+        rank: standalone
+        name: Propositional grounding (partial), with the sources' antecedent
+        added: 0.8.0-draft (D11)
+        statement: |
+          T (tr p) ⟶ PG p (tr p)
+        sources:
+          - work: fine2010
+            locator: p. 101, Propositional Grounding
+            check: published-page
+            quote: "T ( p), p = |A|/A ≺ T ( p)"
+            note: same source as TR.PART; the premise T(p) is the truth ascription (see the note there).
+          - work: kramer2013
+            locator: section on the Finean counterpart, (A)
+            check: manuscript
+            quote: "If <p> is true then p < <p> is true"
+            note: Krämer reaches the antecedent (F2) by Truth-Introduction (TI). His "<" is "≺", partial ground (fn. 4).
+          - work: korbmacher2018b
+            locator: p. 198 (APT, Lemma 1) and p. 207 (APU_T^γ)
+            check: published-page
+            quote: "∀x(Tr(x) → x ◁ Tr(ẋ))"
+            note: APT as stated for Lemma 1 (p. 198), read from the page image; APU_T^γ (p. 207) is the typed version, with Tr_γ.
+        readings:
+          - point: relation to TR.PART
+            chosen: standalone
+            alternatives: ['replace TR.PART by TR.PART.A in the targets']
+            why: 'TR.PART (antecedent T p) with FACT entails truth introduction (TR_PART_TI); TR.PART.A does not. Under TS.FULL the two coincide (TR_PART_A_TS_FULL). The truth targets keep TR.PART and record the TR.PART.A version as source_form_variant (D11), so the earlier results stay comparable.'
+          - point: full versus partial
+            chosen: partial
+            alternatives: ['a full-ground version, the analogue of TR.FULL']
+            why: all three sources state partial ground. MK satisfies the full version as well (MK_TR_A).
 
   # 14 -----------------------------------------------------------------------
   - id: EMPTY
@@ -2095,6 +2139,7 @@ puzzles:
     expected: refuted
     theorem: something_true_trans_noTS, something_true_asym_noTS; with TS.FULL, something_true_trans_W, something_true_asym_W; with C1, something_true_trans_package and something_true_asym_package; the circle itself is something_true_circle (isabelle/Puzzle_Packages.thy)
     consistent_variant: TR.TYPED in place of TR.PART - model MU, finding F9
+    source_form_variant: TR.PART.A in place of TR.PART - refuted with TS.FULL added (something_true_trans_A, something_true_asym_A), modelled without it (MK, MK_truth_targets_source_form); D11, finding F20
     status: refuted (checked)
     note: >-
       CORRECTED 0.3.0 (audit) - the 0.2.x target listed the asymmetry package
@@ -2124,6 +2169,7 @@ puzzles:
     expected: refuted
     theorem: fine_universal_noTS; with TS.FULL, fine_universal_W; with C1, fine_universal_package, and fine_universal_ALL_INST and fine_universal_ALL_TOT for the packages with a full-ground universal entry (isabelle/Puzzle_Packages.thy)
     consistent_variant: TR.TYPED in place of TR.PART - models MT and MU, finding F9
+    source_form_variant: TR.PART.A in place of TR.PART - refuted with TS.FULL added (fine_universal_A), modelled without it (MK, MK_truth_targets_source_form); D11, finding F20
     status: refuted (checked)
     derivation: |
       s = all f_tem is true; d = disj (tr s) (neg (tr s)) is an instance, so PG d s
@@ -2156,6 +2202,7 @@ puzzles:
     expected: refuted
     theorem: fine_particular_props_noTS; with TS.FULL, fine_particular_props_W; with C1, fine_particular_props_package (isabelle/Puzzle_Packages.thy)
     consistent_variant: TR.TYPED in place of TR.PART - model MU, finding F9
+    source_form_variant: TR.PART.A in place of TR.PART - refuted with TS.FULL added (fine_particular_props_A), modelled without it (MK, MK_truth_targets_source_form); D11, finding F20
     status: refuted (checked)
     note: >-
       FLAGGED 0.3.0 (audit) - a reconstruction. Fine gives no steps for this
@@ -2246,7 +2293,7 @@ puzzles:
     witness: f_tr
   - id: P.KORBMACHER.2018B.TYPED
     source: korbmacher2018b pp. 204-207 (Defs. 1-2 and T3) and p. 223 (two levels suffice); a transcription of PGA_2 into the registry's one truth operator
-    package: [W.TR, W.TEM, BETA.ID, CL.PROP, CL.QUANT, TS.TYPED, TS.T3, TR.TYPED, EX.FULL, ALL.INST, DISJ.ONE, NEG.DN, CONJ.BIN, TRANS.P, IRR.F, ASYM.P]
+    package: [W.TR, W.TEM, BETA.ID, CL.PROP, CL.QUANT, TS.TYPED, TS.T3, TR.TYPED, TR.PART.A, EX.FULL, ALL.INST, DISJ.ONE, NEG.DN, CONJ.BIN, TRANS.P, IRR.F, ASYM.P]
     expected: modelled; Korbmacher proves the consistency of PGA_<ε0 (Cor. 3, p. 213), but his theory is first-order, with partial ground only, so his result does not cover this package
     theorem: MK_package, with MK_N3 and MK_N4s (isabelle/Korbmacher_Typed.thy)
     status: modelled (checked, infinite-model at N5)
@@ -2261,7 +2308,33 @@ puzzles:
       γ ≥ 2), which needs an indexed tr, and the downward axioms. In MK "something is true"
       is not grounded in its own truth ascription, which is untrue (MK_blocks), as
       Korbmacher says of his theory (p. 224). TS.T3 contradicts TS.FULL (TS_T3_not_FULL),
-      so this package and F9's packages cannot be combined.
+      so this package and F9's packages cannot be combined. CHANGED (D11) - TR.PART.A
+      added, since APU_T^1 has the antecedent Tr_1(x) (p. 207); MK satisfies it for every
+      proposition (MK_TR_A).
+  - id: P.DONALDSON.SP
+    source: donaldson_arith appendix pp. 25-26 (draft pagination), the "puzzle of property grounding"; propositional transcription
+    package: [W.EM, BETA.GROUND, CL.PROP, CL.QUANT, ALL.PART, DISJ.PART, TRANS.P, IRR.F]
+    expected: refuted
+    theorem: donaldson_sp_W (isabelle/Puzzle_Packages.thy)
+    status: refuted (checked)
+    derivation: |
+      s = all f_em. Every instance app f_em b is fully grounded in disj b (neg b), which is
+      true by CL.PROP (BETA.GROUND), so every instance is true (FACT) and s is true
+      (CL.QUANT). PG (app f_em s) s by ALL.PART; PG (disj s (neg s)) (app f_em s) by
+      BETA.GROUND; PG s (disj s (neg s)) by DISJ.PART. TRANS.P gives PG s s, against IRR.F.
+    note: >-
+      Added 0.8.0 (D11, finding F24). FLAGGED - a reconstruction. Donaldson's case is
+      second-order - the fact ⟨λx : ∀X(Xx ∨ ¬Xx)⟩a is grounded in ∀X(Xa ∨ ¬Xa) by his λ
+      rule ("If ⟨λx: φ(x)⟩t, then [⟨λx : φ(x)⟩t]←[φ(t)]", p. 25), which is grounded in its
+      instance ⟨λx : ∀X (Xx ∨ ¬Xx)⟩a ∨ ¬⟨λx : ∀X (Xx ∨ ¬Xx)⟩a, which is grounded in
+      ⟨λx : ∀X (Xx ∨ ¬Xx)⟩a (p. 26). The registry has no quantification over properties of
+      individuals, so the λ step is placed at the instance of the propositional
+      quantifier. What carries over - with predication grounding (BETA.GROUND) the
+      universal argument closes without a truth predicate, so typing TR (F9) is no
+      escape, and the package differs from P.FINE.UNIVERSAL.SP only in BETA.GROUND for
+      BETA.ID (the two exclude each other, BETA_excl). Donaldson's own response, levels of
+      properties (pp. 26-27), corresponds to restricting comprehension (no W.EM).
+    witness: f_em
   irr_w_tests:
     # Requested by the reviewer 2026-11-28. Each package is a registry target with
     # IRR.W in place of IRR.F, or Woods's own case. `status` follows the three
@@ -3285,6 +3358,30 @@ findings:
       Recorded in F9's COMPARISON and NOVELTY text. The registry's TS chain had no entry for
       Korbmacher's position; TS.T3 supplies it, outside the chain. Report -
       docs/korbmacher-2018b.md.
+  - id: F24
+    date: 2026-11-28
+    status: checked; pending review (0.8.0-draft, D11)
+    claim: >-
+      (a) Donaldson's puzzle of property grounding, transcribed, is refuted -
+      [W.EM, BETA.GROUND, CL.PROP, CL.QUANT, ALL.PART, DISJ.PART, TRANS.P, IRR.F] (target
+      P.DONALDSON.SP). (b) With the Aristotelian principle in the sources' form (TR.PART.A),
+      each of the three truth targets is refuted with TS.FULL and has a model without it.
+    proof: >-
+      isabelle/Puzzle_Packages.thy - donaldson_sp_W; TR_PART_A_TS_FULL, something_true_trans_A,
+      something_true_asym_A, fine_universal_A, fine_particular_props_A.
+      isabelle/Korbmacher_Typed.thy - MK_TR_A, MK_truth_targets_source_form, with the
+      faithfulness lemma K_faithful_korb for TR_PART_A.
+    consequence: >-
+      (a) The sentence-position universal argument survives the move from BETA.ID to
+      BETA.GROUND - where predication grounds, the λ step replaces identity in the circle.
+      F9's typing of TR does not touch it, as it does not touch P.FINE.UNIVERSAL.SP. (b)
+      What the truth targets need of truth is either the registry's TR.PART, which with
+      FACT supplies truth introduction, or the sources' TR.PART.A together with truth
+      introduction (TS.FULL); this turns the F20 caveat into a result about registry
+      packages. LIMITS - (a) is a reconstruction (see the target's note); (b) the models
+      without TS.FULL are one model, MK, in which truth ascriptions to propositions that
+      are not truth-free are untrue. NOVELTY - (a) not claimed, it is Donaldson's
+      argument in transcription; (b) not claimed, an observation about the encoding.
 
 # ---------------------------------------------------------------------------
 # Bibliography and access status
@@ -3318,7 +3415,7 @@ bibliography:
   donaldson_arith:
     cite: "Donaldson, T. The (Metaphysical) Foundations of Arithmetic? (draft; published version not checked)"
     read: 'draft supplied by the reviewer 2026-11-28 (sources/Donaldson-Metaphysical-Foundations-of-Arithmetic-draft.pdf, 36 pp., draft pagination); appendix (pp. 25-27) and endnotes xl-xliv (p. 36) read; main text not read'
-    relevance: 'the "puzzle of property grounding" (p. 26), a second-order analogue of Fine''s universal argument with λ-conversion grounding in place of truth-grounding, and its neo-Russellian solution by levels of properties (pp. 26-27); F9 novelty. Not encoded - the signature has no quantification over propositional functions; see the proposal in docs/korbmacher-2018b.md, addendum'
+    relevance: 'the "puzzle of property grounding" (p. 26), a second-order analogue of Fine''s universal argument with λ-conversion grounding in place of truth-grounding, and its neo-Russellian solution by levels of properties (pp. 26-27); F9 novelty. Transcribed as target P.DONALDSON.SP (D11; the signature has no quantification over properties of individuals)'
     needed_from_reviewer: 'published version (venue and pages), only if the appendix is cited'
   litland2023:
     cite: "Litland, J. E. (2023). Ground first: against the proof-theoretic definition of ground. Synthese 201: 28. doi:10.1007/s11229-022-04028-8"

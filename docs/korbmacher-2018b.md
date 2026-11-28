@@ -172,7 +172,9 @@ One locator was corrected (ASYM.P: "paragraph after (F3)/(F4)", not "introductio
   - It also defines ground by efficient premises rather than by deleting inferences.
   - INFERENCE: neither construction is a special case of the other. F11's literature note now says this.
 
-### A5. Proposals (not made; for decision)
+### A5. Proposals
+
+[D11] The reviewer accepted 1 and 2 the same day; both are implemented in registry 0.8.0-draft (entry TR.PART.A, target P.DONALDSON.SP, finding F24). For 3, the reviewer will look for Skiles's manuscript.
 
 1. **Target P.DONALDSON.SP (cheap).** This is a propositional transcription of Donaldson's puzzle: the sentence-position universal argument with BETA.GROUND in place of BETA.ID, i.e. [W.EM, BETA.GROUND, CL.PROP, CL.QUANT, ALL.PART, DISJ.PART, TRANS.P, IRR.F]. Expected refuted, by this derivation:
    - s = all f_em.

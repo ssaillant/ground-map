@@ -70,7 +70,8 @@ text \<open>The Aristotelian principle with the antecedent of the sources. Fine'
   Grounding (fine2010 p. 101) and Kr\"amer's (A) ("If <p> is true then p \<prec> <p> is true",
   kramer2013) and Korbmacher's APT (korbmacher2018b p. 198) all have the truth of the truth
   ascription as antecedent. The registry's TR.PART and TR.FULL have T p instead (reading
-  "antecedent" on TR.PART). Defined here for finding F20; not a registry entry.\<close>
+  "antecedent" on TR.PART). Restated in the locale; the registry entry is TR.PART.A
+  (decision D11, isabelle/Principles.thy), linked by K_faithful_korb.\<close>
 definition TR_PART_A :: bool where
   "TR_PART_A \<longleftrightarrow> (\<forall>p. T (tr p) \<longrightarrow> PG p (tr p))"
 definition TR_FULL_A :: bool where
@@ -98,8 +99,9 @@ end
 
 lemma K_faithful_korb:
   "K.NEG_DN_K = NEG_DN" "K.CONJ_BIN_K = CONJ_BIN" "K.TS_T3_K = TS_T3"
+  "K.TR_PART_A = TR_PART_A"
   by (simp_all add: K_den K.NEG_DN_K_def NEG_DN_def K.CONJ_BIN_K_def CONJ_BIN_def
-        K.TS_T3_K_def TS_T3_def)
+        K.TS_T3_K_def TS_T3_def K.TR_PART_A_def TR_PART_A_def K.PG_def PG_def)
 
 section \<open>Model K: two tiers, typed truth ascriptions\<close>
 
@@ -469,12 +471,12 @@ theorem MK_truth_targets_source_form:
 
 theorem MK_package:
   "MK.FACT \<and> MK.LAM_CORE \<and> MK.W_TR \<and> MK.W_TEM \<and> MK.BETA_ID \<and> MK.CL_PROP' \<and> MK.CL_QUANT'
-   \<and> MK.TS_TYPED \<and> MK.TS_T3_K \<and> MK.TR_TYPED \<and> MK.EX_FULL \<and> MK.ALL_INST
+   \<and> MK.TS_TYPED \<and> MK.TS_T3_K \<and> MK.TR_TYPED \<and> MK.TR_PART_A \<and> MK.EX_FULL \<and> MK.ALL_INST
    \<and> MK.DISJ_ONE \<and> MK.NEG_DN_K \<and> MK.CONJ_BIN_K
    \<and> MK.TRANS_P \<and> MK.IRR_F \<and> MK.ASYM_P \<and> MK.N1 \<and> MK.N2 \<and> MK.N4_pairs \<and> MK.N5_chain
    \<and> \<not> MK.TS_FULL' \<and> \<not> MK.TR_PART \<and> \<not> MK.W_ID \<and> \<not> MK.W_EM"
-  using MK_core MK_W MK_BETA_ID MK_classical MK_truth MK_quant MK_conn MK_order MK_N4s
-    MK_fails
+  using MK_core MK_W MK_BETA_ID MK_classical MK_truth MK_TR_A(2) MK_quant MK_conn MK_order
+    MK_N4s MK_fails
   by blast
 
 end
