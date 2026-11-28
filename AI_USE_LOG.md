@@ -528,3 +528,14 @@ AI-use disclosure. One entry per working session.
   bibliography only as a summary); added addendum A6 to docs/korbmacher-2018b.md.
 - Checks: registry parses; scripts/verify_models.py; scripts/summarize.py. No Isabelle change.
 - Human review: pending.
+
+## 2026-11-28 — SEP "Metaphysical Explanation" read in full
+
+- Tool: Claude Code (cloud session), same thread. Model: to be filled in by the reviewer.
+- Prompt: the reviewer asked for the rest of the SEP article to be read.
+- What the model did: had the fetch subagent read the remainder of the page (end of sect. 7.2,
+  bibliography, Other Internet Resources, Related Entries) verbatim; updated the sep_metaexpl
+  bibliography entry and addendum A6 of docs/korbmacher-2018b.md. No discussion of the puzzles
+  of ground was found; five bibliography titles are recorded as leads, not read.
+- Checks: registry parses; scripts/verify_models.py; scripts/summarize.py. No Isabelle change.
+- Human review: pending.
