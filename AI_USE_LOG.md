@@ -570,3 +570,15 @@ AI-use disclosure. One entry per working session.
   scripts/verify_models.py (497 of 498 models re-verified; one model uses an evaluator
   feature not yet implemented); CI isabelle check on the pull request.
 - Human review: pending.
+
+## 2026-11-28 — P.LITLAND.INTERNALITY checked against Litland 2015 and 2023
+
+- Tool: Claude Code (cloud session), same thread. Model: to be filled in by the reviewer.
+- Prompt: the coordinator asked for the entry's formulation, pages and status to be checked
+  against the primary texts and any fix folded into PR #10.
+- What the model did: read litland2023 sect. 2 and 4.4 and litland2015 sect. 3.1 and Figure 1,
+  with page images for the ground symbols; rewrote the entry's source, claim_in_source and
+  registry_mapping (correcting IRR.P and TR.FULL); added litland2023 p. 12 to F9's NOVELTY;
+  added addendum A8 of docs/korbmacher-2018b.md. Status unchanged.
+- Checks: registry parses; scripts/verify_models.py; scripts/summarize.py. No Isabelle change.
+- Human review: pending.
