@@ -11,11 +11,12 @@
 # tests of Woods's substantive irreflexivity against the Krämer and Fine
 # targets (puzzles.irr_w_tests; findings F14-F19) and a proposed constraint,
 # not adopted (proposed.GEN.RULES). Version 0.8.0-draft integrates Korbmacher
-# 2018b (decision D10; findings F20-F23). Reviewer
+# 2018b (decision D10; findings F20-F23). Version 0.9.0-draft records the
+# reading of Wilhelm 2021 (no decision, no finding; proposed.WP). Reviewer
 # decisions are recorded in the section `decisions`; choices made while
 # applying a decision are listed under `choices_made_in_applying_it`.
 
-registry_version: 0.8.0-draft
+registry_version: 0.9.0-draft
 date: 2026-11-28
 status: draft-for-review
 decisions:
@@ -160,6 +161,14 @@ decisions:
       - P.DONALDSON.SP uses BETA.GROUND as the registry's predication-grounding rule; the circle goes through the instance app f_em s rather than through a λ-abstract applied to an individual, which the signature lacks. FLAGGED as a reconstruction.
       - TR.PART.A is added to driver.py ENTRIES (not LAMB); the search was not rerun.
 changelog:
+  - version: 0.9.0-draft
+    date: 2026-11-28
+    changes:
+      - wilhelm2021 read in full (OUP advance article, pp. 1-2, supplied by the reviewer 2026-11-28; issue pagination 81(1) 80-81 not checked against it). No decision, no finding, no lattice entry changed.
+      - P.WILHELM.2021 - source is now Wilhelm's own text; claim_in_source quotes his two theorems separately (Theorem 1 - (1), (4)-(7); Theorem 2 - (2), (3), (5), (6), (8), proof only "analogous"). The earlier claim "(1)-(8) are inconsistent" was a paraphrase.
+      - isabelle/Poggiolesi_Checks.thy - new theorems wilhelm_thm1 (Wilhelm's own route) and wilhelm_thm2 (Theorem 2, first checked here), both with Leibniz's law only in the grounded place (RESP_R), which is weaker than RESP_Q used by wilhelm_inconsistency.
+      - proposed.WP - W.1-8 gains Wilhelm's p. 1 as source (poggiolesi2022 p. 2 restates (1)-(8) with the same content); new FLAGGED readings - what ≈ expresses (Wilhelm, identity of propositions; Poggiolesi, identity from a grounding perspective, not nested) left to the reviewer, and the form of Leibniz's law the derivations need.
+      - isabelle/Poggiolesi_Checks.thy - lemma NQ_not_neg_congruence (the normal-form model's identity is not a congruence for single negation), cited by the reading of ≈.
   - version: 0.8.0-draft
     date: 2026-11-28
     changes:
@@ -2555,9 +2564,10 @@ puzzles:
       source: elgin2026 (a = b partially grounds itself)
       status: not read in this thread
     - id: P.WILHELM.2021
-      source: 'wilhelm2021 (Analysis 81(1): 80-81), as reconstructed in poggiolesi2022 p. 2 (Wilhelm''s paper not read)'
-      claim_in_source: 'conditions (1)-(8) on immediate partial ground and ground-theoretic identity are inconsistent; one derivation uses (1), (4), (5), (6), (7)'
-      checked: 'isabelle/Poggiolesi_Checks.thy: wilhelm_inconsistency (formula level), wilhelm_prp (IPG with identity of propositions)'
+      source: 'wilhelm2021 p. 2 (advance-article pagination, pp. 1-2; Analysis 81(1): 80-81); conditions p. 1'
+      claim_in_source: '"Theorem 1. Conditions (1) and (4)–(7) are jointly inconsistent." and "Theorem 2. Conditions (2), (3), (5), (6) and (8) are jointly inconsistent. The proof of this theorem is analogous to the proof of Theorem 1." (p. 2)'
+      checked: 'isabelle/Poggiolesi_Checks.thy: wilhelm_thm1 (Theorem 1 by Wilhelm''s route), wilhelm_thm2 (Theorem 2), both with Leibniz in the grounded place only; wilhelm_inconsistency (Theorem 1 by Poggiolesi''s p. 2 route, Leibniz in both places); wilhelm_prp (Theorem 1 for IPG with identity of propositions)'
+      note: 'Wilhelm''s route - p grounds p ∧ p by (1), so p grounds ¬(¬p ∨ ¬p) by (7), so p ≈ ¬¬p by (4); with (5), p grounds p. Poggiolesi''s (p. 2) - ¬¬p grounds ¬(¬p ∨ ¬p) by (4), so ¬¬p grounds p ∧ p by (7), so ¬¬p ≈ p by (1). Both use reflexivity and symmetry of ≈ and substitution only into the grounded place. That symmetry is needed is not shown (Nitpick cannot decide it here). Wilhelm cites (1)-(5) to fine2012a pp. 58-63, Correia 2017 (JPL 46: 507-38, not in the bibliography) pp. 511-12 and kramer2016 (Synthese 195, 2018) pp. 801-2, not checked; his fn. 1 cites Fritz MS "Ground and grain" (fritz2022; IMM.FRITZ7).'
       status: checked; pending review (proposed 0.6.0-draft)
     - id: P.POGGIOLESI.2022
       source: poggiolesi2022 pp. 3-5 (theorem p. 4, interpretation p. 5)
@@ -2726,7 +2736,7 @@ proposed:
       name: Wilhelm's identity conditions and Poggiolesi's repair (formula level)
       note: >-
         Not stated over prp. These are conditions on formulas with immediate partial ground and
-        ground-theoretic identity as relations (isabelle/Poggiolesi_Checks.thy, deep embedding);
+        identity as relations (what identity expresses is a FLAGGED reading below) (isabelle/Poggiolesi_Checks.thy, deep embedding);
         a prp version of Wilhelm's derivation is wilhelm_prp. Proposed as a puzzle target and a
         checked consistency claim (puzzles.candidates P.WILHELM.2021, P.POGGIOLESI.2022), not as
         lattice families, because the identity relation would need an encoding decision (D6).
@@ -2739,6 +2749,20 @@ proposed:
               check: published-page
               quote: "(1) A ⊲ (B ∧ C) if, and only if, (B ∧ C) and A ≈ B or A ≈ C,"
               note: pages are the article's own (1-6, online version); LLP 32(1) 2023 pp. 33-38 per the journal page, not checked against the issue PDF.
+            - work: wilhelm2021
+              locator: p. 1
+              check: published-page
+              quote: "(1) z → (x ∧ y) if and only if (x ∧ y) and z ≈ x or z ≈ y,"
+              note: 'advance-article pagination (pp. 1-2). The text layer drops the two relation symbols; they are restored from Wilhelm''s glosses on p. 1 ("''x ≈ y'' says that x and y are the same proposition"; "''x → y'' says that x immediately partially grounds y"). Poggiolesi''s (1)-(8) on her p. 2 have the same content as Wilhelm''s (1)-(8), checked condition by condition.'
+          readings:
+            - point: what ≈ expresses
+              chosen: 'none - FLAGGED, the reviewer''s choice. The formula-level checks take ≈ as an arbitrary relation Q (reflexive, symmetric, respected by ground) and so hold on either reading; wilhelm_prp takes it as = on prp, which is Wilhelm''s reading.'
+              alternatives: ['identity of propositions - "intuitively, ''x ≈ y'' says that x and y are the same proposition" (wilhelm2021 p. 1); his language L has ¬, ∧, ∨ and states no restriction on nesting ≈ or →', '"ground-propositional identity" - "intuitively, A ≈ B says that A and B are the same proposition from a grounding perspective" - with ⊲ and ≈ not "in the scope of themselves or each other" (poggiolesi2022 pp. 1-2)']
+              why: 'The readings differ in what substitution ≈ licenses. On Wilhelm''s, identical propositions have identical negations (A ≈ B gives ¬A ≈ ¬B). Poggiolesi restricts Leibniz''s law to the (¬)²ⁿ/star reformulation (p. 4) and bars nesting, and the normal-form model that certifies her theorem identifies ¬(p ∧ q) with ¬p ∨ ¬q but not ¬¬(p ∧ q) with ¬(¬p ∨ ¬q) (NQ_not_neg_congruence). So poggiolesi_conditions_consistent establishes her theorem on her reading only. Whether (1), (2''), (3), (4''), (5), (6), (7''), (8'') remain consistent when ≈ is also a congruence for single negation (Wilhelm''s reading) is OPEN. INFERENCE - only on her reading does the repair answer Wilhelm by changing what ≈ expresses; neither text says so. F10 is unaffected by the choice (it holds for every E containing ≅).'
+            - point: Leibniz's law
+              chosen: substitution into the grounded place (RESP_R), with reflexivity and symmetry
+              alternatives: ['substitution into both places (RESP_Q, used by wilhelm_inconsistency)', 'full Leibniz over L, which yields symmetry from reflexivity']
+              why: 'Wilhelm (p. 1) - "conforms to a version of Leibniz''s law", not stated further; both derivations substitute only into the grounded place (wilhelm_thm1, wilhelm_thm2).'
         - id: P.2'4'7'8'
           statement: "(2'), (4'), (7'), (8') with the star operation, poggiolesi2022 p. 3 (P2, P4, P7, P8)"
           sources:
@@ -3550,7 +3574,7 @@ bibliography:
     relevance: 'two accounts of propositional identity escaping Wilhelm; predates and does not discuss poggiolesi2022'
   wilhelm2021:
     cite: "Wilhelm, I. Grounding and propositional identity. Analysis 81(1): 80-81 (2021). doi:10.1093/analys/anaa024"
-    read: 'not received; known through poggiolesi2022 p. 2 and litland2022'
+    read: 'OUP advance article (Analysis 0(0) 2020, pp. 1-2) supplied by the reviewer 2026-11-28, read in full; issue pagination 81(1) 80-81 not checked against it'
   schindler2014:
     cite: "Schindler, T. Axioms for grounded truth. Review of Symbolic Logic 7(1): 73-83 (2014). doi:10.1017/S1755020313000282"
     read: 'open copy (epub.ub.uni-muenchen.de/59141) read via web fetch 2026-11-27'
