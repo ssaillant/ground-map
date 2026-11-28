@@ -24,3 +24,4 @@ session Ground_Map_Checks = HOL +
     Kripke_Model
     Woods_Models
     Rule_Generated
+    Korbmacher_Lemma3

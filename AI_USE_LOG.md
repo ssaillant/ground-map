@@ -598,4 +598,16 @@ AI-use disclosure. One entry per working session.
   (what ≈ expresses, left open; the form of Leibniz's law).
 - Checks: session Ground_Map_Checks builds in Isabelle2026; scripts/check_no_sorry.sh;
   docs/results.md regenerated (version line only).
+
+## 2026-11-28 — Finding F25: inconsistency among Korbmacher 2018b's printed results
+
+- Tool: Claude Code (cloud session), same thread. Model: to be filled in by the reviewer.
+- Prompt: the reviewer asked for more on item 5 (Finding C) and chose "Finding plus Isabelle
+  check" on the decision card.
+- What the model did: re-read Lemma 3, T1, T3, G3a, APD_F, RP11-RP13, fn. 24 and the standard
+  model (pp. 203-214) in the PDF; wrote isabelle/Korbmacher_Lemma3.thy (two inconsistency
+  lemmas over an abstract code type, two toy repair models); added finding F25 and registry
+  0.9.1-draft (renumbered from 0.8.1 after PR #12 merged); updated the TS.TYPED caveat and sect. 4 of docs/korbmacher-2018b.md.
+- Checks: isabelle build (Ground_Map_Checks) passes; scripts/check_no_sorry.sh; registry
+  parses; scripts/verify_models.py; scripts/summarize.py.
 - Human review: pending.

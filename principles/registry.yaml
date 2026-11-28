@@ -12,11 +12,12 @@
 # targets (puzzles.irr_w_tests; findings F14-F19) and a proposed constraint,
 # not adopted (proposed.GEN.RULES). Version 0.8.0-draft integrates Korbmacher
 # 2018b (decision D10; findings F20-F23). Version 0.9.0-draft records the
-# reading of Wilhelm 2021 (no decision, no finding; proposed.WP). Reviewer
+# reading of Wilhelm 2021 (no decision, no finding; proposed.WP). Version 0.9.1-draft records an
+# inconsistency among Korbmacher 2018b's printed results (finding F25). Reviewer
 # decisions are recorded in the section `decisions`; choices made while
 # applying a decision are listed under `choices_made_in_applying_it`.
 
-registry_version: 0.9.0-draft
+registry_version: 0.9.1-draft
 date: 2026-11-28
 status: draft-for-review
 decisions:
@@ -161,6 +162,10 @@ decisions:
       - P.DONALDSON.SP uses BETA.GROUND as the registry's predication-grounding rule; the circle goes through the instance app f_em s rather than through a λ-abstract applied to an individual, which the signature lacks. FLAGGED as a reconstruction.
       - TR.PART.A is added to driver.py ENTRIES (not LAMB); the search was not rerun.
 changelog:
+  - version: 0.9.1-draft
+    date: 2026-11-28
+    changes:
+      - No entry, statement, target or decision changed. Requested by the reviewer 2026-11-28 (item 5 of docs/korbmacher-2018b.md, option "Finding plus Isabelle check") - record Finding C, an inconsistency among printed results of korbmacher2018b, as finding F25 with a schematic Isabelle check (new theory isabelle/Korbmacher_Lemma3.thy).
   - version: 0.9.0-draft
     date: 2026-11-28
     changes:
@@ -937,8 +942,8 @@ families:
               the lemma is Tr_1's T-scheme for arithmetic (truth-free) sentences, which is
               this entry. CAVEAT - for γ ≥ 2 the lemma as printed covers sentences in
               which a truth predicate occurs negatively, and so it conflicts with his
-              axioms APD_F and RP11 (report docs/korbmacher-2018b.md sect. 4, by hand,
-              not checked; deferred by D10, item 5). The case cited here does not depend
+              axioms APD_F and RP11 (finding F25, 0.9.1; checked at the level of the
+              instances in isabelle/Korbmacher_Lemma3.thy). The case cited here does not depend
               on that. Until 0.7 this source had no quotation (audit 0.3.0).
         readings:
           - point: which formulas the schema covers (D5)
@@ -3408,6 +3413,58 @@ findings:
       without TS.FULL are one model, MK, in which truth ascriptions to propositions that
       are not truth-free are untrue. NOVELTY - (a) not claimed, it is Donaldson's
       argument in transcription; (b) not claimed, an observation about the encoding.
+  - id: F25
+    date: 2026-11-28
+    status: checked (instance level); the reading of the page is by hand; pending review (0.9.1-draft)
+    claim: >-
+      Four printed results of korbmacher2018b are jointly inconsistent at level 2 (PGA_2) - Lemma 3
+      (p. 210, the typed T-scheme 'for all sentences φ ∈ L<γ', 0 < γ ≤ β < α), T3 (p. 204,
+      '∀x(Trβ(x) → Sent<β(x))') with T1 (p. 204), APD_F (p. 207, '∀x(Trβ(¬Trγ(ẋ)) → ¬x ◁
+      ¬Trγ(ẋ))', γ < β ≤ α) and G3a (p. 203, '∀x∀y(x ◁ y → (Sent<β(x) → Trβ(x)))'). With c the
+      code of Tr_1(⌜0=0⌝) - Lemma 3 at φ(x) = ¬Tr_1(x), β = γ = 2, and T3^1 give Tr_2(⌜¬Tr_1(c)⌝);
+      APD_F^{2,1} gives ¬Tr_1(⌜0=0⌝) ◁ ¬Tr_1(c); G3a^2 gives Tr_2(⌜¬Tr_1(⌜0=0⌝)⌝); Lemma 3 gives
+      ¬Tr_1(⌜0=0⌝), against T1^1. Without ground, Lemma 3, T3 and RP11 (p. 208, '∀x(Trβ(¬Trγ ẋ) ↔
+      Trγ(¬x))') are already inconsistent at c. Each of two repairs restores consistency of the
+      instances used - dropping Lemma 3 (the positive reading), or restricting APD_F and RP11 to
+      Sent<γ(x) (the classical reading). SAFE FORM - either PGA_2 as printed is inconsistent, or
+      Lemma 3 is not a theorem of it; given Cor. 3 (p. 213), the second. Rechecked on the page images
+      2026-11-28 - Lemma 3's statement (p. 210), the ranges 0 < β < α of Def. 1 (p. 205) with PG_α
+      = PG_<α+1 (p. 205), so G3a^2, T1^1 and T3^1 are axioms of PGA_2, and γ < β ≤ α for APD_F
+      (Def. 2, p. 207). The Lemma 3 instances used are closed sentences (φ = ¬Tr_1(c) and
+      φ = ¬Tr_1(⌜0=0⌝)), so no reading of its free variables is needed. INFERENCE - the gap is the
+      case ¬Tr_γ(t) of the induction behind Lemma 3, which needs Tr_γ(¬t) ↔ ¬Tr_γ(t) and so holds
+      only for t in L_<γ. No published correction found (one web search, 2026-11-28; not
+      conclusive).
+    proof: >-
+      isabelle/Korbmacher_Lemma3.thy - korbmacher_lemma3_APDF and korbmacher_lemma3_RP11 (the
+      instances as premises over an abstract type of codes, with the facts about Sent that PA
+      proves as premises; conclusion False); repairA_consistent and repairA_lemma3_fails (a toy
+      code language with a positive Tr_2 satisfying the axiom instances and refuting the Lemma 3
+      instance); repairB_consistent and repairB_unrestricted_APDF_fails (a classical Tr_2
+      satisfying Lemma 3 and the restricted APD_F and RP11, and refuting the unrestricted APD_F
+      instance).
+    reading: >-
+      The page images and text were re-read 2026-11-28 (sources/Korbmacher-2018b-Axiomatic-theories-
+      partial-ground-II-JPL.pdf; journal page = PDF page + 191). The Isabelle check covers only the
+      logic from the instances; that they are the right instances of the printed schemata (ranges
+      of β and γ, membership of ¬Tr_1(x) in L_<2, c not in L_<1) is a reading of the page, by hand.
+      Not a formalization of PGA.
+    consequence: >-
+      WHICH RESULT IS AT FAULT (judgment; the text points both ways). For the axioms - the theory is
+      named 'positive ramified truth' (Def. 3, p. 208), and RP11 and APD_F are its negative clauses;
+      then Lemma 3 must be restricted (to γ = 1, or to sentences in which truth predicates occur
+      positively), and the standard model of p. 214, which 'models Tarski's hierarchy of truths', is
+      not a model of the printed axioms, so Thm. 2 fails as stated. For Lemma 3 - fn. 24 (p. 208)
+      says the schematic PRT<α 'is equivalent to the (schematic) theory RT<α of ramified truth',
+      which is classical, and RP12 and RP13 carry a Sent<γ(x) restriction that RP11 lacks; then RP11
+      and APD_F need that restriction or a disjunct '¬Sent<γ(x) ∨ …' as in KF. Slight lean to the
+      second. Cor. 3 (consistency, p. 213) plausibly survives on either reading (INFERENCE, not
+      checked). REGISTRY - no result changes. TS.TYPED rests on the case β = γ = 1 of Lemma 3,
+      truth-free φ, which holds on both readings (its caveat already says so); no entry transcribes
+      APD_F or RP11. INFERENCE, flagged - on the classical reading a true ¬Tr_1(x) with x outside
+      L_<1 has no ground in Korbmacher's theory; the registry's model MK has its cost at the same
+      place (MK_neg_tr_grounds). What would settle it - a correction, Korbmacher's 2016 dissertation
+      ch. 2 (not read), or the author.
 
 # ---------------------------------------------------------------------------
 # Bibliography and access status
@@ -3522,7 +3579,7 @@ bibliography:
   korbmacher2018b:
     cite: "Korbmacher, J. (2018). Axiomatic Theories of Partial Ground II: Partial Ground and Hierarchies of Typed Truth. Journal of Philosophical Logic 47: 193–226. doi:10.1007/s10992-017-9444-z"
     read: 'publisher version (Utrecht repository) supplied by the reviewer 2026-11-28 (sources/Korbmacher-2018b-Axiomatic-theories-partial-ground-II-JPL.pdf), read in full; journal page = PDF page + 191; the text layer drops ◁, so formulas were read from the page images. Earlier - Springer HTML, ~77% verbatim, no page numbers'
-    relevance: 'source of TS.TYPED (Lemma 3, p. 210, with the caveat recorded there), TS.T3 (T3, p. 204), TR.TYPED (APU_T, p. 207), TR.NEG (APU_F, p. 207), NEG.ALL (U9, p. 205), TRANS.P (G2, p. 205); targets P.KORBMACHER.APF and P.KORBMACHER.2018B.TYPED; findings F20-F23; report docs/korbmacher-2018b.md. The apparent inconsistency of Lemma 3 with APD_F (report sect. 4) is not yet recorded as a finding (deferred by the reviewer, 2026-11-28).'
+    relevance: 'finding F25 (an inconsistency among Lemma 3, T3, T1, APD_F, G3a and RP11); source of TS.TYPED (Lemma 3, p. 210, with the caveat recorded there), TS.T3 (T3, p. 204), TR.TYPED (APU_T, p. 207), TR.NEG (APU_F, p. 207), NEG.ALL (U9, p. 205), TRANS.P (G2, p. 205); targets P.KORBMACHER.APF and P.KORBMACHER.2018B.TYPED; findings F20-F23; report docs/korbmacher-2018b.md. The apparent inconsistency of Lemma 3 with APD_F (report sect. 4) is not yet recorded as a finding (deferred by the reviewer, 2026-11-28).'
     needed_from_reviewer: false
   fritz2022:
     cite: "Fritz, P. (2022). Ground and Grain. Philosophy and Phenomenological Research 105(2): 299–330. doi:10.1111/phpr.12822"
