@@ -69,7 +69,7 @@ text \<open>
   the clause for arbitrary conjunction, T (bigconj f) iff every member of sat f is
   true, and if nothing were true then sat f would be empty, so bigconj f would be
   true. So the listed package is refuted outright. (The same lemma is
-  Order.CL_QUANT_truth on the audit branch; it is restated here under its own name.)
+  Order.CL_QUANT_truth; it is restated here because this theory does not import Order.)
 \<close>
 
 lemma fritz2020_CL_QUANT_truth: assumes "CL_QUANT" shows "\<exists>p. T p"
